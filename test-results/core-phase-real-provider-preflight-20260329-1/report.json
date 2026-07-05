@@ -1,0 +1,53 @@
+{
+  "startedAt": "2026-03-29T15:12:32.370Z",
+  "completedAt": "2026-03-29T15:12:34.876Z",
+  "rootDir": "/Users/claw/mindanchor",
+  "apiBaseUrl": "http://127.0.0.1:3024",
+  "webBaseUrl": "http://127.0.0.1:4175",
+  "clusterBaseUrl": "http://127.0.0.1:8788",
+  "clusterMode": "real",
+  "providerMode": "real",
+  "phases": [],
+  "files": {
+    "reportJson": "/Users/claw/mindanchor/test-results/core-phase-real-provider-preflight-20260329-1/report.json",
+    "reportMarkdown": "/Users/claw/mindanchor/test-results/core-phase-real-provider-preflight-20260329-1/report.md",
+    "logsDir": "/Users/claw/mindanchor/test-results/core-phase-real-provider-preflight-20260329-1/logs",
+    "responsesDir": "/Users/claw/mindanchor/test-results/core-phase-real-provider-preflight-20260329-1/responses"
+  },
+  "failures": [],
+  "preflight": {
+    "ok": false,
+    "issues": [
+      {
+        "code": "invalid_provider_api_key",
+        "message": "真实 provider 认证探针失败：所有候选 endpoint 都返回 HTTP 401。",
+        "guidance": "请检查 `MINDANCHOR_DEFAULT_MODEL_API_KEY` 是否有效，并确认它和 `MINDANCHOR_DEFAULT_MODEL_BASE_URL` 属于同一服务。"
+      }
+    ],
+    "providerAuthProbeEnabled": true,
+    "providerAuthProbe": {
+      "ok": false,
+      "acceptedVia": null,
+      "selectedEndpoint": null,
+      "attempts": [
+        {
+          "endpoint": "/responses",
+          "status": 401,
+          "ok": false,
+          "preview": "{\"code\":\"INVALID_API_KEY\",\"message\":\"Invalid API key\"}"
+        },
+        {
+          "endpoint": "/v1/responses",
+          "status": 401,
+          "ok": false,
+          "preview": "{\"code\":\"INVALID_API_KEY\",\"message\":\"Invalid API key\"}"
+        }
+      ],
+      "issue": {
+        "code": "invalid_provider_api_key",
+        "message": "真实 provider 认证探针失败：所有候选 endpoint 都返回 HTTP 401。",
+        "guidance": "请检查 `MINDANCHOR_DEFAULT_MODEL_API_KEY` 是否有效，并确认它和 `MINDANCHOR_DEFAULT_MODEL_BASE_URL` 属于同一服务。"
+      }
+    }
+  }
+}

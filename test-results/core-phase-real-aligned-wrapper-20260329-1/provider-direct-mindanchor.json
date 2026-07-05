@@ -1,0 +1,2285 @@
+{
+  "goals": [],
+  "tasks": [],
+  "sessions": [],
+  "stateSignals": [],
+  "stateAssessments": [],
+  "interventions": [],
+  "recoveryPlans": [],
+  "reflectionReports": [],
+  "mobileCaptureDevices": [],
+  "audioCaptureSessions": [],
+  "callEvents": [],
+  "emotionAssessments": [],
+  "edgeDevices": [],
+  "mediaUploadSessions": [],
+  "mediaChunkManifests": [],
+  "videoAssessments": [],
+  "healthSnapshots": [],
+  "behaviorConclusions": [],
+  "clientInboxMessages": [],
+  "coachFrontAgentStates": [],
+  "planChangeProposals": [],
+  "planChangeCommandLogs": [],
+  "coachSessions": [],
+  "coachMessages": [],
+  "coachFeedback": [],
+  "coachMemoryItems": [],
+  "coachTrainingExamples": [],
+  "memoryCandidates": [],
+  "memoryItems": [],
+  "agentDebugRuns": [
+    {
+      "id": "e288b085-c0c5-4768-a7f8-f758d7eda61f",
+      "createdAt": "2026-03-29T17:06:07.880Z",
+      "userId": "demo-user",
+      "traceId": "c496f69b-8d58-4412-85c2-2f72fadab83b",
+      "parentTraceId": "329655c1-5c36-4c19-a4f5-3ed701153798",
+      "kind": "probe",
+      "agentName": "chief-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "c496f69b-8d58-4412-85c2-2f72fadab83b",
+        "parentTraceId": "329655c1-5c36-4c19-a4f5-3ed701153798",
+        "target": "chief-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    },
+    {
+      "id": "680b4912-6ad5-4c9c-acdd-63c9b10fff61",
+      "createdAt": "2026-03-29T17:06:59.809Z",
+      "userId": "demo-user",
+      "traceId": "cc1c5beb-9189-4be3-ac73-4719c353852b",
+      "parentTraceId": "c897274a-d807-4371-a69e-2fbbd1f59795",
+      "kind": "probe",
+      "agentName": "state-insight-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "cc1c5beb-9189-4be3-ac73-4719c353852b",
+        "parentTraceId": "c897274a-d807-4371-a69e-2fbbd1f59795",
+        "target": "state-insight-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    },
+    {
+      "id": "62da5897-257a-4c22-916a-d6bb47bce470",
+      "createdAt": "2026-03-29T17:07:02.301Z",
+      "userId": "demo-user",
+      "traceId": "78136531-40a1-4d2a-bd4b-f3f2fc96fa24",
+      "parentTraceId": "4c792e2d-5f50-40a1-9909-80c00ba9a937",
+      "kind": "probe",
+      "agentName": "task-management-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "78136531-40a1-4d2a-bd4b-f3f2fc96fa24",
+        "parentTraceId": "4c792e2d-5f50-40a1-9909-80c00ba9a937",
+        "target": "task-management-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    },
+    {
+      "id": "af8246c8-c535-4aaa-a6b8-1e917a2f287b",
+      "createdAt": "2026-03-29T17:07:34.591Z",
+      "userId": "demo-user",
+      "traceId": "984e7286-eb38-4d59-bba2-eee19b78cd35",
+      "parentTraceId": "7d3c2828-eb99-48c0-95f7-35b18f5a264e",
+      "kind": "probe",
+      "agentName": "progress-feedback-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "984e7286-eb38-4d59-bba2-eee19b78cd35",
+        "parentTraceId": "7d3c2828-eb99-48c0-95f7-35b18f5a264e",
+        "target": "progress-feedback-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    },
+    {
+      "id": "d4cfcbeb-44a5-4ee0-9d17-2a713c891cbc",
+      "createdAt": "2026-03-29T17:07:57.034Z",
+      "userId": "demo-user",
+      "traceId": "8cb239e7-206e-4ec2-af36-3ac4b39b09ed",
+      "parentTraceId": "13204cac-fa02-4a0a-b805-366d2a44dcb0",
+      "kind": "probe",
+      "agentName": "interruption-recovery-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "8cb239e7-206e-4ec2-af36-3ac4b39b09ed",
+        "parentTraceId": "13204cac-fa02-4a0a-b805-366d2a44dcb0",
+        "target": "interruption-recovery-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    },
+    {
+      "id": "6eda69a8-3c94-4033-96be-db1ff197bc19",
+      "createdAt": "2026-03-29T17:08:00.011Z",
+      "userId": "demo-user",
+      "traceId": "524479d4-c584-46b4-bafa-180d4952bf64",
+      "parentTraceId": "8fb7b38e-6ca3-4095-9f91-c1c3e3bd6b85",
+      "kind": "probe",
+      "agentName": "reflection-coach-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "524479d4-c584-46b4-bafa-180d4952bf64",
+        "parentTraceId": "8fb7b38e-6ca3-4095-9f91-c1c3e3bd6b85",
+        "target": "reflection-coach-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    },
+    {
+      "id": "3d47828b-d143-44a7-b210-e673bd33f78e",
+      "createdAt": "2026-03-29T17:08:02.523Z",
+      "userId": "demo-user",
+      "traceId": "d5b68ace-0877-4a7f-b3ab-61ed9de798f2",
+      "parentTraceId": "6787ab33-9c36-4491-8c0a-1c63bfb2e1be",
+      "kind": "probe",
+      "agentName": "automation-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "d5b68ace-0877-4a7f-b3ab-61ed9de798f2",
+        "parentTraceId": "6787ab33-9c36-4491-8c0a-1c63bfb2e1be",
+        "target": "automation-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    }
+  ],
+  "debugRegressionMatrixRuns": [],
+  "traceLogEvents": [
+    {
+      "id": "e7dc7f2c-a96f-41a3-8b51-9947412f4720",
+      "createdAt": "2026-03-29T17:06:02.100Z",
+      "traceId": "72df08ea-8ebf-4529-baf8-be587ddcde39",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /health",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-1"
+      }
+    },
+    {
+      "id": "401a9d38-9ec8-4bfd-85a3-8349dfe2ec3d",
+      "createdAt": "2026-03-29T17:06:02.113Z",
+      "traceId": "72df08ea-8ebf-4529-baf8-be587ddcde39",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /health -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-1",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "4ec78016-886e-49e4-b4b1-cd1259ad3327",
+      "createdAt": "2026-03-29T17:06:02.119Z",
+      "traceId": "bbc7b26f-5d1c-4a98-a320-58b38e4dba42",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /health",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-2"
+      }
+    },
+    {
+      "id": "f779feab-27d3-4313-be40-640e482cd3b6",
+      "createdAt": "2026-03-29T17:06:02.121Z",
+      "traceId": "bbc7b26f-5d1c-4a98-a320-58b38e4dba42",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /health -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-2",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "ba68236c-2dfe-4f80-8113-862220cba8fe",
+      "createdAt": "2026-03-29T17:06:02.125Z",
+      "traceId": "8710782f-38ab-4745-ac93-54ebd3ff2c0d",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/openclaw/adapter",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/openclaw/adapter",
+        "requestId": "req-3"
+      }
+    },
+    {
+      "id": "99513aef-0d6f-4408-9fb0-ac61c2ae3a17",
+      "createdAt": "2026-03-29T17:06:02.128Z",
+      "traceId": "8710782f-38ab-4745-ac93-54ebd3ff2c0d",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/openclaw/adapter -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/openclaw/adapter",
+        "requestId": "req-3",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "e6e19684-b221-4bdc-a38a-b9d540a6578f",
+      "createdAt": "2026-03-29T17:06:02.131Z",
+      "traceId": "82a5d1bc-f44d-40fc-881c-7bfdc2eee52e",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/agent-configs",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/agent-configs",
+        "requestId": "req-4"
+      }
+    },
+    {
+      "id": "19605a58-66a7-47f3-9101-4948cfd78522",
+      "createdAt": "2026-03-29T17:06:02.133Z",
+      "traceId": "82a5d1bc-f44d-40fc-881c-7bfdc2eee52e",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/agent-configs -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/agent-configs",
+        "requestId": "req-4",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "d9ec15c1-ad3d-43af-a43a-4c5eeebebdb8",
+      "createdAt": "2026-03-29T17:06:02.136Z",
+      "traceId": "46c183b7-95aa-4ce0-8dc8-ed9473c69730",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/scenarios",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/scenarios",
+        "requestId": "req-5"
+      }
+    },
+    {
+      "id": "23df6b07-fb6b-4d7f-8110-30244c08c4b7",
+      "createdAt": "2026-03-29T17:06:02.137Z",
+      "traceId": "46c183b7-95aa-4ce0-8dc8-ed9473c69730",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/scenarios -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/scenarios",
+        "requestId": "req-5",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "be3b5deb-332f-470a-beda-7c9e80444cbd",
+      "createdAt": "2026-03-29T17:06:02.140Z",
+      "traceId": "cf4059d9-df09-4039-960f-ef6bc6ae6c2a",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/openclaw/registry-visibility",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/openclaw/registry-visibility",
+        "requestId": "req-6"
+      }
+    },
+    {
+      "id": "caa805a5-786a-4aed-b949-a779f9665758",
+      "createdAt": "2026-03-29T17:06:02.144Z",
+      "traceId": "cf4059d9-df09-4039-960f-ef6bc6ae6c2a",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/openclaw/registry-visibility -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/openclaw/registry-visibility",
+        "requestId": "req-6",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "68048bed-95c4-4c5e-a789-62a46818ecad",
+      "createdAt": "2026-03-29T17:06:02.150Z",
+      "traceId": "8770c8cb-d557-44e7-8e8f-b60dde13c738",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /debug/runs/clear",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/runs/clear",
+        "requestId": "req-7"
+      }
+    },
+    {
+      "id": "34132fb6-82b9-4a24-807c-519dc818a946",
+      "createdAt": "2026-03-29T17:06:02.154Z",
+      "traceId": "8770c8cb-d557-44e7-8e8f-b60dde13c738",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /debug/runs/clear -> 200",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/runs/clear",
+        "requestId": "req-7",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "cb219caf-ae67-4e44-b4b6-44bd3f2ffd53",
+      "createdAt": "2026-03-29T17:06:02.157Z",
+      "traceId": "90d90814-829b-4a2b-b416-c28d1a10e7b2",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /debug/regressions/matrix-runs/clear",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/regressions/matrix-runs/clear",
+        "requestId": "req-8"
+      }
+    },
+    {
+      "id": "0bd4ca06-1800-4926-b67c-102636807901",
+      "createdAt": "2026-03-29T17:06:02.160Z",
+      "traceId": "90d90814-829b-4a2b-b416-c28d1a10e7b2",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /debug/regressions/matrix-runs/clear -> 200",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/regressions/matrix-runs/clear",
+        "requestId": "req-8",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "11f913fd-2141-42fd-984c-05486ad1e819",
+      "createdAt": "2026-03-29T17:06:02.164Z",
+      "traceId": "329655c1-5c36-4c19-a4f5-3ed701153798",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/chief-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/chief-agent",
+        "requestId": "req-9"
+      }
+    },
+    {
+      "id": "41292ca6-cc5b-4a84-a687-d0862c802d26",
+      "createdAt": "2026-03-29T17:06:02.167Z",
+      "traceId": "c496f69b-8d58-4412-85c2-2f72fadab83b",
+      "parentTraceId": "329655c1-5c36-4c19-a4f5-3ed701153798",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for chief-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "chief-agent",
+        "userId": "demo-user",
+        "target": "chief-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "2e32d951-9f88-4b71-b380-486b22e450a7",
+          "target": "chief-agent",
+          "createdAt": "2026-03-29T17:06:02.167Z",
+          "trace": {
+            "traceId": "c496f69b-8d58-4412-85c2-2f72fadab83b",
+            "parentTraceId": "329655c1-5c36-4c19-a4f5-3ed701153798",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "chief-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "1015c76d-8bbb-428e-88fe-62bc47735b70",
+      "createdAt": "2026-03-29T17:06:04.327Z",
+      "traceId": "c496f69b-8d58-4412-85c2-2f72fadab83b",
+      "parentTraceId": "329655c1-5c36-4c19-a4f5-3ed701153798",
+      "level": "warn",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.failed",
+      "message": "Probe request failed for chief-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "chief-agent",
+        "userId": "demo-user",
+        "target": "chief-agent",
+        "endpoint": "/responses",
+        "status": 502
+      }
+    },
+    {
+      "id": "e8ebe85f-4c77-49e5-8567-8e31ae966e9a",
+      "createdAt": "2026-03-29T17:06:04.329Z",
+      "traceId": "c496f69b-8d58-4412-85c2-2f72fadab83b",
+      "parentTraceId": "329655c1-5c36-4c19-a4f5-3ed701153798",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for chief-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "chief-agent",
+        "userId": "demo-user",
+        "target": "chief-agent",
+        "endpoint": "/v1/responses",
+        "taskEnvelope": {
+          "taskId": "2e32d951-9f88-4b71-b380-486b22e450a7",
+          "target": "chief-agent",
+          "createdAt": "2026-03-29T17:06:02.167Z",
+          "trace": {
+            "traceId": "c496f69b-8d58-4412-85c2-2f72fadab83b",
+            "parentTraceId": "329655c1-5c36-4c19-a4f5-3ed701153798",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "chief-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "e54ed4d6-9570-4b14-8536-21a58c7bdcc1",
+      "createdAt": "2026-03-29T17:06:04.659Z",
+      "traceId": "c496f69b-8d58-4412-85c2-2f72fadab83b",
+      "parentTraceId": "329655c1-5c36-4c19-a4f5-3ed701153798",
+      "level": "warn",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.failed",
+      "message": "Probe request failed for chief-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "chief-agent",
+        "userId": "demo-user",
+        "target": "chief-agent",
+        "endpoint": "/v1/responses",
+        "status": 502
+      }
+    },
+    {
+      "id": "c03d754b-6762-4676-b417-6c274e478569",
+      "createdAt": "2026-03-29T17:06:04.660Z",
+      "traceId": "c496f69b-8d58-4412-85c2-2f72fadab83b",
+      "parentTraceId": "329655c1-5c36-4c19-a4f5-3ed701153798",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for chief-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "chief-agent",
+        "userId": "demo-user",
+        "target": "chief-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "2e32d951-9f88-4b71-b380-486b22e450a7",
+          "target": "chief-agent",
+          "createdAt": "2026-03-29T17:06:02.167Z",
+          "trace": {
+            "traceId": "c496f69b-8d58-4412-85c2-2f72fadab83b",
+            "parentTraceId": "329655c1-5c36-4c19-a4f5-3ed701153798",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "chief-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "69374ff9-8ddf-486d-865f-0bf8e2e28157",
+      "createdAt": "2026-03-29T17:06:07.877Z",
+      "traceId": "c496f69b-8d58-4412-85c2-2f72fadab83b",
+      "parentTraceId": "329655c1-5c36-4c19-a4f5-3ed701153798",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.succeeded",
+      "message": "Probe request succeeded for chief-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "chief-agent",
+        "userId": "demo-user",
+        "target": "chief-agent",
+        "endpoint": "/responses",
+        "status": 200
+      }
+    },
+    {
+      "id": "474744a3-ccf4-4ad8-b9d8-c4c9df48fa92",
+      "createdAt": "2026-03-29T17:06:07.879Z",
+      "traceId": "c496f69b-8d58-4412-85c2-2f72fadab83b",
+      "parentTraceId": "329655c1-5c36-4c19-a4f5-3ed701153798",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via provider-direct",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "chief-agent",
+        "userId": "demo-user",
+        "target": "chief-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      }
+    },
+    {
+      "id": "98d934ad-5526-4dff-9b96-78e72ef74ba0",
+      "createdAt": "2026-03-29T17:06:07.881Z",
+      "traceId": "c496f69b-8d58-4412-85c2-2f72fadab83b",
+      "parentTraceId": "329655c1-5c36-4c19-a4f5-3ed701153798",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for chief-agent",
+      "metadata": {
+        "agentName": "chief-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "dd828fad-5143-4d33-ac1c-966a3689d6d1",
+      "createdAt": "2026-03-29T17:06:07.885Z",
+      "traceId": "329655c1-5c36-4c19-a4f5-3ed701153798",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/chief-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/chief-agent",
+        "requestId": "req-9",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "836083f1-216a-4739-90c7-719edb395751",
+      "createdAt": "2026-03-29T17:06:07.888Z",
+      "traceId": "4bbc8540-8ea9-4c6e-9ade-f70f7c31cadc",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/c496f69b-8d58-4412-85c2-2f72fadab83b",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/c496f69b-8d58-4412-85c2-2f72fadab83b",
+        "requestId": "req-a"
+      }
+    },
+    {
+      "id": "1624be2b-34c5-4c38-b61b-5f2fa84eec58",
+      "createdAt": "2026-03-29T17:06:07.900Z",
+      "traceId": "4bbc8540-8ea9-4c6e-9ade-f70f7c31cadc",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/c496f69b-8d58-4412-85c2-2f72fadab83b -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/c496f69b-8d58-4412-85c2-2f72fadab83b",
+        "requestId": "req-a",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "9664c6b5-8aed-4624-847e-9a0b0042f21b",
+      "createdAt": "2026-03-29T17:06:07.903Z",
+      "traceId": "c897274a-d807-4371-a69e-2fbbd1f59795",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/state-insight-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/state-insight-agent",
+        "requestId": "req-b"
+      }
+    },
+    {
+      "id": "970c1ff9-5d13-4001-a16b-c1666b509d41",
+      "createdAt": "2026-03-29T17:06:07.904Z",
+      "traceId": "cc1c5beb-9189-4be3-ac73-4719c353852b",
+      "parentTraceId": "c897274a-d807-4371-a69e-2fbbd1f59795",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for state-insight-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "state-insight-agent",
+        "userId": "demo-user",
+        "target": "state-insight-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "029e3b2b-07a1-42c7-b24d-6278589123b6",
+          "target": "state-insight-agent",
+          "createdAt": "2026-03-29T17:06:07.904Z",
+          "trace": {
+            "traceId": "cc1c5beb-9189-4be3-ac73-4719c353852b",
+            "parentTraceId": "c897274a-d807-4371-a69e-2fbbd1f59795",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "state-insight-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "7624c5c5-99a4-478c-88fc-fcfff02751f0",
+      "createdAt": "2026-03-29T17:06:09.191Z",
+      "traceId": "cc1c5beb-9189-4be3-ac73-4719c353852b",
+      "parentTraceId": "c897274a-d807-4371-a69e-2fbbd1f59795",
+      "level": "warn",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.failed",
+      "message": "Probe request failed for state-insight-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "state-insight-agent",
+        "userId": "demo-user",
+        "target": "state-insight-agent",
+        "endpoint": "/responses",
+        "status": 502
+      }
+    },
+    {
+      "id": "994760b8-0c96-4eb7-8b76-ccfeafaad4f7",
+      "createdAt": "2026-03-29T17:06:09.191Z",
+      "traceId": "cc1c5beb-9189-4be3-ac73-4719c353852b",
+      "parentTraceId": "c897274a-d807-4371-a69e-2fbbd1f59795",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for state-insight-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "state-insight-agent",
+        "userId": "demo-user",
+        "target": "state-insight-agent",
+        "endpoint": "/v1/responses",
+        "taskEnvelope": {
+          "taskId": "029e3b2b-07a1-42c7-b24d-6278589123b6",
+          "target": "state-insight-agent",
+          "createdAt": "2026-03-29T17:06:07.904Z",
+          "trace": {
+            "traceId": "cc1c5beb-9189-4be3-ac73-4719c353852b",
+            "parentTraceId": "c897274a-d807-4371-a69e-2fbbd1f59795",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "state-insight-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "ad1582a8-d716-496c-a457-d6fbe715393e",
+      "createdAt": "2026-03-29T17:06:09.532Z",
+      "traceId": "cc1c5beb-9189-4be3-ac73-4719c353852b",
+      "parentTraceId": "c897274a-d807-4371-a69e-2fbbd1f59795",
+      "level": "warn",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.failed",
+      "message": "Probe request failed for state-insight-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "state-insight-agent",
+        "userId": "demo-user",
+        "target": "state-insight-agent",
+        "endpoint": "/v1/responses",
+        "status": 502
+      }
+    },
+    {
+      "id": "1324c926-f5cf-44fb-b863-11026a36d5d6",
+      "createdAt": "2026-03-29T17:06:09.554Z",
+      "traceId": "cc1c5beb-9189-4be3-ac73-4719c353852b",
+      "parentTraceId": "c897274a-d807-4371-a69e-2fbbd1f59795",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for state-insight-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "state-insight-agent",
+        "userId": "demo-user",
+        "target": "state-insight-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "029e3b2b-07a1-42c7-b24d-6278589123b6",
+          "target": "state-insight-agent",
+          "createdAt": "2026-03-29T17:06:07.904Z",
+          "trace": {
+            "traceId": "cc1c5beb-9189-4be3-ac73-4719c353852b",
+            "parentTraceId": "c897274a-d807-4371-a69e-2fbbd1f59795",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "state-insight-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "40bba2c9-f099-4609-a19b-1f445ea5d46b",
+      "createdAt": "2026-03-29T17:06:59.807Z",
+      "traceId": "cc1c5beb-9189-4be3-ac73-4719c353852b",
+      "parentTraceId": "c897274a-d807-4371-a69e-2fbbd1f59795",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.succeeded",
+      "message": "Probe request succeeded for state-insight-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "state-insight-agent",
+        "userId": "demo-user",
+        "target": "state-insight-agent",
+        "endpoint": "/responses",
+        "status": 200
+      }
+    },
+    {
+      "id": "af9b7bd8-5fc0-445e-8704-edd70409aa52",
+      "createdAt": "2026-03-29T17:06:59.808Z",
+      "traceId": "cc1c5beb-9189-4be3-ac73-4719c353852b",
+      "parentTraceId": "c897274a-d807-4371-a69e-2fbbd1f59795",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed state-insight-agent via provider-direct",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "state-insight-agent",
+        "userId": "demo-user",
+        "target": "state-insight-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      }
+    },
+    {
+      "id": "9be5e223-558a-4ff3-85b2-57fefb6d4cf7",
+      "createdAt": "2026-03-29T17:06:59.810Z",
+      "traceId": "cc1c5beb-9189-4be3-ac73-4719c353852b",
+      "parentTraceId": "c897274a-d807-4371-a69e-2fbbd1f59795",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for state-insight-agent",
+      "metadata": {
+        "agentName": "state-insight-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "f321e3c5-b323-4d7c-b755-40a48dbd9139",
+      "createdAt": "2026-03-29T17:06:59.811Z",
+      "traceId": "c897274a-d807-4371-a69e-2fbbd1f59795",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/state-insight-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/state-insight-agent",
+        "requestId": "req-b",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "7ca79cba-be53-47ee-abef-6a7dacc15af9",
+      "createdAt": "2026-03-29T17:06:59.814Z",
+      "traceId": "fafc0721-1da2-422c-9cae-05b71817867f",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/cc1c5beb-9189-4be3-ac73-4719c353852b",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/cc1c5beb-9189-4be3-ac73-4719c353852b",
+        "requestId": "req-c"
+      }
+    },
+    {
+      "id": "3a42c611-29c5-4556-aabb-133048343286",
+      "createdAt": "2026-03-29T17:06:59.815Z",
+      "traceId": "fafc0721-1da2-422c-9cae-05b71817867f",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/cc1c5beb-9189-4be3-ac73-4719c353852b -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/cc1c5beb-9189-4be3-ac73-4719c353852b",
+        "requestId": "req-c",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "750f7d5d-d777-4ed5-86a1-a02756859493",
+      "createdAt": "2026-03-29T17:06:59.818Z",
+      "traceId": "4c792e2d-5f50-40a1-9909-80c00ba9a937",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/task-management-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/task-management-agent",
+        "requestId": "req-d"
+      }
+    },
+    {
+      "id": "78b07b61-9a31-4941-8009-f44e9fe51bef",
+      "createdAt": "2026-03-29T17:06:59.819Z",
+      "traceId": "78136531-40a1-4d2a-bd4b-f3f2fc96fa24",
+      "parentTraceId": "4c792e2d-5f50-40a1-9909-80c00ba9a937",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for task-management-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "task-management-agent",
+        "userId": "demo-user",
+        "target": "task-management-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "2956e742-2e0d-4d0a-9f57-5cb0cbbd8d68",
+          "target": "task-management-agent",
+          "createdAt": "2026-03-29T17:06:59.819Z",
+          "trace": {
+            "traceId": "78136531-40a1-4d2a-bd4b-f3f2fc96fa24",
+            "parentTraceId": "4c792e2d-5f50-40a1-9909-80c00ba9a937",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "task-management-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "07f749dd-d4f9-4b91-be3a-e1505ba8c137",
+      "createdAt": "2026-03-29T17:07:00.152Z",
+      "traceId": "78136531-40a1-4d2a-bd4b-f3f2fc96fa24",
+      "parentTraceId": "4c792e2d-5f50-40a1-9909-80c00ba9a937",
+      "level": "warn",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.failed",
+      "message": "Probe request failed for task-management-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "task-management-agent",
+        "userId": "demo-user",
+        "target": "task-management-agent",
+        "endpoint": "/responses",
+        "status": 502
+      }
+    },
+    {
+      "id": "629b95fa-00a2-4f5d-b487-e6a8a7e91655",
+      "createdAt": "2026-03-29T17:07:00.153Z",
+      "traceId": "78136531-40a1-4d2a-bd4b-f3f2fc96fa24",
+      "parentTraceId": "4c792e2d-5f50-40a1-9909-80c00ba9a937",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for task-management-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "task-management-agent",
+        "userId": "demo-user",
+        "target": "task-management-agent",
+        "endpoint": "/v1/responses",
+        "taskEnvelope": {
+          "taskId": "2956e742-2e0d-4d0a-9f57-5cb0cbbd8d68",
+          "target": "task-management-agent",
+          "createdAt": "2026-03-29T17:06:59.819Z",
+          "trace": {
+            "traceId": "78136531-40a1-4d2a-bd4b-f3f2fc96fa24",
+            "parentTraceId": "4c792e2d-5f50-40a1-9909-80c00ba9a937",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "task-management-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "75e59f6d-3aa6-4559-8ba8-aa5b91d882b1",
+      "createdAt": "2026-03-29T17:07:00.477Z",
+      "traceId": "78136531-40a1-4d2a-bd4b-f3f2fc96fa24",
+      "parentTraceId": "4c792e2d-5f50-40a1-9909-80c00ba9a937",
+      "level": "warn",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.failed",
+      "message": "Probe request failed for task-management-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "task-management-agent",
+        "userId": "demo-user",
+        "target": "task-management-agent",
+        "endpoint": "/v1/responses",
+        "status": 502
+      }
+    },
+    {
+      "id": "1de5161d-0c0b-4a43-bb5b-37bf5d973ba1",
+      "createdAt": "2026-03-29T17:07:00.478Z",
+      "traceId": "78136531-40a1-4d2a-bd4b-f3f2fc96fa24",
+      "parentTraceId": "4c792e2d-5f50-40a1-9909-80c00ba9a937",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for task-management-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "task-management-agent",
+        "userId": "demo-user",
+        "target": "task-management-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "2956e742-2e0d-4d0a-9f57-5cb0cbbd8d68",
+          "target": "task-management-agent",
+          "createdAt": "2026-03-29T17:06:59.819Z",
+          "trace": {
+            "traceId": "78136531-40a1-4d2a-bd4b-f3f2fc96fa24",
+            "parentTraceId": "4c792e2d-5f50-40a1-9909-80c00ba9a937",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "task-management-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "fce26410-3add-443b-a735-3fa48bff142a",
+      "createdAt": "2026-03-29T17:07:02.299Z",
+      "traceId": "78136531-40a1-4d2a-bd4b-f3f2fc96fa24",
+      "parentTraceId": "4c792e2d-5f50-40a1-9909-80c00ba9a937",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.succeeded",
+      "message": "Probe request succeeded for task-management-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "task-management-agent",
+        "userId": "demo-user",
+        "target": "task-management-agent",
+        "endpoint": "/responses",
+        "status": 200
+      }
+    },
+    {
+      "id": "401c67ab-47a2-4b46-a7da-8a9bd8528d59",
+      "createdAt": "2026-03-29T17:07:02.301Z",
+      "traceId": "78136531-40a1-4d2a-bd4b-f3f2fc96fa24",
+      "parentTraceId": "4c792e2d-5f50-40a1-9909-80c00ba9a937",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed task-management-agent via provider-direct",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "task-management-agent",
+        "userId": "demo-user",
+        "target": "task-management-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      }
+    },
+    {
+      "id": "cb5e9c78-0078-470b-a247-a76a89f8e3e4",
+      "createdAt": "2026-03-29T17:07:02.302Z",
+      "traceId": "78136531-40a1-4d2a-bd4b-f3f2fc96fa24",
+      "parentTraceId": "4c792e2d-5f50-40a1-9909-80c00ba9a937",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for task-management-agent",
+      "metadata": {
+        "agentName": "task-management-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "8340b814-e173-4282-be80-29bd87166d02",
+      "createdAt": "2026-03-29T17:07:02.303Z",
+      "traceId": "4c792e2d-5f50-40a1-9909-80c00ba9a937",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/task-management-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/task-management-agent",
+        "requestId": "req-d",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "a14b08ea-f8f9-428b-a350-e6fc1042d5b3",
+      "createdAt": "2026-03-29T17:07:02.306Z",
+      "traceId": "5c654cfe-54db-4353-bbe2-328e294b2798",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/78136531-40a1-4d2a-bd4b-f3f2fc96fa24",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/78136531-40a1-4d2a-bd4b-f3f2fc96fa24",
+        "requestId": "req-e"
+      }
+    },
+    {
+      "id": "d8e54572-ce25-46bd-956c-0f4a2ab68725",
+      "createdAt": "2026-03-29T17:07:02.307Z",
+      "traceId": "5c654cfe-54db-4353-bbe2-328e294b2798",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/78136531-40a1-4d2a-bd4b-f3f2fc96fa24 -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/78136531-40a1-4d2a-bd4b-f3f2fc96fa24",
+        "requestId": "req-e",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "04c5fe5a-b029-4548-9ade-ca561a7919df",
+      "createdAt": "2026-03-29T17:07:02.309Z",
+      "traceId": "7d3c2828-eb99-48c0-95f7-35b18f5a264e",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/progress-feedback-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/progress-feedback-agent",
+        "requestId": "req-f"
+      }
+    },
+    {
+      "id": "1e9d921d-cced-45de-8c0c-50f681bf76ca",
+      "createdAt": "2026-03-29T17:07:02.309Z",
+      "traceId": "984e7286-eb38-4d59-bba2-eee19b78cd35",
+      "parentTraceId": "7d3c2828-eb99-48c0-95f7-35b18f5a264e",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for progress-feedback-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "progress-feedback-agent",
+        "userId": "demo-user",
+        "target": "progress-feedback-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "94fc6d05-da0a-4833-b0d7-e7b3c858d763",
+          "target": "progress-feedback-agent",
+          "createdAt": "2026-03-29T17:07:02.309Z",
+          "trace": {
+            "traceId": "984e7286-eb38-4d59-bba2-eee19b78cd35",
+            "parentTraceId": "7d3c2828-eb99-48c0-95f7-35b18f5a264e",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "progress-feedback-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "dc6a073d-dcad-46f5-9338-cf8b86e27474",
+      "createdAt": "2026-03-29T17:07:02.644Z",
+      "traceId": "984e7286-eb38-4d59-bba2-eee19b78cd35",
+      "parentTraceId": "7d3c2828-eb99-48c0-95f7-35b18f5a264e",
+      "level": "warn",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.failed",
+      "message": "Probe request failed for progress-feedback-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "progress-feedback-agent",
+        "userId": "demo-user",
+        "target": "progress-feedback-agent",
+        "endpoint": "/responses",
+        "status": 502
+      }
+    },
+    {
+      "id": "e84788f6-9d83-4d2e-ac5e-b00b4531f805",
+      "createdAt": "2026-03-29T17:07:02.645Z",
+      "traceId": "984e7286-eb38-4d59-bba2-eee19b78cd35",
+      "parentTraceId": "7d3c2828-eb99-48c0-95f7-35b18f5a264e",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for progress-feedback-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "progress-feedback-agent",
+        "userId": "demo-user",
+        "target": "progress-feedback-agent",
+        "endpoint": "/v1/responses",
+        "taskEnvelope": {
+          "taskId": "94fc6d05-da0a-4833-b0d7-e7b3c858d763",
+          "target": "progress-feedback-agent",
+          "createdAt": "2026-03-29T17:07:02.309Z",
+          "trace": {
+            "traceId": "984e7286-eb38-4d59-bba2-eee19b78cd35",
+            "parentTraceId": "7d3c2828-eb99-48c0-95f7-35b18f5a264e",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "progress-feedback-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "7ed43779-fcd1-4743-a8c6-4f6b531db31c",
+      "createdAt": "2026-03-29T17:07:02.976Z",
+      "traceId": "984e7286-eb38-4d59-bba2-eee19b78cd35",
+      "parentTraceId": "7d3c2828-eb99-48c0-95f7-35b18f5a264e",
+      "level": "warn",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.failed",
+      "message": "Probe request failed for progress-feedback-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "progress-feedback-agent",
+        "userId": "demo-user",
+        "target": "progress-feedback-agent",
+        "endpoint": "/v1/responses",
+        "status": 502
+      }
+    },
+    {
+      "id": "c98b4430-a9ff-473c-bf61-2e48102ca21b",
+      "createdAt": "2026-03-29T17:07:02.976Z",
+      "traceId": "984e7286-eb38-4d59-bba2-eee19b78cd35",
+      "parentTraceId": "7d3c2828-eb99-48c0-95f7-35b18f5a264e",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for progress-feedback-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "progress-feedback-agent",
+        "userId": "demo-user",
+        "target": "progress-feedback-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "94fc6d05-da0a-4833-b0d7-e7b3c858d763",
+          "target": "progress-feedback-agent",
+          "createdAt": "2026-03-29T17:07:02.309Z",
+          "trace": {
+            "traceId": "984e7286-eb38-4d59-bba2-eee19b78cd35",
+            "parentTraceId": "7d3c2828-eb99-48c0-95f7-35b18f5a264e",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "progress-feedback-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "215e02d0-19f2-4f2a-a50e-0fe30e426984",
+      "createdAt": "2026-03-29T17:07:34.582Z",
+      "traceId": "984e7286-eb38-4d59-bba2-eee19b78cd35",
+      "parentTraceId": "7d3c2828-eb99-48c0-95f7-35b18f5a264e",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.succeeded",
+      "message": "Probe request succeeded for progress-feedback-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "progress-feedback-agent",
+        "userId": "demo-user",
+        "target": "progress-feedback-agent",
+        "endpoint": "/responses",
+        "status": 200
+      }
+    },
+    {
+      "id": "ead07f83-44e8-49bc-b25a-161dd63ba949",
+      "createdAt": "2026-03-29T17:07:34.583Z",
+      "traceId": "984e7286-eb38-4d59-bba2-eee19b78cd35",
+      "parentTraceId": "7d3c2828-eb99-48c0-95f7-35b18f5a264e",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed progress-feedback-agent via provider-direct",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "progress-feedback-agent",
+        "userId": "demo-user",
+        "target": "progress-feedback-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      }
+    },
+    {
+      "id": "250adf98-52b0-4421-869e-af6fe45ed276",
+      "createdAt": "2026-03-29T17:07:34.592Z",
+      "traceId": "984e7286-eb38-4d59-bba2-eee19b78cd35",
+      "parentTraceId": "7d3c2828-eb99-48c0-95f7-35b18f5a264e",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for progress-feedback-agent",
+      "metadata": {
+        "agentName": "progress-feedback-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "72369c32-6a42-492c-b445-99c4112ea1bd",
+      "createdAt": "2026-03-29T17:07:34.594Z",
+      "traceId": "7d3c2828-eb99-48c0-95f7-35b18f5a264e",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/progress-feedback-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/progress-feedback-agent",
+        "requestId": "req-f",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "70b0975d-a78c-4d21-b645-cbe0d1f972ed",
+      "createdAt": "2026-03-29T17:07:34.595Z",
+      "traceId": "dac661fb-7bc4-4f99-a083-205313f2e04a",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/984e7286-eb38-4d59-bba2-eee19b78cd35",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/984e7286-eb38-4d59-bba2-eee19b78cd35",
+        "requestId": "req-g"
+      }
+    },
+    {
+      "id": "4d7841fe-eeb1-44d9-8acb-3eb4ec3c74f7",
+      "createdAt": "2026-03-29T17:07:34.597Z",
+      "traceId": "dac661fb-7bc4-4f99-a083-205313f2e04a",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/984e7286-eb38-4d59-bba2-eee19b78cd35 -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/984e7286-eb38-4d59-bba2-eee19b78cd35",
+        "requestId": "req-g",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "a5a66f19-fd9b-4814-baf8-ffc08547e27f",
+      "createdAt": "2026-03-29T17:07:34.599Z",
+      "traceId": "13204cac-fa02-4a0a-b805-366d2a44dcb0",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/interruption-recovery-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/interruption-recovery-agent",
+        "requestId": "req-h"
+      }
+    },
+    {
+      "id": "d9a3b899-ccdb-4f9b-8577-50b2b665eae9",
+      "createdAt": "2026-03-29T17:07:34.600Z",
+      "traceId": "8cb239e7-206e-4ec2-af36-3ac4b39b09ed",
+      "parentTraceId": "13204cac-fa02-4a0a-b805-366d2a44dcb0",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for interruption-recovery-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "interruption-recovery-agent",
+        "userId": "demo-user",
+        "target": "interruption-recovery-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "c3b1e7de-f274-496a-a738-79fd6f996bdb",
+          "target": "interruption-recovery-agent",
+          "createdAt": "2026-03-29T17:07:34.600Z",
+          "trace": {
+            "traceId": "8cb239e7-206e-4ec2-af36-3ac4b39b09ed",
+            "parentTraceId": "13204cac-fa02-4a0a-b805-366d2a44dcb0",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "interruption-recovery-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "da373d2e-a311-421c-81f7-3e5b0a7e479f",
+      "createdAt": "2026-03-29T17:07:34.925Z",
+      "traceId": "8cb239e7-206e-4ec2-af36-3ac4b39b09ed",
+      "parentTraceId": "13204cac-fa02-4a0a-b805-366d2a44dcb0",
+      "level": "warn",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.failed",
+      "message": "Probe request failed for interruption-recovery-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "interruption-recovery-agent",
+        "userId": "demo-user",
+        "target": "interruption-recovery-agent",
+        "endpoint": "/responses",
+        "status": 502
+      }
+    },
+    {
+      "id": "45dae579-94ff-4580-936e-5f3213534df1",
+      "createdAt": "2026-03-29T17:07:34.926Z",
+      "traceId": "8cb239e7-206e-4ec2-af36-3ac4b39b09ed",
+      "parentTraceId": "13204cac-fa02-4a0a-b805-366d2a44dcb0",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for interruption-recovery-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "interruption-recovery-agent",
+        "userId": "demo-user",
+        "target": "interruption-recovery-agent",
+        "endpoint": "/v1/responses",
+        "taskEnvelope": {
+          "taskId": "c3b1e7de-f274-496a-a738-79fd6f996bdb",
+          "target": "interruption-recovery-agent",
+          "createdAt": "2026-03-29T17:07:34.600Z",
+          "trace": {
+            "traceId": "8cb239e7-206e-4ec2-af36-3ac4b39b09ed",
+            "parentTraceId": "13204cac-fa02-4a0a-b805-366d2a44dcb0",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "interruption-recovery-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "506eea72-ed94-46bd-8795-d9ee990e9315",
+      "createdAt": "2026-03-29T17:07:35.264Z",
+      "traceId": "8cb239e7-206e-4ec2-af36-3ac4b39b09ed",
+      "parentTraceId": "13204cac-fa02-4a0a-b805-366d2a44dcb0",
+      "level": "warn",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.failed",
+      "message": "Probe request failed for interruption-recovery-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "interruption-recovery-agent",
+        "userId": "demo-user",
+        "target": "interruption-recovery-agent",
+        "endpoint": "/v1/responses",
+        "status": 502
+      }
+    },
+    {
+      "id": "9a8e5535-1c37-43a0-8167-fd5e17f86c48",
+      "createdAt": "2026-03-29T17:07:35.266Z",
+      "traceId": "8cb239e7-206e-4ec2-af36-3ac4b39b09ed",
+      "parentTraceId": "13204cac-fa02-4a0a-b805-366d2a44dcb0",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for interruption-recovery-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "interruption-recovery-agent",
+        "userId": "demo-user",
+        "target": "interruption-recovery-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "c3b1e7de-f274-496a-a738-79fd6f996bdb",
+          "target": "interruption-recovery-agent",
+          "createdAt": "2026-03-29T17:07:34.600Z",
+          "trace": {
+            "traceId": "8cb239e7-206e-4ec2-af36-3ac4b39b09ed",
+            "parentTraceId": "13204cac-fa02-4a0a-b805-366d2a44dcb0",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "interruption-recovery-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "84c54c69-a64e-404f-a8bb-152d39b90349",
+      "createdAt": "2026-03-29T17:07:57.032Z",
+      "traceId": "8cb239e7-206e-4ec2-af36-3ac4b39b09ed",
+      "parentTraceId": "13204cac-fa02-4a0a-b805-366d2a44dcb0",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.succeeded",
+      "message": "Probe request succeeded for interruption-recovery-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "interruption-recovery-agent",
+        "userId": "demo-user",
+        "target": "interruption-recovery-agent",
+        "endpoint": "/responses",
+        "status": 200
+      }
+    },
+    {
+      "id": "b4d0b1de-09b4-4236-bafb-04fa57680aa8",
+      "createdAt": "2026-03-29T17:07:57.033Z",
+      "traceId": "8cb239e7-206e-4ec2-af36-3ac4b39b09ed",
+      "parentTraceId": "13204cac-fa02-4a0a-b805-366d2a44dcb0",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed interruption-recovery-agent via provider-direct",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "interruption-recovery-agent",
+        "userId": "demo-user",
+        "target": "interruption-recovery-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      }
+    },
+    {
+      "id": "b2a51b8f-91ba-48f6-aa4d-a9c17ba6081c",
+      "createdAt": "2026-03-29T17:07:57.035Z",
+      "traceId": "8cb239e7-206e-4ec2-af36-3ac4b39b09ed",
+      "parentTraceId": "13204cac-fa02-4a0a-b805-366d2a44dcb0",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for interruption-recovery-agent",
+      "metadata": {
+        "agentName": "interruption-recovery-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "f6238c06-ad4a-46ac-8543-897be2d9173a",
+      "createdAt": "2026-03-29T17:07:57.035Z",
+      "traceId": "13204cac-fa02-4a0a-b805-366d2a44dcb0",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/interruption-recovery-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/interruption-recovery-agent",
+        "requestId": "req-h",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "10cde7a8-f194-49aa-b5d0-d6fde4ec23ce",
+      "createdAt": "2026-03-29T17:07:57.043Z",
+      "traceId": "0eaa4f30-103f-42e9-9456-85aa2455b631",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/8cb239e7-206e-4ec2-af36-3ac4b39b09ed",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/8cb239e7-206e-4ec2-af36-3ac4b39b09ed",
+        "requestId": "req-i"
+      }
+    },
+    {
+      "id": "78073568-23e8-45de-995b-229fcfe75852",
+      "createdAt": "2026-03-29T17:07:57.045Z",
+      "traceId": "0eaa4f30-103f-42e9-9456-85aa2455b631",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/8cb239e7-206e-4ec2-af36-3ac4b39b09ed -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/8cb239e7-206e-4ec2-af36-3ac4b39b09ed",
+        "requestId": "req-i",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "fb9156b3-f485-4716-a5c5-6cf235704515",
+      "createdAt": "2026-03-29T17:07:57.047Z",
+      "traceId": "8fb7b38e-6ca3-4095-9f91-c1c3e3bd6b85",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/reflection-coach-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/reflection-coach-agent",
+        "requestId": "req-j"
+      }
+    },
+    {
+      "id": "c3b43123-01b7-4dbf-aa32-a7e67aab8237",
+      "createdAt": "2026-03-29T17:07:57.048Z",
+      "traceId": "524479d4-c584-46b4-bafa-180d4952bf64",
+      "parentTraceId": "8fb7b38e-6ca3-4095-9f91-c1c3e3bd6b85",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for reflection-coach-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "reflection-coach-agent",
+        "userId": "demo-user",
+        "target": "reflection-coach-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "c81b6464-082d-45fe-979a-64b0b9fe4b54",
+          "target": "reflection-coach-agent",
+          "createdAt": "2026-03-29T17:07:57.048Z",
+          "trace": {
+            "traceId": "524479d4-c584-46b4-bafa-180d4952bf64",
+            "parentTraceId": "8fb7b38e-6ca3-4095-9f91-c1c3e3bd6b85",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "reflection-coach-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "5dc1f7f4-6726-4d92-b3e6-a853d4230772",
+      "createdAt": "2026-03-29T17:07:57.379Z",
+      "traceId": "524479d4-c584-46b4-bafa-180d4952bf64",
+      "parentTraceId": "8fb7b38e-6ca3-4095-9f91-c1c3e3bd6b85",
+      "level": "warn",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.failed",
+      "message": "Probe request failed for reflection-coach-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "reflection-coach-agent",
+        "userId": "demo-user",
+        "target": "reflection-coach-agent",
+        "endpoint": "/responses",
+        "status": 502
+      }
+    },
+    {
+      "id": "0659ac63-e378-4e08-b7e2-bfc28169325a",
+      "createdAt": "2026-03-29T17:07:57.380Z",
+      "traceId": "524479d4-c584-46b4-bafa-180d4952bf64",
+      "parentTraceId": "8fb7b38e-6ca3-4095-9f91-c1c3e3bd6b85",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for reflection-coach-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "reflection-coach-agent",
+        "userId": "demo-user",
+        "target": "reflection-coach-agent",
+        "endpoint": "/v1/responses",
+        "taskEnvelope": {
+          "taskId": "c81b6464-082d-45fe-979a-64b0b9fe4b54",
+          "target": "reflection-coach-agent",
+          "createdAt": "2026-03-29T17:07:57.048Z",
+          "trace": {
+            "traceId": "524479d4-c584-46b4-bafa-180d4952bf64",
+            "parentTraceId": "8fb7b38e-6ca3-4095-9f91-c1c3e3bd6b85",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "reflection-coach-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "073cb0a9-4ccd-46f8-80e5-d1622cb28441",
+      "createdAt": "2026-03-29T17:07:57.716Z",
+      "traceId": "524479d4-c584-46b4-bafa-180d4952bf64",
+      "parentTraceId": "8fb7b38e-6ca3-4095-9f91-c1c3e3bd6b85",
+      "level": "warn",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.failed",
+      "message": "Probe request failed for reflection-coach-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "reflection-coach-agent",
+        "userId": "demo-user",
+        "target": "reflection-coach-agent",
+        "endpoint": "/v1/responses",
+        "status": 502
+      }
+    },
+    {
+      "id": "bebc542f-a237-4503-ba35-fe7ab3692c09",
+      "createdAt": "2026-03-29T17:07:57.718Z",
+      "traceId": "524479d4-c584-46b4-bafa-180d4952bf64",
+      "parentTraceId": "8fb7b38e-6ca3-4095-9f91-c1c3e3bd6b85",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for reflection-coach-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "reflection-coach-agent",
+        "userId": "demo-user",
+        "target": "reflection-coach-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "c81b6464-082d-45fe-979a-64b0b9fe4b54",
+          "target": "reflection-coach-agent",
+          "createdAt": "2026-03-29T17:07:57.048Z",
+          "trace": {
+            "traceId": "524479d4-c584-46b4-bafa-180d4952bf64",
+            "parentTraceId": "8fb7b38e-6ca3-4095-9f91-c1c3e3bd6b85",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "reflection-coach-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "d0fc48ec-c001-4afd-9094-33ace48aba86",
+      "createdAt": "2026-03-29T17:08:00.008Z",
+      "traceId": "524479d4-c584-46b4-bafa-180d4952bf64",
+      "parentTraceId": "8fb7b38e-6ca3-4095-9f91-c1c3e3bd6b85",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.succeeded",
+      "message": "Probe request succeeded for reflection-coach-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "reflection-coach-agent",
+        "userId": "demo-user",
+        "target": "reflection-coach-agent",
+        "endpoint": "/responses",
+        "status": 200
+      }
+    },
+    {
+      "id": "3ba4352a-511c-47d5-b7b3-f8191c33234a",
+      "createdAt": "2026-03-29T17:08:00.010Z",
+      "traceId": "524479d4-c584-46b4-bafa-180d4952bf64",
+      "parentTraceId": "8fb7b38e-6ca3-4095-9f91-c1c3e3bd6b85",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed reflection-coach-agent via provider-direct",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "reflection-coach-agent",
+        "userId": "demo-user",
+        "target": "reflection-coach-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      }
+    },
+    {
+      "id": "d3012ce7-6bce-40e6-a7e2-2aba794cff4c",
+      "createdAt": "2026-03-29T17:08:00.012Z",
+      "traceId": "524479d4-c584-46b4-bafa-180d4952bf64",
+      "parentTraceId": "8fb7b38e-6ca3-4095-9f91-c1c3e3bd6b85",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for reflection-coach-agent",
+      "metadata": {
+        "agentName": "reflection-coach-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "a95dd897-4997-467f-917a-3184605ef47a",
+      "createdAt": "2026-03-29T17:08:00.013Z",
+      "traceId": "8fb7b38e-6ca3-4095-9f91-c1c3e3bd6b85",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/reflection-coach-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/reflection-coach-agent",
+        "requestId": "req-j",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "a3bdc777-111f-462a-99ef-bceebce89d07",
+      "createdAt": "2026-03-29T17:08:00.016Z",
+      "traceId": "d1b32862-2217-4b14-90b3-c68231aab467",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/524479d4-c584-46b4-bafa-180d4952bf64",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/524479d4-c584-46b4-bafa-180d4952bf64",
+        "requestId": "req-k"
+      }
+    },
+    {
+      "id": "53420c8e-baa3-4300-aa8d-7658f552f23d",
+      "createdAt": "2026-03-29T17:08:00.057Z",
+      "traceId": "d1b32862-2217-4b14-90b3-c68231aab467",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/524479d4-c584-46b4-bafa-180d4952bf64 -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/524479d4-c584-46b4-bafa-180d4952bf64",
+        "requestId": "req-k",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "9c898014-78ae-4ee2-a27b-d24a8f5c9474",
+      "createdAt": "2026-03-29T17:08:00.059Z",
+      "traceId": "6787ab33-9c36-4491-8c0a-1c63bfb2e1be",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/automation-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/automation-agent",
+        "requestId": "req-l"
+      }
+    },
+    {
+      "id": "2d646707-73c2-4bff-9945-0572136a88aa",
+      "createdAt": "2026-03-29T17:08:00.060Z",
+      "traceId": "d5b68ace-0877-4a7f-b3ab-61ed9de798f2",
+      "parentTraceId": "6787ab33-9c36-4491-8c0a-1c63bfb2e1be",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for automation-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "automation-agent",
+        "userId": "demo-user",
+        "target": "automation-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "2776a386-0cf4-487a-9a7a-399310c8ad01",
+          "target": "automation-agent",
+          "createdAt": "2026-03-29T17:08:00.060Z",
+          "trace": {
+            "traceId": "d5b68ace-0877-4a7f-b3ab-61ed9de798f2",
+            "parentTraceId": "6787ab33-9c36-4491-8c0a-1c63bfb2e1be",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "automation-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "27326a3b-6e92-4846-858f-3c23806d9304",
+      "createdAt": "2026-03-29T17:08:00.387Z",
+      "traceId": "d5b68ace-0877-4a7f-b3ab-61ed9de798f2",
+      "parentTraceId": "6787ab33-9c36-4491-8c0a-1c63bfb2e1be",
+      "level": "warn",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.failed",
+      "message": "Probe request failed for automation-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "automation-agent",
+        "userId": "demo-user",
+        "target": "automation-agent",
+        "endpoint": "/responses",
+        "status": 502
+      }
+    },
+    {
+      "id": "075fa58a-3d8b-4215-8334-c167fa642a75",
+      "createdAt": "2026-03-29T17:08:00.390Z",
+      "traceId": "d5b68ace-0877-4a7f-b3ab-61ed9de798f2",
+      "parentTraceId": "6787ab33-9c36-4491-8c0a-1c63bfb2e1be",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for automation-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "automation-agent",
+        "userId": "demo-user",
+        "target": "automation-agent",
+        "endpoint": "/v1/responses",
+        "taskEnvelope": {
+          "taskId": "2776a386-0cf4-487a-9a7a-399310c8ad01",
+          "target": "automation-agent",
+          "createdAt": "2026-03-29T17:08:00.060Z",
+          "trace": {
+            "traceId": "d5b68ace-0877-4a7f-b3ab-61ed9de798f2",
+            "parentTraceId": "6787ab33-9c36-4491-8c0a-1c63bfb2e1be",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "automation-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "1c552528-c4e2-4f02-af49-df3431138f1c",
+      "createdAt": "2026-03-29T17:08:00.741Z",
+      "traceId": "d5b68ace-0877-4a7f-b3ab-61ed9de798f2",
+      "parentTraceId": "6787ab33-9c36-4491-8c0a-1c63bfb2e1be",
+      "level": "warn",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.failed",
+      "message": "Probe request failed for automation-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "automation-agent",
+        "userId": "demo-user",
+        "target": "automation-agent",
+        "endpoint": "/v1/responses",
+        "status": 502
+      }
+    },
+    {
+      "id": "45100f07-d40d-4171-8cac-871504905841",
+      "createdAt": "2026-03-29T17:08:00.743Z",
+      "traceId": "d5b68ace-0877-4a7f-b3ab-61ed9de798f2",
+      "parentTraceId": "6787ab33-9c36-4491-8c0a-1c63bfb2e1be",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for automation-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "automation-agent",
+        "userId": "demo-user",
+        "target": "automation-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "2776a386-0cf4-487a-9a7a-399310c8ad01",
+          "target": "automation-agent",
+          "createdAt": "2026-03-29T17:08:00.060Z",
+          "trace": {
+            "traceId": "d5b68ace-0877-4a7f-b3ab-61ed9de798f2",
+            "parentTraceId": "6787ab33-9c36-4491-8c0a-1c63bfb2e1be",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "automation-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "userId": "demo-user"
+          }
+        }
+      }
+    },
+    {
+      "id": "337086f7-46c5-44d0-a537-b45d8e9264b9",
+      "createdAt": "2026-03-29T17:08:02.520Z",
+      "traceId": "d5b68ace-0877-4a7f-b3ab-61ed9de798f2",
+      "parentTraceId": "6787ab33-9c36-4491-8c0a-1c63bfb2e1be",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.succeeded",
+      "message": "Probe request succeeded for automation-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "automation-agent",
+        "userId": "demo-user",
+        "target": "automation-agent",
+        "endpoint": "/responses",
+        "status": 200
+      }
+    },
+    {
+      "id": "acda433f-21d4-47ae-823d-8b1bd43dba68",
+      "createdAt": "2026-03-29T17:08:02.522Z",
+      "traceId": "d5b68ace-0877-4a7f-b3ab-61ed9de798f2",
+      "parentTraceId": "6787ab33-9c36-4491-8c0a-1c63bfb2e1be",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed automation-agent via provider-direct",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "automation-agent",
+        "userId": "demo-user",
+        "target": "automation-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      }
+    },
+    {
+      "id": "dc75d599-db6a-4619-95a9-e5b6ec898ab2",
+      "createdAt": "2026-03-29T17:08:02.524Z",
+      "traceId": "d5b68ace-0877-4a7f-b3ab-61ed9de798f2",
+      "parentTraceId": "6787ab33-9c36-4491-8c0a-1c63bfb2e1be",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for automation-agent",
+      "metadata": {
+        "agentName": "automation-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "733de436-1f5f-44c1-9d98-9789f1a91a43",
+      "createdAt": "2026-03-29T17:08:02.530Z",
+      "traceId": "6787ab33-9c36-4491-8c0a-1c63bfb2e1be",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/automation-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/automation-agent",
+        "requestId": "req-l",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "a9835c62-3c6f-4acf-b439-ff04fe10aae4",
+      "createdAt": "2026-03-29T17:08:02.537Z",
+      "traceId": "0113dcac-f555-4059-8604-ab0368f17f8e",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/d5b68ace-0877-4a7f-b3ab-61ed9de798f2",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/d5b68ace-0877-4a7f-b3ab-61ed9de798f2",
+        "requestId": "req-m"
+      }
+    },
+    {
+      "id": "5c95ccba-b257-4b21-aa15-0924f7524297",
+      "createdAt": "2026-03-29T17:08:02.538Z",
+      "traceId": "0113dcac-f555-4059-8604-ab0368f17f8e",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/d5b68ace-0877-4a7f-b3ab-61ed9de798f2 -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/d5b68ace-0877-4a7f-b3ab-61ed9de798f2",
+        "requestId": "req-m",
+        "statusCode": 200
+      }
+    }
+  ],
+  "localAuthUsers": []
+}

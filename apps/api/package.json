@@ -1,0 +1,26 @@
+{
+  "name": "@mindanchor/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "corepack pnpm --filter @mindanchor/domain build && tsx watch src/index.ts",
+    "build": "node ../../scripts/clean-appledouble.mjs --quiet && corepack pnpm --filter @mindanchor/domain build && tsc -p tsconfig.json && node ../../scripts/clean-appledouble.mjs --quiet",
+    "test": "node ../../scripts/clean-appledouble.mjs --quiet && corepack pnpm --filter @mindanchor/domain build && vitest run && node ../../scripts/clean-appledouble.mjs --quiet"
+  },
+  "dependencies": {
+    "@fastify/cors": "^10.0.2",
+    "@mindanchor/domain": "workspace:*",
+    "jose": "^6.1.0",
+    "fastify": "^5.2.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.8"
+  }
+}

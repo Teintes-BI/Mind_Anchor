@@ -1,0 +1,15 @@
+{
+  "name": "@mindanchor/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "main.cjs",
+  "scripts": {
+    "dev": "electron .",
+    "build": "node --check main.cjs && node --check preload.cjs && node --check renderer/renderer.js && node --check audio-bridge.js && node --check audio-emotion.js && node --check collector-logic.js && node --check desktop-state.js",
+    "test": "corepack pnpm run build && node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "electron": "^35.0.1"
+  }
+}

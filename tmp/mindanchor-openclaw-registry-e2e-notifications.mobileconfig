@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>PayloadContent</key>
+  <array>
+    <dict>
+      <key>NotificationSettings</key>
+      <array>
+        <dict>
+          <key>BundleIdentifier</key>
+          <string>com.mindanchor.mac.openclaw.registry.e2e.run1774785804</string>
+          <key>NotificationsEnabled</key>
+          <true/>
+          <key>AlertType</key>
+          <integer>2</integer>
+          <key>ShowInNotificationCenter</key>
+          <true/>
+          <key>ShowInLockScreen</key>
+          <true/>
+          <key>BadgesEnabled</key>
+          <true/>
+          <key>SoundsEnabled</key>
+          <true/>
+        </dict>
+      </array>
+      <key>PayloadDisplayName</key>
+      <string>MindAnchor Notifications</string>
+      <key>PayloadIdentifier</key>
+      <string>com.mindanchor.e2e.notifications.payload</string>
+      <key>PayloadType</key>
+      <string>com.apple.notificationsettings</string>
+      <key>PayloadUUID</key>
+      <string>5df46a7c-46d9-4a70-90d6-3da074528e5b</string>
+      <key>PayloadVersion</key>
+      <integer>1</integer>
+    </dict>
+  </array>
+  <key>PayloadDisplayName</key>
+  <string>MindAnchor OpenClaw Registry E2E Notifications</string>
+  <key>PayloadIdentifier</key>
+  <string>com.mindanchor.e2e.notifications.profile</string>
+  <key>PayloadType</key>
+  <string>Configuration</string>
+  <key>PayloadUUID</key>
+  <string>4fa46e33-00e6-494a-a8c2-fc598481bf92</string>
+  <key>PayloadVersion</key>
+  <integer>1</integer>
+</dict>
+</plist>

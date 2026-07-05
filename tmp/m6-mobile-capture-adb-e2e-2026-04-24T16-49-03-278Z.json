@@ -1,0 +1,3389 @@
+{
+  "goals": [],
+  "tasks": [],
+  "sessions": [],
+  "stateSignals": [
+    {
+      "userId": "m6-mobile-user",
+      "source": "mobile",
+      "eventType": "call_ended",
+      "occurredAt": "2026-04-24T16:48:05.378Z",
+      "clientEventId": "95fe9a84-6cdd-4279-918b-64625d64a63c",
+      "payload": {
+        "deviceId": "android-m6-capture",
+        "direction": "incoming",
+        "status": "missed"
+      },
+      "id": "d153f628-4bca-4a39-998c-c1424f0c3e67",
+      "receivedAt": "2026-04-24T16:49:05.522Z"
+    }
+  ],
+  "stateAssessments": [
+    {
+      "id": "ec1d9d69-b4ba-4fdb-a2f7-860ab50d775d",
+      "userId": "m6-mobile-user",
+      "windowStart": "2026-04-24T16:34:05.582Z",
+      "windowEnd": "2026-04-24T16:49:05.582Z",
+      "focusScore": 58,
+      "energyScore": 55,
+      "moodScore": 57,
+      "summary": "当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。",
+      "recommendedAction": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+      "activeInputs": [
+        "desktop_signal"
+      ],
+      "mediaFreshness": "fresh",
+      "source": "openai-compatible",
+      "createdAt": "2026-04-24T16:49:05.587Z"
+    },
+    {
+      "id": "5ae367c8-78f1-4775-ba54-3ceafec4512b",
+      "userId": "m6-mobile-user",
+      "windowStart": "2026-04-24T16:34:05.726Z",
+      "windowEnd": "2026-04-24T16:49:05.726Z",
+      "focusScore": 58,
+      "energyScore": 55,
+      "moodScore": 48,
+      "summary": "当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。",
+      "recommendedAction": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+      "emotionSummary": "音频侧提示紧张和压力抬升，说明当前更适合减少切换而不是继续并行处理。",
+      "emotionConfidence": 0.82,
+      "activeInputs": [
+        "desktop_signal",
+        "audio_server_inference"
+      ],
+      "mediaFreshness": "mixed",
+      "source": "openai-compatible",
+      "createdAt": "2026-04-24T16:49:05.729Z"
+    },
+    {
+      "id": "863ce057-02eb-4f6a-bcf1-f43dc865f9bf",
+      "userId": "m6-mobile-user",
+      "windowStart": "2026-04-24T16:34:06.148Z",
+      "windowEnd": "2026-04-24T16:49:06.148Z",
+      "focusScore": 58,
+      "energyScore": 49,
+      "moodScore": 48,
+      "summary": "当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。",
+      "recommendedAction": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+      "emotionSummary": "音频侧提示紧张和压力抬升，说明当前更适合减少切换而不是继续并行处理。",
+      "emotionConfidence": 0.82,
+      "fatigueScore": 47,
+      "videoSummary": "视频侧显示疲劳和视觉稳定度下降，说明持续专注能力正在变弱。",
+      "activeInputs": [
+        "desktop_signal",
+        "audio_server_inference",
+        "video_server_inference"
+      ],
+      "mediaFreshness": "mixed",
+      "source": "openai-compatible",
+      "createdAt": "2026-04-24T16:49:06.152Z"
+    },
+    {
+      "id": "ec3273ec-3121-41de-a6ab-f240565ff94a",
+      "userId": "m6-mobile-user",
+      "windowStart": "2026-04-24T16:34:06.307Z",
+      "windowEnd": "2026-04-24T16:49:06.307Z",
+      "focusScore": 58,
+      "energyScore": 45,
+      "moodScore": 48,
+      "summary": "当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。",
+      "recommendedAction": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+      "emotionSummary": "音频侧提示紧张和压力抬升，说明当前更适合减少切换而不是继续并行处理。",
+      "emotionConfidence": 0.82,
+      "fatigueScore": 82,
+      "videoSummary": "视频侧显示疲劳和视觉稳定度下降，说明持续专注能力正在变弱。",
+      "activeInputs": [
+        "desktop_signal",
+        "audio_server_inference",
+        "video_server_inference"
+      ],
+      "mediaFreshness": "mixed",
+      "source": "openai-compatible",
+      "createdAt": "2026-04-24T16:49:06.311Z"
+    },
+    {
+      "id": "d5aa0fed-2e81-4f84-85c0-3a9cdca6fe40",
+      "userId": "m6-mobile-user",
+      "windowStart": "2026-04-24T16:34:06.473Z",
+      "windowEnd": "2026-04-24T16:49:06.473Z",
+      "focusScore": 58,
+      "energyScore": 45,
+      "moodScore": 48,
+      "summary": "当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。",
+      "recommendedAction": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+      "emotionSummary": "音频侧提示紧张和压力抬升，说明当前更适合减少切换而不是继续并行处理。",
+      "emotionConfidence": 0.82,
+      "fatigueScore": 82,
+      "videoSummary": "视频侧显示疲劳和视觉稳定度下降，说明持续专注能力正在变弱。",
+      "healthSummary": "健康数据显示恢复基础一般，健康数据提示应优先保证节奏稳定而不是强行加码。",
+      "activeInputs": [
+        "desktop_signal",
+        "audio_server_inference",
+        "video_server_inference",
+        "health_bridge"
+      ],
+      "mediaFreshness": "mixed",
+      "source": "openai-compatible",
+      "createdAt": "2026-04-24T16:49:06.478Z"
+    }
+  ],
+  "interventions": [
+    {
+      "id": "52b2455a-6b01-4062-bc26-d09bcc10e77d",
+      "userId": "m6-mobile-user",
+      "assessmentId": "ec3273ec-3121-41de-a6ab-f240565ff94a",
+      "trigger": "low_state_score",
+      "action": "reset_focus",
+      "copy": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+      "status": "open",
+      "createdAt": "2026-04-24T16:49:06.312Z"
+    },
+    {
+      "id": "6ddcbc9b-9f6b-4b72-ba30-1ee74201f2d8",
+      "userId": "m6-mobile-user",
+      "assessmentId": "d5aa0fed-2e81-4f84-85c0-3a9cdca6fe40",
+      "trigger": "low_state_score",
+      "action": "reset_focus",
+      "copy": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+      "status": "open",
+      "createdAt": "2026-04-24T16:49:06.479Z"
+    }
+  ],
+  "recoveryPlans": [
+    {
+      "id": "3bdb493a-5034-4ffc-98cd-51c6b50e9644",
+      "userId": "m6-mobile-user",
+      "sessionId": "9404ed74-2319-4af9-91d0-5f24e34941ad",
+      "reason": "attention_shift_after_interruption",
+      "nextStep": "先回到「当前主任务」，只推进一个最小切片，避免继续切去处理旁支任务。",
+      "suggestedMinutes": 25,
+      "reprioritizedTaskIds": [],
+      "createdAt": "2026-04-24T16:49:06.747Z"
+    }
+  ],
+  "reflectionReports": [],
+  "mobileCaptureDevices": [
+    {
+      "id": "84d210eb-5f36-4a52-a7a4-65f76fef8298",
+      "userId": "m6-mobile-user",
+      "deviceId": "android-m6-capture",
+      "deviceName": "NX733J",
+      "platform": "android",
+      "appVersion": "m6-adb-e2e",
+      "platformVersion": "15",
+      "pairingState": "paired",
+      "desktopHost": "192.168.0.104",
+      "consentAcknowledgedAt": "2026-04-24T16:49:04.701Z",
+      "lastSeenAt": "2026-04-24T16:49:04.849Z",
+      "createdAt": "2026-04-24T16:49:04.849Z",
+      "updatedAt": "2026-04-24T16:49:04.849Z"
+    }
+  ],
+  "audioCaptureSessions": [
+    {
+      "id": "9404ed74-2319-4af9-91d0-5f24e34941ad",
+      "userId": "m6-mobile-user",
+      "deviceId": "android-m6-capture",
+      "captureMode": "foreground_microphone_with_call_events",
+      "status": "completed",
+      "sampleRateHz": 16000,
+      "channels": 1,
+      "encoding": "audio/pcm16le",
+      "chunkDurationMs": 1000,
+      "rollingBufferSeconds": 60,
+      "receivedChunkCount": 1,
+      "startedAt": "2026-04-24T16:47:04.701Z",
+      "lastChunkAt": "2026-04-24T16:49:04.701Z",
+      "endedAt": "2026-04-24T16:49:06.524Z"
+    }
+  ],
+  "callEvents": [
+    {
+      "id": "95fe9a84-6cdd-4279-918b-64625d64a63c",
+      "userId": "m6-mobile-user",
+      "deviceId": "android-m6-capture",
+      "direction": "incoming",
+      "status": "missed",
+      "occurredAt": "2026-04-24T16:48:05.378Z",
+      "createdAt": "2026-04-24T16:49:05.522Z"
+    }
+  ],
+  "emotionAssessments": [
+    {
+      "id": "da3338fa-750d-4659-bf3a-a49ee39764fb",
+      "userId": "m6-mobile-user",
+      "deviceId": "android-m6-capture",
+      "sessionId": "9404ed74-2319-4af9-91d0-5f24e34941ad",
+      "chunkSequence": 0,
+      "windowStart": "2026-04-24T16:47:34.701Z",
+      "windowEnd": "2026-04-24T16:49:04.701Z",
+      "emotionLabel": "stressed",
+      "valenceScore": 20,
+      "arousalScore": 28,
+      "stressScore": 88,
+      "confidence": 0.91,
+      "summary": "High stress detected during Android capture window.",
+      "modelName": "m6-adb-e2e",
+      "source": "cluster-openai-compatible",
+      "createdAt": "2026-04-24T16:49:05.715Z"
+    }
+  ],
+  "edgeDevices": [
+    {
+      "id": "de6e6d5e-692d-44ba-948b-fc12403c7df4",
+      "userId": "m6-mobile-user",
+      "deviceId": "android-m6-capture",
+      "label": "NX733J",
+      "deviceType": "mobile",
+      "platform": "android",
+      "capabilities": [
+        "notifications",
+        "audio_capture",
+        "video_capture",
+        "health_bridge"
+      ],
+      "status": "online",
+      "appVersion": "m6-adb-e2e",
+      "queueDepth": 0,
+      "lastSeenAt": "2026-04-24T16:49:05.233Z",
+      "createdAt": "2026-04-24T16:49:04.851Z",
+      "updatedAt": "2026-04-24T16:49:05.233Z",
+      "lastUploadedAt": "2026-04-24T16:49:04.977Z"
+    }
+  ],
+  "mediaUploadSessions": [
+    {
+      "id": "105737e3-702e-47f9-81d7-b6f224bc7660",
+      "userId": "m6-mobile-user",
+      "deviceId": "android-m6-capture",
+      "mediaType": "video",
+      "contentType": "video/webm",
+      "storageBucket": "mindanchor-media",
+      "objectKey": "m6-mobile-user/android-m6-capture/video/7e6749a7-164e-4fa6-a0b4-750d1235faba",
+      "uploadUrl": "stub://openclaw-storage/m6-mobile-user/android-m6-capture/video/7e6749a7-164e-4fa6-a0b4-750d1235faba",
+      "status": "completed",
+      "plannedPartCount": 1,
+      "captureStartedAt": "2026-04-24T16:47:04.701Z",
+      "captureEndedAt": "2026-04-24T16:48:34.701Z",
+      "ttlExpiresAt": "2026-04-25T16:49:05.890Z",
+      "createdAt": "2026-04-24T16:49:05.890Z",
+      "updatedAt": "2026-04-24T16:49:06.191Z",
+      "completedAt": "2026-04-24T16:49:06.025Z"
+    }
+  ],
+  "mediaChunkManifests": [
+    {
+      "id": "8b150a5a-f191-4e13-8492-f8e0892617df",
+      "sessionId": "105737e3-702e-47f9-81d7-b6f224bc7660",
+      "sequence": 0,
+      "checksum": "m6-adb-part-0",
+      "sizeBytes": 2048,
+      "startedAt": "2026-04-24T16:47:04.701Z",
+      "endedAt": "2026-04-24T16:48:34.701Z",
+      "uploadedAt": "2026-04-24T16:49:06.014Z"
+    }
+  ],
+  "videoAssessments": [
+    {
+      "id": "fcba3a6e-a731-46ca-ac64-5655e5f39585",
+      "userId": "m6-mobile-user",
+      "deviceId": "android-m6-capture",
+      "sessionId": "105737e3-702e-47f9-81d7-b6f224bc7660",
+      "windowStart": "2026-04-24T16:47:04.701Z",
+      "windowEnd": "2026-04-24T16:48:34.701Z",
+      "fatigueScore": 47,
+      "focusScore": 75,
+      "confidence": 0.74,
+      "summary": "OpenClaw cluster stub inferred video-based fatigue and focus trends from the uploaded clip.",
+      "modelName": "openclaw-video-stub-v1",
+      "featureSummary": "landmarks+blink+headpose",
+      "source": "cluster-stub",
+      "createdAt": "2026-04-24T16:49:06.137Z"
+    },
+    {
+      "id": "85947074-3e22-4601-a595-f542e7b5c1e8",
+      "userId": "m6-mobile-user",
+      "deviceId": "android-m6-capture",
+      "sessionId": "105737e3-702e-47f9-81d7-b6f224bc7660",
+      "windowStart": "2026-04-24T16:47:34.701Z",
+      "windowEnd": "2026-04-24T16:49:04.701Z",
+      "fatigueScore": 82,
+      "focusScore": 30,
+      "confidence": 0.89,
+      "summary": "Video analysis indicates fatigue and low focus.",
+      "modelName": "m6-adb-e2e",
+      "featureSummary": "heavy blink rate and slumped posture",
+      "source": "cluster-openai-compatible",
+      "createdAt": "2026-04-24T16:49:06.296Z"
+    }
+  ],
+  "healthSnapshots": [
+    {
+      "id": "7c297d1e-b737-40ef-9bb1-1a495ead13fd",
+      "userId": "m6-mobile-user",
+      "deviceId": "android-m6-capture",
+      "sourcePlatform": "android",
+      "sourceProvider": "health_connect",
+      "windowStart": "2026-04-24T15:49:06.356Z",
+      "windowEnd": "2026-04-24T16:49:04.701Z",
+      "heartRate": 92,
+      "oxygenSaturation": 95,
+      "restingHeartRate": 68,
+      "sleepMinutes": 280,
+      "summary": "Low sleep and elevated heart rate from Android health bridge.",
+      "createdAt": "2026-04-24T16:49:06.463Z"
+    }
+  ],
+  "behaviorConclusions": [
+    {
+      "id": "a16296cd-7744-4679-a656-c23814ad2221",
+      "createdAt": "2026-04-24T16:49:05.604Z",
+      "userId": "m6-mobile-user",
+      "assessmentId": "ec1d9d69-b4ba-4fdb-a2f7-860ab50d775d",
+      "riskLevel": "high",
+      "summary": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+      "suggestedAction": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+      "trigger": "behavior_conclusion",
+      "recommendedChannel": "mobile_push"
+    },
+    {
+      "id": "7a0891bd-b6ed-4a3e-a0b9-7652c47c516d",
+      "createdAt": "2026-04-24T16:49:05.743Z",
+      "userId": "m6-mobile-user",
+      "assessmentId": "5ae367c8-78f1-4775-ba54-3ceafec4512b",
+      "riskLevel": "high",
+      "summary": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+      "suggestedAction": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+      "trigger": "behavior_conclusion",
+      "recommendedChannel": "mobile_push"
+    },
+    {
+      "id": "48ab01e8-dbd0-49b8-b08f-59064932c133",
+      "createdAt": "2026-04-24T16:49:06.176Z",
+      "userId": "m6-mobile-user",
+      "assessmentId": "863ce057-02eb-4f6a-bcf1-f43dc865f9bf",
+      "riskLevel": "high",
+      "summary": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+      "suggestedAction": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+      "trigger": "behavior_conclusion",
+      "recommendedChannel": "mobile_push"
+    },
+    {
+      "id": "93ffc33b-af7c-4828-9791-1a8f4cc7e998",
+      "createdAt": "2026-04-24T16:49:06.327Z",
+      "userId": "m6-mobile-user",
+      "assessmentId": "ec3273ec-3121-41de-a6ab-f240565ff94a",
+      "riskLevel": "high",
+      "summary": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+      "suggestedAction": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+      "trigger": "behavior_conclusion",
+      "recommendedChannel": "mobile_push"
+    },
+    {
+      "id": "6c36ebd7-c519-4842-a8e7-c78f25498e9e",
+      "createdAt": "2026-04-24T16:49:06.492Z",
+      "userId": "m6-mobile-user",
+      "assessmentId": "d5aa0fed-2e81-4f84-85c0-3a9cdca6fe40",
+      "riskLevel": "high",
+      "summary": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+      "suggestedAction": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+      "trigger": "behavior_conclusion",
+      "recommendedChannel": "mobile_push"
+    }
+  ],
+  "clientInboxMessages": [
+    {
+      "id": "23e030a0-468a-4c05-b8d2-2e4235b43224",
+      "createdAt": "2026-04-24T16:49:05.618Z",
+      "status": "pending",
+      "userId": "m6-mobile-user",
+      "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+      "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+      "channel": "mobile_push"
+    },
+    {
+      "id": "82cca5e4-de9c-4122-9b2d-9559680214fd",
+      "createdAt": "2026-04-24T16:49:05.754Z",
+      "status": "pending",
+      "userId": "m6-mobile-user",
+      "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+      "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+      "channel": "mobile_push"
+    },
+    {
+      "id": "de62473f-0e5d-48f8-91b5-9a225c150f82",
+      "createdAt": "2026-04-24T16:49:06.190Z",
+      "status": "pending",
+      "userId": "m6-mobile-user",
+      "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+      "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+      "channel": "mobile_push"
+    },
+    {
+      "id": "85271116-cb8e-471e-93f2-2adb967997be",
+      "createdAt": "2026-04-24T16:49:06.341Z",
+      "status": "pending",
+      "userId": "m6-mobile-user",
+      "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+      "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+      "channel": "mobile_push"
+    },
+    {
+      "id": "fdeead23-d8cd-485b-a0f7-de0ef59812d8",
+      "createdAt": "2026-04-24T16:49:06.505Z",
+      "status": "acknowledged",
+      "userId": "m6-mobile-user",
+      "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+      "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+      "channel": "mobile_push",
+      "acknowledgedAt": "2026-04-24T16:49:07.199Z"
+    }
+  ],
+  "coachFrontAgentStates": [],
+  "planChangeProposals": [],
+  "planChangeCommandLogs": [],
+  "coachSessions": [],
+  "coachMessages": [],
+  "coachFeedback": [],
+  "coachMemoryItems": [],
+  "coachTrainingExamples": [],
+  "memoryCandidates": [],
+  "memoryItems": [],
+  "agentDebugRuns": [],
+  "debugRegressionMatrixRuns": [],
+  "traceLogEvents": [
+    {
+      "id": "303c7339-b513-47b4-aece-7aac4ebe0547",
+      "createdAt": "2026-04-24T16:49:04.402Z",
+      "traceId": "fe8fc290-50bd-48aa-9e5e-6a96dd129f54",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /health",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-1"
+      }
+    },
+    {
+      "id": "545e7cb1-e4b3-4409-897b-f1c8c164b2ec",
+      "createdAt": "2026-04-24T16:49:04.407Z",
+      "traceId": "fe8fc290-50bd-48aa-9e5e-6a96dd129f54",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /health -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-1",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "5a2ac1e3-35c8-462f-8af9-6d79ed3ba048",
+      "createdAt": "2026-04-24T16:49:04.597Z",
+      "traceId": "ab2adbdf-cfd9-46a9-a7fe-244a2735eb41",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /health",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-2"
+      }
+    },
+    {
+      "id": "c0cc119a-80c9-439d-b912-f6f26ebcca9a",
+      "createdAt": "2026-04-24T16:49:04.687Z",
+      "traceId": "ab2adbdf-cfd9-46a9-a7fe-244a2735eb41",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /health -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-2",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "db7ca53c-0372-4a50-ae23-4af61cb2a234",
+      "createdAt": "2026-04-24T16:49:04.844Z",
+      "traceId": "7dae2c80-1790-4d4c-9078-1627e5d9a8e8",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /mobile/devices/register",
+      "metadata": {
+        "method": "POST",
+        "url": "/mobile/devices/register",
+        "requestId": "req-3"
+      }
+    },
+    {
+      "id": "3b5276f1-d8ec-4b2e-afa7-a60d2ff9ca38",
+      "createdAt": "2026-04-24T16:49:04.852Z",
+      "traceId": "7dae2c80-1790-4d4c-9078-1627e5d9a8e8",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /mobile/devices/register -> 201",
+      "metadata": {
+        "method": "POST",
+        "url": "/mobile/devices/register",
+        "requestId": "req-3",
+        "statusCode": 201
+      }
+    },
+    {
+      "id": "11fa8d87-2c4e-441d-b43c-3edceee72097",
+      "createdAt": "2026-04-24T16:49:04.963Z",
+      "traceId": "f17d4c3b-e2a7-4755-9b6e-aa3787ae6293",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /devices/register",
+      "metadata": {
+        "method": "POST",
+        "url": "/devices/register",
+        "requestId": "req-4"
+      }
+    },
+    {
+      "id": "553ffd7e-ddad-4b8b-857f-f71d8f22bcc5",
+      "createdAt": "2026-04-24T16:49:04.968Z",
+      "traceId": "f17d4c3b-e2a7-4755-9b6e-aa3787ae6293",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /devices/register -> 201",
+      "metadata": {
+        "method": "POST",
+        "url": "/devices/register",
+        "requestId": "req-4",
+        "statusCode": 201
+      }
+    },
+    {
+      "id": "b6356bea-5173-4537-a991-0c4e70ec9a15",
+      "createdAt": "2026-04-24T16:49:05.227Z",
+      "traceId": "2129a0b7-c3fb-40da-90fa-e08e081edbdb",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /devices/heartbeat",
+      "metadata": {
+        "method": "POST",
+        "url": "/devices/heartbeat",
+        "requestId": "req-5"
+      }
+    },
+    {
+      "id": "298c555c-da44-44d3-ade9-1bb4415bc427",
+      "createdAt": "2026-04-24T16:49:05.237Z",
+      "traceId": "2129a0b7-c3fb-40da-90fa-e08e081edbdb",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /devices/heartbeat -> 200",
+      "metadata": {
+        "method": "POST",
+        "url": "/devices/heartbeat",
+        "requestId": "req-5",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "2849399a-eac1-40e0-acdc-c0c5fab8d9a5",
+      "createdAt": "2026-04-24T16:49:05.363Z",
+      "traceId": "739923d7-f5f6-455c-9a05-9f2412ad5773",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /mobile/capture/sessions/start",
+      "metadata": {
+        "method": "POST",
+        "url": "/mobile/capture/sessions/start",
+        "requestId": "req-6"
+      }
+    },
+    {
+      "id": "83fc5eec-fe35-475d-b95d-b48b81565e87",
+      "createdAt": "2026-04-24T16:49:05.368Z",
+      "traceId": "739923d7-f5f6-455c-9a05-9f2412ad5773",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /mobile/capture/sessions/start -> 201",
+      "metadata": {
+        "method": "POST",
+        "url": "/mobile/capture/sessions/start",
+        "requestId": "req-6",
+        "statusCode": 201
+      }
+    },
+    {
+      "id": "5d4abcdf-c832-495f-8134-60774d49119f",
+      "createdAt": "2026-04-24T16:49:05.518Z",
+      "traceId": "fddbbddf-3541-46dd-828f-552d2fc67f81",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /mobile/call-events",
+      "metadata": {
+        "method": "POST",
+        "url": "/mobile/call-events",
+        "requestId": "req-7"
+      }
+    },
+    {
+      "id": "ecd37250-f81a-494b-b612-fc0abce64d14",
+      "createdAt": "2026-04-24T16:49:05.527Z",
+      "traceId": "c668e57b-6c52-4f88-908c-1388b2999d2f",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "db94d1ec-366b-4062-a17f-382df84b0890",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "95bafa99-8f80-4332-a6f7-59cbc9590330",
+      "createdAt": "2026-04-24T16:49:05.574Z",
+      "traceId": "c668e57b-6c52-4f88-908c-1388b2999d2f",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "db94d1ec-366b-4062-a17f-382df84b0890",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "93d34288-ab46-4d9e-937f-1d59be23772c",
+      "createdAt": "2026-04-24T16:49:05.577Z",
+      "traceId": "c668e57b-6c52-4f88-908c-1388b2999d2f",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "chief-agent",
+        "workflow": "state_assessment",
+        "userId": "m6-mobile-user",
+        "target": "chief-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"workflow\":\"state_assessment\",\"selectedAgent\":\"state-insight-agent\",\"reason\":\"Local OpenClaw cluster routed state_assessment to state-insight-agent.\",\"executionMode\":\"agent\",\"confidence\":0.9}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "24d8c29a-2ae1-43ba-98ef-fa6ff8cfcb33",
+      "createdAt": "2026-04-24T16:49:05.579Z",
+      "traceId": "257adc8d-64d7-4f99-afcb-01eef5f55326",
+      "parentTraceId": "c668e57b-6c52-4f88-908c-1388b2999d2f",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for state-insight-agent",
+      "metadata": {
+        "target": "state-insight-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "1eed1b33-8c60-4aeb-98ab-c3d71879752b",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "65b1e26d-fce3-45a1-ae19-021c5351a92f",
+      "createdAt": "2026-04-24T16:49:05.584Z",
+      "traceId": "257adc8d-64d7-4f99-afcb-01eef5f55326",
+      "parentTraceId": "c668e57b-6c52-4f88-908c-1388b2999d2f",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for state-insight-agent",
+      "metadata": {
+        "target": "state-insight-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "1eed1b33-8c60-4aeb-98ab-c3d71879752b",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "7b533e49-3af1-4ebb-ac11-6dc8f527f349",
+      "createdAt": "2026-04-24T16:49:05.586Z",
+      "traceId": "257adc8d-64d7-4f99-afcb-01eef5f55326",
+      "parentTraceId": "c668e57b-6c52-4f88-908c-1388b2999d2f",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed state-insight-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "state-insight-agent",
+        "workflow": "state_assessment",
+        "userId": "m6-mobile-user",
+        "target": "state-insight-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"userId\":\"m6-mobile-user\",\"windowStart\":\"2026-04-24T16:34:05.582Z\",\"windowEnd\":\"2026-04-24T16:49:05.582Z\",\"focusScore\":58,\"energyScore\":55,\"moodScore\":57,\"summary\":\"当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。\",\"recommendedAction\":\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "151e438f-64a7-4da1-a567-ab74183096ca",
+      "createdAt": "2026-04-24T16:49:05.589Z",
+      "traceId": "5f8314ae-db91-4eb6-9b10-9bc5dc21dde0",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "c014fc63-56e6-403f-96c7-558e1ac6d4cc",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "16261a02-ce08-41a0-8504-2ba74c442bf6",
+      "createdAt": "2026-04-24T16:49:05.594Z",
+      "traceId": "5f8314ae-db91-4eb6-9b10-9bc5dc21dde0",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "c014fc63-56e6-403f-96c7-558e1ac6d4cc",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "81067252-bc3a-46f1-8fa7-eb780a5f23d1",
+      "createdAt": "2026-04-24T16:49:05.596Z",
+      "traceId": "5f8314ae-db91-4eb6-9b10-9bc5dc21dde0",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "chief-agent",
+        "workflow": "notification_dispatch",
+        "userId": "m6-mobile-user",
+        "target": "chief-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"workflow\":\"notification_dispatch\",\"selectedAgent\":\"automation-agent\",\"reason\":\"Local OpenClaw cluster routed notification_dispatch to automation-agent.\",\"executionMode\":\"agent\",\"confidence\":0.9}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "2e17569e-6c5c-4eda-bfc4-1d54c82c0e52",
+      "createdAt": "2026-04-24T16:49:05.598Z",
+      "traceId": "42fb8210-9d03-4a3f-a4f1-e8ee6acef7ff",
+      "parentTraceId": "5f8314ae-db91-4eb6-9b10-9bc5dc21dde0",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "f9f79224-67bb-4c9a-9dfd-8e93ea676295",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "33321ca5-fab9-4ba0-b2a9-eb68c0badde5",
+      "createdAt": "2026-04-24T16:49:05.602Z",
+      "traceId": "42fb8210-9d03-4a3f-a4f1-e8ee6acef7ff",
+      "parentTraceId": "5f8314ae-db91-4eb6-9b10-9bc5dc21dde0",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "f9f79224-67bb-4c9a-9dfd-8e93ea676295",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "52f943cd-04ce-425d-9f21-2b0a9237a2af",
+      "createdAt": "2026-04-24T16:49:05.603Z",
+      "traceId": "42fb8210-9d03-4a3f-a4f1-e8ee6acef7ff",
+      "parentTraceId": "5f8314ae-db91-4eb6-9b10-9bc5dc21dde0",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed automation-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "automation-agent",
+        "workflow": "notification_dispatch",
+        "userId": "m6-mobile-user",
+        "target": "automation-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"userId\":\"m6-mobile-user\",\"assessmentId\":\"ec1d9d69-b4ba-4fdb-a2f7-860ab50d775d\",\"riskLevel\":\"high\",\"summary\":\"当前已进入需要主动收拢干扰和恢复节奏的阶段。\",\"suggestedAction\":\"暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。\",\"trigger\":\"behavior_conclusion\",\"recommendedChannel\":\"m"
+          }
+        ]
+      }
+    },
+    {
+      "id": "c27a790f-a41e-42c5-b369-51c0d69145a4",
+      "createdAt": "2026-04-24T16:49:05.606Z",
+      "traceId": "47411119-c4a1-480d-af4c-a43dffedae8d",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "9836d718-c3bf-4613-acc9-bbb5fbc3f747",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "a00d2b0c-70b5-476e-9b63-58a43a608ed1",
+      "createdAt": "2026-04-24T16:49:05.610Z",
+      "traceId": "47411119-c4a1-480d-af4c-a43dffedae8d",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "9836d718-c3bf-4613-acc9-bbb5fbc3f747",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "5050b087-e19d-4da8-8304-d3692b33ecab",
+      "createdAt": "2026-04-24T16:49:05.611Z",
+      "traceId": "47411119-c4a1-480d-af4c-a43dffedae8d",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "chief-agent",
+        "workflow": "notification_dispatch",
+        "userId": "m6-mobile-user",
+        "target": "chief-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"workflow\":\"notification_dispatch\",\"selectedAgent\":\"automation-agent\",\"reason\":\"Local OpenClaw cluster routed notification_dispatch to automation-agent.\",\"executionMode\":\"agent\",\"confidence\":0.9}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "9a6c6dee-5c13-4b44-bc2d-0c90433080b5",
+      "createdAt": "2026-04-24T16:49:05.612Z",
+      "traceId": "0baec227-85c7-4073-a336-e3346d7e7783",
+      "parentTraceId": "47411119-c4a1-480d-af4c-a43dffedae8d",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "5520a7ee-2f21-4d23-b085-491f5f97987d",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "625bb7cd-95a3-471e-81b3-dafafb081c6e",
+      "createdAt": "2026-04-24T16:49:05.614Z",
+      "traceId": "0baec227-85c7-4073-a336-e3346d7e7783",
+      "parentTraceId": "47411119-c4a1-480d-af4c-a43dffedae8d",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "5520a7ee-2f21-4d23-b085-491f5f97987d",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "ef4d6051-beda-4dc4-943d-6be859cfe85b",
+      "createdAt": "2026-04-24T16:49:05.616Z",
+      "traceId": "0baec227-85c7-4073-a336-e3346d7e7783",
+      "parentTraceId": "47411119-c4a1-480d-af4c-a43dffedae8d",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed automation-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "automation-agent",
+        "workflow": "notification_dispatch",
+        "userId": "m6-mobile-user",
+        "target": "automation-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"title\":\"当前已进入需要主动收拢干扰和恢复节奏的阶段。\",\"message\":\"暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。\",\"channel\":\"mobile_push\",\"deliver\":true}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "274b9f6e-ad70-439f-b85e-2891abc6beb0",
+      "createdAt": "2026-04-24T16:49:05.619Z",
+      "traceId": "fddbbddf-3541-46dd-828f-552d2fc67f81",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /mobile/call-events -> 201",
+      "metadata": {
+        "method": "POST",
+        "url": "/mobile/call-events",
+        "requestId": "req-7",
+        "statusCode": 201
+      }
+    },
+    {
+      "id": "4f5267b9-415a-4516-a4ea-ba878be35ee3",
+      "createdAt": "2026-04-24T16:49:05.713Z",
+      "traceId": "615898d4-937b-4812-b144-4ba7105b09e3",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /emotion/assessments",
+      "metadata": {
+        "method": "POST",
+        "url": "/emotion/assessments",
+        "requestId": "req-8"
+      }
+    },
+    {
+      "id": "45589ad3-3e45-447b-baf0-df7f238f4fbb",
+      "createdAt": "2026-04-24T16:49:05.717Z",
+      "traceId": "28b89162-2f18-44dc-9b33-d61cd8cedbb9",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "4a9acd69-425c-44a6-8495-1becc5452109",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "f89ef4e9-eeda-4da6-ab64-9d9bd395b28d",
+      "createdAt": "2026-04-24T16:49:05.720Z",
+      "traceId": "28b89162-2f18-44dc-9b33-d61cd8cedbb9",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "4a9acd69-425c-44a6-8495-1becc5452109",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "986d4b0c-5b36-47bc-a226-1d46ca871ebc",
+      "createdAt": "2026-04-24T16:49:05.721Z",
+      "traceId": "28b89162-2f18-44dc-9b33-d61cd8cedbb9",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "chief-agent",
+        "workflow": "state_assessment",
+        "userId": "m6-mobile-user",
+        "target": "chief-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"workflow\":\"state_assessment\",\"selectedAgent\":\"state-insight-agent\",\"reason\":\"Local OpenClaw cluster routed state_assessment to state-insight-agent.\",\"executionMode\":\"agent\",\"confidence\":0.9}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "b1ba1778-db1b-4253-80b8-d89baa6103e8",
+      "createdAt": "2026-04-24T16:49:05.722Z",
+      "traceId": "3bbbd68e-5b77-4bcc-94bc-be4953f57eb8",
+      "parentTraceId": "28b89162-2f18-44dc-9b33-d61cd8cedbb9",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for state-insight-agent",
+      "metadata": {
+        "target": "state-insight-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "bef56ddc-8ae4-4bd5-9772-91f53fa33f86",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "a2b6016c-b5f6-4127-9eb9-05b92e4bacec",
+      "createdAt": "2026-04-24T16:49:05.727Z",
+      "traceId": "3bbbd68e-5b77-4bcc-94bc-be4953f57eb8",
+      "parentTraceId": "28b89162-2f18-44dc-9b33-d61cd8cedbb9",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for state-insight-agent",
+      "metadata": {
+        "target": "state-insight-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "bef56ddc-8ae4-4bd5-9772-91f53fa33f86",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "6fcfc471-c726-4fa0-995e-9edd396690eb",
+      "createdAt": "2026-04-24T16:49:05.728Z",
+      "traceId": "3bbbd68e-5b77-4bcc-94bc-be4953f57eb8",
+      "parentTraceId": "28b89162-2f18-44dc-9b33-d61cd8cedbb9",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed state-insight-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "state-insight-agent",
+        "workflow": "state_assessment",
+        "userId": "m6-mobile-user",
+        "target": "state-insight-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"userId\":\"m6-mobile-user\",\"windowStart\":\"2026-04-24T16:34:05.726Z\",\"windowEnd\":\"2026-04-24T16:49:05.726Z\",\"focusScore\":58,\"energyScore\":55,\"moodScore\":48,\"summary\":\"当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。\",\"recommendedAction\":\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "e8e6938b-e69c-4327-9d9c-d57cd07c0390",
+      "createdAt": "2026-04-24T16:49:05.731Z",
+      "traceId": "40d9244d-b584-450d-aa2d-4e29e79afaab",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "63982228-acdb-4590-b3bd-afef3a87eef2",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "6382a3e6-efe2-442c-8059-e06996716853",
+      "createdAt": "2026-04-24T16:49:05.735Z",
+      "traceId": "40d9244d-b584-450d-aa2d-4e29e79afaab",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "63982228-acdb-4590-b3bd-afef3a87eef2",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "9f4f760d-d435-48dd-a7ad-73593fbb83ee",
+      "createdAt": "2026-04-24T16:49:05.737Z",
+      "traceId": "40d9244d-b584-450d-aa2d-4e29e79afaab",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "chief-agent",
+        "workflow": "notification_dispatch",
+        "userId": "m6-mobile-user",
+        "target": "chief-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"workflow\":\"notification_dispatch\",\"selectedAgent\":\"automation-agent\",\"reason\":\"Local OpenClaw cluster routed notification_dispatch to automation-agent.\",\"executionMode\":\"agent\",\"confidence\":0.9}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "8b83d418-7521-4b87-9e5b-2677d602a193",
+      "createdAt": "2026-04-24T16:49:05.738Z",
+      "traceId": "1326e826-c7c2-43ed-b525-b28430e258cb",
+      "parentTraceId": "40d9244d-b584-450d-aa2d-4e29e79afaab",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "6beec4e2-f71f-4e14-bff0-d81c5c630e53",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "c44a4974-926b-40de-8c6b-46c24c8288dd",
+      "createdAt": "2026-04-24T16:49:05.740Z",
+      "traceId": "1326e826-c7c2-43ed-b525-b28430e258cb",
+      "parentTraceId": "40d9244d-b584-450d-aa2d-4e29e79afaab",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "6beec4e2-f71f-4e14-bff0-d81c5c630e53",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "29d24620-86f5-4264-8748-da181613f61f",
+      "createdAt": "2026-04-24T16:49:05.742Z",
+      "traceId": "1326e826-c7c2-43ed-b525-b28430e258cb",
+      "parentTraceId": "40d9244d-b584-450d-aa2d-4e29e79afaab",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed automation-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "automation-agent",
+        "workflow": "notification_dispatch",
+        "userId": "m6-mobile-user",
+        "target": "automation-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"userId\":\"m6-mobile-user\",\"assessmentId\":\"5ae367c8-78f1-4775-ba54-3ceafec4512b\",\"riskLevel\":\"high\",\"summary\":\"当前已进入需要主动收拢干扰和恢复节奏的阶段。\",\"suggestedAction\":\"暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。\",\"trigger\":\"behavior_conclusion\",\"recommendedChannel\":\"m"
+          }
+        ]
+      }
+    },
+    {
+      "id": "b126ffad-8f8a-480f-9b36-3ba6cf29f8df",
+      "createdAt": "2026-04-24T16:49:05.744Z",
+      "traceId": "aed01bf5-acc0-4de3-98c9-f7596aeb99d5",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "7e2ad149-c231-476b-aaf9-4db1eea0f29a",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "f90ec5e3-821e-4242-9f11-058f49ee5b9f",
+      "createdAt": "2026-04-24T16:49:05.746Z",
+      "traceId": "aed01bf5-acc0-4de3-98c9-f7596aeb99d5",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "7e2ad149-c231-476b-aaf9-4db1eea0f29a",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "0ac25765-84e9-41aa-917f-4e18acc540ab",
+      "createdAt": "2026-04-24T16:49:05.748Z",
+      "traceId": "aed01bf5-acc0-4de3-98c9-f7596aeb99d5",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "chief-agent",
+        "workflow": "notification_dispatch",
+        "userId": "m6-mobile-user",
+        "target": "chief-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"workflow\":\"notification_dispatch\",\"selectedAgent\":\"automation-agent\",\"reason\":\"Local OpenClaw cluster routed notification_dispatch to automation-agent.\",\"executionMode\":\"agent\",\"confidence\":0.9}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "99093869-0753-4b3a-8343-891c24de68ee",
+      "createdAt": "2026-04-24T16:49:05.749Z",
+      "traceId": "54614b1a-f5a2-417f-bd2d-152dc5ec8b72",
+      "parentTraceId": "aed01bf5-acc0-4de3-98c9-f7596aeb99d5",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "fef40d35-5ca5-45c5-83a1-12a1f5c00fc1",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "fe0d3484-f701-4fad-953d-d2606366709e",
+      "createdAt": "2026-04-24T16:49:05.751Z",
+      "traceId": "54614b1a-f5a2-417f-bd2d-152dc5ec8b72",
+      "parentTraceId": "aed01bf5-acc0-4de3-98c9-f7596aeb99d5",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "fef40d35-5ca5-45c5-83a1-12a1f5c00fc1",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "e23d81a4-665c-4fcf-856f-5d6982a62939",
+      "createdAt": "2026-04-24T16:49:05.753Z",
+      "traceId": "54614b1a-f5a2-417f-bd2d-152dc5ec8b72",
+      "parentTraceId": "aed01bf5-acc0-4de3-98c9-f7596aeb99d5",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed automation-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "automation-agent",
+        "workflow": "notification_dispatch",
+        "userId": "m6-mobile-user",
+        "target": "automation-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"title\":\"当前已进入需要主动收拢干扰和恢复节奏的阶段。\",\"message\":\"暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。\",\"channel\":\"mobile_push\",\"deliver\":true}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2ac5634-d562-4d62-912a-53393fb29c34",
+      "createdAt": "2026-04-24T16:49:05.756Z",
+      "traceId": "615898d4-937b-4812-b144-4ba7105b09e3",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /emotion/assessments -> 201",
+      "metadata": {
+        "method": "POST",
+        "url": "/emotion/assessments",
+        "requestId": "req-8",
+        "statusCode": 201
+      }
+    },
+    {
+      "id": "5a52e5f2-cb17-4e68-81bf-eae404ea55ec",
+      "createdAt": "2026-04-24T16:49:05.887Z",
+      "traceId": "7cf26f1c-13d6-437a-96be-946b4d6c92b2",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /media/upload-sessions",
+      "metadata": {
+        "method": "POST",
+        "url": "/media/upload-sessions",
+        "requestId": "req-9"
+      }
+    },
+    {
+      "id": "2559908e-1361-47f0-9470-b6eebaa04221",
+      "createdAt": "2026-04-24T16:49:05.893Z",
+      "traceId": "7cf26f1c-13d6-437a-96be-946b4d6c92b2",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /media/upload-sessions -> 201",
+      "metadata": {
+        "method": "POST",
+        "url": "/media/upload-sessions",
+        "requestId": "req-9",
+        "statusCode": 201
+      }
+    },
+    {
+      "id": "4a7539ef-adc5-4a6c-a84e-6c64bf40af13",
+      "createdAt": "2026-04-24T16:49:06.011Z",
+      "traceId": "ecefaa23-2bf5-4cab-94d5-348e976ce4e8",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /media/upload-sessions/105737e3-702e-47f9-81d7-b6f224bc7660/parts",
+      "metadata": {
+        "method": "POST",
+        "url": "/media/upload-sessions/105737e3-702e-47f9-81d7-b6f224bc7660/parts",
+        "requestId": "req-a"
+      }
+    },
+    {
+      "id": "d9d7cc47-7301-4be4-a56f-56d683e65514",
+      "createdAt": "2026-04-24T16:49:06.016Z",
+      "traceId": "ecefaa23-2bf5-4cab-94d5-348e976ce4e8",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /media/upload-sessions/105737e3-702e-47f9-81d7-b6f224bc7660/parts -> 201",
+      "metadata": {
+        "method": "POST",
+        "url": "/media/upload-sessions/105737e3-702e-47f9-81d7-b6f224bc7660/parts",
+        "requestId": "req-a",
+        "statusCode": 201
+      }
+    },
+    {
+      "id": "ff578565-f9ce-4ae6-a96c-fd203fe60616",
+      "createdAt": "2026-04-24T16:49:06.130Z",
+      "traceId": "1e257699-cc46-4940-853c-fcab938c043b",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /media/upload-sessions/105737e3-702e-47f9-81d7-b6f224bc7660/complete",
+      "metadata": {
+        "method": "POST",
+        "url": "/media/upload-sessions/105737e3-702e-47f9-81d7-b6f224bc7660/complete",
+        "requestId": "req-b"
+      }
+    },
+    {
+      "id": "70329961-a2ef-4cbb-8d80-d0f110586ea1",
+      "createdAt": "2026-04-24T16:49:06.139Z",
+      "traceId": "f55536d2-1e96-4333-9f63-1666eead6ea1",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "650d15bc-e75b-4207-83bb-d15235933ba6",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "d763bd22-48fd-4d15-8b46-13fcd668755a",
+      "createdAt": "2026-04-24T16:49:06.142Z",
+      "traceId": "f55536d2-1e96-4333-9f63-1666eead6ea1",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "650d15bc-e75b-4207-83bb-d15235933ba6",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "ba93c92b-5126-467d-9044-dc64759ba926",
+      "createdAt": "2026-04-24T16:49:06.144Z",
+      "traceId": "f55536d2-1e96-4333-9f63-1666eead6ea1",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "chief-agent",
+        "workflow": "state_assessment",
+        "userId": "m6-mobile-user",
+        "target": "chief-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"workflow\":\"state_assessment\",\"selectedAgent\":\"state-insight-agent\",\"reason\":\"Local OpenClaw cluster routed state_assessment to state-insight-agent.\",\"executionMode\":\"agent\",\"confidence\":0.9}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "c2a3ebae-a184-4d97-b94f-864f51a5b4e1",
+      "createdAt": "2026-04-24T16:49:06.146Z",
+      "traceId": "dd725a87-3732-47d0-9608-68ce758607fb",
+      "parentTraceId": "f55536d2-1e96-4333-9f63-1666eead6ea1",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for state-insight-agent",
+      "metadata": {
+        "target": "state-insight-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "4caf41b2-bf7b-4d3b-8fd8-2b6c45fa2b6a",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "a480e297-6eca-4fb6-9b31-cef79bd7788e",
+      "createdAt": "2026-04-24T16:49:06.149Z",
+      "traceId": "dd725a87-3732-47d0-9608-68ce758607fb",
+      "parentTraceId": "f55536d2-1e96-4333-9f63-1666eead6ea1",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for state-insight-agent",
+      "metadata": {
+        "target": "state-insight-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "4caf41b2-bf7b-4d3b-8fd8-2b6c45fa2b6a",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "6132b4bd-f977-4528-bd3e-fbca7d78bd8e",
+      "createdAt": "2026-04-24T16:49:06.151Z",
+      "traceId": "dd725a87-3732-47d0-9608-68ce758607fb",
+      "parentTraceId": "f55536d2-1e96-4333-9f63-1666eead6ea1",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed state-insight-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "state-insight-agent",
+        "workflow": "state_assessment",
+        "userId": "m6-mobile-user",
+        "target": "state-insight-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"userId\":\"m6-mobile-user\",\"windowStart\":\"2026-04-24T16:34:06.148Z\",\"windowEnd\":\"2026-04-24T16:49:06.148Z\",\"focusScore\":58,\"energyScore\":49,\"moodScore\":48,\"summary\":\"当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。\",\"recommendedAction\":\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "0a59bb3b-3d17-4961-b58b-0c5cc12636e6",
+      "createdAt": "2026-04-24T16:49:06.154Z",
+      "traceId": "154741bd-d9ea-4c90-a68d-a9f427a3c88e",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "26ffabdf-26f3-47a9-b826-9de102fc6aad",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "f337c530-4a50-4ab4-a58b-bffe3962886b",
+      "createdAt": "2026-04-24T16:49:06.157Z",
+      "traceId": "154741bd-d9ea-4c90-a68d-a9f427a3c88e",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "26ffabdf-26f3-47a9-b826-9de102fc6aad",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "d146b6f9-8695-4c70-be2f-ba9d082764ea",
+      "createdAt": "2026-04-24T16:49:06.159Z",
+      "traceId": "154741bd-d9ea-4c90-a68d-a9f427a3c88e",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "chief-agent",
+        "workflow": "notification_dispatch",
+        "userId": "m6-mobile-user",
+        "target": "chief-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"workflow\":\"notification_dispatch\",\"selectedAgent\":\"automation-agent\",\"reason\":\"Local OpenClaw cluster routed notification_dispatch to automation-agent.\",\"executionMode\":\"agent\",\"confidence\":0.9}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "1371f0c0-76b5-47e0-b732-0c505a58ad5c",
+      "createdAt": "2026-04-24T16:49:06.170Z",
+      "traceId": "530f19a7-535a-4b90-8e74-87f9afd30a4a",
+      "parentTraceId": "154741bd-d9ea-4c90-a68d-a9f427a3c88e",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "1b0e3a45-3612-4389-875e-28506db03f38",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "02a12d65-5685-4303-90c1-3a03c60f1ec4",
+      "createdAt": "2026-04-24T16:49:06.173Z",
+      "traceId": "530f19a7-535a-4b90-8e74-87f9afd30a4a",
+      "parentTraceId": "154741bd-d9ea-4c90-a68d-a9f427a3c88e",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "1b0e3a45-3612-4389-875e-28506db03f38",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "671185a2-1281-4c2a-846d-e7e2c2f86bed",
+      "createdAt": "2026-04-24T16:49:06.175Z",
+      "traceId": "530f19a7-535a-4b90-8e74-87f9afd30a4a",
+      "parentTraceId": "154741bd-d9ea-4c90-a68d-a9f427a3c88e",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed automation-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "automation-agent",
+        "workflow": "notification_dispatch",
+        "userId": "m6-mobile-user",
+        "target": "automation-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"userId\":\"m6-mobile-user\",\"assessmentId\":\"863ce057-02eb-4f6a-bcf1-f43dc865f9bf\",\"riskLevel\":\"high\",\"summary\":\"当前已进入需要主动收拢干扰和恢复节奏的阶段。\",\"suggestedAction\":\"暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。\",\"trigger\":\"behavior_conclusion\",\"recommendedChannel\":\"m"
+          }
+        ]
+      }
+    },
+    {
+      "id": "c187a2c7-e85b-4010-ab4e-4a28808ab23c",
+      "createdAt": "2026-04-24T16:49:06.178Z",
+      "traceId": "0f52ed6a-1e8e-4e94-97e5-ca61c45ed7ab",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "3b565319-aa53-4789-aed2-07a6a157b2e0",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "93bead37-190c-433a-8af4-9ccc74e37a58",
+      "createdAt": "2026-04-24T16:49:06.180Z",
+      "traceId": "0f52ed6a-1e8e-4e94-97e5-ca61c45ed7ab",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "3b565319-aa53-4789-aed2-07a6a157b2e0",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "62f26dca-b19f-4208-9a2d-2548fc524ebc",
+      "createdAt": "2026-04-24T16:49:06.182Z",
+      "traceId": "0f52ed6a-1e8e-4e94-97e5-ca61c45ed7ab",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "chief-agent",
+        "workflow": "notification_dispatch",
+        "userId": "m6-mobile-user",
+        "target": "chief-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"workflow\":\"notification_dispatch\",\"selectedAgent\":\"automation-agent\",\"reason\":\"Local OpenClaw cluster routed notification_dispatch to automation-agent.\",\"executionMode\":\"agent\",\"confidence\":0.9}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "a5316679-efcc-4b75-a214-8687b8067c66",
+      "createdAt": "2026-04-24T16:49:06.184Z",
+      "traceId": "e53505dd-b826-45e2-af08-4e05954d3b1b",
+      "parentTraceId": "0f52ed6a-1e8e-4e94-97e5-ca61c45ed7ab",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "86a06749-d33d-4a54-85a3-dea633c28da7",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "dcc9856d-edff-4f00-bc00-d330820aa8b0",
+      "createdAt": "2026-04-24T16:49:06.187Z",
+      "traceId": "e53505dd-b826-45e2-af08-4e05954d3b1b",
+      "parentTraceId": "0f52ed6a-1e8e-4e94-97e5-ca61c45ed7ab",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "86a06749-d33d-4a54-85a3-dea633c28da7",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "b22bb192-26a9-4903-9f6f-1cdbde983078",
+      "createdAt": "2026-04-24T16:49:06.189Z",
+      "traceId": "e53505dd-b826-45e2-af08-4e05954d3b1b",
+      "parentTraceId": "0f52ed6a-1e8e-4e94-97e5-ca61c45ed7ab",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed automation-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "automation-agent",
+        "workflow": "notification_dispatch",
+        "userId": "m6-mobile-user",
+        "target": "automation-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"title\":\"当前已进入需要主动收拢干扰和恢复节奏的阶段。\",\"message\":\"暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。\",\"channel\":\"mobile_push\",\"deliver\":true}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "97ccd7d8-c485-4243-b268-bec42ca7b4de",
+      "createdAt": "2026-04-24T16:49:06.193Z",
+      "traceId": "1e257699-cc46-4940-853c-fcab938c043b",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /media/upload-sessions/105737e3-702e-47f9-81d7-b6f224bc7660/complete -> 200",
+      "metadata": {
+        "method": "POST",
+        "url": "/media/upload-sessions/105737e3-702e-47f9-81d7-b6f224bc7660/complete",
+        "requestId": "req-b",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "cf274114-7237-4a65-b0a5-1856a0b3d86f",
+      "createdAt": "2026-04-24T16:49:06.293Z",
+      "traceId": "ec16d6b5-ed4a-41eb-8294-6be03bbad341",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /video/assessments",
+      "metadata": {
+        "method": "POST",
+        "url": "/video/assessments",
+        "requestId": "req-c"
+      }
+    },
+    {
+      "id": "3154589a-6e88-4d32-b9e8-028e1b8169a5",
+      "createdAt": "2026-04-24T16:49:06.298Z",
+      "traceId": "efe7b08e-1f2f-403f-a9d6-0a469490efbe",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "77ab8845-5712-4083-a37f-787f25a33aa5",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "e1992814-fcb6-4a1b-a6cb-6f71ec341535",
+      "createdAt": "2026-04-24T16:49:06.301Z",
+      "traceId": "efe7b08e-1f2f-403f-a9d6-0a469490efbe",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "77ab8845-5712-4083-a37f-787f25a33aa5",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "8591a4fd-cc67-4003-b099-709640fe88a1",
+      "createdAt": "2026-04-24T16:49:06.303Z",
+      "traceId": "efe7b08e-1f2f-403f-a9d6-0a469490efbe",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "chief-agent",
+        "workflow": "state_assessment",
+        "userId": "m6-mobile-user",
+        "target": "chief-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"workflow\":\"state_assessment\",\"selectedAgent\":\"state-insight-agent\",\"reason\":\"Local OpenClaw cluster routed state_assessment to state-insight-agent.\",\"executionMode\":\"agent\",\"confidence\":0.9}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "d42c1408-8f80-41da-adc9-127c66578d66",
+      "createdAt": "2026-04-24T16:49:06.305Z",
+      "traceId": "05f7a346-0cb7-4c59-8384-e7592d29c779",
+      "parentTraceId": "efe7b08e-1f2f-403f-a9d6-0a469490efbe",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for state-insight-agent",
+      "metadata": {
+        "target": "state-insight-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "f1d443b0-a10a-4d3f-aa57-4abc9016c602",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "a0d00575-1c7d-4d01-8a65-6b51e95fb93b",
+      "createdAt": "2026-04-24T16:49:06.308Z",
+      "traceId": "05f7a346-0cb7-4c59-8384-e7592d29c779",
+      "parentTraceId": "efe7b08e-1f2f-403f-a9d6-0a469490efbe",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for state-insight-agent",
+      "metadata": {
+        "target": "state-insight-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "f1d443b0-a10a-4d3f-aa57-4abc9016c602",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "ccf588c2-4aa7-4a2f-903b-5b6cc0b4cd57",
+      "createdAt": "2026-04-24T16:49:06.309Z",
+      "traceId": "05f7a346-0cb7-4c59-8384-e7592d29c779",
+      "parentTraceId": "efe7b08e-1f2f-403f-a9d6-0a469490efbe",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed state-insight-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "state-insight-agent",
+        "workflow": "state_assessment",
+        "userId": "m6-mobile-user",
+        "target": "state-insight-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"userId\":\"m6-mobile-user\",\"windowStart\":\"2026-04-24T16:34:06.307Z\",\"windowEnd\":\"2026-04-24T16:49:06.307Z\",\"focusScore\":58,\"energyScore\":45,\"moodScore\":48,\"summary\":\"当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。\",\"recommendedAction\":\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "def601fd-fc53-4649-8043-06e5e4d0495f",
+      "createdAt": "2026-04-24T16:49:06.314Z",
+      "traceId": "64eed197-c572-4c13-917e-d95b4683e4b0",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "e6be9be0-552f-4964-a73d-f83fa3175353",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "2be395ad-cf37-48cc-933c-b5decd672740",
+      "createdAt": "2026-04-24T16:49:06.317Z",
+      "traceId": "64eed197-c572-4c13-917e-d95b4683e4b0",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "e6be9be0-552f-4964-a73d-f83fa3175353",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "1636de22-9203-4dc7-b56b-bc60db690db6",
+      "createdAt": "2026-04-24T16:49:06.319Z",
+      "traceId": "64eed197-c572-4c13-917e-d95b4683e4b0",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "chief-agent",
+        "workflow": "notification_dispatch",
+        "userId": "m6-mobile-user",
+        "target": "chief-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"workflow\":\"notification_dispatch\",\"selectedAgent\":\"automation-agent\",\"reason\":\"Local OpenClaw cluster routed notification_dispatch to automation-agent.\",\"executionMode\":\"agent\",\"confidence\":0.9}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ba68a758-ac3b-45a2-ab47-904323dcfb7a",
+      "createdAt": "2026-04-24T16:49:06.320Z",
+      "traceId": "dc12e54b-8299-4912-9e9b-d1f35e0c6568",
+      "parentTraceId": "64eed197-c572-4c13-917e-d95b4683e4b0",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "59e7d925-f847-4325-bb5f-b54f62925acc",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "5d62418b-5176-452d-aa02-2e18ad99dcc0",
+      "createdAt": "2026-04-24T16:49:06.324Z",
+      "traceId": "dc12e54b-8299-4912-9e9b-d1f35e0c6568",
+      "parentTraceId": "64eed197-c572-4c13-917e-d95b4683e4b0",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "59e7d925-f847-4325-bb5f-b54f62925acc",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "0da1c3df-cbc2-44eb-9748-d7fcc2dd8cfd",
+      "createdAt": "2026-04-24T16:49:06.325Z",
+      "traceId": "dc12e54b-8299-4912-9e9b-d1f35e0c6568",
+      "parentTraceId": "64eed197-c572-4c13-917e-d95b4683e4b0",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed automation-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "automation-agent",
+        "workflow": "notification_dispatch",
+        "userId": "m6-mobile-user",
+        "target": "automation-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"userId\":\"m6-mobile-user\",\"assessmentId\":\"ec3273ec-3121-41de-a6ab-f240565ff94a\",\"riskLevel\":\"high\",\"summary\":\"当前已进入需要主动收拢干扰和恢复节奏的阶段。\",\"suggestedAction\":\"暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。\",\"trigger\":\"behavior_conclusion\",\"recommendedChannel\":\"m"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cd33df7f-fea1-4ab2-bcda-30a8d3909f96",
+      "createdAt": "2026-04-24T16:49:06.328Z",
+      "traceId": "e75e3d20-2465-4ac9-b75e-8c5c1d69d815",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "9eb6699e-1964-43cb-9cef-d675384c7324",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "9b088df2-377d-4d30-85ef-294f88467c4f",
+      "createdAt": "2026-04-24T16:49:06.331Z",
+      "traceId": "e75e3d20-2465-4ac9-b75e-8c5c1d69d815",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "9eb6699e-1964-43cb-9cef-d675384c7324",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "6d926986-59bc-436f-b345-bfaac8e0a6d6",
+      "createdAt": "2026-04-24T16:49:06.333Z",
+      "traceId": "e75e3d20-2465-4ac9-b75e-8c5c1d69d815",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "chief-agent",
+        "workflow": "notification_dispatch",
+        "userId": "m6-mobile-user",
+        "target": "chief-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"workflow\":\"notification_dispatch\",\"selectedAgent\":\"automation-agent\",\"reason\":\"Local OpenClaw cluster routed notification_dispatch to automation-agent.\",\"executionMode\":\"agent\",\"confidence\":0.9}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "3ff5627c-2226-491d-8f6c-b9ffb6721c59",
+      "createdAt": "2026-04-24T16:49:06.335Z",
+      "traceId": "e542b1b3-4832-4cb7-84f3-bc8fee71a9a0",
+      "parentTraceId": "e75e3d20-2465-4ac9-b75e-8c5c1d69d815",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "1b8b42c5-abe5-4160-b1ea-cce7799bd7ee",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "646cd7b2-3beb-4155-bd96-1f0bb4941f89",
+      "createdAt": "2026-04-24T16:49:06.337Z",
+      "traceId": "e542b1b3-4832-4cb7-84f3-bc8fee71a9a0",
+      "parentTraceId": "e75e3d20-2465-4ac9-b75e-8c5c1d69d815",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "1b8b42c5-abe5-4160-b1ea-cce7799bd7ee",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "c04238cc-d544-42b1-82c9-bc7c8e5ebc26",
+      "createdAt": "2026-04-24T16:49:06.339Z",
+      "traceId": "e542b1b3-4832-4cb7-84f3-bc8fee71a9a0",
+      "parentTraceId": "e75e3d20-2465-4ac9-b75e-8c5c1d69d815",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed automation-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "automation-agent",
+        "workflow": "notification_dispatch",
+        "userId": "m6-mobile-user",
+        "target": "automation-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"title\":\"当前已进入需要主动收拢干扰和恢复节奏的阶段。\",\"message\":\"暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。\",\"channel\":\"mobile_push\",\"deliver\":true}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "1fd5fce0-7293-4f3b-8f34-af1e5385af41",
+      "createdAt": "2026-04-24T16:49:06.343Z",
+      "traceId": "ec16d6b5-ed4a-41eb-8294-6be03bbad341",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /video/assessments -> 201",
+      "metadata": {
+        "method": "POST",
+        "url": "/video/assessments",
+        "requestId": "req-c",
+        "statusCode": 201
+      }
+    },
+    {
+      "id": "f686a9e1-cbf9-4827-9294-0ee4f977df8d",
+      "createdAt": "2026-04-24T16:49:06.460Z",
+      "traceId": "c1d4723d-99e4-4962-9487-8a2109e0d0f5",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /health/snapshots",
+      "metadata": {
+        "method": "POST",
+        "url": "/health/snapshots",
+        "requestId": "req-d"
+      }
+    },
+    {
+      "id": "31496ba2-31fe-44d7-a3b5-8daaf1c39481",
+      "createdAt": "2026-04-24T16:49:06.465Z",
+      "traceId": "acda5f1f-1aa5-45c9-96cf-063ebdff365b",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "6b3e6a76-c0a8-4e3f-8a64-d8ce69dce20d",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "a798de99-035b-4414-b437-af5c9b3423b3",
+      "createdAt": "2026-04-24T16:49:06.468Z",
+      "traceId": "acda5f1f-1aa5-45c9-96cf-063ebdff365b",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "6b3e6a76-c0a8-4e3f-8a64-d8ce69dce20d",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "5c2fd72f-e8a8-4fea-bdc9-92b22f710543",
+      "createdAt": "2026-04-24T16:49:06.469Z",
+      "traceId": "acda5f1f-1aa5-45c9-96cf-063ebdff365b",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "chief-agent",
+        "workflow": "state_assessment",
+        "userId": "m6-mobile-user",
+        "target": "chief-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"workflow\":\"state_assessment\",\"selectedAgent\":\"state-insight-agent\",\"reason\":\"Local OpenClaw cluster routed state_assessment to state-insight-agent.\",\"executionMode\":\"agent\",\"confidence\":0.9}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "80186d2f-cc28-4653-a9fe-a9fcf843c02e",
+      "createdAt": "2026-04-24T16:49:06.471Z",
+      "traceId": "ad6e0441-86f5-469d-934d-b716566ca9e2",
+      "parentTraceId": "acda5f1f-1aa5-45c9-96cf-063ebdff365b",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for state-insight-agent",
+      "metadata": {
+        "target": "state-insight-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "5e500678-aa7f-4a3f-9c7c-f3665ef83e91",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "2b7ae0dd-43fd-4187-9c4d-22b2ac43748c",
+      "createdAt": "2026-04-24T16:49:06.475Z",
+      "traceId": "ad6e0441-86f5-469d-934d-b716566ca9e2",
+      "parentTraceId": "acda5f1f-1aa5-45c9-96cf-063ebdff365b",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for state-insight-agent",
+      "metadata": {
+        "target": "state-insight-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "5e500678-aa7f-4a3f-9c7c-f3665ef83e91",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "93bc51d1-b707-49bd-b968-18a830e8f696",
+      "createdAt": "2026-04-24T16:49:06.476Z",
+      "traceId": "ad6e0441-86f5-469d-934d-b716566ca9e2",
+      "parentTraceId": "acda5f1f-1aa5-45c9-96cf-063ebdff365b",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed state-insight-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "state-insight-agent",
+        "workflow": "state_assessment",
+        "userId": "m6-mobile-user",
+        "target": "state-insight-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"userId\":\"m6-mobile-user\",\"windowStart\":\"2026-04-24T16:34:06.473Z\",\"windowEnd\":\"2026-04-24T16:49:06.473Z\",\"focusScore\":58,\"energyScore\":45,\"moodScore\":48,\"summary\":\"当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。\",\"recommendedAction\":\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "b4d2a7f7-e95e-4826-bfa2-35c8e206bedd",
+      "createdAt": "2026-04-24T16:49:06.481Z",
+      "traceId": "b21dbc6f-87e9-4836-b84a-dbfb162141af",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "6da46c9e-abb6-4665-ab35-e50ed02e69eb",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "640b44c8-363d-41e1-b846-a9ae431952de",
+      "createdAt": "2026-04-24T16:49:06.484Z",
+      "traceId": "b21dbc6f-87e9-4836-b84a-dbfb162141af",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "6da46c9e-abb6-4665-ab35-e50ed02e69eb",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "652a2047-3cee-486f-8af2-9a12c2c7cc2b",
+      "createdAt": "2026-04-24T16:49:06.485Z",
+      "traceId": "b21dbc6f-87e9-4836-b84a-dbfb162141af",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "chief-agent",
+        "workflow": "notification_dispatch",
+        "userId": "m6-mobile-user",
+        "target": "chief-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"workflow\":\"notification_dispatch\",\"selectedAgent\":\"automation-agent\",\"reason\":\"Local OpenClaw cluster routed notification_dispatch to automation-agent.\",\"executionMode\":\"agent\",\"confidence\":0.9}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "2e413b53-c41a-431d-932b-b8a8de3953e1",
+      "createdAt": "2026-04-24T16:49:06.487Z",
+      "traceId": "651b94f1-444d-4304-b90f-e4bc8de7f1c4",
+      "parentTraceId": "b21dbc6f-87e9-4836-b84a-dbfb162141af",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "7c2d0a39-6f16-48de-8997-f3861fde196c",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "9983f7a3-1971-4871-a20f-cc2359b8e40f",
+      "createdAt": "2026-04-24T16:49:06.490Z",
+      "traceId": "651b94f1-444d-4304-b90f-e4bc8de7f1c4",
+      "parentTraceId": "b21dbc6f-87e9-4836-b84a-dbfb162141af",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "7c2d0a39-6f16-48de-8997-f3861fde196c",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "cb11e3c3-8c3d-4466-b82d-7f9a72d070d5",
+      "createdAt": "2026-04-24T16:49:06.491Z",
+      "traceId": "651b94f1-444d-4304-b90f-e4bc8de7f1c4",
+      "parentTraceId": "b21dbc6f-87e9-4836-b84a-dbfb162141af",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed automation-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "automation-agent",
+        "workflow": "notification_dispatch",
+        "userId": "m6-mobile-user",
+        "target": "automation-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"userId\":\"m6-mobile-user\",\"assessmentId\":\"d5aa0fed-2e81-4f84-85c0-3a9cdca6fe40\",\"riskLevel\":\"high\",\"summary\":\"当前已进入需要主动收拢干扰和恢复节奏的阶段。\",\"suggestedAction\":\"暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。\",\"trigger\":\"behavior_conclusion\",\"recommendedChannel\":\"m"
+          }
+        ]
+      }
+    },
+    {
+      "id": "273c78b7-ffe0-4987-a0e3-25e1e0ab291f",
+      "createdAt": "2026-04-24T16:49:06.494Z",
+      "traceId": "c9457543-004c-4ec9-bf8f-4c52ba333c63",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "4d154e22-40c8-42d0-b93b-bbc516ce82e2",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "e2aa9f12-5e09-47e5-a217-c27e581e2b86",
+      "createdAt": "2026-04-24T16:49:06.497Z",
+      "traceId": "c9457543-004c-4ec9-bf8f-4c52ba333c63",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "4d154e22-40c8-42d0-b93b-bbc516ce82e2",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "fb37b981-16d0-493e-ac71-629132b78808",
+      "createdAt": "2026-04-24T16:49:06.499Z",
+      "traceId": "c9457543-004c-4ec9-bf8f-4c52ba333c63",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "chief-agent",
+        "workflow": "notification_dispatch",
+        "userId": "m6-mobile-user",
+        "target": "chief-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"workflow\":\"notification_dispatch\",\"selectedAgent\":\"automation-agent\",\"reason\":\"Local OpenClaw cluster routed notification_dispatch to automation-agent.\",\"executionMode\":\"agent\",\"confidence\":0.9}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "0bc05767-8c81-46cb-a57e-ad85131fe325",
+      "createdAt": "2026-04-24T16:49:06.500Z",
+      "traceId": "b1da4fa5-09ff-4cea-b7ef-6608724dca18",
+      "parentTraceId": "c9457543-004c-4ec9-bf8f-4c52ba333c63",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "3dd7721d-cd46-400a-bbcc-a96788fc9283",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "d82a04eb-30ba-4f91-a3b6-f8431710454b",
+      "createdAt": "2026-04-24T16:49:06.502Z",
+      "traceId": "b1da4fa5-09ff-4cea-b7ef-6608724dca18",
+      "parentTraceId": "c9457543-004c-4ec9-bf8f-4c52ba333c63",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "3dd7721d-cd46-400a-bbcc-a96788fc9283",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "e154d6fd-a075-47b2-97b2-8e2d5b77ee26",
+      "createdAt": "2026-04-24T16:49:06.503Z",
+      "traceId": "b1da4fa5-09ff-4cea-b7ef-6608724dca18",
+      "parentTraceId": "c9457543-004c-4ec9-bf8f-4c52ba333c63",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed automation-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "automation-agent",
+        "workflow": "notification_dispatch",
+        "userId": "m6-mobile-user",
+        "target": "automation-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"title\":\"当前已进入需要主动收拢干扰和恢复节奏的阶段。\",\"message\":\"暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。\",\"channel\":\"mobile_push\",\"deliver\":true}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "9145dcaf-b8b3-4c42-8c52-8474618d11ed",
+      "createdAt": "2026-04-24T16:49:06.506Z",
+      "traceId": "c1d4723d-99e4-4962-9487-8a2109e0d0f5",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /health/snapshots -> 201",
+      "metadata": {
+        "method": "POST",
+        "url": "/health/snapshots",
+        "requestId": "req-d",
+        "statusCode": 201
+      }
+    },
+    {
+      "id": "a7713ead-4088-4132-b392-bdbb88a51014",
+      "createdAt": "2026-04-24T16:49:06.616Z",
+      "traceId": "9342eef2-9f71-4f71-aabe-bbf881a46d22",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /mobile/capture/sessions/end",
+      "metadata": {
+        "method": "POST",
+        "url": "/mobile/capture/sessions/end",
+        "requestId": "req-e"
+      }
+    },
+    {
+      "id": "248c42d5-bf23-4b71-a142-3ece5778a748",
+      "createdAt": "2026-04-24T16:49:06.620Z",
+      "traceId": "9342eef2-9f71-4f71-aabe-bbf881a46d22",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /mobile/capture/sessions/end -> 200",
+      "metadata": {
+        "method": "POST",
+        "url": "/mobile/capture/sessions/end",
+        "requestId": "req-e",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "fc1d8beb-5ead-42c4-9710-96827ad6828f",
+      "createdAt": "2026-04-24T16:49:06.724Z",
+      "traceId": "a11420fa-a2e7-4492-92ea-a03c5dfc927e",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /recovery/plan",
+      "metadata": {
+        "method": "POST",
+        "url": "/recovery/plan",
+        "requestId": "req-f"
+      }
+    },
+    {
+      "id": "42df446e-11c4-49c8-883d-c7bbcf6439ff",
+      "createdAt": "2026-04-24T16:49:06.730Z",
+      "traceId": "116908dd-444f-404d-92b7-de47f318f3a3",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "640c3697-7b74-4d0a-92fe-52717a9f0f5e",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "fdf123dd-787d-4d39-a3d4-fdb969981a6c",
+      "createdAt": "2026-04-24T16:49:06.734Z",
+      "traceId": "116908dd-444f-404d-92b7-de47f318f3a3",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "640c3697-7b74-4d0a-92fe-52717a9f0f5e",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "e20f65e4-0c0b-4b52-af73-443666c16162",
+      "createdAt": "2026-04-24T16:49:06.736Z",
+      "traceId": "116908dd-444f-404d-92b7-de47f318f3a3",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "chief-agent",
+        "workflow": "recovery_plan",
+        "userId": "m6-mobile-user",
+        "target": "chief-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"workflow\":\"recovery_plan\",\"selectedAgent\":\"interruption-recovery-agent\",\"reason\":\"Local OpenClaw cluster routed recovery_plan to interruption-recovery-agent.\",\"executionMode\":\"agent\",\"confidence\":0.9}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "25259037-a09e-45d7-b936-8827b378588e",
+      "createdAt": "2026-04-24T16:49:06.738Z",
+      "traceId": "6c8d9fbb-f4c5-4f77-b29c-92e279398c3f",
+      "parentTraceId": "116908dd-444f-404d-92b7-de47f318f3a3",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for interruption-recovery-agent",
+      "metadata": {
+        "target": "interruption-recovery-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "d1777c52-23b8-49b3-8fd5-a8e0db9a6c3c",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "f776a38a-c96c-49f4-8f52-4280c8d87df2",
+      "createdAt": "2026-04-24T16:49:06.743Z",
+      "traceId": "6c8d9fbb-f4c5-4f77-b29c-92e279398c3f",
+      "parentTraceId": "116908dd-444f-404d-92b7-de47f318f3a3",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for interruption-recovery-agent",
+      "metadata": {
+        "target": "interruption-recovery-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "d1777c52-23b8-49b3-8fd5-a8e0db9a6c3c",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "e888dd2c-7ca0-4355-8f59-62283759cae5",
+      "createdAt": "2026-04-24T16:49:06.745Z",
+      "traceId": "6c8d9fbb-f4c5-4f77-b29c-92e279398c3f",
+      "parentTraceId": "116908dd-444f-404d-92b7-de47f318f3a3",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed interruption-recovery-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "interruption-recovery-agent",
+        "workflow": "recovery_plan",
+        "userId": "m6-mobile-user",
+        "target": "interruption-recovery-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"reason\":\"attention_shift_after_interruption\",\"nextStep\":\"先回到「当前主任务」，只推进一个最小切片，避免继续切去处理旁支任务。\",\"suggestedMinutes\":25,\"reprioritizedTaskIds\":[]}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "0d443ff7-6166-4641-b20c-971a3508f80f",
+      "createdAt": "2026-04-24T16:49:06.749Z",
+      "traceId": "a11420fa-a2e7-4492-92ea-a03c5dfc927e",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /recovery/plan -> 200",
+      "metadata": {
+        "method": "POST",
+        "url": "/recovery/plan",
+        "requestId": "req-f",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "7ac11291-9349-4601-9d51-0ebbf5083747",
+      "createdAt": "2026-04-24T16:49:06.843Z",
+      "traceId": "ead8d661-3f36-4a21-b89c-85a18e33a765",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /recovery/history?userId=m6-mobile-user",
+      "metadata": {
+        "method": "GET",
+        "url": "/recovery/history?userId=m6-mobile-user",
+        "requestId": "req-g"
+      }
+    },
+    {
+      "id": "35808d28-2bd8-4ad4-87ca-6b0d160527a4",
+      "createdAt": "2026-04-24T16:49:06.847Z",
+      "traceId": "2546bb11-db23-4278-a54f-1b231dee41f5",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "8181b6ba-5d97-410b-ae9b-3f6b486c1537",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "f6160c5f-364f-4c3d-8d63-82d53c6accd6",
+      "createdAt": "2026-04-24T16:49:06.855Z",
+      "traceId": "2546bb11-db23-4278-a54f-1b231dee41f5",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "8181b6ba-5d97-410b-ae9b-3f6b486c1537",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "a017b037-2e24-49f5-ab52-502335a7f439",
+      "createdAt": "2026-04-24T16:49:06.858Z",
+      "traceId": "2546bb11-db23-4278-a54f-1b231dee41f5",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "chief-agent",
+        "workflow": "task_management",
+        "userId": "m6-mobile-user",
+        "target": "chief-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"workflow\":\"task_management\",\"selectedAgent\":\"task-management-agent\",\"reason\":\"Local OpenClaw cluster routed task_management to task-management-agent.\",\"executionMode\":\"agent\",\"confidence\":0.9}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "38c83ec9-5dc7-4f00-be1b-5b5552fc62e5",
+      "createdAt": "2026-04-24T16:49:06.861Z",
+      "traceId": "a71cb639-4288-4054-bf90-3af6d7821ada",
+      "parentTraceId": "2546bb11-db23-4278-a54f-1b231dee41f5",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for task-management-agent",
+      "metadata": {
+        "target": "task-management-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "da3082dc-336d-4676-bcc7-f565aff9f022",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "e4c77706-a466-480d-a622-ade8cfe2f258",
+      "createdAt": "2026-04-24T16:49:06.866Z",
+      "traceId": "a71cb639-4288-4054-bf90-3af6d7821ada",
+      "parentTraceId": "2546bb11-db23-4278-a54f-1b231dee41f5",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for task-management-agent",
+      "metadata": {
+        "target": "task-management-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "da3082dc-336d-4676-bcc7-f565aff9f022",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "a0bb8128-db7e-46f2-a532-38dc3b24238b",
+      "createdAt": "2026-04-24T16:49:06.868Z",
+      "traceId": "a71cb639-4288-4054-bf90-3af6d7821ada",
+      "parentTraceId": "2546bb11-db23-4278-a54f-1b231dee41f5",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed task-management-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "task-management-agent",
+        "workflow": "task_management",
+        "userId": "m6-mobile-user",
+        "target": "task-management-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"orderedTaskIds\":[],\"summary\":\"当前还没有足够任务，建议先补齐目标拆解，再开始稳定执行。\",\"suggestedTasks\":[{\"title\":\"明确本周唯一最重要目标\",\"priority\":\"high\",\"estimatedMinutes\":20},{\"title\":\"拆出 2 到 3 个最小可执行任务\",\"priority\":\"medium\",\"estimatedMinutes\":25}]}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "2cc06bac-8be7-4403-94a5-d82208943777",
+      "createdAt": "2026-04-24T16:49:06.872Z",
+      "traceId": "ead8d661-3f36-4a21-b89c-85a18e33a765",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /recovery/history?userId=m6-mobile-user -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/recovery/history?userId=m6-mobile-user",
+        "requestId": "req-g",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "e322b800-cf69-4f03-82c0-1f15384b67f4",
+      "createdAt": "2026-04-24T16:49:06.979Z",
+      "traceId": "2a6ab3d2-1ea2-4ccf-9579-9c7be2389ef3",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /health/latest?userId=m6-mobile-user",
+      "metadata": {
+        "method": "GET",
+        "url": "/health/latest?userId=m6-mobile-user",
+        "requestId": "req-h"
+      }
+    },
+    {
+      "id": "5289c30d-fa35-4abd-a112-ef9878edbc0b",
+      "createdAt": "2026-04-24T16:49:06.983Z",
+      "traceId": "2a6ab3d2-1ea2-4ccf-9579-9c7be2389ef3",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /health/latest?userId=m6-mobile-user -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/health/latest?userId=m6-mobile-user",
+        "requestId": "req-h",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "97651de7-37b3-42ae-9469-fecdf7026b52",
+      "createdAt": "2026-04-24T16:49:07.072Z",
+      "traceId": "82adff2c-4d56-4b6b-b00a-27895191587b",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /client/inbox?userId=m6-mobile-user",
+      "metadata": {
+        "method": "GET",
+        "url": "/client/inbox?userId=m6-mobile-user",
+        "requestId": "req-i"
+      }
+    },
+    {
+      "id": "be4c060c-d939-44f7-b64a-f96874b96f53",
+      "createdAt": "2026-04-24T16:49:07.076Z",
+      "traceId": "82adff2c-4d56-4b6b-b00a-27895191587b",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /client/inbox?userId=m6-mobile-user -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/client/inbox?userId=m6-mobile-user",
+        "requestId": "req-i",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "0331b417-8d3e-4135-ae68-726cbbc36597",
+      "createdAt": "2026-04-24T16:49:07.196Z",
+      "traceId": "1206ae53-4e3e-4eaa-8a1f-39dee0b95540",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /client/inbox/fdeead23-d8cd-485b-a0f7-de0ef59812d8/ack",
+      "metadata": {
+        "method": "POST",
+        "url": "/client/inbox/fdeead23-d8cd-485b-a0f7-de0ef59812d8/ack",
+        "requestId": "req-j"
+      }
+    },
+    {
+      "id": "79d37a45-3df0-4ab3-bf30-c87d6ce4d736",
+      "createdAt": "2026-04-24T16:49:07.202Z",
+      "traceId": "1206ae53-4e3e-4eaa-8a1f-39dee0b95540",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /client/inbox/fdeead23-d8cd-485b-a0f7-de0ef59812d8/ack -> 200",
+      "metadata": {
+        "method": "POST",
+        "url": "/client/inbox/fdeead23-d8cd-485b-a0f7-de0ef59812d8/ack",
+        "requestId": "req-j",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "b1fb82ea-668e-4218-aca0-e7451061964f",
+      "createdAt": "2026-04-24T16:49:07.271Z",
+      "traceId": "6ffc23f5-07c6-4cee-bf0d-6fab65941965",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /dashboard/summary?userId=m6-mobile-user",
+      "metadata": {
+        "method": "GET",
+        "url": "/dashboard/summary?userId=m6-mobile-user",
+        "requestId": "req-k"
+      }
+    },
+    {
+      "id": "12fbe92d-83d3-45e4-80a3-237d74022455",
+      "createdAt": "2026-04-24T16:49:07.275Z",
+      "traceId": "81195052-e76f-472a-bd7f-5b84975026ae",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "ac5e0d22-80d5-4e94-9887-0714acb7fde2",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "a0020a16-9a65-45ad-9c4a-6d3449bb9376",
+      "createdAt": "2026-04-24T16:49:07.279Z",
+      "traceId": "81195052-e76f-472a-bd7f-5b84975026ae",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "ac5e0d22-80d5-4e94-9887-0714acb7fde2",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "cf46cf74-210e-429d-a727-c805377ea70c",
+      "createdAt": "2026-04-24T16:49:07.282Z",
+      "traceId": "81195052-e76f-472a-bd7f-5b84975026ae",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "chief-agent",
+        "workflow": "progress_summary",
+        "userId": "m6-mobile-user",
+        "target": "chief-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"workflow\":\"progress_summary\",\"selectedAgent\":\"progress-feedback-agent\",\"reason\":\"Local OpenClaw cluster routed progress_summary to progress-feedback-agent.\",\"executionMode\":\"agent\",\"confidence\":0.9}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "c4592d0f-39e9-4fc0-bfeb-faf9986f06c7",
+      "createdAt": "2026-04-24T16:49:07.284Z",
+      "traceId": "2b448916-2d6c-4c5f-9f21-218bb33607c1",
+      "parentTraceId": "81195052-e76f-472a-bd7f-5b84975026ae",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for progress-feedback-agent",
+      "metadata": {
+        "target": "progress-feedback-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "3672dd09-9d79-4ca8-8400-90f3c05f3099",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "beb85f50-fd4b-4d7e-a9dd-2b2d3a64a54c",
+      "createdAt": "2026-04-24T16:49:07.289Z",
+      "traceId": "2b448916-2d6c-4c5f-9f21-218bb33607c1",
+      "parentTraceId": "81195052-e76f-472a-bd7f-5b84975026ae",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for progress-feedback-agent",
+      "metadata": {
+        "target": "progress-feedback-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "generate",
+        "taskId": "3672dd09-9d79-4ca8-8400-90f3c05f3099",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "1413b0c9-973d-4b6d-b307-6d435b429443",
+      "createdAt": "2026-04-24T16:49:07.292Z",
+      "traceId": "2b448916-2d6c-4c5f-9f21-218bb33607c1",
+      "parentTraceId": "81195052-e76f-472a-bd7f-5b84975026ae",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed progress-feedback-agent via cluster",
+      "metadata": {
+        "operation": "generate",
+        "agentName": "progress-feedback-agent",
+        "workflow": "progress_summary",
+        "userId": "m6-mobile-user",
+        "target": "progress-feedback-agent",
+        "mode": "generate",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"goalCount\":0,\"taskCount\":0,\"completedTaskCount\":0,\"inProgressTaskCount\":0,\"blockedTaskCount\":0,\"completionRate\":0,\"openInterventions\":2,\"suggestedFocusTaskId\":null,\"summaryHeadline\":\"当前已有恢复方案，建议先按恢复方案收拢主线，再继续推进最重要任务。\",\"activeSession\":null"
+          }
+        ]
+      }
+    },
+    {
+      "id": "5f66ee78-1d1a-42c1-a483-c66b62e30f72",
+      "createdAt": "2026-04-24T16:49:07.295Z",
+      "traceId": "6ffc23f5-07c6-4cee-bf0d-6fab65941965",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /dashboard/summary?userId=m6-mobile-user -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/dashboard/summary?userId=m6-mobile-user",
+        "requestId": "req-k",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "f7a5a15b-059e-46ac-b7af-b99603f9b61b",
+      "createdAt": "2026-04-24T16:49:07.369Z",
+      "traceId": "33343363-8f28-456c-bc51-ae49469a35e7",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /client/inbox/overview?userId=m6-mobile-user",
+      "metadata": {
+        "method": "GET",
+        "url": "/client/inbox/overview?userId=m6-mobile-user",
+        "requestId": "req-l"
+      }
+    },
+    {
+      "id": "f7662b17-5276-44b3-90d7-763be9f4bd6e",
+      "createdAt": "2026-04-24T16:49:07.373Z",
+      "traceId": "33343363-8f28-456c-bc51-ae49469a35e7",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /client/inbox/overview?userId=m6-mobile-user -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/client/inbox/overview?userId=m6-mobile-user",
+        "requestId": "req-l",
+        "statusCode": 200
+      }
+    }
+  ],
+  "localAuthUsers": []
+}

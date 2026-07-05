@@ -1,0 +1,185 @@
+{
+  "generatedAt": "2026-04-24T15:44:03.979Z",
+  "startedAt": "2026-04-24T15:44:03.979Z",
+  "completedAt": "2026-04-24T15:44:06.434Z",
+  "durationMs": 2455,
+  "apiBaseUrl": "http://127.0.0.1:3011",
+  "apiLanBaseUrl": "http://192.168.0.104:3011",
+  "openClawBaseUrl": "http://192.168.0.104:8800",
+  "device": {
+    "serial": "320146882257",
+    "model": "NX733J",
+    "androidVersion": "15",
+    "wifiIp": "192.168.0.100",
+    "curlPath": "/system/bin/curl"
+  },
+  "preflight": {
+    "adbDeviceConnected": true,
+    "wifiIpDetected": true,
+    "curlAvailable": true,
+    "gatewayLanHealthOk": true
+  },
+  "options": {
+    "apiHost": "0.0.0.0",
+    "preferredApiPort": 3011,
+    "userId": "m6-mobile-user",
+    "deviceId": "android-m6-capture",
+    "profileName": "dev"
+  },
+  "steps": [
+    {
+      "label": "mobile-device-register",
+      "method": "POST",
+      "endpoint": "/mobile/devices/register",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": null,
+        "deviceId": null
+      },
+      "response": {
+        "raw": "{\"id\":\"77e4419a-0397-41c2-aeed-f2e073ae3baf\",\"userId\":\"m6-mobile-user\",\"deviceId\":\"android-m6-capture\",\"deviceName\":\"NX733J\",\"platform\":\"android\",\"appVersion\":\"m6-adb-e2e\",\"platformVersion\":\"15\",\"pairingState\":\"paired\",\"desktopHost\":\"192.168.0.104\",\"consentAcknowledgedAt\":\"2026-04-24T15:44:05.147Z\",\"lastSeenAt\":\"2026-04-24T15:44:05.221Z\",\"createdAt\":\"2026-04-24T15:44:05.221Z\",\"updatedAt\":\"2026-04-24T15:44:05.221Z\"}n"
+      }
+    },
+    {
+      "label": "edge-device-register",
+      "method": "POST",
+      "endpoint": "/devices/register",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": null,
+        "deviceId": null
+      },
+      "response": {
+        "raw": "{\"id\":\"fa1a2d13-08d3-4335-ba5f-ae8c7f73a4d5\",\"userId\":\"m6-mobile-user\",\"deviceId\":\"android-m6-capture\",\"label\":\"NX733J\",\"deviceType\":\"mobile\",\"platform\":\"android\",\"capabilities\":[\"notifications\",\"audio_capture\",\"video_capture\",\"health_bridge\"],\"status\":\"online\",\"appVersion\":\"m6-adb-e2e\",\"queueDepth\":0,\"lastSeenAt\":\"2026-04-24T15:44:05.312Z\",\"createdAt\":\"2026-04-24T15:44:05.222Z\",\"updatedAt\":\"2026-04-24T15:44:05.312Z\"}n"
+      }
+    },
+    {
+      "label": "device-heartbeat",
+      "method": "POST",
+      "endpoint": "/devices/heartbeat",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "id": null,
+        "deviceId": null
+      },
+      "response": {
+        "raw": "{\"id\":\"fa1a2d13-08d3-4335-ba5f-ae8c7f73a4d5\",\"userId\":\"m6-mobile-user\",\"deviceId\":\"android-m6-capture\",\"label\":\"NX733J\",\"deviceType\":\"mobile\",\"platform\":\"android\",\"capabilities\":[\"notifications\",\"audio_capture\",\"video_capture\",\"health_bridge\"],\"status\":\"online\",\"appVersion\":\"m6-adb-e2e\",\"queueDepth\":0,\"lastSeenAt\":\"2026-04-24T15:44:05.400Z\",\"createdAt\":\"2026-04-24T15:44:05.222Z\",\"updatedAt\":\"2026-04-24T15:44:05.400Z\",\"lastUploadedAt\":\"2026-04-24T15:44:05.321Z\"}n"
+      }
+    },
+    {
+      "label": "audio-session-start",
+      "method": "POST",
+      "endpoint": "/mobile/capture/sessions/start",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "sessionId": null,
+        "status": null
+      },
+      "response": {
+        "raw": "{\"id\":\"2a767a3b-39c9-4f55-b43d-6cea12d422bb\",\"userId\":\"m6-mobile-user\",\"deviceId\":\"android-m6-capture\",\"captureMode\":\"foreground_microphone_with_call_events\",\"status\":\"active\",\"sampleRateHz\":16000,\"channels\":1,\"encoding\":\"audio/pcm16le\",\"chunkDurationMs\":1000,\"rollingBufferSeconds\":60,\"receivedChunkCount\":0,\"startedAt\":\"2026-04-24T15:42:05.147Z\"}n"
+      }
+    },
+    {
+      "label": "call-event",
+      "method": "POST",
+      "endpoint": "/mobile/call-events",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": null,
+        "deviceId": null,
+        "sessionId": null
+      },
+      "response": {
+        "raw": "{\"id\":\"ce312da5-78d0-4541-811a-d10ee3bacb1b\",\"userId\":\"m6-mobile-user\",\"deviceId\":\"android-m6-capture\",\"direction\":\"incoming\",\"status\":\"missed\",\"occurredAt\":\"2026-04-24T15:43:05.476Z\",\"createdAt\":\"2026-04-24T15:44:05.543Z\"}n"
+      }
+    },
+    {
+      "label": "emotion-assessment",
+      "method": "POST",
+      "endpoint": "/emotion/assessments",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": null,
+        "deviceId": null,
+        "sessionId": null
+      },
+      "response": {
+        "raw": "{\"id\":\"ae418740-e1fb-403b-9d5c-4ac90fcd0d23\",\"userId\":\"m6-mobile-user\",\"deviceId\":\"android-m6-capture\",\"chunkSequence\":0,\"windowStart\":\"2026-04-24T15:42:35.147Z\",\"windowEnd\":\"2026-04-24T15:44:05.147Z\",\"emotionLabel\":\"stressed\",\"valenceScore\":20,\"arousalScore\":28,\"stressScore\":88,\"confidence\":0.91,\"summary\":\"High stress detected during Android capture window.\",\"modelName\":\"m6-adb-e2e\",\"source\":\"cluster-openai-compatible\",\"createdAt\":\"2026-04-24T15:44:05.730Z\"}n"
+      }
+    },
+    {
+      "label": "media-upload-session",
+      "method": "POST",
+      "endpoint": "/media/upload-sessions",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "sessionId": null,
+        "status": null
+      },
+      "response": {
+        "raw": "{\"id\":\"1782930f-13f2-4c8d-9cc3-583e29123f7f\",\"userId\":\"m6-mobile-user\",\"deviceId\":\"android-m6-capture\",\"mediaType\":\"video\",\"contentType\":\"video/webm\",\"storageBucket\":\"mindanchor-media\",\"objectKey\":\"m6-mobile-user/android-m6-capture/video/6c43d9fc-9595-4fc5-90ca-d50ed4dc1559\",\"uploadUrl\":\"stub://openclaw-storage/m6-mobile-user/android-m6-capture/video/6c43d9fc-9595-4fc5-90ca-d50ed4dc1559\",\"status\":\"pending\",\"plannedPartCount\":1,\"captureStartedAt\":\"2026-04-24T15:42:05.147Z\",\"captureEndedAt\":\"2026-04-24T15:43:35.147Z\",\"ttlExpiresAt\":\"2026-04-25T15:44:05.856Z\",\"createdAt\":\"2026-04-24T15:44:05.856Z\",\"updatedAt\":\"2026-04-24T15:44:05.856Z\"}n"
+      }
+    },
+    {
+      "label": "media-upload-part",
+      "method": "POST",
+      "endpoint": "/media/upload-sessions/undefined/parts",
+      "status": 400,
+      "ok": false,
+      "responseIds": {
+        "id": null,
+        "sessionId": null,
+        "sequence": null
+      },
+      "response": {
+        "raw": "{\"message\":\"Invalid request.\",\"issues\":[{\"code\":\"invalid_type\",\"expected\":\"string\",\"received\":\"undefined\",\"path\":[\"sessionId\"],\"message\":\"Required\"}]}n"
+      }
+    }
+  ],
+  "responseIds": {
+    "mobileDeviceId": null,
+    "audioSessionId": null,
+    "callEventId": null,
+    "emotionAssessmentId": null,
+    "mediaUploadSessionId": null
+  },
+  "readModels": {
+    "healthLatestReflectsDevice": false,
+    "dashboardReflectsDevice": false,
+    "inboxOverviewOk": false
+  },
+  "errors": [
+    "media-upload-part failed with HTTP 400"
+  ],
+  "summary": {
+    "passed": false,
+    "totalSteps": 8,
+    "failedSteps": 1,
+    "readModels": {
+      "healthLatestReflectsDevice": false,
+      "dashboardReflectsDevice": false,
+      "inboxOverviewOk": false
+    },
+    "responseIds": {
+      "mobileDeviceId": null,
+      "audioSessionId": null,
+      "callEventId": null,
+      "emotionAssessmentId": null,
+      "mediaUploadSessionId": null
+    },
+    "errorSamples": [
+      "media-upload-part failed with HTTP 400",
+      "read model check failed: healthLatestReflectsDevice",
+      "read model check failed: dashboardReflectsDevice",
+      "read model check failed: inboxOverviewOk",
+      "media-upload-part failed with HTTP 400"
+    ]
+  }
+}

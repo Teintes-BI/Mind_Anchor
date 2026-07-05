@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.3.13",
+    "lastTouchedAt": "2026-03-24T01:38:24.182Z"
+  },
+  "models": {
+    "mode": "replace",
+    "providers": {
+      "codex": {
+        "baseUrl": "https://gmncode.cn",
+        "auth": "token",
+        "api": "openai-responses",
+        "models": [
+          {
+            "id": "gpt-5.4",
+            "name": "gpt-5.4",
+            "api": "openai-responses",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "contextWindow": 1000000,
+            "maxTokens": 128000,
+            "compat": {
+              "supportsStore": true,
+              "supportsReasoningEffort": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "codex/gpt-5.4@codex:manual",
+        "fallbacks": []
+      }
+    },
+    "list": [
+      {
+        "id": "main"
+      },
+      {
+        "id": "chief-agent",
+        "name": "chief-agent",
+        "workspace": "/Users/claw/.openclaw-dev/workspaces/chief-agent",
+        "agentDir": "/Users/claw/.openclaw-dev/agents/chief-agent/agent",
+        "model": "codex/gpt-5.4@codex:manual"
+      },
+      {
+        "id": "state-insight-agent",
+        "name": "state-insight-agent",
+        "workspace": "/Users/claw/.openclaw-dev/workspaces/state-insight-agent",
+        "agentDir": "/Users/claw/.openclaw-dev/agents/state-insight-agent/agent",
+        "model": "codex/gpt-5.4@codex:manual"
+      },
+      {
+        "id": "task-management-agent",
+        "name": "task-management-agent",
+        "workspace": "/Users/claw/.openclaw-dev/workspaces/task-management-agent",
+        "agentDir": "/Users/claw/.openclaw-dev/agents/task-management-agent/agent",
+        "model": "codex/gpt-5.4@codex:manual"
+      },
+      {
+        "id": "progress-feedback-agent",
+        "name": "progress-feedback-agent",
+        "workspace": "/Users/claw/.openclaw-dev/workspaces/progress-feedback-agent",
+        "agentDir": "/Users/claw/.openclaw-dev/agents/progress-feedback-agent/agent",
+        "model": "codex/gpt-5.4@codex:manual"
+      },
+      {
+        "id": "interruption-recovery-agent",
+        "name": "interruption-recovery-agent",
+        "workspace": "/Users/claw/.openclaw-dev/workspaces/interruption-recovery-agent",
+        "agentDir": "/Users/claw/.openclaw-dev/agents/interruption-recovery-agent/agent",
+        "model": "codex/gpt-5.4@codex:manual"
+      },
+      {
+        "id": "reflection-coach-agent",
+        "name": "reflection-coach-agent",
+        "workspace": "/Users/claw/.openclaw-dev/workspaces/reflection-coach-agent",
+        "agentDir": "/Users/claw/.openclaw-dev/agents/reflection-coach-agent/agent",
+        "model": "codex/gpt-5.4@codex:manual"
+      },
+      {
+        "id": "automation-agent",
+        "name": "automation-agent",
+        "workspace": "/Users/claw/.openclaw-dev/workspaces/automation-agent",
+        "agentDir": "/Users/claw/.openclaw-dev/agents/automation-agent/agent",
+        "model": "codex/gpt-5.4@codex:manual"
+      }
+    ]
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  }
+}

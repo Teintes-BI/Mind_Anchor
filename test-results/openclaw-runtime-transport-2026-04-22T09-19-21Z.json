@@ -1,0 +1,918 @@
+{
+  "generatedAt": "2026-04-22T09:19:21.347Z",
+  "diagnoseCommand": "corepack pnpm diagnose:openclaw-runtime-transport-lan",
+  "snapshot": {
+    "runtimeFiles": {
+      "filePrefix": "openclaw-real-lan",
+      "pidFile": "/Volumes/固态/Mac迁移_20260420_v3/home/mindanchor/.logs/openclaw-real-lan.pid",
+      "logFile": "/Volumes/固态/Mac迁移_20260420_v3/home/mindanchor/.logs/openclaw-real-lan.log",
+      "envFile": "/Volumes/固态/Mac迁移_20260420_v3/home/mindanchor/.logs/openclaw-real-lan.env",
+      "status": "running"
+    },
+    "runtimeHealth": {
+      "loopback": {
+        "ok": true,
+        "status": 200,
+        "url": "http://127.0.0.1:8800/health",
+        "body": {
+          "ok": true,
+          "runtime": "openclaw-local-cluster",
+          "runtimeVersion": "structured-local-runtime-phase1",
+          "responseMode": "parsed",
+          "workflowContracts": [
+            {
+              "workflow": "coach_conversation_fast",
+              "requiredContextFields": [
+                "workflow",
+                "userId",
+                "frontAgent",
+                "runtimeAgentId",
+                "memoryScopes",
+                "gatewayBaseUrl"
+              ]
+            },
+            {
+              "workflow": "coach_conversation_full",
+              "requiredContextFields": [
+                "workflow",
+                "userId",
+                "frontAgent",
+                "runtimeAgentId",
+                "memoryScopes",
+                "gatewayBaseUrl"
+              ]
+            },
+            {
+              "workflow": "coach_conversation_consult",
+              "requiredContextFields": [
+                "workflow",
+                "userId",
+                "frontAgent",
+                "runtimeAgentId",
+                "memoryScopes",
+                "gatewayBaseUrl"
+              ]
+            },
+            {
+              "workflow": "plan_adjustment",
+              "requiredContextFields": [
+                "workflow",
+                "userId",
+                "frontAgent",
+                "runtimeAgentId",
+                "memoryScopes",
+                "gatewayBaseUrl",
+                "authorityAction",
+                "proposalContext"
+              ]
+            },
+            {
+              "workflow": "memory_governance",
+              "requiredContextFields": [
+                "workflow",
+                "userId",
+                "frontAgent",
+                "runtimeAgentId",
+                "memoryScopes",
+                "gatewayBaseUrl",
+                "authorityAction"
+              ]
+            }
+          ],
+          "workflowResponseContracts": [
+            {
+              "workflow": "coach_conversation_fast",
+              "requiredParsedFields": [
+                "fastResponse",
+                "status"
+              ]
+            },
+            {
+              "workflow": "coach_conversation_full",
+              "requiredParsedFields": [
+                "fastResponse",
+                "fullResponse",
+                "status"
+              ]
+            },
+            {
+              "workflow": "coach_conversation_consult",
+              "requiredParsedFields": [
+                "consultSummary",
+                "status"
+              ]
+            },
+            {
+              "workflow": "plan_adjustment",
+              "requiredParsedFields": [
+                "authorityAgent",
+                "action",
+                "executionMode",
+                "summary"
+              ]
+            },
+            {
+              "workflow": "memory_governance",
+              "requiredParsedFields": [
+                "authorityAgent",
+                "action",
+                "executionMode",
+                "summary"
+              ]
+            }
+          ],
+          "workflowExecutionContracts": [
+            {
+              "workflow": "coach_conversation_fast",
+              "requiredMetadataFields": [
+                "workflow",
+                "responseMode",
+                "memoryFetch"
+              ],
+              "memoryFetchFields": [
+                "attempted",
+                "loaded",
+                "error"
+              ]
+            },
+            {
+              "workflow": "coach_conversation_full",
+              "requiredMetadataFields": [
+                "workflow",
+                "responseMode",
+                "memoryFetch"
+              ],
+              "memoryFetchFields": [
+                "attempted",
+                "loaded",
+                "error"
+              ]
+            },
+            {
+              "workflow": "coach_conversation_consult",
+              "requiredMetadataFields": [
+                "workflow",
+                "responseMode",
+                "memoryFetch"
+              ],
+              "memoryFetchFields": [
+                "attempted",
+                "loaded",
+                "error"
+              ]
+            },
+            {
+              "workflow": "plan_adjustment",
+              "requiredMetadataFields": [
+                "workflow",
+                "responseMode",
+                "authorityApply"
+              ],
+              "authorityApplyFields": [
+                "attempted",
+                "applied",
+                "status",
+                "readModelRefresh"
+              ]
+            },
+            {
+              "workflow": "memory_governance",
+              "requiredMetadataFields": [
+                "workflow",
+                "responseMode",
+                "authorityApply"
+              ],
+              "authorityApplyFields": [
+                "attempted",
+                "applied",
+                "status",
+                "readModelRefresh"
+              ]
+            }
+          ],
+          "agentCount": 15,
+          "agents": [
+            {
+              "name": "chief-agent",
+              "worker": "chief-agent-worker",
+              "modelTarget": "chief-agent",
+              "skillCount": 1,
+              "supportedWorkflows": [
+                "state_assessment",
+                "task_management",
+                "progress_summary",
+                "recovery_plan",
+                "reflection_report",
+                "notification_dispatch"
+              ],
+              "memoryScopes": [],
+              "canFront": false,
+              "canConsult": false,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "state-insight-agent",
+              "worker": "state-insight-agent-worker",
+              "modelTarget": "state-insight-agent",
+              "skillCount": 2,
+              "supportedWorkflows": [
+                "state_assessment"
+              ],
+              "memoryScopes": [],
+              "canFront": false,
+              "canConsult": false,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "task-management-agent",
+              "worker": "task-management-agent-worker",
+              "modelTarget": "task-management-agent",
+              "skillCount": 2,
+              "supportedWorkflows": [
+                "task_management"
+              ],
+              "memoryScopes": [],
+              "canFront": false,
+              "canConsult": false,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "progress-feedback-agent",
+              "worker": "progress-feedback-agent-worker",
+              "modelTarget": "progress-feedback-agent",
+              "skillCount": 1,
+              "supportedWorkflows": [
+                "progress_summary"
+              ],
+              "memoryScopes": [],
+              "canFront": false,
+              "canConsult": false,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "interruption-recovery-agent",
+              "worker": "interruption-recovery-agent-worker",
+              "modelTarget": "interruption-recovery-agent",
+              "skillCount": 1,
+              "supportedWorkflows": [
+                "recovery_plan"
+              ],
+              "memoryScopes": [],
+              "canFront": false,
+              "canConsult": false,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "reflection-coach-agent",
+              "worker": "reflection-coach-agent-worker",
+              "modelTarget": "reflection-coach-agent",
+              "skillCount": 1,
+              "supportedWorkflows": [
+                "reflection_report"
+              ],
+              "memoryScopes": [],
+              "canFront": false,
+              "canConsult": false,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "automation-agent",
+              "worker": "automation-agent-worker",
+              "modelTarget": "automation-agent",
+              "skillCount": 1,
+              "supportedWorkflows": [
+                "notification_dispatch"
+              ],
+              "memoryScopes": [],
+              "canFront": false,
+              "canConsult": false,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "conversation-coach-fast-agent",
+              "worker": "conversation-coach-fast-agent-worker",
+              "modelTarget": "conversation-coach-fast-agent",
+              "skillCount": 1,
+              "supportedWorkflows": [
+                "coach_conversation_fast"
+              ],
+              "memoryScopes": [],
+              "canFront": false,
+              "canConsult": false,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "conversation-coach-agent",
+              "worker": "conversation-coach-agent-worker",
+              "modelTarget": "conversation-coach-agent",
+              "skillCount": 1,
+              "supportedWorkflows": [
+                "coach_conversation_full"
+              ],
+              "memoryScopes": [],
+              "canFront": false,
+              "canConsult": false,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "director-agent",
+              "worker": "director-agent-worker",
+              "modelTarget": "director-agent",
+              "skillCount": 2,
+              "supportedWorkflows": [
+                "coach_front_state",
+                "persona_routing"
+              ],
+              "memoryScopes": [
+                "preferences",
+                "habits",
+                "constraints",
+                "recentContext"
+              ],
+              "canFront": true,
+              "canConsult": true,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "companion-agent",
+              "worker": "companion-agent-worker",
+              "modelTarget": "companion-agent",
+              "skillCount": 2,
+              "supportedWorkflows": [
+                "coach_front_state",
+                "companion_support"
+              ],
+              "memoryScopes": [
+                "preferences",
+                "recentContext"
+              ],
+              "canFront": true,
+              "canConsult": true,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "analyst-agent",
+              "worker": "analyst-agent-worker",
+              "modelTarget": "analyst-agent",
+              "skillCount": 2,
+              "supportedWorkflows": [
+                "coach_front_state",
+                "analytical_reasoning"
+              ],
+              "memoryScopes": [
+                "constraints",
+                "habits",
+                "recentContext"
+              ],
+              "canFront": true,
+              "canConsult": true,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "balance-agent",
+              "worker": "balance-agent-worker",
+              "modelTarget": "balance-agent",
+              "skillCount": 2,
+              "supportedWorkflows": [
+                "coach_front_state",
+                "balance_guidance"
+              ],
+              "memoryScopes": [
+                "preferences",
+                "habits",
+                "recentContext"
+              ],
+              "canFront": true,
+              "canConsult": true,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "life-secretary-agent",
+              "worker": "life-secretary-agent-worker",
+              "modelTarget": "life-secretary-agent",
+              "skillCount": 2,
+              "supportedWorkflows": [
+                "coach_front_state",
+                "plan_adjustment"
+              ],
+              "memoryScopes": [
+                "preferences",
+                "habits",
+                "constraints",
+                "recentContext"
+              ],
+              "canFront": true,
+              "canConsult": true,
+              "canWritePlans": true,
+              "canGovernMemory": false
+            },
+            {
+              "name": "memory-governor-agent",
+              "worker": "memory-governor-agent-worker",
+              "modelTarget": "memory-governor-agent",
+              "skillCount": 2,
+              "supportedWorkflows": [
+                "coach_front_state",
+                "memory_governance"
+              ],
+              "memoryScopes": [
+                "metadata"
+              ],
+              "canFront": false,
+              "canConsult": true,
+              "canWritePlans": false,
+              "canGovernMemory": true
+            }
+          ],
+          "endpoints": [
+            "/v1/tasks/execute",
+            "/tasks/execute",
+            "/api/tasks/execute"
+          ]
+        }
+      },
+      "lan": {
+        "ok": true,
+        "status": 200,
+        "url": "http://192.168.0.104:8800/health",
+        "body": {
+          "ok": true,
+          "runtime": "openclaw-local-cluster",
+          "runtimeVersion": "structured-local-runtime-phase1",
+          "responseMode": "parsed",
+          "workflowContracts": [
+            {
+              "workflow": "coach_conversation_fast",
+              "requiredContextFields": [
+                "workflow",
+                "userId",
+                "frontAgent",
+                "runtimeAgentId",
+                "memoryScopes",
+                "gatewayBaseUrl"
+              ]
+            },
+            {
+              "workflow": "coach_conversation_full",
+              "requiredContextFields": [
+                "workflow",
+                "userId",
+                "frontAgent",
+                "runtimeAgentId",
+                "memoryScopes",
+                "gatewayBaseUrl"
+              ]
+            },
+            {
+              "workflow": "coach_conversation_consult",
+              "requiredContextFields": [
+                "workflow",
+                "userId",
+                "frontAgent",
+                "runtimeAgentId",
+                "memoryScopes",
+                "gatewayBaseUrl"
+              ]
+            },
+            {
+              "workflow": "plan_adjustment",
+              "requiredContextFields": [
+                "workflow",
+                "userId",
+                "frontAgent",
+                "runtimeAgentId",
+                "memoryScopes",
+                "gatewayBaseUrl",
+                "authorityAction",
+                "proposalContext"
+              ]
+            },
+            {
+              "workflow": "memory_governance",
+              "requiredContextFields": [
+                "workflow",
+                "userId",
+                "frontAgent",
+                "runtimeAgentId",
+                "memoryScopes",
+                "gatewayBaseUrl",
+                "authorityAction"
+              ]
+            }
+          ],
+          "workflowResponseContracts": [
+            {
+              "workflow": "coach_conversation_fast",
+              "requiredParsedFields": [
+                "fastResponse",
+                "status"
+              ]
+            },
+            {
+              "workflow": "coach_conversation_full",
+              "requiredParsedFields": [
+                "fastResponse",
+                "fullResponse",
+                "status"
+              ]
+            },
+            {
+              "workflow": "coach_conversation_consult",
+              "requiredParsedFields": [
+                "consultSummary",
+                "status"
+              ]
+            },
+            {
+              "workflow": "plan_adjustment",
+              "requiredParsedFields": [
+                "authorityAgent",
+                "action",
+                "executionMode",
+                "summary"
+              ]
+            },
+            {
+              "workflow": "memory_governance",
+              "requiredParsedFields": [
+                "authorityAgent",
+                "action",
+                "executionMode",
+                "summary"
+              ]
+            }
+          ],
+          "workflowExecutionContracts": [
+            {
+              "workflow": "coach_conversation_fast",
+              "requiredMetadataFields": [
+                "workflow",
+                "responseMode",
+                "memoryFetch"
+              ],
+              "memoryFetchFields": [
+                "attempted",
+                "loaded",
+                "error"
+              ]
+            },
+            {
+              "workflow": "coach_conversation_full",
+              "requiredMetadataFields": [
+                "workflow",
+                "responseMode",
+                "memoryFetch"
+              ],
+              "memoryFetchFields": [
+                "attempted",
+                "loaded",
+                "error"
+              ]
+            },
+            {
+              "workflow": "coach_conversation_consult",
+              "requiredMetadataFields": [
+                "workflow",
+                "responseMode",
+                "memoryFetch"
+              ],
+              "memoryFetchFields": [
+                "attempted",
+                "loaded",
+                "error"
+              ]
+            },
+            {
+              "workflow": "plan_adjustment",
+              "requiredMetadataFields": [
+                "workflow",
+                "responseMode",
+                "authorityApply"
+              ],
+              "authorityApplyFields": [
+                "attempted",
+                "applied",
+                "status",
+                "readModelRefresh"
+              ]
+            },
+            {
+              "workflow": "memory_governance",
+              "requiredMetadataFields": [
+                "workflow",
+                "responseMode",
+                "authorityApply"
+              ],
+              "authorityApplyFields": [
+                "attempted",
+                "applied",
+                "status",
+                "readModelRefresh"
+              ]
+            }
+          ],
+          "agentCount": 15,
+          "agents": [
+            {
+              "name": "chief-agent",
+              "worker": "chief-agent-worker",
+              "modelTarget": "chief-agent",
+              "skillCount": 1,
+              "supportedWorkflows": [
+                "state_assessment",
+                "task_management",
+                "progress_summary",
+                "recovery_plan",
+                "reflection_report",
+                "notification_dispatch"
+              ],
+              "memoryScopes": [],
+              "canFront": false,
+              "canConsult": false,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "state-insight-agent",
+              "worker": "state-insight-agent-worker",
+              "modelTarget": "state-insight-agent",
+              "skillCount": 2,
+              "supportedWorkflows": [
+                "state_assessment"
+              ],
+              "memoryScopes": [],
+              "canFront": false,
+              "canConsult": false,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "task-management-agent",
+              "worker": "task-management-agent-worker",
+              "modelTarget": "task-management-agent",
+              "skillCount": 2,
+              "supportedWorkflows": [
+                "task_management"
+              ],
+              "memoryScopes": [],
+              "canFront": false,
+              "canConsult": false,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "progress-feedback-agent",
+              "worker": "progress-feedback-agent-worker",
+              "modelTarget": "progress-feedback-agent",
+              "skillCount": 1,
+              "supportedWorkflows": [
+                "progress_summary"
+              ],
+              "memoryScopes": [],
+              "canFront": false,
+              "canConsult": false,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "interruption-recovery-agent",
+              "worker": "interruption-recovery-agent-worker",
+              "modelTarget": "interruption-recovery-agent",
+              "skillCount": 1,
+              "supportedWorkflows": [
+                "recovery_plan"
+              ],
+              "memoryScopes": [],
+              "canFront": false,
+              "canConsult": false,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "reflection-coach-agent",
+              "worker": "reflection-coach-agent-worker",
+              "modelTarget": "reflection-coach-agent",
+              "skillCount": 1,
+              "supportedWorkflows": [
+                "reflection_report"
+              ],
+              "memoryScopes": [],
+              "canFront": false,
+              "canConsult": false,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "automation-agent",
+              "worker": "automation-agent-worker",
+              "modelTarget": "automation-agent",
+              "skillCount": 1,
+              "supportedWorkflows": [
+                "notification_dispatch"
+              ],
+              "memoryScopes": [],
+              "canFront": false,
+              "canConsult": false,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "conversation-coach-fast-agent",
+              "worker": "conversation-coach-fast-agent-worker",
+              "modelTarget": "conversation-coach-fast-agent",
+              "skillCount": 1,
+              "supportedWorkflows": [
+                "coach_conversation_fast"
+              ],
+              "memoryScopes": [],
+              "canFront": false,
+              "canConsult": false,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "conversation-coach-agent",
+              "worker": "conversation-coach-agent-worker",
+              "modelTarget": "conversation-coach-agent",
+              "skillCount": 1,
+              "supportedWorkflows": [
+                "coach_conversation_full"
+              ],
+              "memoryScopes": [],
+              "canFront": false,
+              "canConsult": false,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "director-agent",
+              "worker": "director-agent-worker",
+              "modelTarget": "director-agent",
+              "skillCount": 2,
+              "supportedWorkflows": [
+                "coach_front_state",
+                "persona_routing"
+              ],
+              "memoryScopes": [
+                "preferences",
+                "habits",
+                "constraints",
+                "recentContext"
+              ],
+              "canFront": true,
+              "canConsult": true,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "companion-agent",
+              "worker": "companion-agent-worker",
+              "modelTarget": "companion-agent",
+              "skillCount": 2,
+              "supportedWorkflows": [
+                "coach_front_state",
+                "companion_support"
+              ],
+              "memoryScopes": [
+                "preferences",
+                "recentContext"
+              ],
+              "canFront": true,
+              "canConsult": true,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "analyst-agent",
+              "worker": "analyst-agent-worker",
+              "modelTarget": "analyst-agent",
+              "skillCount": 2,
+              "supportedWorkflows": [
+                "coach_front_state",
+                "analytical_reasoning"
+              ],
+              "memoryScopes": [
+                "constraints",
+                "habits",
+                "recentContext"
+              ],
+              "canFront": true,
+              "canConsult": true,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "balance-agent",
+              "worker": "balance-agent-worker",
+              "modelTarget": "balance-agent",
+              "skillCount": 2,
+              "supportedWorkflows": [
+                "coach_front_state",
+                "balance_guidance"
+              ],
+              "memoryScopes": [
+                "preferences",
+                "habits",
+                "recentContext"
+              ],
+              "canFront": true,
+              "canConsult": true,
+              "canWritePlans": false,
+              "canGovernMemory": false
+            },
+            {
+              "name": "life-secretary-agent",
+              "worker": "life-secretary-agent-worker",
+              "modelTarget": "life-secretary-agent",
+              "skillCount": 2,
+              "supportedWorkflows": [
+                "coach_front_state",
+                "plan_adjustment"
+              ],
+              "memoryScopes": [
+                "preferences",
+                "habits",
+                "constraints",
+                "recentContext"
+              ],
+              "canFront": true,
+              "canConsult": true,
+              "canWritePlans": true,
+              "canGovernMemory": false
+            },
+            {
+              "name": "memory-governor-agent",
+              "worker": "memory-governor-agent-worker",
+              "modelTarget": "memory-governor-agent",
+              "skillCount": 2,
+              "supportedWorkflows": [
+                "coach_front_state",
+                "memory_governance"
+              ],
+              "memoryScopes": [
+                "metadata"
+              ],
+              "canFront": false,
+              "canConsult": true,
+              "canWritePlans": false,
+              "canGovernMemory": true
+            }
+          ],
+          "endpoints": [
+            "/v1/tasks/execute",
+            "/tasks/execute",
+            "/api/tasks/execute"
+          ]
+        }
+      }
+    },
+    "adapter": {
+      "httpStatus": 200,
+      "clusterEnabled": true,
+      "executionStrategy": "cluster-preferred",
+      "lastDecision": {
+        "traceId": "0f8d4f5b-2585-4da8-b653-527826ce0f82",
+        "parentTraceId": "10a71cc6-206f-4457-bb8f-6f3d5119ad8b",
+        "createdAt": "2026-04-22T09:19:09.529Z",
+        "target": "chief-agent",
+        "mode": "probe",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"probe\":\"ok\"}"
+          }
+        ]
+      },
+      "lastFallback": null,
+      "failureCategoryCounts": {},
+      "clusterAttemptSummary": {
+        "totalAttempts": 0,
+        "uniqueEndpoints": [],
+        "attemptsPerEndpoint": {},
+        "allErrorsFetchFailed": false
+      }
+    },
+    "issues": []
+  }
+}

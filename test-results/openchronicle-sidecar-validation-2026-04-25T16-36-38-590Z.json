@@ -1,0 +1,31 @@
+{
+  "generatedAt": "2026-04-25T16:36:38.591Z",
+  "startedAt": "2026-04-25T16:36:38.591Z",
+  "completedAt": "2026-04-25T16:36:38.611Z",
+  "durationMs": 20,
+  "mcpUrl": "http://127.0.0.1:8742/mcp",
+  "query": "MindAnchor desktop model effect loop",
+  "preflight": {
+    "mcpReachable": false,
+    "initialized": false
+  },
+  "tools": [],
+  "toolCalls": [],
+  "errors": [
+    "TypeError: fetch failed"
+  ],
+  "summary": {
+    "passed": false,
+    "mcpUrl": "http://127.0.0.1:8742/mcp",
+    "requiredToolsPresent": false,
+    "toolCount": 0,
+    "requiredToolCount": 3,
+    "successfulCallCount": 0,
+    "failedCallCount": 0,
+    "durationMs": 20,
+    "errorSamples": [
+      "TypeError: fetch failed",
+      "missing required tools: current_context, recent_activity, list_memories"
+    ]
+  }
+}

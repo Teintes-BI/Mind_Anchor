@@ -1,0 +1,687 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		03573F0DB0CD49109A09E179 /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEEE07F8C75F95CF5A50C6FE /* TodayView.swift */; };
+		0D57FD9E385B5A29B8865237 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F751CA0B591D0B276DF95F /* AppViewModel.swift */; };
+		16FA5D6F9474B555989EC0EB /* NotificationInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = E455FBDBB73731855F742886 /* NotificationInspector.swift */; };
+		1BEFA891E6F15D8DADCE1314 /* CoachSupportViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E900E338D36026F8C462BC1 /* CoachSupportViews.swift */; };
+		20A95795CD33C928B1CA9A36 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C56231095CF43E2B11BB451 /* AppLanguage.swift */; };
+		233791A06C57C19123A5D90C /* MindAnchorCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6B3D467BA423342DBDDDA51F /* MindAnchorCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		239896304D969C54A5556062 /* NotificationStatusDiagnosticTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDC7FC083AA2368BAA8996F /* NotificationStatusDiagnosticTests.swift */; };
+		27C82293996E6512E9431BB4 /* MainWindowShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C5587784B78E1D693100FC /* MainWindowShell.swift */; };
+		290D33D99324F5A45C681936 /* CoachView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB3F6092D6ECF8605B18573 /* CoachView.swift */; };
+		308CA315158009D8F74A9D51 /* SupportViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7262037F8ECEC01E5388EF /* SupportViews.swift */; };
+		315F91015D597D99CE0EF73F /* NotificationInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = E455FBDBB73731855F742886 /* NotificationInspector.swift */; };
+		38B0182564AC92AABC6B8C16 /* DesktopActivityCollectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E229E5FBA81B834EA34998 /* DesktopActivityCollectorTests.swift */; };
+		3ACF8E5B708FDA2CE7AB644D /* MindAnchorAPIProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1D23D937BA3B635B903C46 /* MindAnchorAPIProviding.swift */; };
+		3C8FE8A267A8A6D3F4D90DFF /* AppViewModelAuthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520FDF57430C0A82A5FFE312 /* AppViewModelAuthTests.swift */; };
+		403AF066E6A0AEFC54F4116F /* CoachConversationViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753D323380DA06AFFA91063B /* CoachConversationViews.swift */; };
+		445269E5355DFD804AE4BB37 /* MindAnchorMacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A25D8B0B1B94A699176EA7 /* MindAnchorMacTests.swift */; };
+		46DCE4A7FD925C33D6394C73 /* NotificationPermissionDebugLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C940A5E6B9F3BF668BEC1FDC /* NotificationPermissionDebugLogger.swift */; };
+		497448875C2E569B83C79C8D /* APIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ED496BF6DB13A39C3DD3AB /* APIClientTests.swift */; };
+		52408E8915B28A929AE63511 /* WindowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A573212B64102DD5F59928 /* WindowCoordinator.swift */; };
+		545EA95385B0B875896167D5 /* StateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2309A825E35FD8A5247308A /* StateView.swift */; };
+		59093CAE6FDA677CAC9720BE /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E212C800284872D559F2D475 /* APIClient.swift */; };
+		5D4A9E33957F674262A27ADA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354BBB7A439BC3D173A2BDC6 /* AppDelegate.swift */; };
+		5F893678968C6E240F07A511 /* NotificationStatusDiagnosticRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAC5B8BAD8B68820F793010 /* NotificationStatusDiagnosticRunner.swift */; };
+		6670720A7BD191D52C463A51 /* LocalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08BAA44E5A409481FDD8F7B /* LocalStore.swift */; };
+		6731FA1EA3714335E1ACAA55 /* ReminderCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26E37B049BD71CEC72D45E0 /* ReminderCenter.swift */; };
+		725D169D8DA43B4763C469DB /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C56231095CF43E2B11BB451 /* AppLanguage.swift */; };
+		731F68C8518885D60143D096 /* MacAutomation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9E4706389AF80256D60E69 /* MacAutomation.swift */; };
+		7392C1DDC364AF34CC48595E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E98051DFBC6652547230BA9 /* LoginView.swift */; };
+		763525806D74689630B2BE4E /* ReflectionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768C7F8DB22D130D8D53EFE0 /* ReflectionsView.swift */; };
+		7986EB41A9FB05B66A5043DD /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C498F549CDCF3964CFB807C /* KeychainStore.swift */; };
+		7C47C120F82D2FB736EBF0C9 /* AppModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E5F630F4266AC97DBAF774 /* AppModels.swift */; };
+		81243CCC3BE5D4A52F0D7E12 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A4E42310D0A7935CD6FDC7 /* AppConfiguration.swift */; };
+		8197FF064E64FCBEE6A0D71D /* NotificationStatusDiagnosticRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AAC5B8BAD8B68820F793010 /* NotificationStatusDiagnosticRunner.swift */; };
+		8783FA65EEBF4E560A482BDA /* CoachAgentTeamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733C0AD5F6A7912B48EE94B8 /* CoachAgentTeamTests.swift */; };
+		89056B4334A689B881263B50 /* AppModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E5F630F4266AC97DBAF774 /* AppModels.swift */; };
+		977CBD51E04E78E18C74F9DB /* StatusBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BFF533871470F9C86C381E /* StatusBarCoordinator.swift */; };
+		97B37F6BF78B56BDD39EB214 /* StatusBarCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE78B4816829AC73617EADD0 /* StatusBarCoordinatorTests.swift */; };
+		9C99BDEAA1E3165CF0B475CF /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F751CA0B591D0B276DF95F /* AppViewModel.swift */; };
+		A36CEB47ED65861CAC9BF6D5 /* AppLanguageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC04F2627A102F080E2EA55 /* AppLanguageTests.swift */; };
+		A45F006B846FEBF92D39395F /* MacAutomationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC6C54F120CB2739AC7FC88 /* MacAutomationTests.swift */; };
+		AAF62AE99F743970C7DCB8EA /* RemindersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A888BDE3965B82980B1BFE /* RemindersView.swift */; };
+		AE36691D3DF136E6A5B88E22 /* MacAutomation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9E4706389AF80256D60E69 /* MacAutomation.swift */; };
+		B26235C8439A9F0A63A1947C /* DesktopActivityCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8F20B9EAC1E26E84FC5EC6 /* DesktopActivityCollector.swift */; };
+		B34686553834B60E0BB96C0E /* AppConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020B1D9F72DCD560B7E38BDD /* AppConfigurationTests.swift */; };
+		B43F57FBC86833E3174A2954 /* WindowCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4D01B9ABB7A51EB895C544 /* WindowCoordinatorTests.swift */; };
+		B8DA3FD99C3E3160DD77DA9C /* CoachConversationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E803EC70B554D819702205E5 /* CoachConversationTests.swift */; };
+		B9168C70988FB5EA1B627DA8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DDF13DE444837A6F7318FF /* SettingsView.swift */; };
+		BAAEDC9FAA1514AE10812637 /* MindAnchorCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B3D467BA423342DBDDDA51F /* MindAnchorCore.framework */; };
+		C21593A98593F05A52010DF4 /* MindAnchorMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAC034C69F7539A57821119 /* MindAnchorMacApp.swift */; };
+		C25722C45631284A40523D91 /* NotificationPermissionDebugLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C940A5E6B9F3BF668BEC1FDC /* NotificationPermissionDebugLogger.swift */; };
+		C53BE1F92586693E9A151BA1 /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C498F549CDCF3964CFB807C /* KeychainStore.swift */; };
+		CA69BB484449D9F5C8C14CA5 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E212C800284872D559F2D475 /* APIClient.swift */; };
+		CB717F7CF7844F630BE88DB1 /* PermissionsDiagnostics.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECBD5CA9CA215B3E6B2DAB1 /* PermissionsDiagnostics.swift */; };
+		CE96A18BE8086AB974F8D7F2 /* ReminderCenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BDD4A9DE7B47718ED6C5CC /* ReminderCenterTests.swift */; };
+		D50BAB480A298DFA47A3541A /* WindowAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2469B23B21A425A4DC708610 /* WindowAccessor.swift */; };
+		DA712A75DF7EFE1713DE156A /* GoalsTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61ABBA72E9F18267EA08312 /* GoalsTasksView.swift */; };
+		DA749D75D5598D1DFFA99D46 /* PermissionsDiagnostics.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECBD5CA9CA215B3E6B2DAB1 /* PermissionsDiagnostics.swift */; };
+		DBF238D88FCCF37B6EC6E7B7 /* ReminderCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26E37B049BD71CEC72D45E0 /* ReminderCenter.swift */; };
+		DF80BCE26852A2CD4E88D109 /* LocalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08BAA44E5A409481FDD8F7B /* LocalStore.swift */; };
+		E6950993443AAF5CE3008591 /* StatusBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BFF533871470F9C86C381E /* StatusBarCoordinator.swift */; };
+		EE7C26FB6771FD324B1A0081 /* MindAnchorAPIProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1D23D937BA3B635B903C46 /* MindAnchorAPIProviding.swift */; };
+		F16D8EF61F229E9AFE89B7F4 /* WindowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A573212B64102DD5F59928 /* WindowCoordinator.swift */; };
+		F1DF97EBEE3CE5E2B5AA3CB6 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A4E42310D0A7935CD6FDC7 /* AppConfiguration.swift */; };
+		F4CEC3F3D8FED4AB3C247DD9 /* DesktopActivityCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8F20B9EAC1E26E84FC5EC6 /* DesktopActivityCollector.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0F71FFCD64CD0A74484D5EB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 963DE47908402DD50D696625 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4B2A8CDB3E9508CF5DC6EC0A;
+			remoteInfo = MindAnchorCore;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EA9E2FFFAF77839100D36A1E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				233791A06C57C19123A5D90C /* MindAnchorCore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		020B1D9F72DCD560B7E38BDD /* AppConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigurationTests.swift; sourceTree = "<group>"; };
+		04BFF533871470F9C86C381E /* StatusBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarCoordinator.swift; sourceTree = "<group>"; };
+		0C9E4706389AF80256D60E69 /* MacAutomation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAutomation.swift; sourceTree = "<group>"; };
+		1C498F549CDCF3964CFB807C /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
+		1D7C41ACE6DA1B16AE79AF4A /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		2469B23B21A425A4DC708610 /* WindowAccessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowAccessor.swift; sourceTree = "<group>"; };
+		354BBB7A439BC3D173A2BDC6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3AAC5B8BAD8B68820F793010 /* NotificationStatusDiagnosticRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationStatusDiagnosticRunner.swift; sourceTree = "<group>"; };
+		3BC04F2627A102F080E2EA55 /* AppLanguageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguageTests.swift; sourceTree = "<group>"; };
+		40A4E42310D0A7935CD6FDC7 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
+		46E229E5FBA81B834EA34998 /* DesktopActivityCollectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopActivityCollectorTests.swift; sourceTree = "<group>"; };
+		4BDC7FC083AA2368BAA8996F /* NotificationStatusDiagnosticTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationStatusDiagnosticTests.swift; sourceTree = "<group>"; };
+		4FB3F6092D6ECF8605B18573 /* CoachView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachView.swift; sourceTree = "<group>"; };
+		50ED496BF6DB13A39C3DD3AB /* APIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientTests.swift; sourceTree = "<group>"; };
+		520FDF57430C0A82A5FFE312 /* AppViewModelAuthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModelAuthTests.swift; sourceTree = "<group>"; };
+		61E5F630F4266AC97DBAF774 /* AppModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModels.swift; sourceTree = "<group>"; };
+		6B3D467BA423342DBDDDA51F /* MindAnchorCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MindAnchorCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6C56231095CF43E2B11BB451 /* AppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
+		6E900E338D36026F8C462BC1 /* CoachSupportViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachSupportViews.swift; sourceTree = "<group>"; };
+		71C5587784B78E1D693100FC /* MainWindowShell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowShell.swift; sourceTree = "<group>"; };
+		733C0AD5F6A7912B48EE94B8 /* CoachAgentTeamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachAgentTeamTests.swift; sourceTree = "<group>"; };
+		73A888BDE3965B82980B1BFE /* RemindersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersView.swift; sourceTree = "<group>"; };
+		73C8C42E797D7BDFE5267F7C /* MindAnchorMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MindAnchorMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		753D323380DA06AFFA91063B /* CoachConversationViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachConversationViews.swift; sourceTree = "<group>"; };
+		768C7F8DB22D130D8D53EFE0 /* ReflectionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectionsView.swift; sourceTree = "<group>"; };
+		7E98051DFBC6652547230BA9 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		99EC5A365DFF4D8508B18416 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		9B7262037F8ECEC01E5388EF /* SupportViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportViews.swift; sourceTree = "<group>"; };
+		9DAC034C69F7539A57821119 /* MindAnchorMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAnchorMacApp.swift; sourceTree = "<group>"; };
+		A2309A825E35FD8A5247308A /* StateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateView.swift; sourceTree = "<group>"; };
+		A4F751CA0B591D0B276DF95F /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
+		A61ABBA72E9F18267EA08312 /* GoalsTasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsTasksView.swift; sourceTree = "<group>"; };
+		B0BDD4A9DE7B47718ED6C5CC /* ReminderCenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderCenterTests.swift; sourceTree = "<group>"; };
+		B385D8D97C254F782744AB0D /* MindAnchorMacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MindAnchorMacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA8F20B9EAC1E26E84FC5EC6 /* DesktopActivityCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopActivityCollector.swift; sourceTree = "<group>"; };
+		BEC6C54F120CB2739AC7FC88 /* MacAutomationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAutomationTests.swift; sourceTree = "<group>"; };
+		C940A5E6B9F3BF668BEC1FDC /* NotificationPermissionDebugLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPermissionDebugLogger.swift; sourceTree = "<group>"; };
+		CB4D01B9ABB7A51EB895C544 /* WindowCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowCoordinatorTests.swift; sourceTree = "<group>"; };
+		D08BAA44E5A409481FDD8F7B /* LocalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStore.swift; sourceTree = "<group>"; };
+		D9A573212B64102DD5F59928 /* WindowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowCoordinator.swift; sourceTree = "<group>"; };
+		D9DDF13DE444837A6F7318FF /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		E0A25D8B0B1B94A699176EA7 /* MindAnchorMacTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAnchorMacTests.swift; sourceTree = "<group>"; };
+		E212C800284872D559F2D475 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		E26E37B049BD71CEC72D45E0 /* ReminderCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderCenter.swift; sourceTree = "<group>"; };
+		E455FBDBB73731855F742886 /* NotificationInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationInspector.swift; sourceTree = "<group>"; };
+		E803EC70B554D819702205E5 /* CoachConversationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachConversationTests.swift; sourceTree = "<group>"; };
+		EE78B4816829AC73617EADD0 /* StatusBarCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarCoordinatorTests.swift; sourceTree = "<group>"; };
+		EECBD5CA9CA215B3E6B2DAB1 /* PermissionsDiagnostics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsDiagnostics.swift; sourceTree = "<group>"; };
+		FEEE07F8C75F95CF5A50C6FE /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
+		FF1D23D937BA3B635B903C46 /* MindAnchorAPIProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindAnchorAPIProviding.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		19FF2EB838FC20A3EA3C2329 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BAAEDC9FAA1514AE10812637 /* MindAnchorCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		20B72A78626A8A9A539BB803 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				275328770F7170575D8748BC /* Coach */,
+				38E2A6E503232155A9C8D02E /* Goals */,
+				B6B461947E37FE6F44EA4CBD /* Login */,
+				B7556DAF8B970D18EDF6E77C /* Reflections */,
+				A36569D8777774F5548DB1F2 /* Reminders */,
+				290FD3A626850857EB33B9A6 /* Settings */,
+				A4EA9FBEE015C22117589359 /* Shared */,
+				35DF1E6A6BE4C8FA2A22B222 /* State */,
+				F3857C8F7E65C579DEB28ABC /* Today */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		275328770F7170575D8748BC /* Coach */ = {
+			isa = PBXGroup;
+			children = (
+				753D323380DA06AFFA91063B /* CoachConversationViews.swift */,
+				6E900E338D36026F8C462BC1 /* CoachSupportViews.swift */,
+				4FB3F6092D6ECF8605B18573 /* CoachView.swift */,
+			);
+			path = Coach;
+			sourceTree = "<group>";
+		};
+		290FD3A626850857EB33B9A6 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				D9DDF13DE444837A6F7318FF /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		35DF1E6A6BE4C8FA2A22B222 /* State */ = {
+			isa = PBXGroup;
+			children = (
+				A2309A825E35FD8A5247308A /* StateView.swift */,
+			);
+			path = State;
+			sourceTree = "<group>";
+		};
+		38E2A6E503232155A9C8D02E /* Goals */ = {
+			isa = PBXGroup;
+			children = (
+				A61ABBA72E9F18267EA08312 /* GoalsTasksView.swift */,
+			);
+			path = Goals;
+			sourceTree = "<group>";
+		};
+		39E0DBF19ED767FEF9512609 /* MindAnchorMacTests */ = {
+			isa = PBXGroup;
+			children = (
+				50ED496BF6DB13A39C3DD3AB /* APIClientTests.swift */,
+				020B1D9F72DCD560B7E38BDD /* AppConfigurationTests.swift */,
+				3BC04F2627A102F080E2EA55 /* AppLanguageTests.swift */,
+				520FDF57430C0A82A5FFE312 /* AppViewModelAuthTests.swift */,
+				733C0AD5F6A7912B48EE94B8 /* CoachAgentTeamTests.swift */,
+				E803EC70B554D819702205E5 /* CoachConversationTests.swift */,
+				46E229E5FBA81B834EA34998 /* DesktopActivityCollectorTests.swift */,
+				BEC6C54F120CB2739AC7FC88 /* MacAutomationTests.swift */,
+				E0A25D8B0B1B94A699176EA7 /* MindAnchorMacTests.swift */,
+				4BDC7FC083AA2368BAA8996F /* NotificationStatusDiagnosticTests.swift */,
+				B0BDD4A9DE7B47718ED6C5CC /* ReminderCenterTests.swift */,
+				EE78B4816829AC73617EADD0 /* StatusBarCoordinatorTests.swift */,
+				CB4D01B9ABB7A51EB895C544 /* WindowCoordinatorTests.swift */,
+			);
+			path = MindAnchorMacTests;
+			sourceTree = "<group>";
+		};
+		438A78BECA582F2E28C5B586 = {
+			isa = PBXGroup;
+			children = (
+				960545E9F7350D3CF0389413 /* Config */,
+				9B4706131AF06A94E4B28B02 /* Sources */,
+				875422A1C4D84F287B9B539F /* Tests */,
+				EE0F07011D8033D756B003A2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6E09C6DF4B5A2F50F7D893EA /* App */ = {
+			isa = PBXGroup;
+			children = (
+				354BBB7A439BC3D173A2BDC6 /* AppDelegate.swift */,
+				71C5587784B78E1D693100FC /* MainWindowShell.swift */,
+				9DAC034C69F7539A57821119 /* MindAnchorMacApp.swift */,
+				2469B23B21A425A4DC708610 /* WindowAccessor.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		78D837D467D5C99EA06D3DC3 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				E212C800284872D559F2D475 /* APIClient.swift */,
+				40A4E42310D0A7935CD6FDC7 /* AppConfiguration.swift */,
+				6C56231095CF43E2B11BB451 /* AppLanguage.swift */,
+				61E5F630F4266AC97DBAF774 /* AppModels.swift */,
+				A4F751CA0B591D0B276DF95F /* AppViewModel.swift */,
+				BA8F20B9EAC1E26E84FC5EC6 /* DesktopActivityCollector.swift */,
+				1C498F549CDCF3964CFB807C /* KeychainStore.swift */,
+				D08BAA44E5A409481FDD8F7B /* LocalStore.swift */,
+				0C9E4706389AF80256D60E69 /* MacAutomation.swift */,
+				FF1D23D937BA3B635B903C46 /* MindAnchorAPIProviding.swift */,
+				E455FBDBB73731855F742886 /* NotificationInspector.swift */,
+				C940A5E6B9F3BF668BEC1FDC /* NotificationPermissionDebugLogger.swift */,
+				3AAC5B8BAD8B68820F793010 /* NotificationStatusDiagnosticRunner.swift */,
+				EECBD5CA9CA215B3E6B2DAB1 /* PermissionsDiagnostics.swift */,
+				E26E37B049BD71CEC72D45E0 /* ReminderCenter.swift */,
+				04BFF533871470F9C86C381E /* StatusBarCoordinator.swift */,
+				D9A573212B64102DD5F59928 /* WindowCoordinator.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		875422A1C4D84F287B9B539F /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				39E0DBF19ED767FEF9512609 /* MindAnchorMacTests */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		960545E9F7350D3CF0389413 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				1D7C41ACE6DA1B16AE79AF4A /* Debug.xcconfig */,
+				99EC5A365DFF4D8508B18416 /* Release.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		9B4706131AF06A94E4B28B02 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				6E09C6DF4B5A2F50F7D893EA /* App */,
+				78D837D467D5C99EA06D3DC3 /* Core */,
+				20B72A78626A8A9A539BB803 /* Features */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		A36569D8777774F5548DB1F2 /* Reminders */ = {
+			isa = PBXGroup;
+			children = (
+				73A888BDE3965B82980B1BFE /* RemindersView.swift */,
+			);
+			path = Reminders;
+			sourceTree = "<group>";
+		};
+		A4EA9FBEE015C22117589359 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				9B7262037F8ECEC01E5388EF /* SupportViews.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		B6B461947E37FE6F44EA4CBD /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				7E98051DFBC6652547230BA9 /* LoginView.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		B7556DAF8B970D18EDF6E77C /* Reflections */ = {
+			isa = PBXGroup;
+			children = (
+				768C7F8DB22D130D8D53EFE0 /* ReflectionsView.swift */,
+			);
+			path = Reflections;
+			sourceTree = "<group>";
+		};
+		EE0F07011D8033D756B003A2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B3D467BA423342DBDDDA51F /* MindAnchorCore.framework */,
+				73C8C42E797D7BDFE5267F7C /* MindAnchorMac.app */,
+				B385D8D97C254F782744AB0D /* MindAnchorMacTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F3857C8F7E65C579DEB28ABC /* Today */ = {
+			isa = PBXGroup;
+			children = (
+				FEEE07F8C75F95CF5A50C6FE /* TodayView.swift */,
+			);
+			path = Today;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4B2A8CDB3E9508CF5DC6EC0A /* MindAnchorCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C573BF69D27885BCF88C827E /* Build configuration list for PBXNativeTarget "MindAnchorCore" */;
+			buildPhases = (
+				8A973CB7E6E72BCD3AFDE3FE /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MindAnchorCore;
+			packageProductDependencies = (
+			);
+			productName = MindAnchorCore;
+			productReference = 6B3D467BA423342DBDDDA51F /* MindAnchorCore.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		5E9463C775D25D79BC467EB9 /* MindAnchorMacTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2B606E9721B2BA41AB9CCBA7 /* Build configuration list for PBXNativeTarget "MindAnchorMacTests" */;
+			buildPhases = (
+				5C1B38568F616D4FE540F606 /* Sources */,
+				19FF2EB838FC20A3EA3C2329 /* Frameworks */,
+				EA9E2FFFAF77839100D36A1E /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D408BEDD30B56FB123F6ED3C /* PBXTargetDependency */,
+			);
+			name = MindAnchorMacTests;
+			packageProductDependencies = (
+			);
+			productName = MindAnchorMacTests;
+			productReference = B385D8D97C254F782744AB0D /* MindAnchorMacTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F8CE2EDE3A77FDBD06DFF3C6 /* MindAnchorMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 185106170F47312863B46161 /* Build configuration list for PBXNativeTarget "MindAnchorMac" */;
+			buildPhases = (
+				D8436BAA6EEB9E636D2F57B7 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MindAnchorMac;
+			packageProductDependencies = (
+			);
+			productName = MindAnchorMac;
+			productReference = 73C8C42E797D7BDFE5267F7C /* MindAnchorMac.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		963DE47908402DD50D696625 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					4B2A8CDB3E9508CF5DC6EC0A = {
+						ProvisioningStyle = Automatic;
+					};
+					5E9463C775D25D79BC467EB9 = {
+						ProvisioningStyle = Automatic;
+					};
+					F8CE2EDE3A77FDBD06DFF3C6 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 7B85B5D30D7C3C9CCF677589 /* Build configuration list for PBXProject "MindAnchorMac" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 438A78BECA582F2E28C5B586;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = EE0F07011D8033D756B003A2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4B2A8CDB3E9508CF5DC6EC0A /* MindAnchorCore */,
+				F8CE2EDE3A77FDBD06DFF3C6 /* MindAnchorMac */,
+				5E9463C775D25D79BC467EB9 /* MindAnchorMacTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5C1B38568F616D4FE540F606 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				497448875C2E569B83C79C8D /* APIClientTests.swift in Sources */,
+				B34686553834B60E0BB96C0E /* AppConfigurationTests.swift in Sources */,
+				A36CEB47ED65861CAC9BF6D5 /* AppLanguageTests.swift in Sources */,
+				3C8FE8A267A8A6D3F4D90DFF /* AppViewModelAuthTests.swift in Sources */,
+				8783FA65EEBF4E560A482BDA /* CoachAgentTeamTests.swift in Sources */,
+				B8DA3FD99C3E3160DD77DA9C /* CoachConversationTests.swift in Sources */,
+				38B0182564AC92AABC6B8C16 /* DesktopActivityCollectorTests.swift in Sources */,
+				A45F006B846FEBF92D39395F /* MacAutomationTests.swift in Sources */,
+				445269E5355DFD804AE4BB37 /* MindAnchorMacTests.swift in Sources */,
+				239896304D969C54A5556062 /* NotificationStatusDiagnosticTests.swift in Sources */,
+				CE96A18BE8086AB974F8D7F2 /* ReminderCenterTests.swift in Sources */,
+				97B37F6BF78B56BDD39EB214 /* StatusBarCoordinatorTests.swift in Sources */,
+				B43F57FBC86833E3174A2954 /* WindowCoordinatorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8A973CB7E6E72BCD3AFDE3FE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA69BB484449D9F5C8C14CA5 /* APIClient.swift in Sources */,
+				81243CCC3BE5D4A52F0D7E12 /* AppConfiguration.swift in Sources */,
+				20A95795CD33C928B1CA9A36 /* AppLanguage.swift in Sources */,
+				7C47C120F82D2FB736EBF0C9 /* AppModels.swift in Sources */,
+				0D57FD9E385B5A29B8865237 /* AppViewModel.swift in Sources */,
+				B26235C8439A9F0A63A1947C /* DesktopActivityCollector.swift in Sources */,
+				C53BE1F92586693E9A151BA1 /* KeychainStore.swift in Sources */,
+				6670720A7BD191D52C463A51 /* LocalStore.swift in Sources */,
+				AE36691D3DF136E6A5B88E22 /* MacAutomation.swift in Sources */,
+				EE7C26FB6771FD324B1A0081 /* MindAnchorAPIProviding.swift in Sources */,
+				16FA5D6F9474B555989EC0EB /* NotificationInspector.swift in Sources */,
+				C25722C45631284A40523D91 /* NotificationPermissionDebugLogger.swift in Sources */,
+				8197FF064E64FCBEE6A0D71D /* NotificationStatusDiagnosticRunner.swift in Sources */,
+				CB717F7CF7844F630BE88DB1 /* PermissionsDiagnostics.swift in Sources */,
+				DBF238D88FCCF37B6EC6E7B7 /* ReminderCenter.swift in Sources */,
+				E6950993443AAF5CE3008591 /* StatusBarCoordinator.swift in Sources */,
+				52408E8915B28A929AE63511 /* WindowCoordinator.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8436BAA6EEB9E636D2F57B7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				59093CAE6FDA677CAC9720BE /* APIClient.swift in Sources */,
+				F1DF97EBEE3CE5E2B5AA3CB6 /* AppConfiguration.swift in Sources */,
+				5D4A9E33957F674262A27ADA /* AppDelegate.swift in Sources */,
+				725D169D8DA43B4763C469DB /* AppLanguage.swift in Sources */,
+				89056B4334A689B881263B50 /* AppModels.swift in Sources */,
+				9C99BDEAA1E3165CF0B475CF /* AppViewModel.swift in Sources */,
+				403AF066E6A0AEFC54F4116F /* CoachConversationViews.swift in Sources */,
+				1BEFA891E6F15D8DADCE1314 /* CoachSupportViews.swift in Sources */,
+				290D33D99324F5A45C681936 /* CoachView.swift in Sources */,
+				F4CEC3F3D8FED4AB3C247DD9 /* DesktopActivityCollector.swift in Sources */,
+				DA712A75DF7EFE1713DE156A /* GoalsTasksView.swift in Sources */,
+				7986EB41A9FB05B66A5043DD /* KeychainStore.swift in Sources */,
+				DF80BCE26852A2CD4E88D109 /* LocalStore.swift in Sources */,
+				7392C1DDC364AF34CC48595E /* LoginView.swift in Sources */,
+				731F68C8518885D60143D096 /* MacAutomation.swift in Sources */,
+				27C82293996E6512E9431BB4 /* MainWindowShell.swift in Sources */,
+				3ACF8E5B708FDA2CE7AB644D /* MindAnchorAPIProviding.swift in Sources */,
+				C21593A98593F05A52010DF4 /* MindAnchorMacApp.swift in Sources */,
+				315F91015D597D99CE0EF73F /* NotificationInspector.swift in Sources */,
+				46DCE4A7FD925C33D6394C73 /* NotificationPermissionDebugLogger.swift in Sources */,
+				5F893678968C6E240F07A511 /* NotificationStatusDiagnosticRunner.swift in Sources */,
+				DA749D75D5598D1DFFA99D46 /* PermissionsDiagnostics.swift in Sources */,
+				763525806D74689630B2BE4E /* ReflectionsView.swift in Sources */,
+				6731FA1EA3714335E1ACAA55 /* ReminderCenter.swift in Sources */,
+				AAF62AE99F743970C7DCB8EA /* RemindersView.swift in Sources */,
+				B9168C70988FB5EA1B627DA8 /* SettingsView.swift in Sources */,
+				545EA95385B0B875896167D5 /* StateView.swift in Sources */,
+				977CBD51E04E78E18C74F9DB /* StatusBarCoordinator.swift in Sources */,
+				308CA315158009D8F74A9D51 /* SupportViews.swift in Sources */,
+				03573F0DB0CD49109A09E179 /* TodayView.swift in Sources */,
+				D50BAB480A298DFA47A3541A /* WindowAccessor.swift in Sources */,
+				F16D8EF61F229E9AFE89B7F4 /* WindowCoordinator.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D408BEDD30B56FB123F6ED3C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4B2A8CDB3E9508CF5DC6EC0A /* MindAnchorCore */;
+			targetProxy = 0F71FFCD64CD0A74484D5EB5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		346FF48F58DD2F4CAA6F7746 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "MindAnchor reads frontmost app changes to build low-intrusion activity signals.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSSystemAdministrationUsageDescription = "MindAnchor may prompt you to open System Settings for notification and accessibility checks.";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mindanchor.mac;
+			};
+			name = Release;
+		};
+		39DB39A07E9592EAD6E72C4E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1D7C41ACE6DA1B16AE79AF4A /* Debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_TESTABILITY = YES;
+				INFOPLIST_FILE = Config/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_NAME = MindAnchorMac;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		3B14F64926621736420D5670 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 99EC5A365DFF4D8508B18416 /* Release.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = Config/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_NAME = MindAnchorMac;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		4BC63628F4C9D5D56FBAFCFC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mindanchor.mac.core;
+				PRODUCT_MODULE_NAME = MindAnchorCore;
+				PRODUCT_NAME = MindAnchorCore;
+			};
+			name = Debug;
+		};
+		6C2235EEB3D6D1B5CB84CB63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_MODULE_NAME = MindAnchorMacTests;
+				PRODUCT_NAME = MindAnchorMacTests;
+			};
+			name = Release;
+		};
+		B9A57A8B1A4E8CB780DDFCF3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mindanchor.mac.core;
+				PRODUCT_MODULE_NAME = MindAnchorCore;
+				PRODUCT_NAME = MindAnchorCore;
+			};
+			name = Release;
+		};
+		C70D52C6D92CC38C344E6996 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_MODULE_NAME = MindAnchorMacTests;
+				PRODUCT_NAME = MindAnchorMacTests;
+			};
+			name = Debug;
+		};
+		DB5547C7DA1DE09E1421DEF4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "MindAnchor reads frontmost app changes to build low-intrusion activity signals.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSSystemAdministrationUsageDescription = "MindAnchor may prompt you to open System Settings for notification and accessibility checks.";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mindanchor.mac;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		185106170F47312863B46161 /* Build configuration list for PBXNativeTarget "MindAnchorMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DB5547C7DA1DE09E1421DEF4 /* Debug */,
+				346FF48F58DD2F4CAA6F7746 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		2B606E9721B2BA41AB9CCBA7 /* Build configuration list for PBXNativeTarget "MindAnchorMacTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C70D52C6D92CC38C344E6996 /* Debug */,
+				6C2235EEB3D6D1B5CB84CB63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		7B85B5D30D7C3C9CCF677589 /* Build configuration list for PBXProject "MindAnchorMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39DB39A07E9592EAD6E72C4E /* Debug */,
+				3B14F64926621736420D5670 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C573BF69D27885BCF88C827E /* Build configuration list for PBXNativeTarget "MindAnchorCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4BC63628F4C9D5D56FBAFCFC /* Debug */,
+				B9A57A8B1A4E8CB780DDFCF3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 963DE47908402DD50D696625 /* Project object */;
+}

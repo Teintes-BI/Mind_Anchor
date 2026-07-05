@@ -1,0 +1,31 @@
+{
+  "bundleIdentifier": "com.mindanchor.mac.openclaw.registry.e2e.run1774785804",
+  "debugLogPath": "/var/folders/n4/786ptkfx6zx4fskgpy1c1x100000gn/T/mindanchor-macos-openclaw-registry-1774785804620-95835/notification-debug.log",
+  "reportPath": "/Users/claw/mindanchor/tmp/mindanchor-openclaw-registry-notification-recovery-report.json",
+  "startedAt": "2026-03-29T12:04:37.734Z",
+  "recoveryAction": "install_profile",
+  "plan": {
+    "waitStrategy": "verify_profile_then_rerun",
+    "shouldUseDebugLogForDoctorPolling": false,
+    "shouldRunDoctorFirst": false,
+    "shouldRunVerifyFirst": true,
+    "shouldRunRegistryE2E": true
+  },
+  "settingsProbe": null,
+  "doctorAttempts": [],
+  "verifyAttempts": [
+    {
+      "at": "2026-03-29T12:04:42.862Z",
+      "exitCode": 1,
+      "stdout": "\n> mindanchor@0.1.0 verify:macos:openclaw-registry-notifications /Users/claw/mindanchor\n> node scripts/verify-macos-openclaw-registry-notification-profile.mjs\n\nprofileInstalled=false\nbundleConfigured=false\nfullyInstalled=false\nprofileIdentifier=com.mindanchor.e2e.notifications.profile\nbundleIdentifier=com.mindanchor.mac.openclaw.registry.e2e.run1774785804\nnotificationProfile profileInstalled=false bundleConfigured=false fullyInstalled=false\n ELIFECYCLE  Command failed with exit code 1.\n",
+      "stderr": "MindAnchor OpenClaw Registry E2E notifications profile is not fully installed.\n"
+    }
+  ],
+  "registryE2EAttempts": [],
+  "result": "waiting_for_profile_install",
+  "repairExitCode": 1,
+  "completedAt": "2026-03-29T12:04:47.864Z",
+  "htmlReportPath": "/Users/claw/mindanchor/tmp/mindanchor-openclaw-registry-notification-recovery-report.html",
+  "htmlReportExitCode": 0,
+  "htmlReportStdout": "notificationRecoveryHtmlReport=/Users/claw/mindanchor/tmp/mindanchor-openclaw-registry-notification-recovery-report.html\n"
+}

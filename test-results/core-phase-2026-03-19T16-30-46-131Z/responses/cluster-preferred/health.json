@@ -1,0 +1,1 @@
+{"ok":true,"mode":"openai-compatible","topology":"gateway->openclaw-cluster","openClawBaseUrl":"http://127.0.0.1:8788"}

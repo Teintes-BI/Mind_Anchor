@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-03-28T13:49:01.510Z",
+  "dryRun": false,
+  "sourceManagementProfileKey": "openclaw-dev",
+  "targetProfileKey": "openclaw-dev",
+  "agentPlans": [
+    {
+      "agentId": "director-agent",
+      "runtimeAgentId": "picard-runtime-agent",
+      "displayName": "Picard",
+      "targetWorkspaceName": "picard-runtime-agent",
+      "targetWorkspacePath": "/Users/claw/.openclaw-dev/workspaces/picard-runtime-agent",
+      "targetAgentDirPath": "/Users/claw/.openclaw-dev/agents/director-agent/agent",
+      "action": "created"
+    },
+    {
+      "agentId": "companion-agent",
+      "runtimeAgentId": "troi-runtime-agent",
+      "displayName": "Deanna Troi",
+      "targetWorkspaceName": "troi-runtime-agent",
+      "targetWorkspacePath": "/Users/claw/.openclaw-dev/workspaces/troi-runtime-agent",
+      "targetAgentDirPath": "/Users/claw/.openclaw-dev/agents/companion-agent/agent",
+      "action": "created"
+    },
+    {
+      "agentId": "analyst-agent",
+      "runtimeAgentId": "spock-runtime-agent",
+      "displayName": "Spock",
+      "targetWorkspaceName": "spock-runtime-agent",
+      "targetWorkspacePath": "/Users/claw/.openclaw-dev/workspaces/spock-runtime-agent",
+      "targetAgentDirPath": "/Users/claw/.openclaw-dev/agents/analyst-agent/agent",
+      "action": "created"
+    },
+    {
+      "agentId": "balance-agent",
+      "runtimeAgentId": "guinan-runtime-agent",
+      "displayName": "Guinan",
+      "targetWorkspaceName": "guinan-runtime-agent",
+      "targetWorkspacePath": "/Users/claw/.openclaw-dev/workspaces/guinan-runtime-agent",
+      "targetAgentDirPath": "/Users/claw/.openclaw-dev/agents/balance-agent/agent",
+      "action": "created"
+    },
+    {
+      "agentId": "life-secretary-agent",
+      "runtimeAgentId": "jarvis-runtime-agent",
+      "displayName": "Jarvis",
+      "targetWorkspaceName": "jarvis-runtime-agent",
+      "targetWorkspacePath": "/Users/claw/.openclaw-dev/workspaces/jarvis-runtime-agent",
+      "targetAgentDirPath": "/Users/claw/.openclaw-dev/agents/life-secretary-agent/agent",
+      "action": "created"
+    },
+    {
+      "agentId": "memory-governor-agent",
+      "runtimeAgentId": "data-runtime-agent",
+      "displayName": "Data",
+      "targetWorkspaceName": "data-runtime-agent",
+      "targetWorkspacePath": "/Users/claw/.openclaw-dev/workspaces/data-runtime-agent",
+      "targetAgentDirPath": "/Users/claw/.openclaw-dev/agents/memory-governor-agent/agent",
+      "action": "created"
+    }
+  ],
+  "profileHome": "/Users/claw/.openclaw-dev",
+  "configPath": "/Users/claw/.openclaw-dev/openclaw.json"
+}

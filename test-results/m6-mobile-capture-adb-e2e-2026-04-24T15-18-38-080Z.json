@@ -1,0 +1,37 @@
+{
+  "generatedAt": "2026-04-24T15:18:38.081Z",
+  "completedAt": "2026-04-24T15:18:38.242Z",
+  "apiBaseUrl": null,
+  "device": null,
+  "options": {
+    "apiHost": "0.0.0.0",
+    "preferredApiPort": 3011,
+    "userId": "m6-mobile-user",
+    "deviceId": "android-m6-capture",
+    "profileName": "dev"
+  },
+  "steps": [],
+  "responseIds": {},
+  "readModels": {
+    "healthLatestReflectsDevice": false,
+    "dashboardReflectsDevice": false,
+    "inboxOverviewOk": false
+  },
+  "errors": [
+    "No adb device in 'device' state."
+  ],
+  "summary": {
+    "passed": false,
+    "totalSteps": 0,
+    "failedSteps": 0,
+    "readModels": {
+      "healthLatestReflectsDevice": false,
+      "dashboardReflectsDevice": false,
+      "inboxOverviewOk": false
+    },
+    "responseIds": {},
+    "errorSamples": [
+      "No adb device in 'device' state."
+    ]
+  }
+}

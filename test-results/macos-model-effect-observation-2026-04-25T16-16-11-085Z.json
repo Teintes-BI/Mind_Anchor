@@ -1,0 +1,90 @@
+{
+  "generatedAt": "2026-04-25T16:16:11.109Z",
+  "startedAt": "2026-04-25T16:16:11.109Z",
+  "completedAt": "2026-04-25T16:17:59.177Z",
+  "durationMs": 108068,
+  "apiBaseUrl": "http://127.0.0.1:3011",
+  "openClawBaseUrl": "http://192.168.0.104:8800",
+  "accountEmail": "m7-desktop-model-effect@example.com",
+  "plannedTurnCount": 3,
+  "preflight": {
+    "openClawReachable": true,
+    "apiHealthy": true,
+    "macAppSignedIn": true
+  },
+  "turns": [
+    {
+      "id": "next-action",
+      "title": "明确下一步",
+      "prompt": "我现在有点散，请只给我一个可以立刻开始的下一步，并说明为什么是它。",
+      "feedbackLabel": "helpful",
+      "assistantStatus": "completed",
+      "fastResponseLength": 37,
+      "fullResponseLength": 27,
+      "executionTrailIncludesOpenClaw": true,
+      "executionTrail": [
+        "OpenClaw 主路径 · cluster"
+      ],
+      "traceId": null,
+      "feedbackPersisted": true,
+      "currentError": null,
+      "userFacingCurrentError": null,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "id": "interruption-recovery",
+      "title": "中断恢复",
+      "prompt": "我刚刚被打断了十分钟，现在想回到工作状态。请帮我恢复节奏。",
+      "feedbackLabel": "helpful",
+      "assistantStatus": "completed",
+      "fastResponseLength": 37,
+      "fullResponseLength": 123,
+      "executionTrailIncludesOpenClaw": true,
+      "executionTrail": [
+        "OpenClaw 主路径 · cluster"
+      ],
+      "traceId": null,
+      "feedbackPersisted": true,
+      "currentError": null,
+      "userFacingCurrentError": null,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "id": "over-notification",
+      "title": "减少打扰",
+      "prompt": "如果你准备提醒我，请先判断这条提醒是不是现在真的必要。",
+      "feedbackLabel": "helpful",
+      "assistantStatus": "completed",
+      "fastResponseLength": 37,
+      "fullResponseLength": 228,
+      "executionTrailIncludesOpenClaw": true,
+      "executionTrail": [
+        "OpenClaw 主路径 · cluster"
+      ],
+      "traceId": null,
+      "feedbackPersisted": true,
+      "currentError": null,
+      "userFacingCurrentError": null,
+      "passed": true,
+      "errors": []
+    }
+  ],
+  "errors": [],
+  "summary": {
+    "passed": true,
+    "plannedTurnCount": 3,
+    "completedTurnCount": 3,
+    "turnCount": 3,
+    "failedTurnCount": 0,
+    "openClawTrailCount": 3,
+    "feedbackPersistedCount": 3,
+    "fastResponseCount": 3,
+    "fullResponseCount": 3,
+    "averageFullResponseLength": 126,
+    "durationMs": 108068,
+    "traceIds": [],
+    "errorSamples": []
+  }
+}

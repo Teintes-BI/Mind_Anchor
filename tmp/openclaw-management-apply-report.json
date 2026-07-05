@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-03-28T13:09:15.465Z",
+  "dryRun": true,
+  "sourceManagementProfileKey": "openclaw-dev",
+  "targetProfileKey": "openclaw-dev",
+  "agentPlans": [
+    {
+      "agentId": "director-agent",
+      "runtimeAgentId": "picard-runtime-agent",
+      "displayName": "Picard",
+      "targetWorkspaceName": "picard-runtime-agent",
+      "action": "would_sync"
+    },
+    {
+      "agentId": "companion-agent",
+      "runtimeAgentId": "troi-runtime-agent",
+      "displayName": "Deanna Troi",
+      "targetWorkspaceName": "troi-runtime-agent",
+      "action": "would_sync"
+    },
+    {
+      "agentId": "analyst-agent",
+      "runtimeAgentId": "spock-runtime-agent",
+      "displayName": "Spock",
+      "targetWorkspaceName": "spock-runtime-agent",
+      "action": "would_sync"
+    },
+    {
+      "agentId": "balance-agent",
+      "runtimeAgentId": "guinan-runtime-agent",
+      "displayName": "Guinan",
+      "targetWorkspaceName": "guinan-runtime-agent",
+      "action": "would_sync"
+    },
+    {
+      "agentId": "life-secretary-agent",
+      "runtimeAgentId": "jarvis-runtime-agent",
+      "displayName": "Jarvis",
+      "targetWorkspaceName": "jarvis-runtime-agent",
+      "action": "would_sync"
+    },
+    {
+      "agentId": "memory-governor-agent",
+      "runtimeAgentId": "data-runtime-agent",
+      "displayName": "Data",
+      "targetWorkspaceName": "data-runtime-agent",
+      "action": "would_sync"
+    }
+  ]
+}

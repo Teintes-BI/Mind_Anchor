@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-03-28T13:09:15.370Z",
+  "managementProfileKey": "openclaw-dev",
+  "agents": [
+    {
+      "agentId": "director-agent",
+      "runtimeAgentId": "picard-runtime-agent",
+      "displayName": "Picard",
+      "soulFilePath": "openclaw/souls/picard.md",
+      "managementProfileKey": "openclaw-dev",
+      "managementWorkspaceName": "picard-runtime-agent",
+      "capabilities": {
+        "canFront": true,
+        "canConsult": true,
+        "canWritePlans": false,
+        "canGovernMemory": false
+      },
+      "supportedWorkflows": [
+        "coach_front_state"
+      ]
+    },
+    {
+      "agentId": "companion-agent",
+      "runtimeAgentId": "troi-runtime-agent",
+      "displayName": "Deanna Troi",
+      "soulFilePath": "openclaw/souls/deanna-troi.md",
+      "managementProfileKey": "openclaw-dev",
+      "managementWorkspaceName": "troi-runtime-agent",
+      "capabilities": {
+        "canFront": true,
+        "canConsult": true,
+        "canWritePlans": false,
+        "canGovernMemory": false
+      },
+      "supportedWorkflows": [
+        "coach_front_state"
+      ]
+    },
+    {
+      "agentId": "analyst-agent",
+      "runtimeAgentId": "spock-runtime-agent",
+      "displayName": "Spock",
+      "soulFilePath": "openclaw/souls/spock.md",
+      "managementProfileKey": "openclaw-dev",
+      "managementWorkspaceName": "spock-runtime-agent",
+      "capabilities": {
+        "canFront": true,
+        "canConsult": true,
+        "canWritePlans": false,
+        "canGovernMemory": false
+      },
+      "supportedWorkflows": [
+        "coach_front_state"
+      ]
+    },
+    {
+      "agentId": "balance-agent",
+      "runtimeAgentId": "guinan-runtime-agent",
+      "displayName": "Guinan",
+      "soulFilePath": "openclaw/souls/guinan.md",
+      "managementProfileKey": "openclaw-dev",
+      "managementWorkspaceName": "guinan-runtime-agent",
+      "capabilities": {
+        "canFront": true,
+        "canConsult": true,
+        "canWritePlans": false,
+        "canGovernMemory": false
+      },
+      "supportedWorkflows": [
+        "coach_front_state"
+      ]
+    },
+    {
+      "agentId": "life-secretary-agent",
+      "runtimeAgentId": "jarvis-runtime-agent",
+      "displayName": "Jarvis",
+      "soulFilePath": "openclaw/souls/jarvis.md",
+      "managementProfileKey": "openclaw-dev",
+      "managementWorkspaceName": "jarvis-runtime-agent",
+      "capabilities": {
+        "canFront": true,
+        "canConsult": true,
+        "canWritePlans": true,
+        "canGovernMemory": false
+      },
+      "supportedWorkflows": [
+        "coach_front_state"
+      ]
+    },
+    {
+      "agentId": "memory-governor-agent",
+      "runtimeAgentId": "data-runtime-agent",
+      "displayName": "Data",
+      "soulFilePath": "openclaw/souls/data.md",
+      "managementProfileKey": "openclaw-dev",
+      "managementWorkspaceName": "data-runtime-agent",
+      "capabilities": {
+        "canFront": false,
+        "canConsult": true,
+        "canWritePlans": false,
+        "canGovernMemory": true
+      },
+      "supportedWorkflows": [
+        "coach_front_state"
+      ]
+    }
+  ]
+}

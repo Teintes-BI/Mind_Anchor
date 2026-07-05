@@ -1,0 +1,18 @@
+{
+  "name": "@mindanchor/domain",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "node ../../scripts/clean-appledouble.mjs --quiet && tsc -p tsconfig.json && node ../../scripts/clean-appledouble.mjs --quiet",
+    "test": "echo \"No package-level tests for @mindanchor/domain\""
+  },
+  "dependencies": {
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.2"
+  }
+}

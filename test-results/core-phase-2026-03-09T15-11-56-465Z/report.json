@@ -1,0 +1,457 @@
+{
+  "startedAt": "2026-03-09T15:11:56.466Z",
+  "completedAt": "2026-03-09T15:17:07.807Z",
+  "rootDir": "/Users/claw/mindanchor",
+  "apiBaseUrl": "http://127.0.0.1:3024",
+  "webBaseUrl": "http://127.0.0.1:4174",
+  "clusterBaseUrl": "http://127.0.0.1:8788",
+  "clusterMode": "real",
+  "phases": [
+    {
+      "id": "stub",
+      "title": "Phase 1 Stub Baseline",
+      "agentMode": "stub",
+      "openClawBaseUrl": null,
+      "clusterEnabled": false,
+      "startedAt": "2026-03-09T15:12:07.049Z",
+      "completedAt": "2026-03-09T15:12:07.104Z",
+      "status": "failed",
+      "setup": {
+        "dataFile": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/stub-mindanchor.json",
+        "logFile": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/logs/api-stub.log",
+        "agentMode": "stub",
+        "openClawBaseUrl": null
+      },
+      "steps": [
+        {
+          "label": "health",
+          "method": "GET",
+          "path": "/health",
+          "baseUrl": "http://127.0.0.1:3024",
+          "startedAt": "2026-03-09T15:12:07.065Z",
+          "completedAt": "2026-03-09T15:12:07.087Z",
+          "statusCode": 200,
+          "success": null,
+          "responseFile": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/responses/stub/health.json",
+          "traceId": null,
+          "fallbackLikely": null,
+          "adapterRoute": null,
+          "selectedEndpoint": null,
+          "fallbackReason": null,
+          "adapterStrategy": null,
+          "conclusion": "passed"
+        },
+        {
+          "label": "adapter-status",
+          "method": "GET",
+          "path": "/debug/openclaw/adapter",
+          "baseUrl": "http://127.0.0.1:3024",
+          "startedAt": "2026-03-09T15:12:07.087Z",
+          "completedAt": "2026-03-09T15:12:07.104Z",
+          "statusCode": 200,
+          "success": null,
+          "responseFile": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/responses/stub/adapter-status.json",
+          "traceId": "d149238e-c9a6-4391-8341-bd50914c9315",
+          "fallbackLikely": null,
+          "adapterRoute": "provider-fallback",
+          "selectedEndpoint": "/responses",
+          "fallbackReason": "fetch failed",
+          "adapterStrategy": "cluster-preferred",
+          "conclusion": "Expected adapter strategy provider-direct."
+        }
+      ],
+      "failures": [
+        {
+          "phaseId": "stub",
+          "label": "adapter-status",
+          "message": "Expected adapter strategy provider-direct.",
+          "step": {
+            "label": "adapter-status",
+            "method": "GET",
+            "path": "/debug/openclaw/adapter",
+            "baseUrl": "http://127.0.0.1:3024",
+            "startedAt": "2026-03-09T15:12:07.087Z",
+            "completedAt": "2026-03-09T15:12:07.104Z",
+            "statusCode": 200,
+            "success": null,
+            "responseFile": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/responses/stub/adapter-status.json",
+            "traceId": "d149238e-c9a6-4391-8341-bd50914c9315",
+            "fallbackLikely": null,
+            "adapterRoute": "provider-fallback",
+            "selectedEndpoint": "/responses",
+            "fallbackReason": "fetch failed",
+            "adapterStrategy": "cluster-preferred",
+            "conclusion": "Expected adapter strategy provider-direct."
+          },
+          "createdAt": "2026-03-09T15:12:07.104Z"
+        },
+        {
+          "phaseId": "stub",
+          "label": "stub-phase",
+          "message": "Expected adapter strategy provider-direct.",
+          "createdAt": "2026-03-09T15:12:07.104Z"
+        }
+      ]
+    },
+    {
+      "id": "provider-direct",
+      "title": "Phase 2 Provider Direct",
+      "agentMode": "openai-compatible",
+      "openClawBaseUrl": null,
+      "clusterEnabled": false,
+      "startedAt": "2026-03-09T15:12:07.104Z",
+      "completedAt": "2026-03-09T15:12:07.155Z",
+      "status": "failed",
+      "setup": {
+        "dataFile": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/provider-direct-mindanchor.json",
+        "logFile": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/logs/api-provider-direct.log",
+        "agentMode": "openai-compatible",
+        "openClawBaseUrl": null
+      },
+      "steps": [
+        {
+          "label": "health",
+          "method": "GET",
+          "path": "/health",
+          "baseUrl": "http://127.0.0.1:3024",
+          "startedAt": "2026-03-09T15:12:07.118Z",
+          "completedAt": "2026-03-09T15:12:07.138Z",
+          "statusCode": 200,
+          "success": null,
+          "responseFile": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/responses/provider-direct/health.json",
+          "traceId": null,
+          "fallbackLikely": null,
+          "adapterRoute": null,
+          "selectedEndpoint": null,
+          "fallbackReason": null,
+          "adapterStrategy": null,
+          "conclusion": "passed"
+        },
+        {
+          "label": "adapter-status",
+          "method": "GET",
+          "path": "/debug/openclaw/adapter",
+          "baseUrl": "http://127.0.0.1:3024",
+          "startedAt": "2026-03-09T15:12:07.138Z",
+          "completedAt": "2026-03-09T15:12:07.155Z",
+          "statusCode": 200,
+          "success": null,
+          "responseFile": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/responses/provider-direct/adapter-status.json",
+          "traceId": "d149238e-c9a6-4391-8341-bd50914c9315",
+          "fallbackLikely": null,
+          "adapterRoute": "provider-fallback",
+          "selectedEndpoint": "/responses",
+          "fallbackReason": "fetch failed",
+          "adapterStrategy": "cluster-preferred",
+          "conclusion": "Expected adapter strategy provider-direct."
+        }
+      ],
+      "failures": [
+        {
+          "phaseId": "provider-direct",
+          "label": "adapter-status",
+          "message": "Expected adapter strategy provider-direct.",
+          "step": {
+            "label": "adapter-status",
+            "method": "GET",
+            "path": "/debug/openclaw/adapter",
+            "baseUrl": "http://127.0.0.1:3024",
+            "startedAt": "2026-03-09T15:12:07.138Z",
+            "completedAt": "2026-03-09T15:12:07.155Z",
+            "statusCode": 200,
+            "success": null,
+            "responseFile": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/responses/provider-direct/adapter-status.json",
+            "traceId": "d149238e-c9a6-4391-8341-bd50914c9315",
+            "fallbackLikely": null,
+            "adapterRoute": "provider-fallback",
+            "selectedEndpoint": "/responses",
+            "fallbackReason": "fetch failed",
+            "adapterStrategy": "cluster-preferred",
+            "conclusion": "Expected adapter strategy provider-direct."
+          },
+          "createdAt": "2026-03-09T15:12:07.155Z"
+        },
+        {
+          "phaseId": "provider-direct",
+          "label": "provider-direct-phase",
+          "message": "Expected adapter strategy provider-direct.",
+          "createdAt": "2026-03-09T15:12:07.155Z"
+        }
+      ]
+    },
+    {
+      "id": "cluster-preferred",
+      "title": "Phase 3 Cluster Preferred",
+      "agentMode": "openai-compatible",
+      "openClawBaseUrl": "http://127.0.0.1:8788",
+      "clusterEnabled": true,
+      "startedAt": "2026-03-09T15:12:07.663Z",
+      "completedAt": "2026-03-09T15:17:07.807Z",
+      "status": "failed",
+      "setup": {
+        "dataFile": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/cluster-preferred-mindanchor.json",
+        "logFile": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/logs/api-cluster-preferred.log",
+        "agentMode": "openai-compatible",
+        "openClawBaseUrl": "http://127.0.0.1:8788"
+      },
+      "steps": [
+        {
+          "label": "health",
+          "method": "GET",
+          "path": "/health",
+          "baseUrl": "http://127.0.0.1:3024",
+          "startedAt": "2026-03-09T15:12:07.681Z",
+          "completedAt": "2026-03-09T15:12:07.702Z",
+          "statusCode": 200,
+          "success": null,
+          "responseFile": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/responses/cluster-preferred/health.json",
+          "traceId": null,
+          "fallbackLikely": null,
+          "adapterRoute": null,
+          "selectedEndpoint": null,
+          "fallbackReason": null,
+          "adapterStrategy": null,
+          "conclusion": "passed"
+        },
+        {
+          "label": "adapter-status",
+          "method": "GET",
+          "path": "/debug/openclaw/adapter",
+          "baseUrl": "http://127.0.0.1:3024",
+          "startedAt": "2026-03-09T15:12:07.703Z",
+          "completedAt": "2026-03-09T15:12:07.722Z",
+          "statusCode": 200,
+          "success": null,
+          "responseFile": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/responses/cluster-preferred/adapter-status.json",
+          "traceId": "d149238e-c9a6-4391-8341-bd50914c9315",
+          "fallbackLikely": null,
+          "adapterRoute": "provider-fallback",
+          "selectedEndpoint": "/responses",
+          "fallbackReason": "fetch failed",
+          "adapterStrategy": "cluster-preferred",
+          "conclusion": "passed"
+        },
+        {
+          "label": "agent-configs",
+          "method": "GET",
+          "path": "/debug/agent-configs",
+          "baseUrl": "http://127.0.0.1:3024",
+          "startedAt": "2026-03-09T15:12:07.722Z",
+          "completedAt": "2026-03-09T15:12:07.737Z",
+          "statusCode": 200,
+          "success": null,
+          "responseFile": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/responses/cluster-preferred/agent-configs.json",
+          "traceId": null,
+          "fallbackLikely": null,
+          "adapterRoute": null,
+          "selectedEndpoint": null,
+          "fallbackReason": null,
+          "adapterStrategy": null,
+          "conclusion": "passed"
+        },
+        {
+          "label": "debug-scenarios",
+          "method": "GET",
+          "path": "/debug/scenarios",
+          "baseUrl": "http://127.0.0.1:3024",
+          "startedAt": "2026-03-09T15:12:07.737Z",
+          "completedAt": "2026-03-09T15:12:07.749Z",
+          "statusCode": 200,
+          "success": null,
+          "responseFile": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/responses/cluster-preferred/debug-scenarios.json",
+          "traceId": null,
+          "fallbackLikely": null,
+          "adapterRoute": null,
+          "selectedEndpoint": null,
+          "fallbackReason": null,
+          "adapterStrategy": null,
+          "conclusion": "passed"
+        },
+        {
+          "label": "clear-debug-runs",
+          "method": "POST",
+          "path": "/debug/runs/clear",
+          "baseUrl": "http://127.0.0.1:3024",
+          "startedAt": "2026-03-09T15:12:07.749Z",
+          "completedAt": "2026-03-09T15:12:07.771Z",
+          "statusCode": 200,
+          "success": null,
+          "responseFile": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/responses/cluster-preferred/clear-debug-runs.json",
+          "traceId": null,
+          "fallbackLikely": null,
+          "adapterRoute": null,
+          "selectedEndpoint": null,
+          "fallbackReason": null,
+          "adapterStrategy": null,
+          "conclusion": "passed"
+        },
+        {
+          "label": "clear-matrix-runs",
+          "method": "POST",
+          "path": "/debug/regressions/matrix-runs/clear",
+          "baseUrl": "http://127.0.0.1:3024",
+          "startedAt": "2026-03-09T15:12:07.771Z",
+          "completedAt": "2026-03-09T15:12:07.801Z",
+          "statusCode": 200,
+          "success": null,
+          "responseFile": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/responses/cluster-preferred/clear-matrix-runs.json",
+          "traceId": null,
+          "fallbackLikely": null,
+          "adapterRoute": null,
+          "selectedEndpoint": null,
+          "fallbackReason": null,
+          "adapterStrategy": null,
+          "conclusion": "passed"
+        },
+        {
+          "label": "bootstrap-demo-user",
+          "method": "POST",
+          "path": "/debug/local-cluster/bootstrap",
+          "baseUrl": "http://127.0.0.1:3024",
+          "startedAt": "2026-03-09T15:12:07.801Z",
+          "completedAt": "2026-03-09T15:17:07.807Z",
+          "statusCode": null,
+          "success": null,
+          "responseFile": null,
+          "traceId": null,
+          "fallbackLikely": null,
+          "adapterRoute": null,
+          "selectedEndpoint": null,
+          "fallbackReason": null,
+          "adapterStrategy": null,
+          "conclusion": "This operation was aborted"
+        }
+      ],
+      "failures": [
+        {
+          "phaseId": "cluster-preferred",
+          "label": "bootstrap-demo-user",
+          "message": "This operation was aborted",
+          "step": {
+            "label": "bootstrap-demo-user",
+            "method": "POST",
+            "path": "/debug/local-cluster/bootstrap",
+            "baseUrl": "http://127.0.0.1:3024",
+            "startedAt": "2026-03-09T15:12:07.801Z",
+            "completedAt": "2026-03-09T15:17:07.807Z",
+            "statusCode": null,
+            "success": null,
+            "responseFile": null,
+            "traceId": null,
+            "fallbackLikely": null,
+            "adapterRoute": null,
+            "selectedEndpoint": null,
+            "fallbackReason": null,
+            "adapterStrategy": null,
+            "conclusion": "This operation was aborted"
+          },
+          "createdAt": "2026-03-09T15:17:07.807Z"
+        },
+        {
+          "phaseId": "cluster-preferred",
+          "label": "cluster-preferred-phase",
+          "message": "This operation was aborted",
+          "createdAt": "2026-03-09T15:17:07.807Z"
+        }
+      ]
+    }
+  ],
+  "files": {
+    "reportJson": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/report.json",
+    "reportMarkdown": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/report.md",
+    "logsDir": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/logs",
+    "responsesDir": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/responses"
+  },
+  "failures": [
+    {
+      "phaseId": "stub",
+      "label": "adapter-status",
+      "message": "Expected adapter strategy provider-direct.",
+      "step": {
+        "label": "adapter-status",
+        "method": "GET",
+        "path": "/debug/openclaw/adapter",
+        "baseUrl": "http://127.0.0.1:3024",
+        "startedAt": "2026-03-09T15:12:07.087Z",
+        "completedAt": "2026-03-09T15:12:07.104Z",
+        "statusCode": 200,
+        "success": null,
+        "responseFile": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/responses/stub/adapter-status.json",
+        "traceId": "d149238e-c9a6-4391-8341-bd50914c9315",
+        "fallbackLikely": null,
+        "adapterRoute": "provider-fallback",
+        "selectedEndpoint": "/responses",
+        "fallbackReason": "fetch failed",
+        "adapterStrategy": "cluster-preferred",
+        "conclusion": "Expected adapter strategy provider-direct."
+      },
+      "createdAt": "2026-03-09T15:12:07.104Z"
+    },
+    {
+      "phaseId": "stub",
+      "label": "stub-phase",
+      "message": "Expected adapter strategy provider-direct.",
+      "createdAt": "2026-03-09T15:12:07.104Z"
+    },
+    {
+      "phaseId": "provider-direct",
+      "label": "adapter-status",
+      "message": "Expected adapter strategy provider-direct.",
+      "step": {
+        "label": "adapter-status",
+        "method": "GET",
+        "path": "/debug/openclaw/adapter",
+        "baseUrl": "http://127.0.0.1:3024",
+        "startedAt": "2026-03-09T15:12:07.138Z",
+        "completedAt": "2026-03-09T15:12:07.155Z",
+        "statusCode": 200,
+        "success": null,
+        "responseFile": "/Users/claw/mindanchor/test-results/core-phase-2026-03-09T15-11-56-465Z/responses/provider-direct/adapter-status.json",
+        "traceId": "d149238e-c9a6-4391-8341-bd50914c9315",
+        "fallbackLikely": null,
+        "adapterRoute": "provider-fallback",
+        "selectedEndpoint": "/responses",
+        "fallbackReason": "fetch failed",
+        "adapterStrategy": "cluster-preferred",
+        "conclusion": "Expected adapter strategy provider-direct."
+      },
+      "createdAt": "2026-03-09T15:12:07.155Z"
+    },
+    {
+      "phaseId": "provider-direct",
+      "label": "provider-direct-phase",
+      "message": "Expected adapter strategy provider-direct.",
+      "createdAt": "2026-03-09T15:12:07.155Z"
+    },
+    {
+      "phaseId": "cluster-preferred",
+      "label": "bootstrap-demo-user",
+      "message": "This operation was aborted",
+      "step": {
+        "label": "bootstrap-demo-user",
+        "method": "POST",
+        "path": "/debug/local-cluster/bootstrap",
+        "baseUrl": "http://127.0.0.1:3024",
+        "startedAt": "2026-03-09T15:12:07.801Z",
+        "completedAt": "2026-03-09T15:17:07.807Z",
+        "statusCode": null,
+        "success": null,
+        "responseFile": null,
+        "traceId": null,
+        "fallbackLikely": null,
+        "adapterRoute": null,
+        "selectedEndpoint": null,
+        "fallbackReason": null,
+        "adapterStrategy": null,
+        "conclusion": "This operation was aborted"
+      },
+      "createdAt": "2026-03-09T15:17:07.807Z"
+    },
+    {
+      "phaseId": "cluster-preferred",
+      "label": "cluster-preferred-phase",
+      "message": "This operation was aborted",
+      "createdAt": "2026-03-09T15:17:07.807Z"
+    }
+  ]
+}

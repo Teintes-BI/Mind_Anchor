@@ -1,0 +1,17 @@
+{
+  "startedAt": "2026-03-29T14:24:55.414Z",
+  "completedAt": null,
+  "rootDir": "/Users/claw/mindanchor",
+  "apiBaseUrl": "http://127.0.0.1:4034",
+  "webBaseUrl": "http://127.0.0.1:5174",
+  "clusterBaseUrl": "http://127.0.0.1:9888",
+  "clusterMode": "local",
+  "providerMode": "mock",
+  "phases": [],
+  "files": {},
+  "failures": [],
+  "preflight": {
+    "ok": true,
+    "issues": []
+  }
+}

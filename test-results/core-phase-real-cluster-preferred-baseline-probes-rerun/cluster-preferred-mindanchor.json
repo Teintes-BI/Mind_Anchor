@@ -1,0 +1,1473 @@
+{
+  "goals": [],
+  "tasks": [],
+  "sessions": [],
+  "stateSignals": [],
+  "stateAssessments": [],
+  "interventions": [],
+  "recoveryPlans": [],
+  "reflectionReports": [],
+  "mobileCaptureDevices": [],
+  "audioCaptureSessions": [],
+  "callEvents": [],
+  "emotionAssessments": [],
+  "edgeDevices": [],
+  "mediaUploadSessions": [],
+  "mediaChunkManifests": [],
+  "videoAssessments": [],
+  "healthSnapshots": [],
+  "behaviorConclusions": [],
+  "clientInboxMessages": [],
+  "coachFrontAgentStates": [],
+  "planChangeProposals": [],
+  "planChangeCommandLogs": [],
+  "coachSessions": [],
+  "coachMessages": [],
+  "coachFeedback": [],
+  "coachMemoryItems": [],
+  "coachTrainingExamples": [],
+  "memoryCandidates": [],
+  "memoryItems": [],
+  "agentDebugRuns": [
+    {
+      "id": "23b59217-315f-4154-8bb1-657cf0672c04",
+      "createdAt": "2026-03-24T03:26:35.305Z",
+      "userId": "demo-user",
+      "traceId": "dfbce5a0-c120-48dd-ba5d-aa08575b19f4",
+      "parentTraceId": "e1eaadbd-dfb1-40db-a034-33610b77a01e",
+      "kind": "probe",
+      "agentName": "chief-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "dfbce5a0-c120-48dd-ba5d-aa08575b19f4",
+        "parentTraceId": "e1eaadbd-dfb1-40db-a034-33610b77a01e",
+        "target": "chief-agent",
+        "mode": "probe",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"probe\":\"ok\"}"
+          }
+        ]
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    },
+    {
+      "id": "b9cb618a-ad7f-4825-bb49-68712f5e9fe7",
+      "createdAt": "2026-03-24T03:26:35.311Z",
+      "userId": "demo-user",
+      "traceId": "8b952b0f-1278-40e9-8be9-c6fe638aa3eb",
+      "parentTraceId": "566973d8-9f9e-4225-9e60-20041f5e4aef",
+      "kind": "probe",
+      "agentName": "state-insight-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "8b952b0f-1278-40e9-8be9-c6fe638aa3eb",
+        "parentTraceId": "566973d8-9f9e-4225-9e60-20041f5e4aef",
+        "target": "state-insight-agent",
+        "mode": "probe",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"probe\":\"ok\"}"
+          }
+        ]
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    },
+    {
+      "id": "ddfde0d7-2131-47f9-8a8c-ca9d0cbe5421",
+      "createdAt": "2026-03-24T03:26:35.317Z",
+      "userId": "demo-user",
+      "traceId": "4ddfc09d-187f-474a-98b4-edff590119d0",
+      "parentTraceId": "2ff187a6-1b8b-4012-ae9e-6c635d930285",
+      "kind": "probe",
+      "agentName": "task-management-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "4ddfc09d-187f-474a-98b4-edff590119d0",
+        "parentTraceId": "2ff187a6-1b8b-4012-ae9e-6c635d930285",
+        "target": "task-management-agent",
+        "mode": "probe",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"probe\":\"ok\"}"
+          }
+        ]
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    },
+    {
+      "id": "254bd772-0122-46ee-a8d9-ce638b8dea50",
+      "createdAt": "2026-03-24T03:26:35.322Z",
+      "userId": "demo-user",
+      "traceId": "adb89b4f-ee53-414e-b575-4de38229e6b8",
+      "parentTraceId": "257c1062-9bf7-4793-9f3b-8edb888b69a1",
+      "kind": "probe",
+      "agentName": "progress-feedback-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "adb89b4f-ee53-414e-b575-4de38229e6b8",
+        "parentTraceId": "257c1062-9bf7-4793-9f3b-8edb888b69a1",
+        "target": "progress-feedback-agent",
+        "mode": "probe",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"probe\":\"ok\"}"
+          }
+        ]
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    },
+    {
+      "id": "49d421d6-fb60-4349-9306-adf1526a4ff1",
+      "createdAt": "2026-03-24T03:26:35.328Z",
+      "userId": "demo-user",
+      "traceId": "2b96d71d-6b94-40ed-8de2-e78b3cc3348b",
+      "parentTraceId": "c7156c10-22b5-4069-b84a-d850eeb67354",
+      "kind": "probe",
+      "agentName": "interruption-recovery-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "2b96d71d-6b94-40ed-8de2-e78b3cc3348b",
+        "parentTraceId": "c7156c10-22b5-4069-b84a-d850eeb67354",
+        "target": "interruption-recovery-agent",
+        "mode": "probe",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"probe\":\"ok\"}"
+          }
+        ]
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    },
+    {
+      "id": "30d8dac0-e8b9-4831-9e95-cca357f3f374",
+      "createdAt": "2026-03-24T03:26:35.332Z",
+      "userId": "demo-user",
+      "traceId": "2bd8c1f2-3132-4772-98db-89ae8a27da24",
+      "parentTraceId": "22190c4e-39de-4086-b365-b4b22273e6ac",
+      "kind": "probe",
+      "agentName": "reflection-coach-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "2bd8c1f2-3132-4772-98db-89ae8a27da24",
+        "parentTraceId": "22190c4e-39de-4086-b365-b4b22273e6ac",
+        "target": "reflection-coach-agent",
+        "mode": "probe",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"probe\":\"ok\"}"
+          }
+        ]
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    },
+    {
+      "id": "a56392b9-cdb4-4191-b23b-61235dd8db6f",
+      "createdAt": "2026-03-24T03:26:35.336Z",
+      "userId": "demo-user",
+      "traceId": "e7a3f621-8ed4-437a-9e11-a092f1db1b7d",
+      "parentTraceId": "2a48cc16-7d49-49a8-a8cb-3d9416b99e13",
+      "kind": "probe",
+      "agentName": "automation-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "e7a3f621-8ed4-437a-9e11-a092f1db1b7d",
+        "parentTraceId": "2a48cc16-7d49-49a8-a8cb-3d9416b99e13",
+        "target": "automation-agent",
+        "mode": "probe",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"probe\":\"ok\"}"
+          }
+        ]
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    }
+  ],
+  "debugRegressionMatrixRuns": [],
+  "traceLogEvents": [
+    {
+      "id": "37d75e94-185c-433e-9822-5408f383bfdc",
+      "createdAt": "2026-03-24T03:26:35.260Z",
+      "traceId": "f9377765-31cd-4336-895f-937c6eba630b",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /health",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-1"
+      }
+    },
+    {
+      "id": "583575f7-1636-45c0-a4e9-e3fc90bbd530",
+      "createdAt": "2026-03-24T03:26:35.262Z",
+      "traceId": "f9377765-31cd-4336-895f-937c6eba630b",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /health -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-1",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "af8f4570-80d8-48e0-a529-96bb11725e90",
+      "createdAt": "2026-03-24T03:26:35.264Z",
+      "traceId": "ef99cf43-95e3-42f4-8b28-52f033d8e533",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /health",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-2"
+      }
+    },
+    {
+      "id": "51a803bf-4f78-40b4-951f-755d33374aba",
+      "createdAt": "2026-03-24T03:26:35.265Z",
+      "traceId": "ef99cf43-95e3-42f4-8b28-52f033d8e533",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /health -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-2",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "01b78054-50e9-4e02-be65-0f19ed001f2f",
+      "createdAt": "2026-03-24T03:26:35.267Z",
+      "traceId": "50dc4222-76a7-4cdb-b85c-a84226ab499e",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/openclaw/adapter",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/openclaw/adapter",
+        "requestId": "req-3"
+      }
+    },
+    {
+      "id": "69893214-6e8f-4609-b5e3-707538e751dd",
+      "createdAt": "2026-03-24T03:26:35.268Z",
+      "traceId": "50dc4222-76a7-4cdb-b85c-a84226ab499e",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/openclaw/adapter -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/openclaw/adapter",
+        "requestId": "req-3",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "00ea9bc7-b821-4f6c-b810-07134447911e",
+      "createdAt": "2026-03-24T03:26:35.269Z",
+      "traceId": "2632fddf-0956-42be-8efc-028c03dd3cca",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/agent-configs",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/agent-configs",
+        "requestId": "req-4"
+      }
+    },
+    {
+      "id": "ef31c080-973d-4c53-92c6-9c25227ac2b6",
+      "createdAt": "2026-03-24T03:26:35.269Z",
+      "traceId": "2632fddf-0956-42be-8efc-028c03dd3cca",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/agent-configs -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/agent-configs",
+        "requestId": "req-4",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "366cbedf-3870-472c-a74c-ef6a22f99103",
+      "createdAt": "2026-03-24T03:26:35.270Z",
+      "traceId": "97abf2f5-bed8-482c-90f5-5c78a40f4cae",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/scenarios",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/scenarios",
+        "requestId": "req-5"
+      }
+    },
+    {
+      "id": "e504eefb-20c2-4699-963d-7ed389bea0e8",
+      "createdAt": "2026-03-24T03:26:35.271Z",
+      "traceId": "97abf2f5-bed8-482c-90f5-5c78a40f4cae",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/scenarios -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/scenarios",
+        "requestId": "req-5",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "82c80b49-aa64-4c4a-a367-8cad20587414",
+      "createdAt": "2026-03-24T03:26:35.271Z",
+      "traceId": "fa7846c0-02ee-4d22-b2bf-9971b0e9704c",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/openclaw/registry-visibility",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/openclaw/registry-visibility",
+        "requestId": "req-6"
+      }
+    },
+    {
+      "id": "b603dd67-b4bf-4b88-92bf-4596512dc7d6",
+      "createdAt": "2026-03-24T03:26:35.296Z",
+      "traceId": "fa7846c0-02ee-4d22-b2bf-9971b0e9704c",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/openclaw/registry-visibility -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/openclaw/registry-visibility",
+        "requestId": "req-6",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "0bd47904-bc82-4302-b957-bcaa59a4d9f2",
+      "createdAt": "2026-03-24T03:26:35.298Z",
+      "traceId": "24ad0066-b18d-4097-b882-8ee245e2e470",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /debug/runs/clear",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/runs/clear",
+        "requestId": "req-7"
+      }
+    },
+    {
+      "id": "d0a354df-c897-4be9-9dde-707d74b0a8eb",
+      "createdAt": "2026-03-24T03:26:35.299Z",
+      "traceId": "24ad0066-b18d-4097-b882-8ee245e2e470",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /debug/runs/clear -> 200",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/runs/clear",
+        "requestId": "req-7",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "a86f2b38-d07b-4aba-8b71-32b8679b4e7f",
+      "createdAt": "2026-03-24T03:26:35.300Z",
+      "traceId": "18fd7fff-ed74-4474-8582-5392c216d7cf",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /debug/regressions/matrix-runs/clear",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/regressions/matrix-runs/clear",
+        "requestId": "req-8"
+      }
+    },
+    {
+      "id": "d6171433-5f38-458f-9e9d-4f3abc9b63e1",
+      "createdAt": "2026-03-24T03:26:35.301Z",
+      "traceId": "18fd7fff-ed74-4474-8582-5392c216d7cf",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /debug/regressions/matrix-runs/clear -> 200",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/regressions/matrix-runs/clear",
+        "requestId": "req-8",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "2ec82546-7b46-478d-85bd-f267b9380351",
+      "createdAt": "2026-03-24T03:26:35.302Z",
+      "traceId": "e1eaadbd-dfb1-40db-a034-33610b77a01e",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/chief-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/chief-agent",
+        "requestId": "req-9"
+      }
+    },
+    {
+      "id": "2450f4af-85a4-4211-8ef1-801339271818",
+      "createdAt": "2026-03-24T03:26:35.303Z",
+      "traceId": "dfbce5a0-c120-48dd-ba5d-aa08575b19f4",
+      "parentTraceId": "e1eaadbd-dfb1-40db-a034-33610b77a01e",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "probe",
+        "taskId": "577a39a9-f20a-404a-b912-712ddecf14d7"
+      }
+    },
+    {
+      "id": "22156d95-ce64-4d58-be05-7c9c5954bf2b",
+      "createdAt": "2026-03-24T03:26:35.305Z",
+      "traceId": "dfbce5a0-c120-48dd-ba5d-aa08575b19f4",
+      "parentTraceId": "e1eaadbd-dfb1-40db-a034-33610b77a01e",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "probe",
+        "taskId": "577a39a9-f20a-404a-b912-712ddecf14d7"
+      }
+    },
+    {
+      "id": "5c1d520e-8251-412e-826f-231c5b4be801",
+      "createdAt": "2026-03-24T03:26:35.305Z",
+      "traceId": "dfbce5a0-c120-48dd-ba5d-aa08575b19f4",
+      "parentTraceId": "e1eaadbd-dfb1-40db-a034-33610b77a01e",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via cluster",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "chief-agent",
+        "userId": "demo-user",
+        "target": "chief-agent",
+        "mode": "probe",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"probe\":\"ok\"}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "4a74e296-649a-49ba-a608-5f7b6bf3c6f4",
+      "createdAt": "2026-03-24T03:26:35.305Z",
+      "traceId": "dfbce5a0-c120-48dd-ba5d-aa08575b19f4",
+      "parentTraceId": "e1eaadbd-dfb1-40db-a034-33610b77a01e",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for chief-agent",
+      "metadata": {
+        "agentName": "chief-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "d98f316e-ef2d-4356-b2d8-2601ee1d7961",
+      "createdAt": "2026-03-24T03:26:35.306Z",
+      "traceId": "e1eaadbd-dfb1-40db-a034-33610b77a01e",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/chief-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/chief-agent",
+        "requestId": "req-9",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "4599380d-844b-4cfc-a6f3-b547e28597ea",
+      "createdAt": "2026-03-24T03:26:35.307Z",
+      "traceId": "dad8170d-0142-4f08-9707-360c8b4b638f",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/dfbce5a0-c120-48dd-ba5d-aa08575b19f4",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/dfbce5a0-c120-48dd-ba5d-aa08575b19f4",
+        "requestId": "req-a"
+      }
+    },
+    {
+      "id": "cd5d0777-8e13-459b-ad1b-eee5a162ea3a",
+      "createdAt": "2026-03-24T03:26:35.308Z",
+      "traceId": "dad8170d-0142-4f08-9707-360c8b4b638f",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/dfbce5a0-c120-48dd-ba5d-aa08575b19f4 -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/dfbce5a0-c120-48dd-ba5d-aa08575b19f4",
+        "requestId": "req-a",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "eba99206-c826-4ebf-a5a9-60b24dc6ac56",
+      "createdAt": "2026-03-24T03:26:35.309Z",
+      "traceId": "566973d8-9f9e-4225-9e60-20041f5e4aef",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/state-insight-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/state-insight-agent",
+        "requestId": "req-b"
+      }
+    },
+    {
+      "id": "b27926f8-8359-4d73-99b3-6a73b8fe1798",
+      "createdAt": "2026-03-24T03:26:35.309Z",
+      "traceId": "8b952b0f-1278-40e9-8be9-c6fe638aa3eb",
+      "parentTraceId": "566973d8-9f9e-4225-9e60-20041f5e4aef",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for state-insight-agent",
+      "metadata": {
+        "target": "state-insight-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "probe",
+        "taskId": "ae802912-b588-48ca-879d-fe266f221e8d"
+      }
+    },
+    {
+      "id": "364e7527-35fe-4bf7-baf0-7be221107537",
+      "createdAt": "2026-03-24T03:26:35.311Z",
+      "traceId": "8b952b0f-1278-40e9-8be9-c6fe638aa3eb",
+      "parentTraceId": "566973d8-9f9e-4225-9e60-20041f5e4aef",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for state-insight-agent",
+      "metadata": {
+        "target": "state-insight-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "probe",
+        "taskId": "ae802912-b588-48ca-879d-fe266f221e8d"
+      }
+    },
+    {
+      "id": "e7977166-aecb-4ad1-b031-37d103cdb8df",
+      "createdAt": "2026-03-24T03:26:35.311Z",
+      "traceId": "8b952b0f-1278-40e9-8be9-c6fe638aa3eb",
+      "parentTraceId": "566973d8-9f9e-4225-9e60-20041f5e4aef",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed state-insight-agent via cluster",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "state-insight-agent",
+        "userId": "demo-user",
+        "target": "state-insight-agent",
+        "mode": "probe",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"probe\":\"ok\"}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "bedcd772-fc12-46e1-8112-9d3de0c23861",
+      "createdAt": "2026-03-24T03:26:35.312Z",
+      "traceId": "8b952b0f-1278-40e9-8be9-c6fe638aa3eb",
+      "parentTraceId": "566973d8-9f9e-4225-9e60-20041f5e4aef",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for state-insight-agent",
+      "metadata": {
+        "agentName": "state-insight-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "0feaaebc-0fea-477a-bb94-50d74b06d505",
+      "createdAt": "2026-03-24T03:26:35.312Z",
+      "traceId": "566973d8-9f9e-4225-9e60-20041f5e4aef",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/state-insight-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/state-insight-agent",
+        "requestId": "req-b",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "d21bfc13-3ebc-4648-a9f3-4aa0436e958a",
+      "createdAt": "2026-03-24T03:26:35.313Z",
+      "traceId": "70d7d77d-1b2e-4a6d-be2c-e94826324a27",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/8b952b0f-1278-40e9-8be9-c6fe638aa3eb",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/8b952b0f-1278-40e9-8be9-c6fe638aa3eb",
+        "requestId": "req-c"
+      }
+    },
+    {
+      "id": "fc67fd1c-e010-47d4-a55a-dc21a17e1b4b",
+      "createdAt": "2026-03-24T03:26:35.313Z",
+      "traceId": "70d7d77d-1b2e-4a6d-be2c-e94826324a27",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/8b952b0f-1278-40e9-8be9-c6fe638aa3eb -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/8b952b0f-1278-40e9-8be9-c6fe638aa3eb",
+        "requestId": "req-c",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "26bd9940-3210-4fd1-9f67-2077972a41a0",
+      "createdAt": "2026-03-24T03:26:35.314Z",
+      "traceId": "2ff187a6-1b8b-4012-ae9e-6c635d930285",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/task-management-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/task-management-agent",
+        "requestId": "req-d"
+      }
+    },
+    {
+      "id": "bf922ba7-c930-4662-b640-7ff083b3564d",
+      "createdAt": "2026-03-24T03:26:35.315Z",
+      "traceId": "4ddfc09d-187f-474a-98b4-edff590119d0",
+      "parentTraceId": "2ff187a6-1b8b-4012-ae9e-6c635d930285",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for task-management-agent",
+      "metadata": {
+        "target": "task-management-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "probe",
+        "taskId": "5f95a23d-4146-4709-a0b4-514e40ffad0d"
+      }
+    },
+    {
+      "id": "bcdde261-ebd1-46af-b0f8-93823959c5aa",
+      "createdAt": "2026-03-24T03:26:35.317Z",
+      "traceId": "4ddfc09d-187f-474a-98b4-edff590119d0",
+      "parentTraceId": "2ff187a6-1b8b-4012-ae9e-6c635d930285",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for task-management-agent",
+      "metadata": {
+        "target": "task-management-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "probe",
+        "taskId": "5f95a23d-4146-4709-a0b4-514e40ffad0d"
+      }
+    },
+    {
+      "id": "688058c2-49cf-4fd6-983b-6a77e51b716c",
+      "createdAt": "2026-03-24T03:26:35.317Z",
+      "traceId": "4ddfc09d-187f-474a-98b4-edff590119d0",
+      "parentTraceId": "2ff187a6-1b8b-4012-ae9e-6c635d930285",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed task-management-agent via cluster",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "task-management-agent",
+        "userId": "demo-user",
+        "target": "task-management-agent",
+        "mode": "probe",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"probe\":\"ok\"}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "073a924b-d670-4fd9-be76-8a1d5d3eb1df",
+      "createdAt": "2026-03-24T03:26:35.317Z",
+      "traceId": "4ddfc09d-187f-474a-98b4-edff590119d0",
+      "parentTraceId": "2ff187a6-1b8b-4012-ae9e-6c635d930285",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for task-management-agent",
+      "metadata": {
+        "agentName": "task-management-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "a9dffe4d-c9fd-4b2c-8ee3-cddf709d2587",
+      "createdAt": "2026-03-24T03:26:35.318Z",
+      "traceId": "2ff187a6-1b8b-4012-ae9e-6c635d930285",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/task-management-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/task-management-agent",
+        "requestId": "req-d",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "21e712c7-888e-4aea-8e3d-98dbbda08e40",
+      "createdAt": "2026-03-24T03:26:35.318Z",
+      "traceId": "033a07c3-14dd-4906-8fa7-8b28d04011d8",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/4ddfc09d-187f-474a-98b4-edff590119d0",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/4ddfc09d-187f-474a-98b4-edff590119d0",
+        "requestId": "req-e"
+      }
+    },
+    {
+      "id": "83d2bc8a-ba05-4fa7-b677-7c893321ebac",
+      "createdAt": "2026-03-24T03:26:35.319Z",
+      "traceId": "033a07c3-14dd-4906-8fa7-8b28d04011d8",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/4ddfc09d-187f-474a-98b4-edff590119d0 -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/4ddfc09d-187f-474a-98b4-edff590119d0",
+        "requestId": "req-e",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "e3e7db37-b874-4e94-bd4a-f4e9dd373695",
+      "createdAt": "2026-03-24T03:26:35.320Z",
+      "traceId": "257c1062-9bf7-4793-9f3b-8edb888b69a1",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/progress-feedback-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/progress-feedback-agent",
+        "requestId": "req-f"
+      }
+    },
+    {
+      "id": "25f09545-5cad-448f-880f-108d816e1d12",
+      "createdAt": "2026-03-24T03:26:35.320Z",
+      "traceId": "adb89b4f-ee53-414e-b575-4de38229e6b8",
+      "parentTraceId": "257c1062-9bf7-4793-9f3b-8edb888b69a1",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for progress-feedback-agent",
+      "metadata": {
+        "target": "progress-feedback-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "probe",
+        "taskId": "76b28736-177c-4daf-b764-cb6bec6fd747"
+      }
+    },
+    {
+      "id": "49ae1cc5-e195-4bc4-a6c9-d948bdee05f4",
+      "createdAt": "2026-03-24T03:26:35.322Z",
+      "traceId": "adb89b4f-ee53-414e-b575-4de38229e6b8",
+      "parentTraceId": "257c1062-9bf7-4793-9f3b-8edb888b69a1",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for progress-feedback-agent",
+      "metadata": {
+        "target": "progress-feedback-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "probe",
+        "taskId": "76b28736-177c-4daf-b764-cb6bec6fd747"
+      }
+    },
+    {
+      "id": "102fb25a-251f-4b29-bbdb-8170ba5a85ee",
+      "createdAt": "2026-03-24T03:26:35.322Z",
+      "traceId": "adb89b4f-ee53-414e-b575-4de38229e6b8",
+      "parentTraceId": "257c1062-9bf7-4793-9f3b-8edb888b69a1",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed progress-feedback-agent via cluster",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "progress-feedback-agent",
+        "userId": "demo-user",
+        "target": "progress-feedback-agent",
+        "mode": "probe",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"probe\":\"ok\"}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2b2111c-2c28-4880-ae82-4497e563dd8a",
+      "createdAt": "2026-03-24T03:26:35.322Z",
+      "traceId": "adb89b4f-ee53-414e-b575-4de38229e6b8",
+      "parentTraceId": "257c1062-9bf7-4793-9f3b-8edb888b69a1",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for progress-feedback-agent",
+      "metadata": {
+        "agentName": "progress-feedback-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "6c46bd9a-4dcd-487c-b168-60ad9333c77b",
+      "createdAt": "2026-03-24T03:26:35.323Z",
+      "traceId": "257c1062-9bf7-4793-9f3b-8edb888b69a1",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/progress-feedback-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/progress-feedback-agent",
+        "requestId": "req-f",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "4c6e6d06-f41f-44c1-8cd4-c2cc8bacadbb",
+      "createdAt": "2026-03-24T03:26:35.324Z",
+      "traceId": "c5c636a1-e7cb-4352-b762-b2274e8f9c8e",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/adb89b4f-ee53-414e-b575-4de38229e6b8",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/adb89b4f-ee53-414e-b575-4de38229e6b8",
+        "requestId": "req-g"
+      }
+    },
+    {
+      "id": "d72d3911-4fa2-4d5f-96e9-9a82e971e788",
+      "createdAt": "2026-03-24T03:26:35.324Z",
+      "traceId": "c5c636a1-e7cb-4352-b762-b2274e8f9c8e",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/adb89b4f-ee53-414e-b575-4de38229e6b8 -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/adb89b4f-ee53-414e-b575-4de38229e6b8",
+        "requestId": "req-g",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "b58c3c91-f8eb-47b5-901a-28f2c32aa8c1",
+      "createdAt": "2026-03-24T03:26:35.325Z",
+      "traceId": "c7156c10-22b5-4069-b84a-d850eeb67354",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/interruption-recovery-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/interruption-recovery-agent",
+        "requestId": "req-h"
+      }
+    },
+    {
+      "id": "f70230d6-9146-4a21-a7ed-37536525e75e",
+      "createdAt": "2026-03-24T03:26:35.326Z",
+      "traceId": "2b96d71d-6b94-40ed-8de2-e78b3cc3348b",
+      "parentTraceId": "c7156c10-22b5-4069-b84a-d850eeb67354",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for interruption-recovery-agent",
+      "metadata": {
+        "target": "interruption-recovery-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "probe",
+        "taskId": "bebba3d8-ab81-4a4b-b1cd-d2fd5a5dcb4c"
+      }
+    },
+    {
+      "id": "3ee8eb91-3d23-4876-8d61-19abf12a9f94",
+      "createdAt": "2026-03-24T03:26:35.328Z",
+      "traceId": "2b96d71d-6b94-40ed-8de2-e78b3cc3348b",
+      "parentTraceId": "c7156c10-22b5-4069-b84a-d850eeb67354",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for interruption-recovery-agent",
+      "metadata": {
+        "target": "interruption-recovery-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "probe",
+        "taskId": "bebba3d8-ab81-4a4b-b1cd-d2fd5a5dcb4c"
+      }
+    },
+    {
+      "id": "4335b067-30ec-497c-aade-076f890484db",
+      "createdAt": "2026-03-24T03:26:35.328Z",
+      "traceId": "2b96d71d-6b94-40ed-8de2-e78b3cc3348b",
+      "parentTraceId": "c7156c10-22b5-4069-b84a-d850eeb67354",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed interruption-recovery-agent via cluster",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "interruption-recovery-agent",
+        "userId": "demo-user",
+        "target": "interruption-recovery-agent",
+        "mode": "probe",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"probe\":\"ok\"}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "7f6582d7-8ad3-413d-9edf-d8e09c8bfff4",
+      "createdAt": "2026-03-24T03:26:35.328Z",
+      "traceId": "2b96d71d-6b94-40ed-8de2-e78b3cc3348b",
+      "parentTraceId": "c7156c10-22b5-4069-b84a-d850eeb67354",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for interruption-recovery-agent",
+      "metadata": {
+        "agentName": "interruption-recovery-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "dd311e8f-d952-4ff3-82b9-8b8fca2e4543",
+      "createdAt": "2026-03-24T03:26:35.329Z",
+      "traceId": "c7156c10-22b5-4069-b84a-d850eeb67354",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/interruption-recovery-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/interruption-recovery-agent",
+        "requestId": "req-h",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "5245af03-a6ae-4d05-87b4-0aec4465ec3c",
+      "createdAt": "2026-03-24T03:26:35.329Z",
+      "traceId": "066a4cb8-5017-4672-b510-9b9163315abd",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/2b96d71d-6b94-40ed-8de2-e78b3cc3348b",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/2b96d71d-6b94-40ed-8de2-e78b3cc3348b",
+        "requestId": "req-i"
+      }
+    },
+    {
+      "id": "028f916b-287f-4341-ada1-e2da759a50a4",
+      "createdAt": "2026-03-24T03:26:35.330Z",
+      "traceId": "066a4cb8-5017-4672-b510-9b9163315abd",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/2b96d71d-6b94-40ed-8de2-e78b3cc3348b -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/2b96d71d-6b94-40ed-8de2-e78b3cc3348b",
+        "requestId": "req-i",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "76684745-85c4-4db2-a145-087615c6abd6",
+      "createdAt": "2026-03-24T03:26:35.330Z",
+      "traceId": "22190c4e-39de-4086-b365-b4b22273e6ac",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/reflection-coach-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/reflection-coach-agent",
+        "requestId": "req-j"
+      }
+    },
+    {
+      "id": "fe03066a-3326-425f-814a-cc91fbf6d2b1",
+      "createdAt": "2026-03-24T03:26:35.331Z",
+      "traceId": "2bd8c1f2-3132-4772-98db-89ae8a27da24",
+      "parentTraceId": "22190c4e-39de-4086-b365-b4b22273e6ac",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for reflection-coach-agent",
+      "metadata": {
+        "target": "reflection-coach-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "probe",
+        "taskId": "449f8512-4150-470d-950b-434928b334e2"
+      }
+    },
+    {
+      "id": "a49f56bd-8a27-4e03-9d16-0aa6819bf591",
+      "createdAt": "2026-03-24T03:26:35.332Z",
+      "traceId": "2bd8c1f2-3132-4772-98db-89ae8a27da24",
+      "parentTraceId": "22190c4e-39de-4086-b365-b4b22273e6ac",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for reflection-coach-agent",
+      "metadata": {
+        "target": "reflection-coach-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "probe",
+        "taskId": "449f8512-4150-470d-950b-434928b334e2"
+      }
+    },
+    {
+      "id": "02232e30-f95a-4aec-8f4e-76ada0fab485",
+      "createdAt": "2026-03-24T03:26:35.332Z",
+      "traceId": "2bd8c1f2-3132-4772-98db-89ae8a27da24",
+      "parentTraceId": "22190c4e-39de-4086-b365-b4b22273e6ac",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed reflection-coach-agent via cluster",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "reflection-coach-agent",
+        "userId": "demo-user",
+        "target": "reflection-coach-agent",
+        "mode": "probe",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"probe\":\"ok\"}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "db8bece8-d56e-44d3-8d63-819a0565e4c5",
+      "createdAt": "2026-03-24T03:26:35.333Z",
+      "traceId": "2bd8c1f2-3132-4772-98db-89ae8a27da24",
+      "parentTraceId": "22190c4e-39de-4086-b365-b4b22273e6ac",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for reflection-coach-agent",
+      "metadata": {
+        "agentName": "reflection-coach-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "e0d577d7-e4b8-47de-8086-2e9af0274690",
+      "createdAt": "2026-03-24T03:26:35.333Z",
+      "traceId": "22190c4e-39de-4086-b365-b4b22273e6ac",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/reflection-coach-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/reflection-coach-agent",
+        "requestId": "req-j",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "f1c252cb-e6af-43a8-8f6a-76b7d29c0c69",
+      "createdAt": "2026-03-24T03:26:35.333Z",
+      "traceId": "17173177-be1a-4787-b5e1-ebbc317eb7f1",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/2bd8c1f2-3132-4772-98db-89ae8a27da24",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/2bd8c1f2-3132-4772-98db-89ae8a27da24",
+        "requestId": "req-k"
+      }
+    },
+    {
+      "id": "532ca0d4-b2c5-4cb3-90a9-22f8d9ec92e0",
+      "createdAt": "2026-03-24T03:26:35.334Z",
+      "traceId": "17173177-be1a-4787-b5e1-ebbc317eb7f1",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/2bd8c1f2-3132-4772-98db-89ae8a27da24 -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/2bd8c1f2-3132-4772-98db-89ae8a27da24",
+        "requestId": "req-k",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "15df41c3-b244-420e-ad05-ea794cbee45a",
+      "createdAt": "2026-03-24T03:26:35.334Z",
+      "traceId": "2a48cc16-7d49-49a8-a8cb-3d9416b99e13",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/automation-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/automation-agent",
+        "requestId": "req-l"
+      }
+    },
+    {
+      "id": "f4d79b76-0731-4108-bc23-27168f516220",
+      "createdAt": "2026-03-24T03:26:35.335Z",
+      "traceId": "e7a3f621-8ed4-437a-9e11-a092f1db1b7d",
+      "parentTraceId": "2a48cc16-7d49-49a8-a8cb-3d9416b99e13",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "probe",
+        "taskId": "46c44b9e-3b8e-4775-b53f-b52a33e114c5"
+      }
+    },
+    {
+      "id": "b0b5f74a-65dc-464f-9e1d-be10a425fb80",
+      "createdAt": "2026-03-24T03:26:35.336Z",
+      "traceId": "e7a3f621-8ed4-437a-9e11-a092f1db1b7d",
+      "parentTraceId": "2a48cc16-7d49-49a8-a8cb-3d9416b99e13",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for automation-agent",
+      "metadata": {
+        "target": "automation-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "probe",
+        "taskId": "46c44b9e-3b8e-4775-b53f-b52a33e114c5"
+      }
+    },
+    {
+      "id": "55c742bd-a13d-4eb6-81bd-e876cffa20c6",
+      "createdAt": "2026-03-24T03:26:35.336Z",
+      "traceId": "e7a3f621-8ed4-437a-9e11-a092f1db1b7d",
+      "parentTraceId": "2a48cc16-7d49-49a8-a8cb-3d9416b99e13",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed automation-agent via cluster",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "automation-agent",
+        "userId": "demo-user",
+        "target": "automation-agent",
+        "mode": "probe",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"probe\":\"ok\"}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ce4bf358-5dea-47fe-b3a7-716d8d0e8b58",
+      "createdAt": "2026-03-24T03:26:35.336Z",
+      "traceId": "e7a3f621-8ed4-437a-9e11-a092f1db1b7d",
+      "parentTraceId": "2a48cc16-7d49-49a8-a8cb-3d9416b99e13",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for automation-agent",
+      "metadata": {
+        "agentName": "automation-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "50e48294-fd7a-433c-9850-39e55f8acbbf",
+      "createdAt": "2026-03-24T03:26:35.337Z",
+      "traceId": "2a48cc16-7d49-49a8-a8cb-3d9416b99e13",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/automation-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/automation-agent",
+        "requestId": "req-l",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "865b8f67-b48c-44a9-b9d4-f2f6cacfff07",
+      "createdAt": "2026-03-24T03:26:35.337Z",
+      "traceId": "07da0094-9a4b-4830-9600-cb93cc13a915",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/e7a3f621-8ed4-437a-9e11-a092f1db1b7d",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/e7a3f621-8ed4-437a-9e11-a092f1db1b7d",
+        "requestId": "req-m"
+      }
+    },
+    {
+      "id": "085d7343-76f3-4e53-9bcf-ee01c9e868d5",
+      "createdAt": "2026-03-24T03:26:35.337Z",
+      "traceId": "07da0094-9a4b-4830-9600-cb93cc13a915",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/e7a3f621-8ed4-437a-9e11-a092f1db1b7d -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/e7a3f621-8ed4-437a-9e11-a092f1db1b7d",
+        "requestId": "req-m",
+        "statusCode": 200
+      }
+    }
+  ],
+  "localAuthUsers": []
+}

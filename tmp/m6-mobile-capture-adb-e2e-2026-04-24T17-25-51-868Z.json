@@ -1,0 +1,321 @@
+{
+  "goals": [],
+  "tasks": [],
+  "sessions": [],
+  "stateSignals": [],
+  "stateAssessments": [],
+  "interventions": [],
+  "recoveryPlans": [],
+  "reflectionReports": [],
+  "mobileCaptureDevices": [
+    {
+      "id": "67f1bdb2-0f27-4837-a0ad-60e46bb3e188",
+      "userId": "m6-mobile-user",
+      "deviceId": "android-m6-capture",
+      "deviceName": "NX733J",
+      "platform": "android",
+      "appVersion": "m6-adb-e2e",
+      "platformVersion": "15",
+      "pairingState": "paired",
+      "desktopHost": "192.168.0.104",
+      "consentAcknowledgedAt": "2026-04-24T17:25:53.672Z",
+      "lastSeenAt": "2026-04-24T17:25:53.749Z",
+      "createdAt": "2026-04-24T17:25:53.749Z",
+      "updatedAt": "2026-04-24T17:25:53.749Z"
+    }
+  ],
+  "audioCaptureSessions": [
+    {
+      "id": "edc60204-12c9-41db-9d9b-76172b4a5c65",
+      "userId": "m6-mobile-user",
+      "deviceId": "android-m6-capture",
+      "captureMode": "foreground_microphone_with_call_events",
+      "status": "active",
+      "sampleRateHz": 16000,
+      "channels": 1,
+      "encoding": "audio/pcm16le",
+      "chunkDurationMs": 1000,
+      "rollingBufferSeconds": 60,
+      "receivedChunkCount": 0,
+      "startedAt": "2026-04-24T17:23:53.672Z"
+    }
+  ],
+  "callEvents": [],
+  "emotionAssessments": [],
+  "edgeDevices": [
+    {
+      "id": "3a465020-b24f-4fc7-ba8b-b41b67ee9d4c",
+      "userId": "m6-mobile-user",
+      "deviceId": "android-m6-capture",
+      "label": "NX733J",
+      "deviceType": "mobile",
+      "platform": "android",
+      "capabilities": [
+        "notifications",
+        "audio_capture",
+        "video_capture",
+        "health_bridge"
+      ],
+      "status": "online",
+      "appVersion": "m6-adb-e2e",
+      "queueDepth": 0,
+      "lastSeenAt": "2026-04-24T17:25:54.110Z",
+      "createdAt": "2026-04-24T17:25:53.751Z",
+      "updatedAt": "2026-04-24T17:25:54.110Z",
+      "lastUploadedAt": "2026-04-24T17:28:53.672Z"
+    }
+  ],
+  "mediaUploadSessions": [],
+  "mediaChunkManifests": [],
+  "videoAssessments": [],
+  "healthSnapshots": [],
+  "behaviorConclusions": [],
+  "clientInboxMessages": [],
+  "coachFrontAgentStates": [],
+  "planChangeProposals": [],
+  "planChangeCommandLogs": [],
+  "coachSessions": [],
+  "coachMessages": [],
+  "coachFeedback": [],
+  "coachMemoryItems": [],
+  "coachTrainingExamples": [],
+  "memoryCandidates": [],
+  "memoryItems": [],
+  "agentDebugRuns": [],
+  "debugRegressionMatrixRuns": [],
+  "traceLogEvents": [
+    {
+      "id": "fc4bc722-1e84-4284-ab1b-87aa1fe185e7",
+      "createdAt": "2026-04-24T17:25:53.474Z",
+      "traceId": "9fda86a7-bebd-40e5-b06d-43ebe46aeb0d",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /health",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-1"
+      }
+    },
+    {
+      "id": "de00650f-638d-4481-be2c-00eac8aacd92",
+      "createdAt": "2026-04-24T17:25:53.481Z",
+      "traceId": "9fda86a7-bebd-40e5-b06d-43ebe46aeb0d",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /health -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-1",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "141dad16-3924-40c3-81c9-0e69320a42fb",
+      "createdAt": "2026-04-24T17:25:53.659Z",
+      "traceId": "f0183770-2329-4b58-96fe-f4c76a246225",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /health",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-2"
+      }
+    },
+    {
+      "id": "977d651e-d033-4611-80a1-7031f74e4d33",
+      "createdAt": "2026-04-24T17:25:53.662Z",
+      "traceId": "f0183770-2329-4b58-96fe-f4c76a246225",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /health -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-2",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "b3664a33-f0a2-436c-ba92-05d178d5e21b",
+      "createdAt": "2026-04-24T17:25:53.744Z",
+      "traceId": "1feba26d-1291-4e7a-b336-aedb497f8d7c",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /mobile/devices/register",
+      "metadata": {
+        "method": "POST",
+        "url": "/mobile/devices/register",
+        "requestId": "req-3"
+      }
+    },
+    {
+      "id": "c380540d-44f0-4462-ad01-ef07cb80acca",
+      "createdAt": "2026-04-24T17:25:53.752Z",
+      "traceId": "1feba26d-1291-4e7a-b336-aedb497f8d7c",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /mobile/devices/register -> 201",
+      "metadata": {
+        "method": "POST",
+        "url": "/mobile/devices/register",
+        "requestId": "req-3",
+        "statusCode": 201
+      }
+    },
+    {
+      "id": "cee4af5e-ca24-4bcd-bef2-31bc09df11f7",
+      "createdAt": "2026-04-24T17:25:53.858Z",
+      "traceId": "00d03645-ca77-415b-b75e-908911a756a5",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /devices/register",
+      "metadata": {
+        "method": "POST",
+        "url": "/devices/register",
+        "requestId": "req-4"
+      }
+    },
+    {
+      "id": "29d6d414-fced-4d61-9dcc-f5e589b3057b",
+      "createdAt": "2026-04-24T17:25:53.862Z",
+      "traceId": "00d03645-ca77-415b-b75e-908911a756a5",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /devices/register -> 201",
+      "metadata": {
+        "method": "POST",
+        "url": "/devices/register",
+        "requestId": "req-4",
+        "statusCode": 201
+      }
+    },
+    {
+      "id": "f5679c19-c72f-4987-bedf-c839ed9ad190",
+      "createdAt": "2026-04-24T17:25:53.930Z",
+      "traceId": "efedd79a-d4c4-4029-b257-5885d6f85884",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /devices/heartbeat",
+      "metadata": {
+        "method": "POST",
+        "url": "/devices/heartbeat",
+        "requestId": "req-5"
+      }
+    },
+    {
+      "id": "5de35983-591a-4188-bffd-d75d2ac9aaf0",
+      "createdAt": "2026-04-24T17:25:53.935Z",
+      "traceId": "efedd79a-d4c4-4029-b257-5885d6f85884",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /devices/heartbeat -> 200",
+      "metadata": {
+        "method": "POST",
+        "url": "/devices/heartbeat",
+        "requestId": "req-5",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "3bb8f4be-a536-4ebf-a497-99a2c49888db",
+      "createdAt": "2026-04-24T17:25:54.031Z",
+      "traceId": "82bf0adc-720d-4863-b091-4fb58ffbde06",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /mobile/capture/sessions/start",
+      "metadata": {
+        "method": "POST",
+        "url": "/mobile/capture/sessions/start",
+        "requestId": "req-6"
+      }
+    },
+    {
+      "id": "2ba9ecfa-606a-4a5f-927a-f82c59a06a46",
+      "createdAt": "2026-04-24T17:25:54.035Z",
+      "traceId": "82bf0adc-720d-4863-b091-4fb58ffbde06",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /mobile/capture/sessions/start -> 201",
+      "metadata": {
+        "method": "POST",
+        "url": "/mobile/capture/sessions/start",
+        "requestId": "req-6",
+        "statusCode": 201
+      }
+    },
+    {
+      "id": "c8957c7c-80b7-4d77-938d-a5c1dbf55c2c",
+      "createdAt": "2026-04-24T17:25:54.108Z",
+      "traceId": "6c61ec11-efca-477e-aa32-bab035ec370f",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /devices/heartbeat",
+      "metadata": {
+        "method": "POST",
+        "url": "/devices/heartbeat",
+        "requestId": "req-7"
+      }
+    },
+    {
+      "id": "fd5a706e-e146-4257-95c1-bd6412cba82b",
+      "createdAt": "2026-04-24T17:25:54.111Z",
+      "traceId": "6c61ec11-efca-477e-aa32-bab035ec370f",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /devices/heartbeat -> 200",
+      "metadata": {
+        "method": "POST",
+        "url": "/devices/heartbeat",
+        "requestId": "req-7",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "087d33ac-533e-4c9a-ad69-3a90a9de2e81",
+      "createdAt": "2026-04-24T17:25:54.205Z",
+      "traceId": "e759e8ef-4c5c-479f-9e36-2fe0bf7bb8bf",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /emotion/assessments",
+      "metadata": {
+        "method": "POST",
+        "url": "/emotion/assessments",
+        "requestId": "req-8"
+      }
+    },
+    {
+      "id": "06376e7f-d9e4-41fc-9764-12f016f2f736",
+      "createdAt": "2026-04-24T17:25:54.208Z",
+      "traceId": "e759e8ef-4c5c-479f-9e36-2fe0bf7bb8bf",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /emotion/assessments -> 400",
+      "metadata": {
+        "method": "POST",
+        "url": "/emotion/assessments",
+        "requestId": "req-8",
+        "statusCode": 400
+      }
+    }
+  ],
+  "localAuthUsers": []
+}

@@ -1,0 +1,4 @@
+{"level":50,"time":1774320690228,"pid":20589,"hostname":"clawdeMac-mini.local","err":{"type":"Error","message":"listen EADDRINUSE: address already in use 0.0.0.0:3024","stack":"Error: listen EADDRINUSE: address already in use 0.0.0.0:3024\n    at Server.setupListenHandle [as _listen2] (node:net:1937:16)\n    at listenInCluster (node:net:1994:12)\n    at node:net:2203:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)","code":"EADDRINUSE","errno":-48,"syscall":"listen","address":"0.0.0.0","port":3024},"msg":"listen EADDRINUSE: address already in use 0.0.0.0:3024"}
+undefined
+/Users/claw/mindanchor/apps/api:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: tsx src/index.ts

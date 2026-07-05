@@ -1,0 +1,14 @@
+{
+  "name": "@mindanchor/macos",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "generate": "rm -rf MindAnchorMac.xcodeproj && xcodegen generate --spec project.yml --project .",
+    "build": "rm -rf MindAnchorMac.xcodeproj && xcodegen generate --spec project.yml --project . && xcodebuild -project MindAnchorMac.xcodeproj -scheme MindAnchorMac -configuration Debug -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO build",
+    "release:test": "bash ../../scripts/test-macos-release-scripts.sh",
+    "release:candidate": "bash ../../scripts/build-macos-release.sh",
+    "test": "rm -rf MindAnchorMac.xcodeproj && xcodegen generate --spec project.yml --project . && xcodebuild -project MindAnchorMac.xcodeproj -scheme MindAnchorMac -configuration Debug -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO test",
+    "test:status-item-acceptance": "node ../../scripts/run-macos-status-item-acceptance.mjs",
+    "test:reminder-notification-e2e": "node ../../scripts/run-macos-reminder-notification-e2e.mjs"
+  }
+}

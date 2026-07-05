@@ -1,0 +1,2974 @@
+{
+  "goals": [
+    {
+      "id": "fef96446-32e2-48b3-b455-a26f19f5fa02",
+      "userId": "debug-focus-user",
+      "title": "在深度工作中找回注意力",
+      "description": "用于状态、恢复和通知 agent 联调的示例场景。",
+      "status": "active",
+      "taskSummary": {
+        "total": 0,
+        "completed": 0
+      },
+      "createdAt": "2026-03-09T20:00:04.084Z",
+      "updatedAt": "2026-03-09T20:00:04.085Z"
+    },
+    {
+      "id": "7c3735fc-4635-4813-9561-bef7b33c60f5",
+      "userId": "debug-plan-user",
+      "title": "Ship Lobster gateway rollout",
+      "description": "Seeded scenario for task management and progress summary tests.",
+      "status": "active",
+      "taskSummary": {
+        "total": 0,
+        "completed": 0
+      },
+      "createdAt": "2026-03-09T20:00:04.097Z",
+      "updatedAt": "2026-03-09T20:00:04.098Z"
+    },
+    {
+      "id": "60489524-0e00-4943-b177-1162fcb53bf2",
+      "userId": "debug-reflection-user",
+      "title": "Stabilize MVP delivery",
+      "description": "Weekly reflection seed: delivery track.",
+      "status": "active",
+      "taskSummary": {
+        "total": 0,
+        "completed": 0
+      },
+      "createdAt": "2026-03-09T20:00:04.102Z",
+      "updatedAt": "2026-03-09T20:00:04.103Z"
+    },
+    {
+      "id": "c85e5c93-7807-401e-a7b6-f5b0396f8e04",
+      "userId": "debug-reflection-user",
+      "title": "Protect recovery budget",
+      "description": "Weekly reflection seed: recovery track.",
+      "status": "active",
+      "taskSummary": {
+        "total": 0,
+        "completed": 0
+      },
+      "createdAt": "2026-03-09T20:00:04.102Z",
+      "updatedAt": "2026-03-09T20:00:04.103Z"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "5aa7eb03-6ebf-45a5-9018-2d38e177ed6a",
+      "userId": "debug-focus-user",
+      "goalId": "fef96446-32e2-48b3-b455-a26f19f5fa02",
+      "title": "验证 chief-agent 在压力场景下的路由",
+      "status": "in_progress",
+      "priority": "high",
+      "estimatedMinutes": 35,
+      "sortOrder": 0,
+      "createdAt": "2026-03-09T20:00:04.084Z",
+      "updatedAt": "2026-03-09T20:00:04.085Z"
+    },
+    {
+      "id": "50467781-7437-4a67-a66c-35c385acf4b8",
+      "userId": "debug-focus-user",
+      "goalId": "fef96446-32e2-48b3-b455-a26f19f5fa02",
+      "title": "调整收件箱提醒文案",
+      "status": "todo",
+      "priority": "medium",
+      "estimatedMinutes": 20,
+      "sortOrder": 1,
+      "createdAt": "2026-03-09T20:00:04.085Z",
+      "updatedAt": "2026-03-09T20:00:04.085Z"
+    },
+    {
+      "id": "40054398-b87b-45fb-ad51-8754aa6f4da2",
+      "userId": "debug-focus-user",
+      "goalId": "fef96446-32e2-48b3-b455-a26f19f5fa02",
+      "title": "检查复盘亮点摘要",
+      "status": "todo",
+      "priority": "low",
+      "estimatedMinutes": 15,
+      "sortOrder": 2,
+      "createdAt": "2026-03-09T20:00:04.085Z",
+      "updatedAt": "2026-03-09T20:00:04.085Z"
+    },
+    {
+      "id": "2381b3fe-3843-4c83-8012-fac121a23f58",
+      "userId": "debug-plan-user",
+      "goalId": "7c3735fc-4635-4813-9561-bef7b33c60f5",
+      "title": "Refine GoalFlow page copy",
+      "status": "todo",
+      "priority": "low",
+      "estimatedMinutes": 20,
+      "sortOrder": 0,
+      "createdAt": "2026-03-09T20:00:04.097Z",
+      "updatedAt": "2026-03-09T20:00:04.097Z"
+    },
+    {
+      "id": "24a7f982-db0f-4060-897d-ce1b688e8d05",
+      "userId": "debug-plan-user",
+      "goalId": "7c3735fc-4635-4813-9561-bef7b33c60f5",
+      "title": "Fix inbox acknowledgement states",
+      "status": "blocked",
+      "priority": "high",
+      "estimatedMinutes": 30,
+      "sortOrder": 1,
+      "createdAt": "2026-03-09T20:00:04.098Z",
+      "updatedAt": "2026-03-09T20:00:04.098Z"
+    },
+    {
+      "id": "35d09b99-ca0c-491b-b08e-549b6ec3dc03",
+      "userId": "debug-plan-user",
+      "goalId": "7c3735fc-4635-4813-9561-bef7b33c60f5",
+      "title": "Backfill chief-route regression tests",
+      "status": "todo",
+      "priority": "critical",
+      "estimatedMinutes": 45,
+      "sortOrder": 2,
+      "createdAt": "2026-03-09T20:00:04.098Z",
+      "updatedAt": "2026-03-09T20:00:04.098Z"
+    },
+    {
+      "id": "12200bcc-5980-47ce-b281-31e4ec1e0b43",
+      "userId": "debug-plan-user",
+      "goalId": "7c3735fc-4635-4813-9561-bef7b33c60f5",
+      "title": "Document environment setup",
+      "status": "done",
+      "priority": "medium",
+      "estimatedMinutes": 15,
+      "sortOrder": 3,
+      "createdAt": "2026-03-09T20:00:04.098Z",
+      "updatedAt": "2026-03-09T20:00:04.098Z"
+    },
+    {
+      "id": "dfefab32-2b3a-45e6-aec7-47cf717fe54e",
+      "userId": "debug-plan-user",
+      "goalId": "7c3735fc-4635-4813-9561-bef7b33c60f5",
+      "title": "Review OpenClaw prompt contracts",
+      "status": "in_progress",
+      "priority": "medium",
+      "estimatedMinutes": 25,
+      "sortOrder": 4,
+      "createdAt": "2026-03-09T20:00:04.098Z",
+      "updatedAt": "2026-03-09T20:00:04.098Z"
+    },
+    {
+      "id": "e77636c8-2c94-477c-8101-6a0717eff87b",
+      "userId": "debug-reflection-user",
+      "goalId": "60489524-0e00-4943-b177-1162fcb53bf2",
+      "title": "Stabilize chief routing",
+      "status": "done",
+      "priority": "high",
+      "estimatedMinutes": 40,
+      "sortOrder": 0,
+      "createdAt": "2026-03-09T20:00:04.102Z",
+      "updatedAt": "2026-03-09T20:00:04.103Z"
+    },
+    {
+      "id": "d2de8d16-4a34-4948-8696-237d188ce2b0",
+      "userId": "debug-reflection-user",
+      "goalId": "60489524-0e00-4943-b177-1162fcb53bf2",
+      "title": "Patch inbox acknowledgement flow",
+      "status": "done",
+      "priority": "medium",
+      "estimatedMinutes": 25,
+      "sortOrder": 1,
+      "createdAt": "2026-03-09T20:00:04.102Z",
+      "updatedAt": "2026-03-09T20:00:04.103Z"
+    },
+    {
+      "id": "0ff750b0-8aaf-4bc3-9a7b-f2e10b6c9205",
+      "userId": "debug-reflection-user",
+      "goalId": "60489524-0e00-4943-b177-1162fcb53bf2",
+      "title": "Review reflection coach prompts",
+      "status": "in_progress",
+      "priority": "medium",
+      "estimatedMinutes": 30,
+      "sortOrder": 2,
+      "createdAt": "2026-03-09T20:00:04.103Z",
+      "updatedAt": "2026-03-09T20:00:04.103Z"
+    },
+    {
+      "id": "6ad6b750-ec76-4072-9b95-4e1857724995",
+      "userId": "debug-reflection-user",
+      "goalId": "c85e5c93-7807-401e-a7b6-f5b0396f8e04",
+      "title": "Add sleep trend check",
+      "status": "todo",
+      "priority": "medium",
+      "estimatedMinutes": 20,
+      "sortOrder": 0,
+      "createdAt": "2026-03-09T20:00:04.103Z",
+      "updatedAt": "2026-03-09T20:00:04.103Z"
+    },
+    {
+      "id": "ab9d33d2-9866-4fff-93a9-8e78f7daca18",
+      "userId": "debug-reflection-user",
+      "goalId": "c85e5c93-7807-401e-a7b6-f5b0396f8e04",
+      "title": "Review missed call windows",
+      "status": "blocked",
+      "priority": "low",
+      "estimatedMinutes": 15,
+      "sortOrder": 1,
+      "createdAt": "2026-03-09T20:00:04.103Z",
+      "updatedAt": "2026-03-09T20:00:04.103Z"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "1d128685-873f-4e16-8006-721a41a58a27",
+      "userId": "debug-focus-user",
+      "goalId": "fef96446-32e2-48b3-b455-a26f19f5fa02",
+      "taskId": "50467781-7437-4a67-a66c-35c385acf4b8",
+      "status": "interrupted",
+      "startedAt": "2026-03-09T18:25:04.085Z",
+      "endedAt": "2026-03-09T18:50:04.085Z",
+      "interruptionCount": 1,
+      "summary": "频繁切换上下文打断了上一段专注块。"
+    },
+    {
+      "id": "9ad341ab-4831-40e0-9fa9-614f41aa0b21",
+      "userId": "debug-focus-user",
+      "goalId": "fef96446-32e2-48b3-b455-a26f19f5fa02",
+      "taskId": "5aa7eb03-6ebf-45a5-9018-2d38e177ed6a",
+      "status": "active",
+      "startedAt": "2026-03-09T19:32:04.085Z",
+      "interruptionCount": 0,
+      "summary": ""
+    },
+    {
+      "id": "14af292a-f9dd-4b49-9e40-06ac663ee926",
+      "userId": "debug-plan-user",
+      "goalId": "7c3735fc-4635-4813-9561-bef7b33c60f5",
+      "taskId": "12200bcc-5980-47ce-b281-31e4ec1e0b43",
+      "status": "completed",
+      "startedAt": "2026-03-09T14:00:04.099Z",
+      "endedAt": "2026-03-09T15:00:04.099Z",
+      "interruptionCount": 0,
+      "summary": "Finished environment setup notes."
+    },
+    {
+      "id": "d16f8fbc-87ed-4cf2-97ed-789321856b91",
+      "userId": "debug-plan-user",
+      "goalId": "7c3735fc-4635-4813-9561-bef7b33c60f5",
+      "taskId": "dfefab32-2b3a-45e6-aec7-47cf717fe54e",
+      "status": "active",
+      "startedAt": "2026-03-09T19:25:04.099Z",
+      "interruptionCount": 0,
+      "summary": ""
+    },
+    {
+      "id": "a8260ce1-1eb6-446c-8206-2251788bcb64",
+      "userId": "debug-reflection-user",
+      "goalId": "60489524-0e00-4943-b177-1162fcb53bf2",
+      "taskId": "e77636c8-2c94-477c-8101-6a0717eff87b",
+      "status": "completed",
+      "startedAt": "2026-03-03T16:00:04.104Z",
+      "endedAt": "2026-03-03T17:00:04.104Z",
+      "interruptionCount": 0,
+      "summary": "Shipped the routing contract pass."
+    },
+    {
+      "id": "23470641-e70f-4559-8f78-a8ee452edecb",
+      "userId": "debug-reflection-user",
+      "goalId": "60489524-0e00-4943-b177-1162fcb53bf2",
+      "taskId": "d2de8d16-4a34-4948-8696-237d188ce2b0",
+      "status": "completed",
+      "startedAt": "2026-03-05T15:00:04.104Z",
+      "endedAt": "2026-03-05T16:00:04.104Z",
+      "interruptionCount": 0,
+      "summary": "Closed inbox acknowledgement flow."
+    },
+    {
+      "id": "9e399de1-64e7-48a7-9510-49c4752eaaa9",
+      "userId": "debug-reflection-user",
+      "goalId": "60489524-0e00-4943-b177-1162fcb53bf2",
+      "taskId": "0ff750b0-8aaf-4bc3-9a7b-f2e10b6c9205",
+      "status": "interrupted",
+      "startedAt": "2026-03-06T16:00:04.104Z",
+      "endedAt": "2026-03-06T17:00:04.104Z",
+      "interruptionCount": 1,
+      "summary": "Meetings broke the planned block."
+    },
+    {
+      "id": "48c64610-f905-4f15-81b0-a8c8a75dcf3a",
+      "userId": "debug-reflection-user",
+      "goalId": "60489524-0e00-4943-b177-1162fcb53bf2",
+      "taskId": "0ff750b0-8aaf-4bc3-9a7b-f2e10b6c9205",
+      "status": "completed",
+      "startedAt": "2026-03-07T16:00:04.104Z",
+      "endedAt": "2026-03-07T17:00:04.104Z",
+      "interruptionCount": 0,
+      "summary": "Recovered and refined prompts."
+    },
+    {
+      "id": "93ec8ce4-a7dd-46f8-b948-c50001f6c832",
+      "userId": "debug-reflection-user",
+      "goalId": "c85e5c93-7807-401e-a7b6-f5b0396f8e04",
+      "taskId": "6ad6b750-ec76-4072-9b95-4e1857724995",
+      "status": "completed",
+      "startedAt": "2026-03-08T15:00:04.104Z",
+      "endedAt": "2026-03-08T16:00:04.104Z",
+      "interruptionCount": 0,
+      "summary": "Reviewed health bridge sleep data."
+    }
+  ],
+  "stateSignals": [
+    {
+      "userId": "debug-focus-user",
+      "source": "desktop",
+      "eventType": "unlock",
+      "occurredAt": "2026-03-09T19:35:04.086Z",
+      "clientEventId": "6684694b-df0d-4d1b-8360-96e0fdf01a0c",
+      "payload": {},
+      "id": "0820e126-2d99-44fb-a1f7-d86ee0fdf3bc",
+      "receivedAt": "2026-03-09T20:00:04.086Z"
+    },
+    {
+      "userId": "debug-focus-user",
+      "source": "desktop",
+      "eventType": "active_app",
+      "occurredAt": "2026-03-09T19:36:04.086Z",
+      "clientEventId": "710d1d09-7df3-4e32-947a-7a9efb954c41",
+      "payload": {
+        "app": "Cursor"
+      },
+      "id": "5a425e9c-914b-4f92-a515-704a6dde46ee",
+      "receivedAt": "2026-03-09T20:00:04.086Z"
+    },
+    {
+      "userId": "debug-focus-user",
+      "source": "desktop",
+      "eventType": "window_switch",
+      "occurredAt": "2026-03-09T19:44:04.086Z",
+      "clientEventId": "1d72bd82-2777-4092-8ec6-e31cbafc7dad",
+      "payload": {
+        "from": "Cursor",
+        "to": "Chrome"
+      },
+      "id": "e2c23c18-35ac-4522-86ba-39d5f1678def",
+      "receivedAt": "2026-03-09T20:00:04.086Z"
+    },
+    {
+      "userId": "debug-focus-user",
+      "source": "desktop",
+      "eventType": "idle",
+      "occurredAt": "2026-03-09T19:48:04.086Z",
+      "clientEventId": "99502e18-fae8-4123-9236-6865733fcc32",
+      "payload": {
+        "idleSeconds": 420
+      },
+      "id": "e191bc6e-3ad0-401e-8d61-ed40031dd975",
+      "receivedAt": "2026-03-09T20:00:04.086Z"
+    },
+    {
+      "userId": "debug-focus-user",
+      "source": "desktop",
+      "eventType": "window_switch",
+      "occurredAt": "2026-03-09T19:52:04.086Z",
+      "clientEventId": "6e9aecbf-490f-44d2-ada9-e2dc423f4300",
+      "payload": {
+        "from": "Chrome",
+        "to": "Slack"
+      },
+      "id": "df92e686-616c-4cbc-9461-e86a00af3f08",
+      "receivedAt": "2026-03-09T20:00:04.086Z"
+    },
+    {
+      "userId": "debug-focus-user",
+      "source": "web",
+      "eventType": "manual_checkin",
+      "occurredAt": "2026-03-09T19:56:04.086Z",
+      "clientEventId": "9399425b-9549-4501-9c78-fc8699b13cc6",
+      "payload": {
+        "focusScore": 34,
+        "energyScore": 29,
+        "moodScore": 37,
+        "note": "被中断后有些散，难以回到主线。"
+      },
+      "id": "a75b4eec-1cad-4697-b84b-b164baba7f36",
+      "receivedAt": "2026-03-09T20:00:04.086Z"
+    },
+    {
+      "userId": "debug-plan-user",
+      "source": "desktop",
+      "eventType": "active_app",
+      "occurredAt": "2026-03-09T19:32:04.099Z",
+      "clientEventId": "b190c9fa-f168-409c-8faa-30403267ccd3",
+      "payload": {
+        "app": "Cursor"
+      },
+      "id": "f37ed5dc-1b38-451c-93d1-fcecc82774e5",
+      "receivedAt": "2026-03-09T20:00:04.099Z"
+    },
+    {
+      "userId": "debug-plan-user",
+      "source": "desktop",
+      "eventType": "window_switch",
+      "occurredAt": "2026-03-09T19:44:04.099Z",
+      "clientEventId": "1c921cd9-61a0-4c35-9359-6d060956bce1",
+      "payload": {
+        "from": "Cursor",
+        "to": "Terminal"
+      },
+      "id": "a804182c-6b47-4e2e-bf61-d7cd756359f7",
+      "receivedAt": "2026-03-09T20:00:04.099Z"
+    },
+    {
+      "userId": "debug-plan-user",
+      "source": "web",
+      "eventType": "manual_checkin",
+      "occurredAt": "2026-03-09T19:55:04.099Z",
+      "clientEventId": "a74b17c7-8504-4430-aef0-df7a3cd8eafe",
+      "payload": {
+        "focusScore": 62,
+        "energyScore": 54,
+        "moodScore": 61,
+        "note": "Need a clearer next task ordering."
+      },
+      "id": "16863333-484b-4173-a367-2f8d66b4b9e0",
+      "receivedAt": "2026-03-09T20:00:04.099Z"
+    },
+    {
+      "userId": "debug-reflection-user",
+      "source": "mobile",
+      "eventType": "call_ended",
+      "occurredAt": "2026-03-06T19:00:04.106Z",
+      "clientEventId": "5855e66a-4c44-4a5e-9a47-1e9fd4fb374f",
+      "payload": {
+        "deviceId": "debug-mobile-reflection",
+        "direction": "incoming",
+        "status": "missed"
+      },
+      "id": "81a77795-f079-4f47-ba2f-c54520c009fe",
+      "receivedAt": "2026-03-09T20:00:04.106Z"
+    },
+    {
+      "userId": "debug-reflection-user",
+      "source": "mobile",
+      "eventType": "call_ended",
+      "occurredAt": "2026-03-07T19:00:04.107Z",
+      "clientEventId": "a898cc75-ecf8-4010-875a-4eacf9914224",
+      "payload": {
+        "deviceId": "debug-mobile-reflection",
+        "direction": "outgoing",
+        "status": "ended"
+      },
+      "id": "8712ff32-05bb-402e-a3fa-f343b28e25a1",
+      "receivedAt": "2026-03-09T20:00:04.107Z"
+    }
+  ],
+  "stateAssessments": [
+    {
+      "id": "ce00db39-bb23-4404-a422-95d88fb69a34",
+      "userId": "debug-focus-user",
+      "windowStart": "2026-03-09T19:35:04.086Z",
+      "windowEnd": "2026-03-09T19:56:04.086Z",
+      "focusScore": 20,
+      "energyScore": 21,
+      "moodScore": 30,
+      "summary": "Context switching is high. Energy is running low. Mood trend suggests frustration. Audio inference: 音频侧推断近期压力偏高，语速与语气都更紧绷。 Video inference: 视频侧显示眨眼频率偏高，视线稳定度下降。 健康桥接显示睡眠不足，疲劳影响延续到了今天。",
+      "recommendedAction": "Pause for a short reset before resuming the next small task step.",
+      "emotionSummary": "音频侧推断近期压力偏高，语速与语气都更紧绷。",
+      "emotionConfidence": 0.82,
+      "fatigueScore": 79,
+      "videoSummary": "视频侧显示眨眼频率偏高，视线稳定度下降。",
+      "healthSummary": "健康桥接显示睡眠不足，疲劳影响延续到了今天。",
+      "activeInputs": [
+        "desktop_signal",
+        "audio_server_inference",
+        "video_server_inference",
+        "health_bridge"
+      ],
+      "mediaFreshness": "fresh",
+      "source": "manual",
+      "createdAt": "2026-03-09T19:58:04.093Z"
+    },
+    {
+      "id": "a361af96-26c4-4eca-b3e5-52c5fcf19566",
+      "userId": "debug-plan-user",
+      "windowStart": "2026-03-09T19:32:04.099Z",
+      "windowEnd": "2026-03-09T19:55:04.099Z",
+      "focusScore": 59,
+      "energyScore": 54,
+      "moodScore": 63,
+      "summary": "State looks stable for focused work.",
+      "recommendedAction": "Continue the current task with a 25-minute focus block.",
+      "activeInputs": [
+        "desktop_signal"
+      ],
+      "source": "manual",
+      "createdAt": "2026-03-09T19:57:04.099Z"
+    },
+    {
+      "id": "5a3aedb8-701e-4c9b-acc6-ae5afbf1334f",
+      "userId": "debug-reflection-user",
+      "windowStart": "2026-03-03T17:00:04.105Z",
+      "windowEnd": "2026-03-03T18:00:04.105Z",
+      "focusScore": 78,
+      "energyScore": 72,
+      "moodScore": 66,
+      "summary": "Strong progress and stable focus.",
+      "recommendedAction": "Keep the current cadence.",
+      "activeInputs": [
+        "desktop_signal"
+      ],
+      "source": "manual",
+      "createdAt": "2026-03-03T18:00:04.104Z"
+    },
+    {
+      "id": "429436aa-7afe-48e4-b62d-e51605e7cf37",
+      "userId": "debug-reflection-user",
+      "windowStart": "2026-03-04T17:00:04.105Z",
+      "windowEnd": "2026-03-04T18:00:04.105Z",
+      "focusScore": 64,
+      "energyScore": 58,
+      "moodScore": 60,
+      "summary": "Solid execution with manageable drift.",
+      "recommendedAction": "Keep tasks small and explicit.",
+      "activeInputs": [
+        "desktop_signal"
+      ],
+      "source": "manual",
+      "createdAt": "2026-03-05T18:00:04.104Z"
+    },
+    {
+      "id": "86e71498-4c8e-4282-85b0-4d69adb32175",
+      "userId": "debug-reflection-user",
+      "windowStart": "2026-03-05T17:00:04.105Z",
+      "windowEnd": "2026-03-05T18:00:04.105Z",
+      "focusScore": 42,
+      "energyScore": 46,
+      "moodScore": 48,
+      "summary": "Interruptions increased and progress slowed.",
+      "recommendedAction": "Use a smaller restart step after meetings.",
+      "activeInputs": [
+        "desktop_signal",
+        "audio_server_inference",
+        "video_server_inference",
+        "health_bridge"
+      ],
+      "emotionSummary": "Audio stress rose during meeting-heavy windows.",
+      "emotionConfidence": 0.76,
+      "mediaFreshness": "fresh",
+      "source": "manual",
+      "createdAt": "2026-03-06T18:00:04.104Z"
+    },
+    {
+      "id": "07fd5212-b373-4bcf-8a8c-e8e5241edef0",
+      "userId": "debug-reflection-user",
+      "windowStart": "2026-03-06T17:00:04.105Z",
+      "windowEnd": "2026-03-06T18:00:04.105Z",
+      "focusScore": 69,
+      "energyScore": 51,
+      "moodScore": 57,
+      "summary": "Recovery improved after task size was reduced.",
+      "recommendedAction": "Continue with shorter focus blocks.",
+      "activeInputs": [
+        "desktop_signal",
+        "audio_server_inference",
+        "video_server_inference",
+        "health_bridge"
+      ],
+      "fatigueScore": 68,
+      "emotionSummary": "Audio stress rose during meeting-heavy windows.",
+      "emotionConfidence": 0.76,
+      "videoSummary": "Video fatigue stayed elevated late in the day.",
+      "mediaFreshness": "fresh",
+      "source": "manual",
+      "createdAt": "2026-03-07T18:00:04.104Z"
+    },
+    {
+      "id": "95d8c373-4871-47fd-b5d8-ac05c5e51224",
+      "userId": "debug-reflection-user",
+      "windowStart": "2026-03-07T17:00:04.105Z",
+      "windowEnd": "2026-03-07T18:00:04.105Z",
+      "focusScore": 55,
+      "energyScore": 39,
+      "moodScore": 50,
+      "summary": "Energy dipped after short sleep, but delivery remained on track.",
+      "recommendedAction": "Schedule a recharge break before the next block.",
+      "activeInputs": [
+        "desktop_signal",
+        "audio_server_inference",
+        "video_server_inference",
+        "health_bridge"
+      ],
+      "fatigueScore": 68,
+      "emotionSummary": "Audio stress rose during meeting-heavy windows.",
+      "emotionConfidence": 0.76,
+      "videoSummary": "Video fatigue stayed elevated late in the day.",
+      "healthSummary": "Health bridge: sleep 330m · spo2 95%",
+      "mediaFreshness": "fresh",
+      "source": "manual",
+      "createdAt": "2026-03-08T18:00:04.104Z"
+    }
+  ],
+  "interventions": [
+    {
+      "id": "f724a53e-f952-41fb-8f9b-164890330e63",
+      "userId": "debug-focus-user",
+      "assessmentId": "ce00db39-bb23-4404-a422-95d88fb69a34",
+      "trigger": "low_state_score",
+      "action": "reset_focus",
+      "copy": "Pause for a short reset before resuming the next small task step.",
+      "status": "open",
+      "createdAt": "2026-03-09T19:58:04.093Z"
+    }
+  ],
+  "recoveryPlans": [
+    {
+      "id": "83fe5c68-9e5a-48a2-a94f-87a992ee0725",
+      "userId": "debug-focus-user",
+      "sessionId": "1d128685-873f-4e16-8006-721a41a58a27",
+      "taskId": "50467781-7437-4a67-a66c-35c385acf4b8",
+      "reason": "energy_drop",
+      "nextStep": "Resume \"调整收件箱提醒文案\" by completing the next visible sub-step.",
+      "suggestedMinutes": 10,
+      "reprioritizedTaskIds": [
+        "5aa7eb03-6ebf-45a5-9018-2d38e177ed6a",
+        "50467781-7437-4a67-a66c-35c385acf4b8",
+        "40054398-b87b-45fb-ad51-8754aa6f4da2"
+      ],
+      "createdAt": "2026-03-09T19:00:04.094Z"
+    }
+  ],
+  "reflectionReports": [
+    {
+      "id": "c1c801b8-a791-4e79-adef-74c437345551",
+      "userId": "debug-reflection-user",
+      "periodType": "weekly",
+      "periodStart": "2026-03-02T20:00:04.107Z",
+      "periodEnd": "2026-03-09T20:00:04.107Z",
+      "highlights": [
+        "2 tasks reached done status.",
+        "2 goals stayed active.",
+        "2 audio emotion windows were analyzed.",
+        "2 video focus/fatigue windows were analyzed."
+      ],
+      "blockers": [
+        "1 sessions were interrupted.",
+        "1 missed or dropped call events were detected."
+      ],
+      "trends": [
+        "Average focus score: 62.",
+        "Average energy score: 53.",
+        "Average server-side audio stress score: 54.",
+        "Average video fatigue score: 65.",
+        "Latest audio emotion: neutral.",
+        "Latest video focus score: 48.",
+        "Latest sleep duration from health bridge: 330 minutes."
+      ],
+      "nextSuggestions": [
+        "Keep the current focus cadence.",
+        "Maintain the current work-rest rhythm.",
+        "Reduce long screen sessions and insert recovery breaks before fatigue spikes.",
+        "Use the health bridge to track short sleep and lower the next day workload."
+      ],
+      "createdAt": "2026-03-09T19:59:04.107Z"
+    }
+  ],
+  "mobileCaptureDevices": [
+    {
+      "id": "a42eecd1-7811-4523-9aef-09df9fe2d99a",
+      "userId": "debug-focus-user",
+      "deviceId": "debug-mobile-focus",
+      "deviceName": "调试 Android",
+      "platform": "android",
+      "appVersion": "debug-scenario",
+      "pairingState": "paired",
+      "desktopHost": "debug-focus.local",
+      "consentAcknowledgedAt": "2026-03-09T18:00:04.084Z",
+      "lastSeenAt": "2026-03-09T20:00:04.084Z",
+      "createdAt": "2026-03-09T20:00:04.084Z",
+      "updatedAt": "2026-03-09T20:00:04.084Z"
+    },
+    {
+      "id": "27562a7b-8ff4-4ae3-b6e1-bf5cc0ba8f72",
+      "userId": "debug-reflection-user",
+      "deviceId": "debug-mobile-reflection",
+      "deviceName": "Debug Reflection Android",
+      "platform": "android",
+      "appVersion": "debug-scenario",
+      "pairingState": "paired",
+      "desktopHost": "debug-reflection.local",
+      "consentAcknowledgedAt": "2026-03-06T20:00:04.102Z",
+      "lastSeenAt": "2026-03-09T20:00:04.102Z",
+      "createdAt": "2026-03-09T20:00:04.102Z",
+      "updatedAt": "2026-03-09T20:00:04.102Z"
+    }
+  ],
+  "audioCaptureSessions": [],
+  "callEvents": [
+    {
+      "id": "5855e66a-4c44-4a5e-9a47-1e9fd4fb374f",
+      "userId": "debug-reflection-user",
+      "deviceId": "debug-mobile-reflection",
+      "direction": "incoming",
+      "status": "missed",
+      "occurredAt": "2026-03-06T19:00:04.106Z",
+      "createdAt": "2026-03-09T20:00:04.106Z"
+    },
+    {
+      "id": "a898cc75-ecf8-4010-875a-4eacf9914224",
+      "userId": "debug-reflection-user",
+      "deviceId": "debug-mobile-reflection",
+      "direction": "outgoing",
+      "status": "ended",
+      "occurredAt": "2026-03-07T19:00:04.107Z",
+      "createdAt": "2026-03-09T20:00:04.107Z"
+    }
+  ],
+  "emotionAssessments": [
+    {
+      "id": "3a16102e-4d19-48a8-930c-a1c576abef6a",
+      "userId": "debug-focus-user",
+      "deviceId": "debug-mobile-focus",
+      "sessionId": "9ad341ab-4831-40e0-9fa9-614f41aa0b21",
+      "chunkSequence": 2,
+      "windowStart": "2026-03-09T19:49:04.086Z",
+      "windowEnd": "2026-03-09T19:54:04.086Z",
+      "emotionLabel": "tense",
+      "valenceScore": 32,
+      "arousalScore": 76,
+      "stressScore": 84,
+      "confidence": 0.82,
+      "summary": "音频侧推断近期压力偏高，语速与语气都更紧绷。",
+      "modelName": "debug-audio-seed",
+      "source": "cluster-stub",
+      "createdAt": "2026-03-09T20:00:04.086Z"
+    },
+    {
+      "id": "3ade699d-2710-4e1b-9215-f498d42fa153",
+      "userId": "debug-reflection-user",
+      "deviceId": "debug-mobile-reflection",
+      "chunkSequence": 0,
+      "windowStart": "2026-03-06T17:00:04.105Z",
+      "windowEnd": "2026-03-06T18:00:04.105Z",
+      "emotionLabel": "tense",
+      "valenceScore": 44,
+      "arousalScore": 68,
+      "stressScore": 66,
+      "confidence": 0.74,
+      "summary": "Meeting-heavy windows raised audio stress markers.",
+      "modelName": "debug-audio-seed",
+      "source": "cluster-stub",
+      "createdAt": "2026-03-09T20:00:04.105Z"
+    },
+    {
+      "id": "9ac15fbf-29a8-4315-8bf6-2d3d88d4c564",
+      "userId": "debug-reflection-user",
+      "deviceId": "debug-mobile-reflection",
+      "chunkSequence": 1,
+      "windowStart": "2026-03-08T17:00:04.106Z",
+      "windowEnd": "2026-03-08T18:00:04.106Z",
+      "emotionLabel": "neutral",
+      "valenceScore": 57,
+      "arousalScore": 52,
+      "stressScore": 41,
+      "confidence": 0.79,
+      "summary": "Audio windows stabilized after the recovery day.",
+      "modelName": "debug-audio-seed",
+      "source": "cluster-stub",
+      "createdAt": "2026-03-09T20:00:04.106Z"
+    }
+  ],
+  "edgeDevices": [
+    {
+      "id": "6a066cbe-8c81-4d21-8210-42c79342df13",
+      "userId": "debug-focus-user",
+      "deviceId": "debug-desktop-focus",
+      "label": "调试专注桌面端",
+      "deviceType": "desktop",
+      "platform": "macos",
+      "capabilities": [
+        "desktop_signals",
+        "notifications",
+        "video_capture"
+      ],
+      "status": "online",
+      "appVersion": "debug-scenario",
+      "queueDepth": 0,
+      "lastSeenAt": "2026-03-09T20:00:04.083Z",
+      "createdAt": "2026-03-09T20:00:04.083Z",
+      "updatedAt": "2026-03-09T20:00:04.083Z"
+    },
+    {
+      "id": "a1ca237b-3456-47a3-8f90-50805223c193",
+      "userId": "debug-focus-user",
+      "deviceId": "debug-mobile-focus",
+      "label": "调试专注手机端",
+      "deviceType": "mobile",
+      "platform": "android",
+      "capabilities": [
+        "notifications",
+        "health_bridge"
+      ],
+      "status": "online",
+      "appVersion": "debug-scenario",
+      "queueDepth": 0,
+      "lastSeenAt": "2026-03-09T20:00:04.084Z",
+      "createdAt": "2026-03-09T20:00:04.084Z",
+      "updatedAt": "2026-03-09T20:00:04.084Z"
+    },
+    {
+      "id": "ab5db9e9-8467-411b-a5a5-4b0e8416a97d",
+      "userId": "debug-plan-user",
+      "deviceId": "debug-desktop-plan",
+      "label": "Debug Planning Desktop",
+      "deviceType": "desktop",
+      "platform": "windows",
+      "capabilities": [
+        "desktop_signals",
+        "notifications"
+      ],
+      "status": "online",
+      "appVersion": "debug-scenario",
+      "queueDepth": 0,
+      "lastSeenAt": "2026-03-09T20:00:04.097Z",
+      "createdAt": "2026-03-09T20:00:04.097Z",
+      "updatedAt": "2026-03-09T20:00:04.097Z"
+    },
+    {
+      "id": "27c5ecf9-f09f-4164-8d44-33f6c82b8218",
+      "userId": "debug-reflection-user",
+      "deviceId": "debug-desktop-reflection",
+      "label": "Debug Reflection Desktop",
+      "deviceType": "desktop",
+      "platform": "linux",
+      "capabilities": [
+        "desktop_signals",
+        "notifications",
+        "video_capture"
+      ],
+      "status": "online",
+      "appVersion": "debug-scenario",
+      "queueDepth": 0,
+      "lastSeenAt": "2026-03-09T20:00:04.101Z",
+      "createdAt": "2026-03-09T20:00:04.101Z",
+      "updatedAt": "2026-03-09T20:00:04.101Z"
+    },
+    {
+      "id": "12200fdc-b97e-4330-b616-57f48bb3aad6",
+      "userId": "debug-reflection-user",
+      "deviceId": "debug-mobile-reflection",
+      "label": "Debug Reflection Phone",
+      "deviceType": "mobile",
+      "platform": "android",
+      "capabilities": [
+        "notifications",
+        "health_bridge",
+        "audio_capture"
+      ],
+      "status": "online",
+      "appVersion": "debug-scenario",
+      "queueDepth": 0,
+      "lastSeenAt": "2026-03-09T20:00:04.102Z",
+      "createdAt": "2026-03-09T20:00:04.102Z",
+      "updatedAt": "2026-03-09T20:00:04.102Z"
+    }
+  ],
+  "mediaUploadSessions": [],
+  "mediaChunkManifests": [],
+  "videoAssessments": [
+    {
+      "id": "b3078a10-84c5-4989-9c75-eb58abb7a6ab",
+      "userId": "debug-focus-user",
+      "deviceId": "debug-desktop-focus",
+      "sessionId": "9ad341ab-4831-40e0-9fa9-614f41aa0b21",
+      "windowStart": "2026-03-09T19:47:04.086Z",
+      "windowEnd": "2026-03-09T19:53:04.086Z",
+      "fatigueScore": 79,
+      "focusScore": 36,
+      "confidence": 0.78,
+      "summary": "视频侧显示眨眼频率偏高，视线稳定度下降。",
+      "modelName": "debug-video-seed",
+      "featureSummary": "landmarks+blink+headpose",
+      "source": "cluster-stub",
+      "createdAt": "2026-03-09T20:00:04.086Z"
+    },
+    {
+      "id": "e7ac1fe1-ad37-4360-9d55-e8ff6d18edad",
+      "userId": "debug-reflection-user",
+      "deviceId": "debug-desktop-reflection",
+      "windowStart": "2026-03-07T17:00:04.106Z",
+      "windowEnd": "2026-03-07T18:00:04.106Z",
+      "fatigueScore": 72,
+      "focusScore": 48,
+      "confidence": 0.77,
+      "summary": "Video fatigue remained elevated late in the sprint.",
+      "modelName": "debug-video-seed",
+      "featureSummary": "landmarks+blink+headpose",
+      "source": "cluster-stub",
+      "createdAt": "2026-03-09T20:00:04.106Z"
+    },
+    {
+      "id": "5d240722-7908-4f7e-a168-5b1273ae962d",
+      "userId": "debug-reflection-user",
+      "deviceId": "debug-desktop-reflection",
+      "windowStart": "2026-03-08T17:00:04.106Z",
+      "windowEnd": "2026-03-08T18:00:04.106Z",
+      "fatigueScore": 58,
+      "focusScore": 63,
+      "confidence": 0.75,
+      "summary": "Video fatigue eased after a shorter workday.",
+      "modelName": "debug-video-seed",
+      "featureSummary": "landmarks+blink+headpose",
+      "source": "cluster-stub",
+      "createdAt": "2026-03-09T20:00:04.106Z"
+    }
+  ],
+  "healthSnapshots": [
+    {
+      "id": "9f0fd879-cb27-482a-82ad-78d67a8482b8",
+      "userId": "debug-focus-user",
+      "deviceId": "debug-mobile-focus",
+      "sourcePlatform": "android",
+      "sourceProvider": "health_connect",
+      "windowStart": "2026-03-09T08:00:04.086Z",
+      "windowEnd": "2026-03-09T16:00:04.086Z",
+      "heartRate": 81,
+      "oxygenSaturation": 93,
+      "restingHeartRate": 70,
+      "sleepMinutes": 295,
+      "summary": "健康桥接显示睡眠不足，疲劳影响延续到了今天。",
+      "createdAt": "2026-03-09T20:00:04.086Z"
+    },
+    {
+      "id": "051b7060-3684-41a7-acaa-10fe26bb36df",
+      "userId": "debug-reflection-user",
+      "deviceId": "debug-mobile-reflection",
+      "sourcePlatform": "android",
+      "sourceProvider": "health_connect",
+      "windowStart": "2026-03-07T10:00:04.106Z",
+      "windowEnd": "2026-03-07T18:00:04.106Z",
+      "heartRate": 79,
+      "oxygenSaturation": 95,
+      "restingHeartRate": 68,
+      "sleepMinutes": 330,
+      "summary": "Short sleep dragged energy down mid-week.",
+      "createdAt": "2026-03-09T20:00:04.106Z"
+    },
+    {
+      "id": "b7c5a5dd-ac8d-4c8c-b9f6-44156bea0999",
+      "userId": "debug-reflection-user",
+      "deviceId": "debug-mobile-reflection",
+      "sourcePlatform": "android",
+      "sourceProvider": "health_connect",
+      "windowStart": "2026-03-08T10:00:04.106Z",
+      "windowEnd": "2026-03-08T18:00:04.106Z",
+      "heartRate": 72,
+      "oxygenSaturation": 97,
+      "restingHeartRate": 66,
+      "sleepMinutes": 405,
+      "summary": "Recovery sleep improved before the final day.",
+      "createdAt": "2026-03-09T20:00:04.106Z"
+    }
+  ],
+  "behaviorConclusions": [
+    {
+      "id": "574935f0-62c1-42d1-87db-844a3a32af32",
+      "createdAt": "2026-03-09T20:00:04.094Z",
+      "userId": "debug-focus-user",
+      "assessmentId": "ce00db39-bb23-4404-a422-95d88fb69a34",
+      "sessionId": "9ad341ab-4831-40e0-9fa9-614f41aa0b21",
+      "taskId": "5aa7eb03-6ebf-45a5-9018-2d38e177ed6a",
+      "riskLevel": "high",
+      "summary": "OpenClaw cluster 判断当前已进入高风险状态，建议立即介入。",
+      "suggestedAction": "Pause for a short reset before resuming the next small task step.",
+      "trigger": "high_risk_state",
+      "recommendedChannel": "mobile_push"
+    },
+    {
+      "id": "7c0d7bbc-351b-48c8-8f21-069e38816466",
+      "createdAt": "2026-03-09T20:00:04.099Z",
+      "userId": "debug-plan-user",
+      "assessmentId": "a361af96-26c4-4eca-b3e5-52c5fcf19566",
+      "sessionId": "d16f8fbc-87ed-4cf2-97ed-789321856b91",
+      "taskId": "dfefab32-2b3a-45e6-aec7-47cf717fe54e",
+      "riskLevel": "low",
+      "summary": "OpenClaw cluster 判断当前状态稳定，可以继续推进。",
+      "suggestedAction": "Continue the current task with a 25-minute focus block.",
+      "trigger": "stable_focus_state",
+      "recommendedChannel": "desktop_local"
+    }
+  ],
+  "clientInboxMessages": [
+    {
+      "id": "9d531908-d108-4202-846d-ccf7388e5aab",
+      "createdAt": "2026-03-09T20:00:04.094Z",
+      "status": "pending",
+      "userId": "debug-focus-user",
+      "title": "建议立即恢复主线",
+      "message": "OpenClaw cluster 判断当前已进入高风险状态，建议立即介入。 Pause for a short reset before resuming the next small task step.",
+      "channel": "mobile_push"
+    }
+  ],
+  "agentDebugRuns": [
+    {
+      "id": "e7edb58a-bf28-4c43-b8f7-23f21600f12d",
+      "createdAt": "2026-03-09T20:00:04.095Z",
+      "userId": "debug-focus-user",
+      "traceId": "d2962bd4-ca99-45f0-8d0b-fb84e2ef5487",
+      "parentTraceId": "64b13302-bccf-4d6f-8baa-2c4db2fc16aa",
+      "kind": "seed",
+      "agentName": "scenario-seed",
+      "scenarioId": "focus-recovery-loop",
+      "success": true,
+      "fallbackLikely": false,
+      "summary": "Seeded Focus recovery loop.",
+      "payload": {
+        "scenarioId": "focus-recovery-loop",
+        "title": "Focus recovery loop",
+        "description": "低专注 + 高压力媒体信号 + 活跃专注会话，用来调试 state / recovery / notification。",
+        "userId": "debug-focus-user",
+        "goalId": "fef96446-32e2-48b3-b455-a26f19f5fa02",
+        "taskId": "5aa7eb03-6ebf-45a5-9018-2d38e177ed6a",
+        "sessionId": "9ad341ab-4831-40e0-9fa9-614f41aa0b21",
+        "recommendedWorkflows": [
+          "state_assessment",
+          "recovery_plan",
+          "notification_dispatch"
+        ],
+        "notes": [
+          "包含活跃专注会话、一次历史中断与恢复计划。",
+          "音频、视频、健康桥三类信号都已写入，适合联调 state / recovery / notification。"
+        ],
+        "counts": {
+          "goals": 1,
+          "tasks": 3,
+          "sessions": 2,
+          "assessments": 1,
+          "recoveryPlans": 1,
+          "reflections": 0,
+          "inbox": 1
+        }
+      }
+    },
+    {
+      "id": "525eb63e-40bc-464c-80ba-015cd389eff0",
+      "createdAt": "2026-03-09T20:00:04.100Z",
+      "userId": "debug-plan-user",
+      "traceId": "fc52e134-3a47-4d0b-a6cc-fb55fcc81ee5",
+      "parentTraceId": "d6ea65c8-e9a2-47e0-938b-5385999cd8bb",
+      "kind": "seed",
+      "agentName": "scenario-seed",
+      "scenarioId": "goal-reprioritization",
+      "success": true,
+      "fallbackLikely": false,
+      "summary": "Seeded Goal reprioritization.",
+      "payload": {
+        "scenarioId": "goal-reprioritization",
+        "title": "Goal reprioritization",
+        "description": "多任务不同状态与优先级并存，用来调试 task management / progress summary。",
+        "userId": "debug-plan-user",
+        "goalId": "7c3735fc-4635-4813-9561-bef7b33c60f5",
+        "taskId": "35d09b99-ca0c-491b-b08e-549b6ec3dc03",
+        "sessionId": "d16f8fbc-87ed-4cf2-97ed-789321856b91",
+        "recommendedWorkflows": [
+          "task_management",
+          "progress_summary"
+        ],
+        "notes": [
+          "包含 critical / blocked / done / in_progress 的混合任务状态。",
+          "适合观察 chief-agent 在 task_management 与 progress_summary 之间的路由。"
+        ],
+        "counts": {
+          "goals": 1,
+          "tasks": 5,
+          "sessions": 2,
+          "assessments": 1,
+          "recoveryPlans": 0,
+          "reflections": 0,
+          "inbox": 0
+        }
+      }
+    },
+    {
+      "id": "a4fd3f7e-3844-444f-b515-c1ce2a5abcd1",
+      "createdAt": "2026-03-09T20:00:04.108Z",
+      "userId": "debug-reflection-user",
+      "traceId": "cc11818c-ef58-46fb-88cc-8cb93242a981",
+      "parentTraceId": "030a8006-bbc5-46cc-97e2-bd7690fb6307",
+      "kind": "seed",
+      "agentName": "scenario-seed",
+      "scenarioId": "weekly-reflection-mix",
+      "success": true,
+      "fallbackLikely": false,
+      "summary": "Seeded Weekly reflection mix.",
+      "payload": {
+        "scenarioId": "weekly-reflection-mix",
+        "title": "Weekly reflection mix",
+        "description": "一周内的任务、会话、音频/视频/健康混合数据，用来调试 reflection。",
+        "userId": "debug-reflection-user",
+        "goalId": "60489524-0e00-4943-b177-1162fcb53bf2",
+        "taskId": "0ff750b0-8aaf-4bc3-9a7b-f2e10b6c9205",
+        "periodType": "weekly",
+        "recommendedWorkflows": [
+          "reflection_report",
+          "progress_summary"
+        ],
+        "notes": [
+          "包含一周内完成/中断会话、音频/视频/健康桥混合输入与一份已生成周报。",
+          "适合联调 reflection-coach-agent，也能顺手验证 progress summary 的聚合结果。"
+        ],
+        "counts": {
+          "goals": 2,
+          "tasks": 5,
+          "sessions": 5,
+          "assessments": 5,
+          "recoveryPlans": 0,
+          "reflections": 1,
+          "inbox": 0
+        }
+      }
+    },
+    {
+      "id": "1b7bb12d-f035-498b-a195-b441b49f0e41",
+      "createdAt": "2026-03-09T20:00:11.022Z",
+      "userId": "demo-user",
+      "traceId": "a6d7428a-b637-41a1-a83c-b2d609d7944a",
+      "parentTraceId": "d0c5d78b-e3c2-48a0-987f-d75ce6469d82",
+      "kind": "probe",
+      "agentName": "chief-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "a6d7428a-b637-41a1-a83c-b2d609d7944a",
+        "parentTraceId": "d0c5d78b-e3c2-48a0-987f-d75ce6469d82",
+        "target": "chief-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    },
+    {
+      "id": "c96acfa2-6591-43ff-a6ca-b4144adf934f",
+      "createdAt": "2026-03-09T20:00:15.507Z",
+      "userId": "demo-user",
+      "traceId": "4f6de8c2-ac58-46b9-a4dd-80e92e0332cd",
+      "parentTraceId": "4ac9eb3b-0e5f-4907-862c-bc399de38597",
+      "kind": "probe",
+      "agentName": "state-insight-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "4f6de8c2-ac58-46b9-a4dd-80e92e0332cd",
+        "parentTraceId": "4ac9eb3b-0e5f-4907-862c-bc399de38597",
+        "target": "state-insight-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    },
+    {
+      "id": "75c3e33c-0434-46eb-a7e8-f898f3a4e2b1",
+      "createdAt": "2026-03-09T20:00:19.836Z",
+      "userId": "demo-user",
+      "traceId": "b620ca2b-d5c7-4fbe-bc6b-6de99dc01b59",
+      "parentTraceId": "71b4e15f-1f75-48d5-acdc-7a486c19176c",
+      "kind": "probe",
+      "agentName": "task-management-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "b620ca2b-d5c7-4fbe-bc6b-6de99dc01b59",
+        "parentTraceId": "71b4e15f-1f75-48d5-acdc-7a486c19176c",
+        "target": "task-management-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    },
+    {
+      "id": "03653a3c-c2cc-4174-b069-31065a6f5136",
+      "createdAt": "2026-03-09T20:00:23.853Z",
+      "userId": "demo-user",
+      "traceId": "ceedbabe-f608-4246-9d6e-3edbddd66a1f",
+      "parentTraceId": "9ed3f91b-3139-4230-b0c6-662278354551",
+      "kind": "probe",
+      "agentName": "progress-feedback-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "ceedbabe-f608-4246-9d6e-3edbddd66a1f",
+        "parentTraceId": "9ed3f91b-3139-4230-b0c6-662278354551",
+        "target": "progress-feedback-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    },
+    {
+      "id": "890b7735-f6d8-4ed5-9ce3-63a4a6639413",
+      "createdAt": "2026-03-09T20:00:27.903Z",
+      "userId": "demo-user",
+      "traceId": "abdf004b-2ece-43a1-861f-23ddab16cee4",
+      "parentTraceId": "29f0c882-466b-4764-81f0-081bac727127",
+      "kind": "probe",
+      "agentName": "interruption-recovery-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "abdf004b-2ece-43a1-861f-23ddab16cee4",
+        "parentTraceId": "29f0c882-466b-4764-81f0-081bac727127",
+        "target": "interruption-recovery-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    },
+    {
+      "id": "0d801b40-c107-4952-9467-3ba354cfd5a2",
+      "createdAt": "2026-03-09T20:00:31.949Z",
+      "userId": "demo-user",
+      "traceId": "eaa9f29c-bc70-4e4e-a48a-56288e940f31",
+      "parentTraceId": "92401ab2-6e3a-41f9-8b61-906c0a67ab0c",
+      "kind": "probe",
+      "agentName": "reflection-coach-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "eaa9f29c-bc70-4e4e-a48a-56288e940f31",
+        "parentTraceId": "92401ab2-6e3a-41f9-8b61-906c0a67ab0c",
+        "target": "reflection-coach-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    },
+    {
+      "id": "3f90df00-4e32-40bb-89e2-000284889420",
+      "createdAt": "2026-03-09T20:00:35.525Z",
+      "userId": "demo-user",
+      "traceId": "b2dcb7fb-fda7-4cf4-b031-16df5de7e2fd",
+      "parentTraceId": "3406fc11-1e01-4caf-8356-5fdb33f67973",
+      "kind": "probe",
+      "agentName": "automation-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "b2dcb7fb-fda7-4cf4-b031-16df5de7e2fd",
+        "parentTraceId": "3406fc11-1e01-4caf-8356-5fdb33f67973",
+        "target": "automation-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    },
+    {
+      "id": "ed728a65-b7c9-4ea3-883f-9e0f0de59989",
+      "createdAt": "2026-03-09T20:00:43.701Z",
+      "userId": "debug-focus-user",
+      "traceId": "69e8e97d-5d5b-4827-b3de-a05041b58975",
+      "parentTraceId": "888adf7c-6f47-4985-aed6-fbe2faa1b94c",
+      "kind": "debug",
+      "agentName": "chief-agent",
+      "workflow": "recovery_plan",
+      "scenarioId": "focus-recovery-loop",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "69e8e97d-5d5b-4827-b3de-a05041b58975",
+        "parentTraceId": "888adf7c-6f47-4985-aed6-fbe2faa1b94c",
+        "target": "chief-agent",
+        "mode": "debug",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      },
+      "summary": "Latest assessment shows acute interruption risk and recovery need: very low focus/energy, high fatigue, frustration signals, and an explicit recommendation to pause and reset before resuming the current in-progress task. This aligns directly with interruption recovery planning.",
+      "payload": {
+        "workflow": "recovery_plan",
+        "selectedAgent": "interruption-recovery-agent",
+        "reason": "Latest assessment shows acute interruption risk and recovery need: very low focus/energy, high fatigue, frustration signals, and an explicit recommendation to pause and reset before resuming the current in-progress task. This aligns directly with interruption recovery planning.",
+        "executionMode": "agent",
+        "confidence": 0.98
+      }
+    }
+  ],
+  "debugRegressionMatrixRuns": [],
+  "traceLogEvents": [
+    {
+      "id": "d2ecce68-aad7-44df-9993-c77dc6829cac",
+      "createdAt": "2026-03-09T20:00:04.044Z",
+      "traceId": "40a2de61-1d04-47b3-83db-8607d6f03594",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /health",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-1"
+      }
+    },
+    {
+      "id": "1826e81e-09e0-4815-bf22-0d0d405b0371",
+      "createdAt": "2026-03-09T20:00:04.051Z",
+      "traceId": "40a2de61-1d04-47b3-83db-8607d6f03594",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /health -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-1",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "7a8c06d9-91c6-49fb-b6ec-ac1a25cdbadc",
+      "createdAt": "2026-03-09T20:00:04.053Z",
+      "traceId": "82c47cc3-757e-45b9-bfb6-25dc350111c1",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /health",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-2"
+      }
+    },
+    {
+      "id": "b575dbe1-5b0b-4de4-a1a4-198028a48add",
+      "createdAt": "2026-03-09T20:00:04.054Z",
+      "traceId": "82c47cc3-757e-45b9-bfb6-25dc350111c1",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /health -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-2",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "d4bff74a-a520-4278-b9d0-bf01bd048e6d",
+      "createdAt": "2026-03-09T20:00:04.056Z",
+      "traceId": "4223be08-fd22-44fe-9349-475eeb2d12b9",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/openclaw/adapter",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/openclaw/adapter",
+        "requestId": "req-3"
+      }
+    },
+    {
+      "id": "6e8cb983-9b81-47fd-b809-23d2a33e5fa8",
+      "createdAt": "2026-03-09T20:00:04.058Z",
+      "traceId": "4223be08-fd22-44fe-9349-475eeb2d12b9",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/openclaw/adapter -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/openclaw/adapter",
+        "requestId": "req-3",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "7fb0c4b0-752a-4add-afb2-9eac0c42b288",
+      "createdAt": "2026-03-09T20:00:04.058Z",
+      "traceId": "450f8367-3a6f-4a83-b200-4f4a05ed5a98",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/agent-configs",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/agent-configs",
+        "requestId": "req-4"
+      }
+    },
+    {
+      "id": "0037a74b-0a69-443a-9f46-d39308cdf32e",
+      "createdAt": "2026-03-09T20:00:04.059Z",
+      "traceId": "450f8367-3a6f-4a83-b200-4f4a05ed5a98",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/agent-configs -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/agent-configs",
+        "requestId": "req-4",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "4fefb411-329c-478d-b1e3-9379b03f7b13",
+      "createdAt": "2026-03-09T20:00:04.061Z",
+      "traceId": "84dfb19c-9b25-4ed5-b8d5-3ceaf2296332",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/scenarios",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/scenarios",
+        "requestId": "req-5"
+      }
+    },
+    {
+      "id": "7a2b0adc-eb28-4b8d-80fb-5f9424bd7e9b",
+      "createdAt": "2026-03-09T20:00:04.061Z",
+      "traceId": "84dfb19c-9b25-4ed5-b8d5-3ceaf2296332",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/scenarios -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/scenarios",
+        "requestId": "req-5",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "dd64be11-2776-41c3-a559-b678c1218f97",
+      "createdAt": "2026-03-09T20:00:04.062Z",
+      "traceId": "ae23151b-f221-47de-b79f-fc76ee88b191",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /debug/runs/clear",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/runs/clear",
+        "requestId": "req-6"
+      }
+    },
+    {
+      "id": "ca63013a-7e9d-4b2b-83e0-aa0eb76ef723",
+      "createdAt": "2026-03-09T20:00:04.068Z",
+      "traceId": "ae23151b-f221-47de-b79f-fc76ee88b191",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /debug/runs/clear -> 200",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/runs/clear",
+        "requestId": "req-6",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "440a9f4b-edd0-4a8c-9282-42d866e83e08",
+      "createdAt": "2026-03-09T20:00:04.068Z",
+      "traceId": "be072be2-5e1a-48c1-9933-bc793e3999de",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /debug/regressions/matrix-runs/clear",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/regressions/matrix-runs/clear",
+        "requestId": "req-7"
+      }
+    },
+    {
+      "id": "86b4b14a-4106-4a42-853a-ff5a9c6327fe",
+      "createdAt": "2026-03-09T20:00:04.070Z",
+      "traceId": "be072be2-5e1a-48c1-9933-bc793e3999de",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /debug/regressions/matrix-runs/clear -> 200",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/regressions/matrix-runs/clear",
+        "requestId": "req-7",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "7df2f7bd-ec0f-42ae-9afc-b29cd4122a63",
+      "createdAt": "2026-03-09T20:00:04.083Z",
+      "traceId": "64b13302-bccf-4d6f-8baa-2c4db2fc16aa",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /debug/scenarios/focus-recovery-loop/seed",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/scenarios/focus-recovery-loop/seed",
+        "requestId": "req-8"
+      }
+    },
+    {
+      "id": "c6aa1a01-26c4-4893-9463-ede1b713a3e4",
+      "createdAt": "2026-03-09T20:00:04.095Z",
+      "traceId": "d2962bd4-ca99-45f0-8d0b-fb84e2ef5487",
+      "parentTraceId": "64b13302-bccf-4d6f-8baa-2c4db2fc16aa",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "seed persisted for scenario-seed",
+      "metadata": {
+        "agentName": "scenario-seed",
+        "scenarioId": "focus-recovery-loop",
+        "success": true,
+        "fallbackLikely": false
+      }
+    },
+    {
+      "id": "7937fb44-f5d7-4732-ade1-8049da270653",
+      "createdAt": "2026-03-09T20:00:04.096Z",
+      "traceId": "64b13302-bccf-4d6f-8baa-2c4db2fc16aa",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /debug/scenarios/focus-recovery-loop/seed -> 200",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/scenarios/focus-recovery-loop/seed",
+        "requestId": "req-8",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "c2704dd0-857a-4f58-8aa3-f6111c7d9d3b",
+      "createdAt": "2026-03-09T20:00:04.096Z",
+      "traceId": "d6ea65c8-e9a2-47e0-938b-5385999cd8bb",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /debug/scenarios/goal-reprioritization/seed",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/scenarios/goal-reprioritization/seed",
+        "requestId": "req-9"
+      }
+    },
+    {
+      "id": "0332ff68-94c5-4782-a516-62dac901f468",
+      "createdAt": "2026-03-09T20:00:04.100Z",
+      "traceId": "fc52e134-3a47-4d0b-a6cc-fb55fcc81ee5",
+      "parentTraceId": "d6ea65c8-e9a2-47e0-938b-5385999cd8bb",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "seed persisted for scenario-seed",
+      "metadata": {
+        "agentName": "scenario-seed",
+        "scenarioId": "goal-reprioritization",
+        "success": true,
+        "fallbackLikely": false
+      }
+    },
+    {
+      "id": "88d73cb2-947e-4e44-aa9f-ed5119524e40",
+      "createdAt": "2026-03-09T20:00:04.100Z",
+      "traceId": "d6ea65c8-e9a2-47e0-938b-5385999cd8bb",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /debug/scenarios/goal-reprioritization/seed -> 200",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/scenarios/goal-reprioritization/seed",
+        "requestId": "req-9",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "be215a2f-8285-4eaf-97e5-e95bcce16eca",
+      "createdAt": "2026-03-09T20:00:04.101Z",
+      "traceId": "030a8006-bbc5-46cc-97e2-bd7690fb6307",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /debug/scenarios/weekly-reflection-mix/seed",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/scenarios/weekly-reflection-mix/seed",
+        "requestId": "req-a"
+      }
+    },
+    {
+      "id": "65e7ec45-0516-4976-9d59-730ac52dfb6b",
+      "createdAt": "2026-03-09T20:00:04.108Z",
+      "traceId": "cc11818c-ef58-46fb-88cc-8cb93242a981",
+      "parentTraceId": "030a8006-bbc5-46cc-97e2-bd7690fb6307",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "seed persisted for scenario-seed",
+      "metadata": {
+        "agentName": "scenario-seed",
+        "scenarioId": "weekly-reflection-mix",
+        "success": true,
+        "fallbackLikely": false
+      }
+    },
+    {
+      "id": "f3692336-c323-43f3-955a-d36352928b40",
+      "createdAt": "2026-03-09T20:00:04.108Z",
+      "traceId": "030a8006-bbc5-46cc-97e2-bd7690fb6307",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /debug/scenarios/weekly-reflection-mix/seed -> 200",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/scenarios/weekly-reflection-mix/seed",
+        "requestId": "req-a",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "1d938c16-423a-43b6-938a-6e0c98174cb1",
+      "createdAt": "2026-03-09T20:00:04.109Z",
+      "traceId": "d0c5d78b-e3c2-48a0-987f-d75ce6469d82",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/chief-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/chief-agent",
+        "requestId": "req-b"
+      }
+    },
+    {
+      "id": "838c7f6f-0056-4a96-a72a-5b60396749be",
+      "createdAt": "2026-03-09T20:00:04.109Z",
+      "traceId": "a6d7428a-b637-41a1-a83c-b2d609d7944a",
+      "parentTraceId": "d0c5d78b-e3c2-48a0-987f-d75ce6469d82",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for chief-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "chief-agent",
+        "userId": "demo-user",
+        "target": "chief-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "cde82c19-999d-4000-9921-9ec546e418c4",
+          "target": "chief-agent",
+          "createdAt": "2026-03-09T20:00:04.109Z",
+          "trace": {
+            "traceId": "a6d7428a-b637-41a1-a83c-b2d609d7944a",
+            "parentTraceId": "d0c5d78b-e3c2-48a0-987f-d75ce6469d82",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "chief-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh"
+          }
+        }
+      }
+    },
+    {
+      "id": "885eb60a-0fff-4866-9fc6-4471c559e754",
+      "createdAt": "2026-03-09T20:00:11.021Z",
+      "traceId": "a6d7428a-b637-41a1-a83c-b2d609d7944a",
+      "parentTraceId": "d0c5d78b-e3c2-48a0-987f-d75ce6469d82",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.succeeded",
+      "message": "Probe request succeeded for chief-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "chief-agent",
+        "userId": "demo-user",
+        "target": "chief-agent",
+        "endpoint": "/responses",
+        "status": 200
+      }
+    },
+    {
+      "id": "9ae306e0-3831-44dd-b876-b33799f7ba03",
+      "createdAt": "2026-03-09T20:00:11.022Z",
+      "traceId": "a6d7428a-b637-41a1-a83c-b2d609d7944a",
+      "parentTraceId": "d0c5d78b-e3c2-48a0-987f-d75ce6469d82",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via provider-direct",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "chief-agent",
+        "userId": "demo-user",
+        "target": "chief-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      }
+    },
+    {
+      "id": "71a4d738-1032-432c-9799-afaa72731bc1",
+      "createdAt": "2026-03-09T20:00:11.023Z",
+      "traceId": "a6d7428a-b637-41a1-a83c-b2d609d7944a",
+      "parentTraceId": "d0c5d78b-e3c2-48a0-987f-d75ce6469d82",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for chief-agent",
+      "metadata": {
+        "agentName": "chief-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "cb9a94cb-f148-423f-b84b-0ce5db4ddefc",
+      "createdAt": "2026-03-09T20:00:11.023Z",
+      "traceId": "d0c5d78b-e3c2-48a0-987f-d75ce6469d82",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/chief-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/chief-agent",
+        "requestId": "req-b",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "97dd40cb-ee68-4209-b47d-805c8050f743",
+      "createdAt": "2026-03-09T20:00:11.024Z",
+      "traceId": "1f4e2a60-bdd9-4b44-99a6-087d5ab1de6f",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/a6d7428a-b637-41a1-a83c-b2d609d7944a",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/a6d7428a-b637-41a1-a83c-b2d609d7944a",
+        "requestId": "req-c"
+      }
+    },
+    {
+      "id": "f8d7e79d-97d2-4c02-b984-6df48af96807",
+      "createdAt": "2026-03-09T20:00:11.025Z",
+      "traceId": "1f4e2a60-bdd9-4b44-99a6-087d5ab1de6f",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/a6d7428a-b637-41a1-a83c-b2d609d7944a -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/a6d7428a-b637-41a1-a83c-b2d609d7944a",
+        "requestId": "req-c",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "7edbc29a-0563-4210-b040-18795c0967fc",
+      "createdAt": "2026-03-09T20:00:11.026Z",
+      "traceId": "4ac9eb3b-0e5f-4907-862c-bc399de38597",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/state-insight-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/state-insight-agent",
+        "requestId": "req-d"
+      }
+    },
+    {
+      "id": "fdf10fc8-f5f7-4f3a-a717-5c6987a84cc7",
+      "createdAt": "2026-03-09T20:00:11.026Z",
+      "traceId": "4f6de8c2-ac58-46b9-a4dd-80e92e0332cd",
+      "parentTraceId": "4ac9eb3b-0e5f-4907-862c-bc399de38597",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for state-insight-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "state-insight-agent",
+        "userId": "demo-user",
+        "target": "state-insight-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "43a85b72-336c-47a3-8eec-f28508552be7",
+          "target": "state-insight-agent",
+          "createdAt": "2026-03-09T20:00:11.026Z",
+          "trace": {
+            "traceId": "4f6de8c2-ac58-46b9-a4dd-80e92e0332cd",
+            "parentTraceId": "4ac9eb3b-0e5f-4907-862c-bc399de38597",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "state-insight-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh"
+          }
+        }
+      }
+    },
+    {
+      "id": "d3f6a155-1299-431a-9896-71ae7db2966c",
+      "createdAt": "2026-03-09T20:00:15.504Z",
+      "traceId": "4f6de8c2-ac58-46b9-a4dd-80e92e0332cd",
+      "parentTraceId": "4ac9eb3b-0e5f-4907-862c-bc399de38597",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.succeeded",
+      "message": "Probe request succeeded for state-insight-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "state-insight-agent",
+        "userId": "demo-user",
+        "target": "state-insight-agent",
+        "endpoint": "/responses",
+        "status": 200
+      }
+    },
+    {
+      "id": "eb2ee4ac-4e43-4f29-8e8b-c373460c22b9",
+      "createdAt": "2026-03-09T20:00:15.506Z",
+      "traceId": "4f6de8c2-ac58-46b9-a4dd-80e92e0332cd",
+      "parentTraceId": "4ac9eb3b-0e5f-4907-862c-bc399de38597",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed state-insight-agent via provider-direct",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "state-insight-agent",
+        "userId": "demo-user",
+        "target": "state-insight-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      }
+    },
+    {
+      "id": "1b2f7de5-3df2-4aee-81b4-8ab6f10d95f3",
+      "createdAt": "2026-03-09T20:00:15.508Z",
+      "traceId": "4f6de8c2-ac58-46b9-a4dd-80e92e0332cd",
+      "parentTraceId": "4ac9eb3b-0e5f-4907-862c-bc399de38597",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for state-insight-agent",
+      "metadata": {
+        "agentName": "state-insight-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "38abfabe-e2f3-40f9-9bc6-e37041731e8e",
+      "createdAt": "2026-03-09T20:00:15.509Z",
+      "traceId": "4ac9eb3b-0e5f-4907-862c-bc399de38597",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/state-insight-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/state-insight-agent",
+        "requestId": "req-d",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "b2e1630c-7d3b-4ee0-8074-acf333569327",
+      "createdAt": "2026-03-09T20:00:15.511Z",
+      "traceId": "8e8c9e0c-df8d-4a12-9bf6-d7836e743046",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/4f6de8c2-ac58-46b9-a4dd-80e92e0332cd",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/4f6de8c2-ac58-46b9-a4dd-80e92e0332cd",
+        "requestId": "req-e"
+      }
+    },
+    {
+      "id": "9e10200f-b9d8-4324-a39c-7006d42e6549",
+      "createdAt": "2026-03-09T20:00:15.513Z",
+      "traceId": "8e8c9e0c-df8d-4a12-9bf6-d7836e743046",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/4f6de8c2-ac58-46b9-a4dd-80e92e0332cd -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/4f6de8c2-ac58-46b9-a4dd-80e92e0332cd",
+        "requestId": "req-e",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "d3a65e63-1edb-415b-8565-738a94ecbebb",
+      "createdAt": "2026-03-09T20:00:15.514Z",
+      "traceId": "71b4e15f-1f75-48d5-acdc-7a486c19176c",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/task-management-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/task-management-agent",
+        "requestId": "req-f"
+      }
+    },
+    {
+      "id": "59a7c788-c352-45d8-b663-811b0c968d32",
+      "createdAt": "2026-03-09T20:00:15.515Z",
+      "traceId": "b620ca2b-d5c7-4fbe-bc6b-6de99dc01b59",
+      "parentTraceId": "71b4e15f-1f75-48d5-acdc-7a486c19176c",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for task-management-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "task-management-agent",
+        "userId": "demo-user",
+        "target": "task-management-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "4fde34f6-41e8-4872-ad06-2bbea9591f66",
+          "target": "task-management-agent",
+          "createdAt": "2026-03-09T20:00:15.515Z",
+          "trace": {
+            "traceId": "b620ca2b-d5c7-4fbe-bc6b-6de99dc01b59",
+            "parentTraceId": "71b4e15f-1f75-48d5-acdc-7a486c19176c",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "task-management-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh"
+          }
+        }
+      }
+    },
+    {
+      "id": "30fe52dd-5b62-4e62-9341-4005e4c9f6d9",
+      "createdAt": "2026-03-09T20:00:19.832Z",
+      "traceId": "b620ca2b-d5c7-4fbe-bc6b-6de99dc01b59",
+      "parentTraceId": "71b4e15f-1f75-48d5-acdc-7a486c19176c",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.succeeded",
+      "message": "Probe request succeeded for task-management-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "task-management-agent",
+        "userId": "demo-user",
+        "target": "task-management-agent",
+        "endpoint": "/responses",
+        "status": 200
+      }
+    },
+    {
+      "id": "a1d40ec1-4642-4a21-848c-9cc51799ee25",
+      "createdAt": "2026-03-09T20:00:19.834Z",
+      "traceId": "b620ca2b-d5c7-4fbe-bc6b-6de99dc01b59",
+      "parentTraceId": "71b4e15f-1f75-48d5-acdc-7a486c19176c",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed task-management-agent via provider-direct",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "task-management-agent",
+        "userId": "demo-user",
+        "target": "task-management-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      }
+    },
+    {
+      "id": "f562dbd8-664f-46b3-a4da-15b30d4cdf2a",
+      "createdAt": "2026-03-09T20:00:19.837Z",
+      "traceId": "b620ca2b-d5c7-4fbe-bc6b-6de99dc01b59",
+      "parentTraceId": "71b4e15f-1f75-48d5-acdc-7a486c19176c",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for task-management-agent",
+      "metadata": {
+        "agentName": "task-management-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "3d878dd8-09eb-45cc-ad2f-57702736daf0",
+      "createdAt": "2026-03-09T20:00:19.838Z",
+      "traceId": "71b4e15f-1f75-48d5-acdc-7a486c19176c",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/task-management-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/task-management-agent",
+        "requestId": "req-f",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "ffb55df8-3b6c-4a15-b39e-9cea02358f27",
+      "createdAt": "2026-03-09T20:00:19.840Z",
+      "traceId": "1070b376-effd-4a61-bf17-30c8b76a01ee",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/b620ca2b-d5c7-4fbe-bc6b-6de99dc01b59",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/b620ca2b-d5c7-4fbe-bc6b-6de99dc01b59",
+        "requestId": "req-g"
+      }
+    },
+    {
+      "id": "492a38f1-8110-44af-9adb-fa22b2bac427",
+      "createdAt": "2026-03-09T20:00:19.841Z",
+      "traceId": "1070b376-effd-4a61-bf17-30c8b76a01ee",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/b620ca2b-d5c7-4fbe-bc6b-6de99dc01b59 -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/b620ca2b-d5c7-4fbe-bc6b-6de99dc01b59",
+        "requestId": "req-g",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "989e69e9-7d27-4680-961d-d5bb09adef39",
+      "createdAt": "2026-03-09T20:00:19.842Z",
+      "traceId": "9ed3f91b-3139-4230-b0c6-662278354551",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/progress-feedback-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/progress-feedback-agent",
+        "requestId": "req-h"
+      }
+    },
+    {
+      "id": "d0793e6e-1b66-42fd-af6e-a0b450910451",
+      "createdAt": "2026-03-09T20:00:19.843Z",
+      "traceId": "ceedbabe-f608-4246-9d6e-3edbddd66a1f",
+      "parentTraceId": "9ed3f91b-3139-4230-b0c6-662278354551",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for progress-feedback-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "progress-feedback-agent",
+        "userId": "demo-user",
+        "target": "progress-feedback-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "7ce9b83b-7994-44e1-8569-95021221919c",
+          "target": "progress-feedback-agent",
+          "createdAt": "2026-03-09T20:00:19.843Z",
+          "trace": {
+            "traceId": "ceedbabe-f608-4246-9d6e-3edbddd66a1f",
+            "parentTraceId": "9ed3f91b-3139-4230-b0c6-662278354551",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "progress-feedback-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh"
+          }
+        }
+      }
+    },
+    {
+      "id": "0f410cee-5b0e-4a0a-bdb0-e485bd6349a1",
+      "createdAt": "2026-03-09T20:00:23.850Z",
+      "traceId": "ceedbabe-f608-4246-9d6e-3edbddd66a1f",
+      "parentTraceId": "9ed3f91b-3139-4230-b0c6-662278354551",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.succeeded",
+      "message": "Probe request succeeded for progress-feedback-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "progress-feedback-agent",
+        "userId": "demo-user",
+        "target": "progress-feedback-agent",
+        "endpoint": "/responses",
+        "status": 200
+      }
+    },
+    {
+      "id": "ab839f12-de38-4b6b-8ae4-559d520418d5",
+      "createdAt": "2026-03-09T20:00:23.852Z",
+      "traceId": "ceedbabe-f608-4246-9d6e-3edbddd66a1f",
+      "parentTraceId": "9ed3f91b-3139-4230-b0c6-662278354551",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed progress-feedback-agent via provider-direct",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "progress-feedback-agent",
+        "userId": "demo-user",
+        "target": "progress-feedback-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      }
+    },
+    {
+      "id": "944033e1-9b43-41a1-bf9a-ac1ccd449483",
+      "createdAt": "2026-03-09T20:00:23.853Z",
+      "traceId": "ceedbabe-f608-4246-9d6e-3edbddd66a1f",
+      "parentTraceId": "9ed3f91b-3139-4230-b0c6-662278354551",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for progress-feedback-agent",
+      "metadata": {
+        "agentName": "progress-feedback-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "56eb9d3a-05fd-43ad-b8ef-628bd8f04f14",
+      "createdAt": "2026-03-09T20:00:23.855Z",
+      "traceId": "9ed3f91b-3139-4230-b0c6-662278354551",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/progress-feedback-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/progress-feedback-agent",
+        "requestId": "req-h",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "8a22948c-3f83-4500-a696-2dbaf3cb036d",
+      "createdAt": "2026-03-09T20:00:23.856Z",
+      "traceId": "a09dc80a-0d69-4f49-bece-9387f2dbdd4f",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/ceedbabe-f608-4246-9d6e-3edbddd66a1f",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/ceedbabe-f608-4246-9d6e-3edbddd66a1f",
+        "requestId": "req-i"
+      }
+    },
+    {
+      "id": "ec5d0f87-2f0a-4150-9847-46aaa656dc2d",
+      "createdAt": "2026-03-09T20:00:23.857Z",
+      "traceId": "a09dc80a-0d69-4f49-bece-9387f2dbdd4f",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/ceedbabe-f608-4246-9d6e-3edbddd66a1f -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/ceedbabe-f608-4246-9d6e-3edbddd66a1f",
+        "requestId": "req-i",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "f78ef246-0600-4aac-a91d-d2ad9e1417a0",
+      "createdAt": "2026-03-09T20:00:23.859Z",
+      "traceId": "29f0c882-466b-4764-81f0-081bac727127",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/interruption-recovery-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/interruption-recovery-agent",
+        "requestId": "req-j"
+      }
+    },
+    {
+      "id": "294b1646-60bb-4bf6-ada3-c4fb537f7740",
+      "createdAt": "2026-03-09T20:00:23.860Z",
+      "traceId": "abdf004b-2ece-43a1-861f-23ddab16cee4",
+      "parentTraceId": "29f0c882-466b-4764-81f0-081bac727127",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for interruption-recovery-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "interruption-recovery-agent",
+        "userId": "demo-user",
+        "target": "interruption-recovery-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "eaa03e0e-c2e8-45ee-96ae-dbf42824a5bc",
+          "target": "interruption-recovery-agent",
+          "createdAt": "2026-03-09T20:00:23.860Z",
+          "trace": {
+            "traceId": "abdf004b-2ece-43a1-861f-23ddab16cee4",
+            "parentTraceId": "29f0c882-466b-4764-81f0-081bac727127",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "interruption-recovery-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh"
+          }
+        }
+      }
+    },
+    {
+      "id": "642686e4-537c-41b9-89a7-6e2c7d7744ad",
+      "createdAt": "2026-03-09T20:00:27.901Z",
+      "traceId": "abdf004b-2ece-43a1-861f-23ddab16cee4",
+      "parentTraceId": "29f0c882-466b-4764-81f0-081bac727127",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.succeeded",
+      "message": "Probe request succeeded for interruption-recovery-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "interruption-recovery-agent",
+        "userId": "demo-user",
+        "target": "interruption-recovery-agent",
+        "endpoint": "/responses",
+        "status": 200
+      }
+    },
+    {
+      "id": "9505eef3-c3e7-48c7-9320-0daa7dc202fd",
+      "createdAt": "2026-03-09T20:00:27.902Z",
+      "traceId": "abdf004b-2ece-43a1-861f-23ddab16cee4",
+      "parentTraceId": "29f0c882-466b-4764-81f0-081bac727127",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed interruption-recovery-agent via provider-direct",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "interruption-recovery-agent",
+        "userId": "demo-user",
+        "target": "interruption-recovery-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      }
+    },
+    {
+      "id": "9a24b3d3-3e3c-4757-b1fa-c9a9b0d540e1",
+      "createdAt": "2026-03-09T20:00:27.903Z",
+      "traceId": "abdf004b-2ece-43a1-861f-23ddab16cee4",
+      "parentTraceId": "29f0c882-466b-4764-81f0-081bac727127",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for interruption-recovery-agent",
+      "metadata": {
+        "agentName": "interruption-recovery-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "b2ea4a07-303c-448e-8393-0d3c6325c7f6",
+      "createdAt": "2026-03-09T20:00:27.904Z",
+      "traceId": "29f0c882-466b-4764-81f0-081bac727127",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/interruption-recovery-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/interruption-recovery-agent",
+        "requestId": "req-j",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "dabc4440-0d0f-4bf7-ac1a-83653b8c092e",
+      "createdAt": "2026-03-09T20:00:27.904Z",
+      "traceId": "0c9366dd-28d8-4619-800c-89bfc71e4b14",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/abdf004b-2ece-43a1-861f-23ddab16cee4",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/abdf004b-2ece-43a1-861f-23ddab16cee4",
+        "requestId": "req-k"
+      }
+    },
+    {
+      "id": "faeb3f27-e3dc-4a28-87d6-100b9603b7ac",
+      "createdAt": "2026-03-09T20:00:27.905Z",
+      "traceId": "0c9366dd-28d8-4619-800c-89bfc71e4b14",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/abdf004b-2ece-43a1-861f-23ddab16cee4 -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/abdf004b-2ece-43a1-861f-23ddab16cee4",
+        "requestId": "req-k",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "08525f52-379d-4efd-bd61-5d33b75f0c69",
+      "createdAt": "2026-03-09T20:00:27.905Z",
+      "traceId": "92401ab2-6e3a-41f9-8b61-906c0a67ab0c",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/reflection-coach-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/reflection-coach-agent",
+        "requestId": "req-l"
+      }
+    },
+    {
+      "id": "fa78c426-ecce-41d7-b47e-9982ba1a8f6e",
+      "createdAt": "2026-03-09T20:00:27.906Z",
+      "traceId": "eaa9f29c-bc70-4e4e-a48a-56288e940f31",
+      "parentTraceId": "92401ab2-6e3a-41f9-8b61-906c0a67ab0c",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for reflection-coach-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "reflection-coach-agent",
+        "userId": "demo-user",
+        "target": "reflection-coach-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "a1c20c65-6bcf-4477-8fa4-d531204a752f",
+          "target": "reflection-coach-agent",
+          "createdAt": "2026-03-09T20:00:27.906Z",
+          "trace": {
+            "traceId": "eaa9f29c-bc70-4e4e-a48a-56288e940f31",
+            "parentTraceId": "92401ab2-6e3a-41f9-8b61-906c0a67ab0c",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "reflection-coach-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh"
+          }
+        }
+      }
+    },
+    {
+      "id": "faaeb04f-9776-4349-ac08-9df8bb9e6d9a",
+      "createdAt": "2026-03-09T20:00:31.948Z",
+      "traceId": "eaa9f29c-bc70-4e4e-a48a-56288e940f31",
+      "parentTraceId": "92401ab2-6e3a-41f9-8b61-906c0a67ab0c",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.succeeded",
+      "message": "Probe request succeeded for reflection-coach-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "reflection-coach-agent",
+        "userId": "demo-user",
+        "target": "reflection-coach-agent",
+        "endpoint": "/responses",
+        "status": 200
+      }
+    },
+    {
+      "id": "b2ada59d-2be0-4857-ba8e-4bd6af990908",
+      "createdAt": "2026-03-09T20:00:31.948Z",
+      "traceId": "eaa9f29c-bc70-4e4e-a48a-56288e940f31",
+      "parentTraceId": "92401ab2-6e3a-41f9-8b61-906c0a67ab0c",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed reflection-coach-agent via provider-direct",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "reflection-coach-agent",
+        "userId": "demo-user",
+        "target": "reflection-coach-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      }
+    },
+    {
+      "id": "a4608947-69d9-48a3-b557-d245414e6a1a",
+      "createdAt": "2026-03-09T20:00:31.950Z",
+      "traceId": "eaa9f29c-bc70-4e4e-a48a-56288e940f31",
+      "parentTraceId": "92401ab2-6e3a-41f9-8b61-906c0a67ab0c",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for reflection-coach-agent",
+      "metadata": {
+        "agentName": "reflection-coach-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "8500d63b-1e58-4c7c-85a1-79fe1cda2de9",
+      "createdAt": "2026-03-09T20:00:31.950Z",
+      "traceId": "92401ab2-6e3a-41f9-8b61-906c0a67ab0c",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/reflection-coach-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/reflection-coach-agent",
+        "requestId": "req-l",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "40024722-cdb5-48da-a1df-86d9ad053a9a",
+      "createdAt": "2026-03-09T20:00:31.951Z",
+      "traceId": "50812a44-705e-42f8-9ff7-444389f5c142",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/eaa9f29c-bc70-4e4e-a48a-56288e940f31",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/eaa9f29c-bc70-4e4e-a48a-56288e940f31",
+        "requestId": "req-m"
+      }
+    },
+    {
+      "id": "1cf4b8d1-c43e-43aa-851c-a65c7788eb01",
+      "createdAt": "2026-03-09T20:00:31.951Z",
+      "traceId": "50812a44-705e-42f8-9ff7-444389f5c142",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/eaa9f29c-bc70-4e4e-a48a-56288e940f31 -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/eaa9f29c-bc70-4e4e-a48a-56288e940f31",
+        "requestId": "req-m",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "6e8feabf-18f9-446b-8ef1-5daec854e1b3",
+      "createdAt": "2026-03-09T20:00:31.952Z",
+      "traceId": "3406fc11-1e01-4caf-8356-5fdb33f67973",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/automation-agent",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/automation-agent",
+        "requestId": "req-n"
+      }
+    },
+    {
+      "id": "7bb0ab35-ef4c-4669-9959-86e642508d31",
+      "createdAt": "2026-03-09T20:00:31.952Z",
+      "traceId": "b2dcb7fb-fda7-4cf4-b031-16df5de7e2fd",
+      "parentTraceId": "3406fc11-1e01-4caf-8356-5fdb33f67973",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Probe request started for automation-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "automation-agent",
+        "userId": "demo-user",
+        "target": "automation-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "56efa056-4bf7-4857-b109-a87346953648",
+          "target": "automation-agent",
+          "createdAt": "2026-03-09T20:00:31.952Z",
+          "trace": {
+            "traceId": "b2dcb7fb-fda7-4cf4-b031-16df5de7e2fd",
+            "parentTraceId": "3406fc11-1e01-4caf-8356-5fdb33f67973",
+            "source": "mindanchor-gateway",
+            "operation": "probe",
+            "agentName": "automation-agent",
+            "userId": "demo-user"
+          },
+          "payload": {
+            "kind": "probe",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh"
+          }
+        }
+      }
+    },
+    {
+      "id": "6d0b4f82-cdbb-42fd-9272-5a3aa8c04a63",
+      "createdAt": "2026-03-09T20:00:35.522Z",
+      "traceId": "b2dcb7fb-fda7-4cf4-b031-16df5de7e2fd",
+      "parentTraceId": "3406fc11-1e01-4caf-8356-5fdb33f67973",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.succeeded",
+      "message": "Probe request succeeded for automation-agent",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "automation-agent",
+        "userId": "demo-user",
+        "target": "automation-agent",
+        "endpoint": "/responses",
+        "status": 200
+      }
+    },
+    {
+      "id": "f841fdd5-9f38-4afa-a255-f5d8c0c6fcc6",
+      "createdAt": "2026-03-09T20:00:35.524Z",
+      "traceId": "b2dcb7fb-fda7-4cf4-b031-16df5de7e2fd",
+      "parentTraceId": "3406fc11-1e01-4caf-8356-5fdb33f67973",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed automation-agent via provider-direct",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "automation-agent",
+        "userId": "demo-user",
+        "target": "automation-agent",
+        "mode": "probe",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      }
+    },
+    {
+      "id": "645468e5-873d-484a-b2ad-b1fdccff0f33",
+      "createdAt": "2026-03-09T20:00:35.526Z",
+      "traceId": "b2dcb7fb-fda7-4cf4-b031-16df5de7e2fd",
+      "parentTraceId": "3406fc11-1e01-4caf-8356-5fdb33f67973",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for automation-agent",
+      "metadata": {
+        "agentName": "automation-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "f7095ef5-5dd4-46d4-ae94-b875512f921c",
+      "createdAt": "2026-03-09T20:00:35.528Z",
+      "traceId": "3406fc11-1e01-4caf-8356-5fdb33f67973",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/automation-agent -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/automation-agent",
+        "requestId": "req-n",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "8b37b0da-a2ce-40c8-94bd-e1ab987c7dcf",
+      "createdAt": "2026-03-09T20:00:35.529Z",
+      "traceId": "64135e38-fc41-4c48-a256-aad5e5ab4794",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/b2dcb7fb-fda7-4cf4-b031-16df5de7e2fd",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/b2dcb7fb-fda7-4cf4-b031-16df5de7e2fd",
+        "requestId": "req-o"
+      }
+    },
+    {
+      "id": "74e8b6cf-8546-47b2-be41-2335a97501f3",
+      "createdAt": "2026-03-09T20:00:35.530Z",
+      "traceId": "64135e38-fc41-4c48-a256-aad5e5ab4794",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/b2dcb7fb-fda7-4cf4-b031-16df5de7e2fd -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/b2dcb7fb-fda7-4cf4-b031-16df5de7e2fd",
+        "requestId": "req-o",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "7143a8ab-db91-4199-9c49-a59ab567bf23",
+      "createdAt": "2026-03-09T20:00:35.532Z",
+      "traceId": "888adf7c-6f47-4985-aed6-fbe2faa1b94c",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/agent/chief-route?workflow=recovery_plan&userId=debug-focus-user&taskId=5aa7eb03-6ebf-45a5-9018-2d38e177ed6a&scenarioId=focus-recovery-loop",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/agent/chief-route?workflow=recovery_plan&userId=debug-focus-user&taskId=5aa7eb03-6ebf-45a5-9018-2d38e177ed6a&scenarioId=focus-recovery-loop",
+        "requestId": "req-p"
+      }
+    },
+    {
+      "id": "1356fb6f-eaac-473e-8f4d-caca1f645ca8",
+      "createdAt": "2026-03-09T20:00:35.534Z",
+      "traceId": "69e8e97d-5d5b-4827-b3de-a05041b58975",
+      "parentTraceId": "888adf7c-6f47-4985-aed6-fbe2faa1b94c",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Debug request started for chief-agent",
+      "metadata": {
+        "operation": "debug",
+        "agentName": "chief-agent",
+        "workflow": "recovery_plan",
+        "scenarioId": "focus-recovery-loop",
+        "userId": "debug-focus-user",
+        "target": "chief-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "714b2552-4980-4025-b47b-d375b9dd5305",
+          "target": "chief-agent",
+          "createdAt": "2026-03-09T20:00:35.534Z",
+          "trace": {
+            "traceId": "69e8e97d-5d5b-4827-b3de-a05041b58975",
+            "parentTraceId": "888adf7c-6f47-4985-aed6-fbe2faa1b94c",
+            "source": "mindanchor-gateway",
+            "operation": "debug",
+            "agentName": "chief-agent",
+            "workflow": "recovery_plan",
+            "scenarioId": "focus-recovery-loop",
+            "userId": "debug-focus-user"
+          },
+          "payload": {
+            "kind": "debug",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "systemPromptHash": "3bf493fb8599f1701203090706f57c0ad1c11e4fd039921f306b78302a1236c3",
+            "userPromptHash": "f02e987c53ea427e68a3862c6eb798a0d7694a10c73e1190fd6ccb4749f12994",
+            "systemPromptLength": 782,
+            "userPromptLength": 2694
+          }
+        }
+      }
+    },
+    {
+      "id": "cd1ec9a8-ff6f-4212-9982-3dea035022d1",
+      "createdAt": "2026-03-09T20:00:43.697Z",
+      "traceId": "69e8e97d-5d5b-4827-b3de-a05041b58975",
+      "parentTraceId": "888adf7c-6f47-4985-aed6-fbe2faa1b94c",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.succeeded",
+      "message": "Debug request succeeded for chief-agent",
+      "metadata": {
+        "operation": "debug",
+        "agentName": "chief-agent",
+        "workflow": "recovery_plan",
+        "scenarioId": "focus-recovery-loop",
+        "userId": "debug-focus-user",
+        "target": "chief-agent",
+        "endpoint": "/responses",
+        "status": 200
+      }
+    },
+    {
+      "id": "374a2001-5d5d-4181-bf4b-c15ab76d2613",
+      "createdAt": "2026-03-09T20:00:43.700Z",
+      "traceId": "69e8e97d-5d5b-4827-b3de-a05041b58975",
+      "parentTraceId": "888adf7c-6f47-4985-aed6-fbe2faa1b94c",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via provider-direct",
+      "metadata": {
+        "operation": "debug",
+        "agentName": "chief-agent",
+        "workflow": "recovery_plan",
+        "scenarioId": "focus-recovery-loop",
+        "userId": "debug-focus-user",
+        "target": "chief-agent",
+        "mode": "debug",
+        "strategy": "provider-direct",
+        "route": "provider-direct",
+        "success": true,
+        "selectedEndpoint": "/responses",
+        "fallbackReason": null,
+        "clusterAttempts": []
+      }
+    },
+    {
+      "id": "05c79fe6-aeef-4ad9-8b6c-b0c9ae1c418e",
+      "createdAt": "2026-03-09T20:00:43.702Z",
+      "traceId": "69e8e97d-5d5b-4827-b3de-a05041b58975",
+      "parentTraceId": "888adf7c-6f47-4985-aed6-fbe2faa1b94c",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "debug persisted for chief-agent",
+      "metadata": {
+        "agentName": "chief-agent",
+        "workflow": "recovery_plan",
+        "scenarioId": "focus-recovery-loop",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "6d481711-6e26-4bda-8dbc-1b38e148c2fb",
+      "createdAt": "2026-03-09T20:00:43.703Z",
+      "traceId": "888adf7c-6f47-4985-aed6-fbe2faa1b94c",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/agent/chief-route?workflow=recovery_plan&userId=debug-focus-user&taskId=5aa7eb03-6ebf-45a5-9018-2d38e177ed6a&scenarioId=focus-recovery-loop -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/agent/chief-route?workflow=recovery_plan&userId=debug-focus-user&taskId=5aa7eb03-6ebf-45a5-9018-2d38e177ed6a&scenarioId=focus-recovery-loop",
+        "requestId": "req-p",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "5fb9bb0b-5786-44ab-8b22-84153cbf0c43",
+      "createdAt": "2026-03-09T20:00:43.704Z",
+      "traceId": "9a2704f4-18d7-46fc-b822-5e365fd99888",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/traces/69e8e97d-5d5b-4827-b3de-a05041b58975",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/69e8e97d-5d5b-4827-b3de-a05041b58975",
+        "requestId": "req-q"
+      }
+    },
+    {
+      "id": "39acd29e-affd-4ba8-a7ca-93c1afd7b270",
+      "createdAt": "2026-03-09T20:00:43.706Z",
+      "traceId": "9a2704f4-18d7-46fc-b822-5e365fd99888",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/traces/69e8e97d-5d5b-4827-b3de-a05041b58975 -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/traces/69e8e97d-5d5b-4827-b3de-a05041b58975",
+        "requestId": "req-q",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "91ec779b-dee3-4bed-bb40-2ad7661da0bb",
+      "createdAt": "2026-03-09T20:00:43.707Z",
+      "traceId": "56dd7af7-19d8-4801-ab58-21a5a7aad635",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/agent/chief-route?workflow=task_management&userId=debug-plan-user&scenarioId=goal-reprioritization",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/agent/chief-route?workflow=task_management&userId=debug-plan-user&scenarioId=goal-reprioritization",
+        "requestId": "req-r"
+      }
+    },
+    {
+      "id": "fc5d4f4a-2823-48d3-b5bf-80212350dcce",
+      "createdAt": "2026-03-09T20:00:43.708Z",
+      "traceId": "3658b0fa-0e61-4f3c-88c1-f10045a1785f",
+      "parentTraceId": "56dd7af7-19d8-4801-ab58-21a5a7aad635",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.provider.request.started",
+      "message": "Debug request started for chief-agent",
+      "metadata": {
+        "operation": "debug",
+        "agentName": "chief-agent",
+        "workflow": "task_management",
+        "scenarioId": "goal-reprioritization",
+        "userId": "debug-plan-user",
+        "target": "chief-agent",
+        "endpoint": "/responses",
+        "taskEnvelope": {
+          "taskId": "644e7f65-f690-4f04-b12b-cb8d5c484fcf",
+          "target": "chief-agent",
+          "createdAt": "2026-03-09T20:00:43.708Z",
+          "trace": {
+            "traceId": "3658b0fa-0e61-4f3c-88c1-f10045a1785f",
+            "parentTraceId": "56dd7af7-19d8-4801-ab58-21a5a7aad635",
+            "source": "mindanchor-gateway",
+            "operation": "debug",
+            "agentName": "chief-agent",
+            "workflow": "task_management",
+            "scenarioId": "goal-reprioritization",
+            "userId": "debug-plan-user"
+          },
+          "payload": {
+            "kind": "debug",
+            "wireApi": "responses",
+            "reasoningEffort": "xhigh",
+            "systemPromptHash": "3bf493fb8599f1701203090706f57c0ad1c11e4fd039921f306b78302a1236c3",
+            "userPromptHash": "5be30783de788a295ab1397698f57205d1da531bf390c7dd36f7f015d178cc61",
+            "systemPromptLength": 782,
+            "userPromptLength": 2967
+          }
+        }
+      }
+    }
+  ]
+}

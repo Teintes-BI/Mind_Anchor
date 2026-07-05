@@ -1,0 +1,123 @@
+{
+  "goals": [],
+  "tasks": [],
+  "sessions": [],
+  "stateSignals": [],
+  "stateAssessments": [],
+  "interventions": [],
+  "recoveryPlans": [],
+  "reflectionReports": [],
+  "mobileCaptureDevices": [],
+  "audioCaptureSessions": [],
+  "callEvents": [],
+  "emotionAssessments": [],
+  "edgeDevices": [],
+  "mediaUploadSessions": [],
+  "mediaChunkManifests": [],
+  "videoAssessments": [],
+  "healthSnapshots": [],
+  "behaviorConclusions": [],
+  "clientInboxMessages": [],
+  "coachFrontAgentStates": [],
+  "planChangeProposals": [],
+  "planChangeCommandLogs": [],
+  "coachSessions": [],
+  "coachMessages": [],
+  "coachFeedback": [],
+  "coachMemoryItems": [],
+  "coachTrainingExamples": [],
+  "memoryCandidates": [],
+  "memoryItems": [],
+  "agentDebugRuns": [],
+  "debugRegressionMatrixRuns": [],
+  "traceLogEvents": [
+    {
+      "id": "17b6fca9-54ba-4df6-8fe3-26adc13d4dff",
+      "createdAt": "2026-04-24T15:42:26.600Z",
+      "traceId": "3c461ec4-0b5e-492b-892e-b49abc9c3603",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /health",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-1"
+      }
+    },
+    {
+      "id": "9ff3f156-5522-47d5-8aba-b404356cc9d1",
+      "createdAt": "2026-04-24T15:42:26.608Z",
+      "traceId": "3c461ec4-0b5e-492b-892e-b49abc9c3603",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /health -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-1",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "47fd5f74-ab43-4833-8104-97ec82833d67",
+      "createdAt": "2026-04-24T15:42:26.645Z",
+      "traceId": "ac5ef4dd-bb6e-4d1b-83fb-138fc5c27390",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /health",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-2"
+      }
+    },
+    {
+      "id": "32a5b099-72a2-4f9c-924a-e473eebbfb92",
+      "createdAt": "2026-04-24T15:42:26.647Z",
+      "traceId": "ac5ef4dd-bb6e-4d1b-83fb-138fc5c27390",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /health -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-2",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "68a80b15-0a14-4cf9-99f8-b3c817bf5b18",
+      "createdAt": "2026-04-24T15:42:27.020Z",
+      "traceId": "63647177-c283-4722-af79-94eb4128952d",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /mobile/devices/register",
+      "metadata": {
+        "method": "POST",
+        "url": "/mobile/devices/register",
+        "requestId": "req-3"
+      }
+    },
+    {
+      "id": "bfeb1a54-9de0-4cc4-88d0-a673424536e9",
+      "createdAt": "2026-04-24T15:42:27.026Z",
+      "traceId": "63647177-c283-4722-af79-94eb4128952d",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /mobile/devices/register -> 500",
+      "metadata": {
+        "method": "POST",
+        "url": "/mobile/devices/register",
+        "requestId": "req-3",
+        "statusCode": 500
+      }
+    }
+  ],
+  "localAuthUsers": []
+}

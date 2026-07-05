@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindAnchor 已完成任务报告 - 2026-03-22</title>
+    <style>
+      :root {
+        --bg: #f5f7fb;
+        --surface: #ffffff;
+        --surface-alt: #f0f4ff;
+        --border: #dbe3f0;
+        --text: #1f2937;
+        --muted: #5b6473;
+        --primary: #2563eb;
+        --primary-soft: rgba(37, 99, 235, 0.12);
+        --success: #15803d;
+        --success-soft: rgba(21, 128, 61, 0.12);
+        --warning: #b45309;
+        --shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+        background: linear-gradient(180deg, #eef3ff 0%, var(--bg) 240px);
+        color: var(--text);
+      }
+
+      .container {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 40px 0 72px;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, #173b8f 0%, #2563eb 55%, #4f46e5 100%);
+        color: #fff;
+        border-radius: 28px;
+        padding: 36px 36px 32px;
+        box-shadow: var(--shadow);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.14);
+        font-size: 13px;
+        letter-spacing: 0.02em;
+      }
+
+      h1 {
+        margin: 18px 0 12px;
+        font-size: clamp(32px, 5vw, 48px);
+        line-height: 1.08;
+      }
+
+      .hero p {
+        margin: 0;
+        max-width: 840px;
+        font-size: 17px;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.92);
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 28px;
+      }
+
+      .hero-stat {
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 18px;
+        padding: 16px 18px;
+      }
+
+      .hero-stat strong {
+        display: block;
+        font-size: 24px;
+        margin-bottom: 8px;
+      }
+
+      .hero-stat span {
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .section {
+        margin-top: 28px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 28px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+      }
+
+      .section h2 {
+        margin: 0 0 16px;
+        font-size: 24px;
+      }
+
+      .section p,
+      .section li {
+        font-size: 15px;
+        line-height: 1.75;
+        color: var(--muted);
+      }
+
+      .section ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .card {
+        background: var(--surface-alt);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 20px;
+      }
+
+      .card h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+      }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: var(--primary-soft);
+        color: var(--primary);
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .tag.success {
+        background: var(--success-soft);
+        color: var(--success);
+      }
+
+      .timeline {
+        display: grid;
+        gap: 14px;
+      }
+
+      .timeline-item {
+        border-left: 3px solid var(--primary);
+        padding: 4px 0 4px 16px;
+      }
+
+      .timeline-item strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 16px;
+      }
+
+      .evidence {
+        display: grid;
+        gap: 12px;
+      }
+
+      .evidence-item {
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 16px 18px;
+        background: #fbfcfe;
+      }
+
+      .evidence-item code,
+      .files code {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 8px;
+        background: #eef3ff;
+        color: #1d4ed8;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 13px;
+        word-break: break-word;
+      }
+
+      .files {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .file-box {
+        border: 1px dashed var(--border);
+        border-radius: 16px;
+        padding: 14px 16px;
+        background: #fcfdff;
+      }
+
+      .callout {
+        margin-top: 18px;
+        padding: 18px 20px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(79, 70, 229, 0.06));
+        border: 1px solid rgba(37, 99, 235, 0.16);
+      }
+
+      .footer {
+        margin-top: 28px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      @media (max-width: 900px) {
+        .hero-grid,
+        .grid-2,
+        .files {
+          grid-template-columns: 1fr;
+        }
+
+        .hero,
+        .section {
+          padding: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <section class="hero">
+        <div class="eyebrow">MindAnchor · Completed Work Report · 2026-03-22</div>
+        <h1>MindAnchor 已完成任务报告</h1>
+        <p>
+          本报告汇总当前仓库在 Gateway、OpenClaw、macOS 原生客户端、Conversation Coach、
+          authority handoff、memory governance、自动化验收与文档体系上的已完成工作。
+          重点不是“接口存在”，而是已经打通的真实闭环与已验证的可运行主链。
+        </p>
+        <div class="hero-grid">
+          <div class="hero-stat">
+            <strong>单用户 V1</strong>
+            <span>已形成可运行交付主线，核心形态为 Gateway + OpenClaw + macOS 客户端，但 agent-team / memory 仍在收敛。</span>
+          </div>
+          <div class="hero-stat">
+            <strong>Authority</strong>
+            <span><code>Jarvis</code> 与 <code>Data</code> 已真实进入 conversation trace，而不是空壳。</span>
+          </div>
+          <div class="hero-stat">
+            <strong>真实 GUI E2E</strong>
+            <span>已跑通 fast → full → feedback → memory revoke → governance turn。</span>
+          </div>
+          <div class="hero-stat">
+            <strong>可续接</strong>
+            <span>主 spec、runbook、release 文档、测试脚本均已回写并可跨机器继续开发。</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>一、项目当前结论</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3>总体状态</h3>
+            <ul>
+              <li>项目主脑已收敛为用户自部署的 <code>OpenClaw</code> 集群。</li>
+              <li><code>apps/api</code> 已转型为 <code>Gateway</code> / 兼容 API 层。</li>
+              <li><code>apps/macos</code> 已成为原生 macOS 主客户端。</li>
+              <li>Conversation Coach 已不再只是 UI 壳，已接上真实的 agent/team 主链。</li>
+              <li>当前状态更准确地说是“基础交付面已建立，conversation / memory / learning 主链仍在持续收敛”。</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>当前最重要成果</h3>
+            <ul>
+              <li><code>Picard</code> 已能决定前台 agent、consult、authority handoff。</li>
+              <li><code>Jarvis</code> / <code>Data</code> 已能在同一条对话链内真正执行动作。</li>
+              <li>Mac 客户端可显示 execution trail，看到谁在本轮真正出面与执行。</li>
+              <li>memory revoke 与 forget governance 已真实生效，并通过 E2E 验证。</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tag-row">
+          <span class="tag success">Gateway 主链已接通</span>
+          <span class="tag success">OpenClaw conversation authority 已接通</span>
+          <span class="tag success">macOS 原生客户端已可用</span>
+          <span class="tag success">真实 GUI 自动验收已落地</span>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>二、已完成任务总览</h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <strong>1. 架构主线重定向完成</strong>
+            <p>
+              已把系统主脑从“客户端本地推理”转为“<code>Client Apps → Gateway → OpenClaw Cluster</code>”。
+              仓库主线现在围绕 Gateway、类型契约、原生 Mac 客户端、Web 控制台与 OpenClaw 对接展开。
+            </p>
+          </div>
+          <div class="timeline-item">
+            <strong>2. agent-name-based 模型配置与 GPT-5.4 接入完成</strong>
+            <p>
+              各 agent 已支持按自身 agent 名独立解析模型配置；当前阶段可统一临时指向
+              <code>gpt-5.4</code>，但配置身份已独立，便于后续按职责替换模型。
+            </p>
+          </div>
+          <div class="timeline-item">
+            <strong>3. OpenClaw / Gateway 核心测试链路打通</strong>
+            <p>
+              已完成 stub、provider-direct、cluster-preferred 多阶段调试与回归框架，建立了
+              <code>Agent Lab</code>、trace、scenario、regression、matrix regression 等基础设施。
+            </p>
+          </div>
+          <div class="timeline-item">
+            <strong>4. Electron 桌面路线冻结，原生 macOS 路线建立</strong>
+            <p>
+              已停止把旧 <code>apps/desktop</code> 作为目标实现，转为以
+              <code>SwiftUI + AppKit</code> 的 <code>apps/macos</code> 为正式主客户端。
+            </p>
+          </div>
+          <div class="timeline-item">
+            <strong>5. macOS 主窗口、状态项、提醒、Coach 面板持续完善</strong>
+            <p>
+              已完成菜单栏常驻、主窗口多页面、真实 GUI 验收、语言中英切换、通知/提醒主链与 Coach 对话面板的持续增强。
+            </p>
+          </div>
+          <div class="timeline-item">
+            <strong>6. Conversation Coach 从壳子进入真实主链</strong>
+            <p>
+              已把前台 persona、consult、feedback、memory revoke、authority handoff、execution trail
+              全部串进同一套 conversation 读写模型和 trace 体系。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>三、Gateway / OpenClaw 已完成进展</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Gateway 已完成</h3>
+            <ul>
+              <li>兼容 API、读模型、trace、调试入口、scenario seed、full regression、matrix regression。</li>
+              <li>按 agent-name 解析模型配置，并支持默认共享模型配置。</li>
+              <li>authority execution 内部执行入口已完成。</li>
+              <li>conversation / dashboard / inbox / state / reflections 主链可被统一消费。</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>OpenClaw 已完成</h3>
+            <ul>
+              <li>本地 runtime 与 cluster-preferred 调试链路可运行。</li>
+              <li><code>Picard</code> 路由工作流已接入。</li>
+              <li><code>Jarvis authority</code> 与 <code>Data governance</code> workflow 已接入。</li>
+              <li>Conversation 场景下的 front/consult/authority 选择与输出已进入 trace。</li>
+            </ul>
+          </div>
+        </div>
+        <div class="callout">
+          <strong>关键变化：</strong>
+          <code>Jarvis</code> 与 <code>Data</code> 已不是“文案角色”，而是能在 Gateway 中真正触发执行、
+          落库、治理记忆和改变可见状态的 authority agent。
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>四、Conversation Coach 与 Agent Team 已完成进展</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3>对话主链</h3>
+            <ul>
+              <li><code>Picard</code> 已决定前台 agent 与 handoff 策略。</li>
+              <li>支持 fast / full 双阶段响应。</li>
+              <li>支持 consulted agent 进入同一轮 trace。</li>
+              <li>支持 helpful / unhelpful feedback 进入治理链。</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Authority / Memory</h3>
+            <ul>
+              <li>对话内计划调整已可 handoff 到 <code>Jarvis</code>。</li>
+              <li>对话内 forget / delete memory 已可 handoff 到 <code>Data</code>。</li>
+              <li>memory revoke 已可同步撤销当前对话已召回的 coach memory。</li>
+              <li>已阻止 forget governance turn 反向把“要忘记的内容”重新写回新记忆。</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tag-row">
+          <span class="tag">Picard</span>
+          <span class="tag">Deanna Troi</span>
+          <span class="tag">Spock</span>
+          <span class="tag">Guinan</span>
+          <span class="tag">Jarvis</span>
+          <span class="tag">Data</span>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>五、macOS 原生客户端已完成进展</h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <strong>原生工程已建立</strong>
+            <p>
+              <code>apps/macos</code> 已替代旧 Electron 路线，具备原生工程生成、构建、测试、打包与 release runbook。
+            </p>
+          </div>
+          <div class="timeline-item">
+            <strong>主界面与状态项已进入稳定阶段</strong>
+            <p>
+              已做状态项恢复主窗口、提醒闭环、主窗口多页面、Coach 页面、设置页、双语切换、权限与状态信息展示。
+            </p>
+          </div>
+          <div class="timeline-item">
+            <strong>Coach 页面已接上真实后端 sidecars</strong>
+            <p>
+              自动刷新已不只拉消息线程，还会同步刷新 <code>coachFrontAgent</code>、
+              <code>coachProposals</code>、<code>coachMemory</code>。
+            </p>
+          </div>
+          <div class="timeline-item">
+            <strong>消息级 execution trail 已完成</strong>
+            <p>
+              每条 assistant message 可基于 <code>traceId</code> 拉取 trace 并显示
+              <code>Consult · &lt;agent&gt;</code>、
+              <code>Authority · &lt;agent&gt;</code>、
+              <code>Memory revoked · &lt;count&gt;</code>。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>六、已打通的关键闭环</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3>闭环 A：对话 authority handoff</h3>
+            <ul>
+              <li>用户发送一句话。</li>
+              <li><code>Picard</code> 判断是否需要 authority handoff。</li>
+              <li><code>Jarvis</code> / <code>Data</code> 经 OpenClaw 路径被真正调起。</li>
+              <li>Gateway 执行动作并写回结果。</li>
+              <li>Mac 客户端通过 execution trail 看到本轮真实执行者。</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>闭环 B：memory governance</h3>
+            <ul>
+              <li>用户说“请忘记我偏好短句这条记忆”。</li>
+              <li><code>Picard -&gt; Data</code> handoff 进入同一条 conversation trace。</li>
+              <li>目标记忆被删除或撤销 recall。</li>
+              <li>当前已召回 coach memory 被同步 revoke。</li>
+              <li>Mac GUI 上可以看到 <code>Authority · Data</code> 与 memory revoked。</li>
+            </ul>
+          </div>
+        </div>
+        <div class="callout">
+          <strong>最新关键修复：</strong>
+          authority execution 已新增 <code>includeReadModelRefresh</code> 控制；
+          conversation authority handoff 现在默认关闭阻塞式 read model refresh，
+          从而避免 governance turn 卡在 <code>pending_full</code>。
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>七、已完成的验证与验收证据</h2>
+        <div class="evidence">
+          <div class="evidence-item">
+            <strong>API 回归</strong>
+            <p>
+              已 fresh 运行：
+              <code>corepack pnpm --filter @mindanchor/api exec vitest run tests/agent-authority.service.test.ts tests/agent-authority.integration.test.ts tests/conversation-coach.integration.test.ts</code>
+            </p>
+            <p>结果：<strong>25 passed</strong></p>
+          </div>
+          <div class="evidence-item">
+            <strong>真实 macOS Coach E2E</strong>
+            <p>
+              已 fresh 运行：
+              <code>node scripts/run-macos-coach-conversation-e2e.mjs</code>
+            </p>
+            <p>
+              结果：<strong>PASS macOS coach conversation e2e</strong>，并稳定覆盖
+              <code>fast → full → helpful feedback → memory revoke → governance turn</code>。
+            </p>
+          </div>
+          <div class="evidence-item">
+            <strong>真实 GUI 关键断言</strong>
+            <p>
+              自动化快照已可断言最后一条 assistant message 的 execution trail 含：
+              <code>Authority · Data</code>、<code>Memory revoked · &lt;count&gt;</code>。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>八、重要产出物清单</h2>
+        <div class="files">
+          <div class="file-box"><code>docs/superpowers/specs/2026-03-19-mindanchor-v1-commercial-delivery-design.md</code></div>
+          <div class="file-box"><code>docs/mindanchor-v1-completion-report-2026-03-21.md</code></div>
+          <div class="file-box"><code>docs/macos-mainline-runbook.md</code></div>
+          <div class="file-box"><code>docs/macos-conversation-coach-manual-acceptance-2026-03-21.md</code></div>
+          <div class="file-box"><code>docs/runbooks/macos-agent-team-v1-local-test.md</code></div>
+          <div class="file-box"><code>scripts/run-macos-coach-conversation-e2e.mjs</code></div>
+          <div class="file-box"><code>apps/api/src/services/conversation-coach-service.ts</code></div>
+          <div class="file-box"><code>apps/api/src/services/agent-authority-execution-service.ts</code></div>
+          <div class="file-box"><code>apps/api/tests/conversation-coach.integration.test.ts</code></div>
+          <div class="file-box"><code>apps/api/tests/agent-authority.service.test.ts</code></div>
+          <div class="file-box"><code>apps/macos/Sources/Core/AppViewModel.swift</code></div>
+          <div class="file-box"><code>apps/macos/Sources/Features/Coach/CoachConversationViews.swift</code></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>九、当前尚未完成但最值得继续推进的内容</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3>优先级最高</h3>
+            <ul>
+              <li>把 OpenClaw conversation memory bundle 与 Gateway retrieval contract 继续收敛成单一真相源。</li>
+              <li>继续推进 helpful feedback 到 strengthening / preference learning 的轻量闭环。</li>
+              <li>让 memory retrieval / compaction / governance 规则更明确、更稳。</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>随后推进</h3>
+            <ul>
+              <li>补强 latency / quality / stability / learning effectiveness 指标体系。</li>
+              <li>继续完善真实 GUI 自动化，降低对 Accessibility 波动的敏感度。</li>
+              <li>在后续具备外部签名材料后推进正式 Apple 签名 / notarization。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>十、总结</h2>
+        <p>
+          到当前为止，MindAnchor 最重要的进展不是“多了一些页面或接口”，而是已经把
+          <code>OpenClaw</code>、<code>Gateway</code>、<code>macOS 原生客户端</code>、
+          <code>Conversation Coach</code>、<code>authority handoff</code>、
+          <code>memory governance</code>、<code>execution trail</code> 串成了可验证、可追踪、可继续演进的一条真实主链。
+        </p>
+        <p>
+          换句话说，这个项目已经越过“概念原型”阶段，进入“核心机制已真实成立，后续重点是 conversation / memory / quality 收敛，再逐步强化产品化”的阶段。
+        </p>
+      </section>
+
+      <div class="footer">
+        生成时间：2026-03-22 · 仓库路径：<code>/Users/claw/mindanchor</code>
+      </div>
+    </div>
+  </body>
+</html>

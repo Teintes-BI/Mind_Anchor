@@ -1,0 +1,18 @@
+{
+  "startedAt": "2026-03-23T19:48:52.185Z",
+  "completedAt": "2026-03-23T19:48:57.000Z",
+  "rootDir": "/Users/claw/mindanchor",
+  "apiBaseUrl": "http://127.0.0.1:3024",
+  "webBaseUrl": "http://127.0.0.1:4174",
+  "clusterBaseUrl": "http://127.0.0.1:8788",
+  "clusterMode": "local",
+  "providerMode": "mock",
+  "phases": [],
+  "files": {
+    "reportJson": "/Users/claw/mindanchor/test-results/core-phase-2026-03-23T19-48-52-183Z/report.json",
+    "reportMarkdown": "/Users/claw/mindanchor/test-results/core-phase-2026-03-23T19-48-52-183Z/report.md",
+    "logsDir": "/Users/claw/mindanchor/test-results/core-phase-2026-03-23T19-48-52-183Z/logs",
+    "responsesDir": "/Users/claw/mindanchor/test-results/core-phase-2026-03-23T19-48-52-183Z/responses"
+  },
+  "failures": []
+}

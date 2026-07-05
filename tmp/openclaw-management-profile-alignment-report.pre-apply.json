@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-03-28T13:48:45.068Z",
+  "targetProfileKey": "openclaw-dev",
+  "aligned": false,
+  "sourceManagementProfileKey": "openclaw-dev",
+  "expectedAgentCount": 6,
+  "actualAgentCount": 8,
+  "missingAgents": [
+    "director-agent",
+    "companion-agent",
+    "analyst-agent",
+    "balance-agent",
+    "life-secretary-agent",
+    "memory-governor-agent"
+  ],
+  "extraAgents": [
+    "main",
+    "chief-agent",
+    "state-insight-agent",
+    "task-management-agent",
+    "progress-feedback-agent",
+    "interruption-recovery-agent",
+    "reflection-coach-agent",
+    "automation-agent"
+  ],
+  "fieldMismatches": []
+}

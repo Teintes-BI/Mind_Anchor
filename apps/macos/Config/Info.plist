@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>CFBundleDevelopmentRegion</key>
+  <string>en</string>
+  <key>CFBundleDisplayName</key>
+  <string>MindAnchor for Mac</string>
+  <key>CFBundleExecutable</key>
+  <string>$(EXECUTABLE_NAME)</string>
+  <key>CFBundleIdentifier</key>
+  <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+  <key>CFBundleInfoDictionaryVersion</key>
+  <string>6.0</string>
+  <key>CFBundleName</key>
+  <string>MindAnchorMac</string>
+  <key>CFBundlePackageType</key>
+  <string>APPL</string>
+  <key>CFBundleShortVersionString</key>
+  <string>$(MARKETING_VERSION)</string>
+  <key>CFBundleVersion</key>
+  <string>$(CURRENT_PROJECT_VERSION)</string>
+  <key>LSMinimumSystemVersion</key>
+  <string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+  <key>LSApplicationCategoryType</key>
+  <string>public.app-category.productivity</string>
+  <key>NSAppleEventsUsageDescription</key>
+  <string>MindAnchor reads frontmost app changes to build low-intrusion activity signals.</string>
+  <key>MINDANCHOR_API_BASE_URL</key>
+  <string>$(MINDANCHOR_API_BASE_URL)</string>
+  <key>MINDANCHOR_SUPABASE_URL</key>
+  <string>$(MINDANCHOR_SUPABASE_URL)</string>
+  <key>MINDANCHOR_SUPABASE_ANON_KEY</key>
+  <string>$(MINDANCHOR_SUPABASE_ANON_KEY)</string>
+  <key>MINDANCHOR_AUTH_DEV_TOKEN</key>
+  <string>$(MINDANCHOR_AUTH_DEV_TOKEN)</string>
+  <key>MINDANCHOR_AUTH_BOOTSTRAP_MODE</key>
+  <string>$(MINDANCHOR_AUTH_BOOTSTRAP_MODE)</string>
+  <key>MINDANCHOR_AUTH_BOOTSTRAP_EMAIL</key>
+  <string>$(MINDANCHOR_AUTH_BOOTSTRAP_EMAIL)</string>
+  <key>MINDANCHOR_AUTH_BOOTSTRAP_PASSWORD</key>
+  <string>$(MINDANCHOR_AUTH_BOOTSTRAP_PASSWORD)</string>
+  <key>MINDANCHOR_AUTH_BOOTSTRAP_DISPLAY_NAME</key>
+  <string>$(MINDANCHOR_AUTH_BOOTSTRAP_DISPLAY_NAME)</string>
+  <key>NSPrincipalClass</key>
+  <string>NSApplication</string>
+  <key>NSUserNotificationUsageDescription</key>
+  <string>MindAnchor uses notifications for reminders and recovery suggestions.</string>
+</dict>
+</plist>

@@ -1,0 +1,69 @@
+name: MindAnchorMac
+options:
+  bundleIdPrefix: com.mindanchor
+  createIntermediateGroups: true
+  deploymentTarget:
+    macOS: "14.0"
+configs:
+  Debug: debug
+  Release: release
+configFiles:
+  Debug: Config/Debug.xcconfig
+  Release: Config/Release.xcconfig
+settings:
+  base:
+    PRODUCT_NAME: MindAnchorMac
+    SWIFT_VERSION: 6.0
+    MACOSX_DEPLOYMENT_TARGET: 14.0
+    INFOPLIST_FILE: Config/Info.plist
+    ALWAYS_SEARCH_USER_PATHS: NO
+    CODE_SIGN_STYLE: Automatic
+    CURRENT_PROJECT_VERSION: 1
+    MARKETING_VERSION: 0.1.0
+  configs:
+    Debug:
+      SWIFT_OPTIMIZATION_LEVEL: -Onone
+      ENABLE_TESTABILITY: YES
+    Release:
+      SWIFT_OPTIMIZATION_LEVEL: -Owholemodule
+targets:
+  MindAnchorCore:
+    type: framework
+    platform: macOS
+    sources:
+      - Sources/Core
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mindanchor.mac.core
+        PRODUCT_NAME: MindAnchorCore
+        PRODUCT_MODULE_NAME: MindAnchorCore
+        DEFINES_MODULE: YES
+  MindAnchorMac:
+    type: application
+    platform: macOS
+    sources:
+      - Sources
+    resources:
+      - Config/Assets.xcassets
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mindanchor.mac
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.productivity
+        INFOPLIST_KEY_NSHumanReadableCopyright: ""
+        INFOPLIST_KEY_NSAppleEventsUsageDescription: MindAnchor reads frontmost app changes to build low-intrusion activity signals.
+        INFOPLIST_KEY_NSSystemAdministrationUsageDescription: MindAnchor may prompt you to open System Settings for notification and accessibility checks.
+    scheme:
+      testTargets:
+        - MindAnchorMacTests
+  MindAnchorMacTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - Tests/MindAnchorMacTests
+    dependencies:
+      - target: MindAnchorCore
+    settings:
+      base:
+        PRODUCT_NAME: MindAnchorMacTests
+        PRODUCT_MODULE_NAME: MindAnchorMacTests

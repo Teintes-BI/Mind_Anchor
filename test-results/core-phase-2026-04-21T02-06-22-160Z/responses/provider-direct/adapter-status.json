@@ -1,0 +1,1 @@
+{"gatewayMode":"openai-compatible","clusterEnabled":false,"executionStrategy":"provider-direct","openClawBaseUrl":"","clusterEndpoints":["/v1/tasks/execute","/tasks/execute","/api/tasks/execute"],"lastDecision":null,"lastFallback":null,"failureCategoryCounts":{},"recentTimeline":[]}

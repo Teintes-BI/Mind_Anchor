@@ -1,0 +1,56 @@
+{
+  "generatedAt": "2026-04-24T15:40:15.531Z",
+  "startedAt": "2026-04-24T15:40:15.531Z",
+  "completedAt": "2026-04-24T15:40:18.249Z",
+  "durationMs": 2718,
+  "apiBaseUrl": "http://127.0.0.1:3011",
+  "apiLanBaseUrl": "http://192.168.0.104:3011",
+  "openClawBaseUrl": "http://192.168.0.104:8800",
+  "device": {
+    "serial": "320146882257",
+    "model": "NX733J",
+    "androidVersion": "15",
+    "wifiIp": "10.32.158.206",
+    "curlPath": "/system/bin/curl"
+  },
+  "preflight": {
+    "adbDeviceConnected": true,
+    "wifiIpDetected": true,
+    "curlAvailable": true,
+    "gatewayLanHealthOk": false
+  },
+  "options": {
+    "apiHost": "0.0.0.0",
+    "preferredApiPort": 3011,
+    "userId": "m6-mobile-user",
+    "deviceId": "android-m6-capture",
+    "profileName": "dev"
+  },
+  "steps": [],
+  "responseIds": {},
+  "readModels": {
+    "healthLatestReflectsDevice": false,
+    "dashboardReflectsDevice": false,
+    "inboxOverviewOk": false
+  },
+  "errors": [
+    "Command failed: adb -s 320146882257 shell sh -c curl -sS -m 20 -w '\\nHTTP_STATUS=%{http_code}\\n' 'http://192.168.0.104:3011/health'\ncurl: try 'curl --help' or 'curl --manual' for more information\n"
+  ],
+  "summary": {
+    "passed": false,
+    "totalSteps": 0,
+    "failedSteps": 0,
+    "readModels": {
+      "healthLatestReflectsDevice": false,
+      "dashboardReflectsDevice": false,
+      "inboxOverviewOk": false
+    },
+    "responseIds": {},
+    "errorSamples": [
+      "read model check failed: healthLatestReflectsDevice",
+      "read model check failed: dashboardReflectsDevice",
+      "read model check failed: inboxOverviewOk",
+      "Command failed: adb -s 320146882257 shell sh -c curl -sS -m 20 -w '\\nHTTP_STATUS=%{http_code}\\n' 'http://192.168.0.104:3011/health'\ncurl: try 'curl --help' or 'curl --manual' for more information\n"
+    ]
+  }
+}

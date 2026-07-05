@@ -1,0 +1,268 @@
+{
+  "goals": [],
+  "tasks": [],
+  "sessions": [],
+  "stateSignals": [],
+  "stateAssessments": [],
+  "interventions": [],
+  "recoveryPlans": [],
+  "reflectionReports": [],
+  "mobileCaptureDevices": [],
+  "audioCaptureSessions": [],
+  "callEvents": [],
+  "emotionAssessments": [],
+  "edgeDevices": [],
+  "mediaUploadSessions": [],
+  "mediaChunkManifests": [],
+  "videoAssessments": [],
+  "healthSnapshots": [],
+  "behaviorConclusions": [],
+  "clientInboxMessages": [],
+  "coachFrontAgentStates": [],
+  "planChangeProposals": [],
+  "planChangeCommandLogs": [],
+  "coachSessions": [],
+  "coachMessages": [],
+  "coachFeedback": [],
+  "coachMemoryItems": [],
+  "coachTrainingExamples": [],
+  "memoryCandidates": [],
+  "memoryItems": [],
+  "agentDebugRuns": [],
+  "debugRegressionMatrixRuns": [],
+  "traceLogEvents": [
+    {
+      "id": "ae93fa25-a129-4bb3-ad52-03e7910289b7",
+      "createdAt": "2026-03-29T14:21:55.138Z",
+      "traceId": "4b4dd1c0-97a7-4d74-933e-ac8baf4ef6e2",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /health",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-1"
+      }
+    },
+    {
+      "id": "acd58b3c-225b-4707-a9cf-ad2b2bc76c9f",
+      "createdAt": "2026-03-29T14:21:55.146Z",
+      "traceId": "4b4dd1c0-97a7-4d74-933e-ac8baf4ef6e2",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /health -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-1",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "c8d6bdfa-460d-4f6d-aea6-a034349561cd",
+      "createdAt": "2026-03-29T14:21:55.156Z",
+      "traceId": "f8e36528-752b-437c-8afd-9322d864c8b0",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /health",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-2"
+      }
+    },
+    {
+      "id": "6f3037e8-ad3f-4872-9a3a-6ea113bbd75c",
+      "createdAt": "2026-03-29T14:21:55.157Z",
+      "traceId": "f8e36528-752b-437c-8afd-9322d864c8b0",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /health -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-2",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "8fa22d62-04ae-4538-954e-4c1f837f66d4",
+      "createdAt": "2026-03-29T14:21:55.163Z",
+      "traceId": "8b341c94-7655-4d9d-8fa1-dfc2c12f5847",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/openclaw/adapter",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/openclaw/adapter",
+        "requestId": "req-3"
+      }
+    },
+    {
+      "id": "91764f5a-0636-4a49-95c7-811ecb8271d9",
+      "createdAt": "2026-03-29T14:21:55.166Z",
+      "traceId": "8b341c94-7655-4d9d-8fa1-dfc2c12f5847",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/openclaw/adapter -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/openclaw/adapter",
+        "requestId": "req-3",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "fa1c69df-1261-49b8-a856-61e67ac44844",
+      "createdAt": "2026-03-29T14:21:55.168Z",
+      "traceId": "a6555f1f-8d94-4376-a7a7-d50f2202599f",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/agent-configs",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/agent-configs",
+        "requestId": "req-4"
+      }
+    },
+    {
+      "id": "c346c609-9e73-4738-b1c3-12e7797bdb57",
+      "createdAt": "2026-03-29T14:21:55.170Z",
+      "traceId": "a6555f1f-8d94-4376-a7a7-d50f2202599f",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/agent-configs -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/agent-configs",
+        "requestId": "req-4",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "453810f3-d63f-4709-8d1e-4200bb842dc8",
+      "createdAt": "2026-03-29T14:21:55.173Z",
+      "traceId": "6e157448-96d9-46b7-af85-1634cf209889",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/scenarios",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/scenarios",
+        "requestId": "req-5"
+      }
+    },
+    {
+      "id": "a61446ad-0153-4d5f-a635-2628350a7410",
+      "createdAt": "2026-03-29T14:21:55.174Z",
+      "traceId": "6e157448-96d9-46b7-af85-1634cf209889",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/scenarios -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/scenarios",
+        "requestId": "req-5",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "a077854e-58e1-4abd-a25d-afb728e6c334",
+      "createdAt": "2026-03-29T14:21:55.176Z",
+      "traceId": "4e29c9e8-dcf0-45c6-bb4d-1c0e2e08842c",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/openclaw/registry-visibility",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/openclaw/registry-visibility",
+        "requestId": "req-6"
+      }
+    },
+    {
+      "id": "86cb38cf-c182-452e-bdc4-d90994d81d0d",
+      "createdAt": "2026-03-29T14:21:55.178Z",
+      "traceId": "4e29c9e8-dcf0-45c6-bb4d-1c0e2e08842c",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/openclaw/registry-visibility -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/openclaw/registry-visibility",
+        "requestId": "req-6",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "02e9ca38-f424-4297-9c0c-88100946b614",
+      "createdAt": "2026-03-29T14:21:55.181Z",
+      "traceId": "ab77c0cb-d4ae-4e3f-b86c-c7f8a4905dcc",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /debug/runs/clear",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/runs/clear",
+        "requestId": "req-7"
+      }
+    },
+    {
+      "id": "ea2cd14b-74e4-430e-8a7b-4a6782e91063",
+      "createdAt": "2026-03-29T14:21:55.185Z",
+      "traceId": "ab77c0cb-d4ae-4e3f-b86c-c7f8a4905dcc",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /debug/runs/clear -> 200",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/runs/clear",
+        "requestId": "req-7",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "c1942a38-a837-4ef6-857e-dcf161d8580e",
+      "createdAt": "2026-03-29T14:21:55.187Z",
+      "traceId": "fc2cfce8-4eab-4c00-94fc-5d2251cd9e96",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "POST /debug/regressions/matrix-runs/clear",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/regressions/matrix-runs/clear",
+        "requestId": "req-8"
+      }
+    },
+    {
+      "id": "8f42bfe6-af34-4bd0-9f5e-b5219fb43956",
+      "createdAt": "2026-03-29T14:21:55.192Z",
+      "traceId": "fc2cfce8-4eab-4c00-94fc-5d2251cd9e96",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "POST /debug/regressions/matrix-runs/clear -> 200",
+      "metadata": {
+        "method": "POST",
+        "url": "/debug/regressions/matrix-runs/clear",
+        "requestId": "req-8",
+        "statusCode": 200
+      }
+    }
+  ],
+  "localAuthUsers": []
+}

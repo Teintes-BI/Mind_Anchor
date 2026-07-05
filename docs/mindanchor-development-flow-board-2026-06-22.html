@@ -1,0 +1,1246 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindAnchor 开发流程与总体设计看板 - 2026-06-22</title>
+    <style>
+      :root {
+        --bg: #f7f9fc;
+        --panel: #ffffff;
+        --panel-strong: #f1f5f9;
+        --ink: #0f172a;
+        --text: #243042;
+        --muted: #5b677a;
+        --line: #d8e0eb;
+        --navy: #16345b;
+        --blue: #2563eb;
+        --blue-soft: #dbeafe;
+        --green: #0f7a4f;
+        --green-soft: #dff6ea;
+        --amber: #b45309;
+        --amber-soft: #fef3c7;
+        --red: #b42318;
+        --red-soft: #fee4e2;
+        --purple: #6650a4;
+        --purple-soft: #ebe7ff;
+        --cyan: #087f8c;
+        --cyan-soft: #d9f8fb;
+        --shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+        --radius: 8px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        overflow-x: hidden;
+        background:
+          linear-gradient(180deg, #edf3fb 0, #f7f9fc 360px),
+          var(--bg);
+        color: var(--text);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .page {
+        width: min(1320px, calc(100% - 36px));
+        margin: 0 auto;
+        padding: 28px 0 72px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 14px 0 28px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 40px;
+        height: 40px;
+        place-items: center;
+        border-radius: var(--radius);
+        background: var(--navy);
+        color: #fff;
+        font-weight: 800;
+        letter-spacing: 0;
+      }
+
+      .brand strong {
+        display: block;
+        color: var(--ink);
+        font-size: 16px;
+      }
+
+      .brand span {
+        display: block;
+        margin-top: 2px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: flex-end;
+      }
+
+      .nav a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 36px;
+        padding: 8px 12px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.72);
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 650;
+        text-decoration: none;
+        transition:
+          border-color 180ms ease,
+          color 180ms ease,
+          background 180ms ease;
+      }
+
+      .nav a:hover,
+      .nav a:focus-visible {
+        border-color: var(--blue);
+        background: #fff;
+        color: var(--blue);
+        outline: none;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.02fr) minmax(360px, 0.98fr);
+        gap: 22px;
+        align-items: stretch;
+      }
+
+      .hero-copy {
+        min-height: 520px;
+        padding: 36px;
+        border: 1px solid #cdd7e5;
+        border-radius: var(--radius);
+        background: #fff;
+        box-shadow: var(--shadow);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 10px;
+        border: 1px solid #cbd5e1;
+        border-radius: var(--radius);
+        background: #f8fafc;
+        color: var(--navy);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 12ch;
+        margin: 22px 0 18px;
+        color: var(--ink);
+        font-size: clamp(42px, 4.75rem, 82px);
+        line-height: 0.98;
+        letter-spacing: 0;
+      }
+
+      .hero-copy p {
+        max-width: 68ch;
+        margin: 0;
+        color: #354255;
+        font-size: 17px;
+        line-height: 1.75;
+      }
+
+      .hero-metrics {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 28px;
+      }
+
+      .metric {
+        min-height: 112px;
+        padding: 15px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--panel-strong);
+      }
+
+      .metric strong {
+        display: block;
+        color: var(--ink);
+        font-size: 28px;
+        line-height: 1;
+      }
+
+      .metric span {
+        display: block;
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .executive-card {
+        position: relative;
+        overflow: hidden;
+        padding: 24px;
+        border: 1px solid #c8d5e5;
+        border-radius: var(--radius);
+        background: #102a4a;
+        color: #fff;
+        box-shadow: var(--shadow);
+      }
+
+      .executive-card h2 {
+        margin: 0 0 18px;
+        color: #fff;
+        font-size: 24px;
+        line-height: 1.2;
+      }
+
+      .north-star {
+        display: grid;
+        gap: 12px;
+      }
+
+      .north-star-row {
+        display: grid;
+        grid-template-columns: 40px minmax(0, 1fr);
+        gap: 12px;
+        align-items: start;
+        padding: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.07);
+      }
+
+      .icon-box {
+        display: grid;
+        width: 40px;
+        height: 40px;
+        place-items: center;
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.12);
+        color: #dbeafe;
+      }
+
+      svg {
+        display: block;
+      }
+
+      .north-star-row strong {
+        display: block;
+        color: #fff;
+        font-size: 15px;
+      }
+
+      .north-star-row span {
+        display: block;
+        margin-top: 4px;
+        color: #d9e7f7;
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      .section {
+        margin-top: 24px;
+        padding: 28px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--panel);
+        box-shadow: 0 12px 34px rgba(15, 23, 42, 0.05);
+      }
+
+      .section-header {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 22px;
+      }
+
+      .section-kicker {
+        margin: 0 0 7px;
+        color: var(--blue);
+        font-size: 12px;
+        font-weight: 850;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h2 {
+        margin: 0;
+        color: var(--ink);
+        font-size: clamp(24px, 2rem, 34px);
+        line-height: 1.15;
+        letter-spacing: 0;
+      }
+
+      .section-header p {
+        max-width: 56ch;
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.65;
+      }
+
+      .architecture {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 14px;
+        align-items: stretch;
+      }
+
+      .arch-node {
+        position: relative;
+        min-height: 170px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: #fbfdff;
+      }
+
+      .arch-node::after {
+        position: absolute;
+        top: 50%;
+        right: -18px;
+        z-index: 1;
+        width: 20px;
+        height: 2px;
+        background: var(--blue);
+        content: "";
+      }
+
+      .arch-node:last-child::after {
+        display: none;
+      }
+
+      .arch-label {
+        display: inline-flex;
+        align-items: center;
+        min-height: 28px;
+        padding: 5px 8px;
+        border-radius: var(--radius);
+        background: var(--blue-soft);
+        color: #1d4ed8;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .arch-node h3,
+      .card h3,
+      .lane h3,
+      .risk-card h3 {
+        margin: 12px 0 8px;
+        color: var(--ink);
+        font-size: 17px;
+        line-height: 1.25;
+      }
+
+      .arch-node p,
+      .card p,
+      .lane p,
+      .risk-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-top: 13px;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        min-height: 26px;
+        padding: 5px 8px;
+        border-radius: var(--radius);
+        background: #eef2f7;
+        color: #334155;
+        font-size: 11px;
+        font-weight: 750;
+      }
+
+      .tag.green {
+        background: var(--green-soft);
+        color: var(--green);
+      }
+
+      .tag.amber {
+        background: var(--amber-soft);
+        color: var(--amber);
+      }
+
+      .tag.red {
+        background: var(--red-soft);
+        color: var(--red);
+      }
+
+      .tag.purple {
+        background: var(--purple-soft);
+        color: var(--purple);
+      }
+
+      .stage-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .stage {
+        position: relative;
+        min-height: 250px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: #fbfdff;
+      }
+
+      .stage.done {
+        border-color: #b7e3ca;
+      }
+
+      .stage.current {
+        border-color: #93c5fd;
+        background: #f8fbff;
+      }
+
+      .stage.paused {
+        border-color: #f4c97a;
+      }
+
+      .stage-index {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .stage-index strong {
+        color: var(--ink);
+        font-size: 13px;
+      }
+
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        min-height: 28px;
+        padding: 5px 8px;
+        border-radius: var(--radius);
+        font-size: 11px;
+        font-weight: 850;
+      }
+
+      .status-pill.done {
+        background: var(--green-soft);
+        color: var(--green);
+      }
+
+      .status-pill.current {
+        background: var(--blue-soft);
+        color: #1d4ed8;
+      }
+
+      .status-pill.paused {
+        background: var(--amber-soft);
+        color: var(--amber);
+      }
+
+      .stage h3 {
+        min-height: 48px;
+        margin: 16px 0 8px;
+        color: var(--ink);
+        font-size: 18px;
+        line-height: 1.3;
+      }
+
+      .stage p {
+        min-height: 86px;
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.62;
+      }
+
+      .stage-foot {
+        margin-top: 16px;
+        padding-top: 13px;
+        border-top: 1px solid var(--line);
+        color: #334155;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 16px;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .card {
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: #fbfdff;
+      }
+
+      .swimlanes {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .lane {
+        min-height: 350px;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: #f8fafc;
+      }
+
+      .lane h3 {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-top: 0;
+      }
+
+      .work-item {
+        margin-top: 10px;
+        padding: 12px;
+        border: 1px solid #d9e2ee;
+        border-radius: var(--radius);
+        background: #fff;
+      }
+
+      .work-item strong {
+        display: block;
+        color: var(--ink);
+        font-size: 13px;
+        line-height: 1.35;
+      }
+
+      .work-item span {
+        display: block;
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .maturity {
+        display: grid;
+        gap: 10px;
+      }
+
+      .maturity-row {
+        display: grid;
+        grid-template-columns: minmax(150px, 0.92fr) minmax(0, 1.5fr) minmax(90px, 0.5fr);
+        gap: 14px;
+        align-items: center;
+        min-height: 62px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: #fbfdff;
+      }
+
+      .maturity-row strong {
+        color: var(--ink);
+        font-size: 13px;
+      }
+
+      .bar {
+        height: 12px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: #e7edf5;
+      }
+
+      .bar span {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: var(--blue);
+      }
+
+      .bar span.green {
+        background: var(--green);
+      }
+
+      .bar span.amber {
+        background: var(--amber);
+      }
+
+      .bar span.purple {
+        background: var(--purple);
+      }
+
+      .maturity-row em {
+        color: var(--muted);
+        font-size: 12px;
+        font-style: normal;
+        line-height: 1.35;
+      }
+
+      .ledger {
+        display: grid;
+        gap: 10px;
+      }
+
+      .ledger-row {
+        display: grid;
+        grid-template-columns: 150px minmax(0, 1fr) 170px;
+        gap: 14px;
+        align-items: center;
+        min-height: 68px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: #fbfdff;
+      }
+
+      .ledger-row code,
+      .source-list code {
+        display: inline-block;
+        max-width: 100%;
+        padding: 4px 7px;
+        border-radius: 6px;
+        background: #eef2f7;
+        color: #1e3a5f;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 12px;
+        line-height: 1.35;
+        word-break: break-word;
+      }
+
+      .ledger-row strong {
+        color: var(--ink);
+        font-size: 13px;
+      }
+
+      .ledger-row span {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .decision-map {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        gap: 16px;
+        align-items: stretch;
+      }
+
+      .risk-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .risk-card {
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: #fbfdff;
+      }
+
+      .decision-tree {
+        display: grid;
+        gap: 12px;
+      }
+
+      .decision-node {
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-left: 5px solid var(--blue);
+        border-radius: var(--radius);
+        background: #fbfdff;
+      }
+
+      .decision-node.warning {
+        border-left-color: var(--amber);
+      }
+
+      .decision-node.success {
+        border-left-color: var(--green);
+      }
+
+      .decision-node strong {
+        display: block;
+        color: var(--ink);
+        font-size: 14px;
+      }
+
+      .decision-node span {
+        display: block;
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      .source-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .source-list div {
+        padding: 12px;
+        border: 1px dashed #cbd5e1;
+        border-radius: var(--radius);
+        background: #fbfdff;
+      }
+
+      .footer {
+        margin-top: 24px;
+        padding: 20px 4px 0;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      @media (max-width: 1080px) {
+        .hero,
+        .decision-map {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-copy {
+          min-height: auto;
+        }
+
+        h1 {
+          max-width: 100%;
+        }
+
+        .architecture,
+        .stage-grid,
+        .swimlanes {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .arch-node::after {
+          display: none;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .page {
+          width: min(100% - 24px, 1320px);
+          padding-top: 16px;
+        }
+
+        .topbar,
+        .section-header {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .nav {
+          justify-content: flex-start;
+        }
+
+        .hero-copy,
+        .executive-card,
+        .section {
+          padding: 20px;
+        }
+
+        .hero-metrics,
+        .architecture,
+        .stage-grid,
+        .grid-2,
+        .grid-3,
+        .swimlanes,
+        .risk-grid,
+        .source-list {
+          grid-template-columns: 1fr;
+        }
+
+        .maturity-row,
+        .ledger-row {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+
+        .lane {
+          min-height: auto;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        * {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="topbar">
+        <div class="brand" aria-label="MindAnchor">
+          <div class="brand-mark">MA</div>
+          <div>
+            <strong>MindAnchor Delivery Board</strong>
+            <span>开发进展 / 总体设计 / 阶段门禁</span>
+          </div>
+        </div>
+        <nav class="nav" aria-label="页面导航">
+          <a href="#architecture">系统架构</a>
+          <a href="#roadmap">阶段拆解</a>
+          <a href="#kanban">交付看板</a>
+          <a href="#evidence">证据链</a>
+          <a href="#decision">下一步决策</a>
+        </nav>
+      </header>
+
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <span class="eyebrow">Executive Program Breakdown · 2026-06-22</span>
+          <h1 id="page-title">MindAnchor 开发流程总览</h1>
+          <p>
+            本看板用公司级项目拆解方法，把 MindAnchor 从产品北极星、系统拓扑、阶段门禁、工程证据到下一步决策统一到一张图上。
+            当前事实判断：M4 cluster-first 已完成，M5 production runtime 已完成于当前单用户自部署范围，M6 真机移动闭环已完成阶段性验证并暂停扩展，M7 正聚焦 macOS 桌面端模型效果闭环。
+          </p>
+          <div class="hero-metrics" aria-label="关键项目指标">
+            <div class="metric">
+              <strong>M7</strong>
+              <span>当前主线：桌面端模型效果闭环</span>
+            </div>
+            <div class="metric">
+              <strong>7</strong>
+              <span>核心 agent 在真实 runtime 下可重复验收</span>
+            </div>
+            <div class="metric">
+              <strong>84</strong>
+              <span>M5 稳定性观察 cluster 路由次数，fallback 为 0</span>
+            </div>
+            <div class="metric">
+              <strong>79</strong>
+              <span>M6 最新真机闭环步骤数，失败步骤为 0</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="executive-card" aria-labelledby="north-star">
+          <h2 id="north-star">产品北极星</h2>
+          <div class="north-star">
+            <div class="north-star-row">
+              <div class="icon-box" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 3v18M4 12h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                  <path d="M7 7l10 10M17 7L7 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".55" />
+                </svg>
+              </div>
+              <div>
+                <strong>不是待办清单</strong>
+                <span>目标是长期目标推进、状态感知、恢复建议和周期复盘，而不是简单记录任务。</span>
+              </div>
+            </div>
+            <div class="north-star-row">
+              <div class="icon-box" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                  <path d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".55" />
+                </svg>
+              </div>
+              <div>
+                <strong>OpenClaw 是大脑</strong>
+                <span>桌面、手机、Web 都是入口/出口；Gateway 负责鉴权、兼容 API、读模型聚合和 trace。</span>
+              </div>
+            </div>
+            <div class="north-star-row">
+              <div class="icon-box" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d="M5 19V5h14v14H5Z" stroke="currentColor" stroke-width="2" />
+                  <path d="M8 16l3-4 2 2 3-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+              <div>
+                <strong>验证先于扩张</strong>
+                <span>当前不急着扩展移动端，先让桌面端真实使用链路和模型语义质量稳定。</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section" id="architecture" aria-labelledby="architecture-title">
+        <div class="section-header">
+          <div>
+            <p class="section-kicker">01 · Operating Model</p>
+            <h2 id="architecture-title">系统总体设计：入口/网关/大脑/回流</h2>
+          </div>
+          <p>职责边界按平台型产品拆分：客户端不做推理大脑，Gateway 不持有大模型密钥转发职责，OpenClaw runtime 承接 agent 编排和模型调用。</p>
+        </div>
+        <div class="architecture">
+          <article class="arch-node">
+            <span class="arch-label">Client Surfaces</span>
+            <h3>Desktop / Mobile / Web</h3>
+            <p>采集行为信号、展示状态、接收提醒、提交反馈。桌面端是 M7 主客户端，移动端已完成 M6 阶段验证。</p>
+            <div class="tag-row">
+              <span class="tag">macOS</span>
+              <span class="tag">Android</span>
+              <span class="tag">React Web</span>
+            </div>
+          </article>
+          <article class="arch-node">
+            <span class="arch-label">Gateway</span>
+            <h3>Lobster API Layer</h3>
+            <p>鉴权、设备注册、媒体上传、旧 REST 兼容、读模型聚合、调试路由、trace 与回归验证。</p>
+            <div class="tag-row">
+              <span class="tag">Fastify</span>
+              <span class="tag">Zod</span>
+              <span class="tag">Trace</span>
+            </div>
+          </article>
+          <article class="arch-node">
+            <span class="arch-label">Brain</span>
+            <h3>OpenClaw Runtime</h3>
+            <p>接收 task envelope，路由到核心 agents，调用模型或本地 worker，返回可被 Gateway schema 消费的结构化结果。</p>
+            <div class="tag-row">
+              <span class="tag green">cluster-first</span>
+              <span class="tag">/v1/tasks/execute</span>
+              <span class="tag">worker metadata</span>
+            </div>
+          </article>
+          <article class="arch-node">
+            <span class="arch-label">Feedback Loop</span>
+            <h3>Read Models / Inbox / Reflection</h3>
+            <p>把状态趋势、恢复计划、任务推进、提醒、周报月报回流到客户端，让建议可解释、可追踪、可复盘。</p>
+            <div class="tag-row">
+              <span class="tag purple">GoalFlow</span>
+              <span class="tag">Recovery</span>
+              <span class="tag">Reflection</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="roadmap" aria-labelledby="roadmap-title">
+        <div class="section-header">
+          <div>
+            <p class="section-kicker">02 · Stage Gates</p>
+            <h2 id="roadmap-title">几段式目标拆解：从 runtime 到真实体验</h2>
+          </div>
+          <p>每一阶段都以可验证门禁定义完成，不以“代码写完”作为完成标准。</p>
+        </div>
+        <div class="stage-grid">
+          <article class="stage done">
+            <div class="stage-index">
+              <strong>M4</strong>
+              <span class="status-pill done">完成</span>
+            </div>
+            <h3>Cluster-first Read Model Migration</h3>
+            <p>GoalFlow、Recovery、State、Dashboard、Inbox、Reflections 等关键读模型切换到 cluster-first 刷新路径。</p>
+            <div class="stage-foot">门禁：API 测试、real aligned runtime-contracts、页面人工验收。</div>
+          </article>
+          <article class="stage done">
+            <div class="stage-index">
+              <strong>M5</strong>
+              <span class="status-pill done">完成</span>
+            </div>
+            <h3>Production OpenClaw Runtime</h3>
+            <p>当前单用户自部署范围内，production runtime 可稳定承接 health、execute、7 agent smoke、contracts 与 stability。</p>
+            <div class="stage-foot">门禁：12 轮稳定性观察，84 次 cluster 路由，fallback 0。</div>
+          </article>
+          <article class="stage paused">
+            <div class="stage-index">
+              <strong>M6</strong>
+              <span class="status-pill paused">阶段完成 / 暂缓扩展</span>
+            </div>
+            <h3>Mobile Capture Closed Loop</h3>
+            <p>Android 真机通过 LAN 完成采集、recovery、auth/session、polling、refresh token recovery 等闭环。</p>
+            <div class="stage-foot">门禁：最新 79 步 e2e，failedSteps=0，read models 一致。</div>
+          </article>
+          <article class="stage current">
+            <div class="stage-index">
+              <strong>M7</strong>
+              <span class="status-pill current">当前主线</span>
+            </div>
+            <h3>Desktop Model Effect Loop</h3>
+            <p>用真实 macOS 桌面客户端观察 Coach 回复、OpenClaw 路由轨迹、反馈持久化，并评估记忆上下文是否真正有用。</p>
+            <div class="stage-foot">门禁：语义质量、少打扰、具体下一步、无内部路由噪声。</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="kanban" aria-labelledby="kanban-title">
+        <div class="section-header">
+          <div>
+            <p class="section-kicker">03 · Delivery Board</p>
+            <h2 id="kanban-title">开发看板：Done / Current / Next / Risk</h2>
+          </div>
+          <p>看板以工程交付状态组织，避免把所有任务混成一个长清单。</p>
+        </div>
+        <div class="swimlanes">
+          <section class="lane" aria-labelledby="done-title">
+            <h3 id="done-title">Done <span class="tag green">验收完成</span></h3>
+            <div class="work-item">
+              <strong>M4 cluster-first 迁移</strong>
+              <span>核心 read models 支持读时 cluster-first refresh。</span>
+            </div>
+            <div class="work-item">
+              <strong>M5 production runtime 收口</strong>
+              <span>direct execute、Gateway cluster-preferred、7 agent smoke、transport diagnose、stability 均有证据。</span>
+            </div>
+            <div class="work-item">
+              <strong>M6 Android 真机闭环</strong>
+              <span>移动采集、恢复计划、客户端会话、refresh token 恢复已跑通。</span>
+            </div>
+          </section>
+          <section class="lane" aria-labelledby="current-title">
+            <h3 id="current-title">Current <span class="tag">M7</span></h3>
+            <div class="work-item">
+              <strong>桌面端模型效果观察</strong>
+              <span>真实 macOS App 打开 Coach、发送提示、等待回复、提交反馈并产出报告。</span>
+            </div>
+            <div class="work-item">
+              <strong>OpenChronicle 旁路评审</strong>
+              <span>链路可行，但语义噪声未收口，暂不进入长期实验。</span>
+            </div>
+            <div class="work-item">
+              <strong>Coach 语义质量门禁</strong>
+              <span>回答必须更短、更具体、更少打扰，并避免暴露内部 agent/router 词。</span>
+            </div>
+          </section>
+          <section class="lane" aria-labelledby="next-title">
+            <h3 id="next-title">Next <span class="tag purple">决策后推进</span></h3>
+            <div class="work-item">
+              <strong>DesktopMemoryAdapter 过滤策略</strong>
+              <span>只保留用户意图、当前任务、明确偏好；过滤 trace、agent、router、历史回答噪声。</span>
+            </div>
+            <div class="work-item">
+              <strong>Coach prompt 结构化注入</strong>
+              <span>以 currentTask、recentUserIntent、knownPreference、doNotExposeInternalContext 注入。</span>
+            </div>
+            <div class="work-item">
+              <strong>重跑 3 场景对照</strong>
+              <span>next-action、interruption-recovery、over-notification 均要通过语义门槛。</span>
+            </div>
+          </section>
+          <section class="lane" aria-labelledby="risk-title">
+            <h3 id="risk-title">Risk <span class="tag amber">已接受 / 待补测</span></h3>
+            <div class="work-item">
+              <strong>跨机器 runtime host</strong>
+              <span>M5 中因没有第二台 runtime 机器被显式豁免，后续作为 post-M5 补测。</span>
+            </div>
+            <div class="work-item">
+              <strong>记忆上下文污染</strong>
+              <span>OpenChronicle 当前会带入内部路由痕迹和历史回答模板。</span>
+            </div>
+            <div class="work-item">
+              <strong>移动端扩展时机</strong>
+              <span>M6 已证明链路，不应在桌面模型效果稳定前继续扩大移动端范围。</span>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="capability-title">
+        <div class="section-header">
+          <div>
+            <p class="section-kicker">04 · Capability Maturity</p>
+            <h2 id="capability-title">能力成熟度矩阵</h2>
+          </div>
+          <p>成熟度基于当前文档和验收证据，不代表长期产品质量最终结论。</p>
+        </div>
+        <div class="maturity" aria-label="能力成熟度">
+          <div class="maturity-row">
+            <strong>OpenClaw Production Runtime</strong>
+            <div class="bar" aria-label="95 percent"><span class="green" style="width: 95%"></span></div>
+            <em>M5 完成</em>
+          </div>
+          <div class="maturity-row">
+            <strong>Gateway API / Trace / Regression</strong>
+            <div class="bar" aria-label="90 percent"><span class="green" style="width: 90%"></span></div>
+            <em>主流程稳定</em>
+          </div>
+          <div class="maturity-row">
+            <strong>Web Console Read Models</strong>
+            <div class="bar" aria-label="84 percent"><span class="green" style="width: 84%"></span></div>
+            <em>核心页面接入</em>
+          </div>
+          <div class="maturity-row">
+            <strong>Android Mobile Closed Loop</strong>
+            <div class="bar" aria-label="76 percent"><span class="amber" style="width: 76%"></span></div>
+            <em>阶段验证完成</em>
+          </div>
+          <div class="maturity-row">
+            <strong>macOS Desktop Model Effect</strong>
+            <div class="bar" aria-label="58 percent"><span style="width: 58%"></span></div>
+            <em>M7 当前主线</em>
+          </div>
+          <div class="maturity-row">
+            <strong>Memory Sidecar Semantics</strong>
+            <div class="bar" aria-label="38 percent"><span class="purple" style="width: 38%"></span></div>
+            <em>链路可行，语义未过门禁</em>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="evidence" aria-labelledby="evidence-title">
+        <div class="section-header">
+          <div>
+            <p class="section-kicker">05 · Evidence Ledger</p>
+            <h2 id="evidence-title">验收证据账本</h2>
+          </div>
+          <p>每条阶段结论都绑定到可复查命令或报告，降低口头判断的风险。</p>
+        </div>
+        <div class="ledger">
+          <div class="ledger-row">
+            <strong>M5 runtime contracts</strong>
+            <code>corepack pnpm test:core-phases:real:aligned -- --phases cluster-preferred --segments runtime-contracts</code>
+            <span>真实 runtime contract 通过。</span>
+          </div>
+          <div class="ledger-row">
+            <strong>M5 stability</strong>
+            <code>test-results/openclaw-runtime-stability-2026-04-24T13-51-02-899Z.md</code>
+            <span>12 轮、84 次 cluster 路由、fallback 0。</span>
+          </div>
+          <div class="ledger-row">
+            <strong>M5 smoke</strong>
+            <code>docs/openclaw-production-runtime-smoke-report-2026-04-24.md</code>
+            <span>direct execute、Gateway health、7 agent route=cluster。</span>
+          </div>
+          <div class="ledger-row">
+            <strong>M6 mobile e2e</strong>
+            <code>test-results/m6-mobile-capture-adb-e2e-2026-04-25T14-55-21-510Z.md</code>
+            <span>refresh token recovery 最新闭环通过。</span>
+          </div>
+          <div class="ledger-row">
+            <strong>M7 model effect</strong>
+            <code>test-results/macos-model-effect-observation-2026-04-25T17-06-29-174Z.md</code>
+            <span>3 场景 baseline/openchronicle 对照，链路通过。</span>
+          </div>
+          <div class="ledger-row">
+            <strong>M7 semantic review</strong>
+            <code>docs/m7-openchronicle-memory-semantic-review-2026-04-26.md</code>
+            <span>记忆链路可行，但语义噪声暂不合格。</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="decision" aria-labelledby="decision-title">
+        <div class="section-header">
+          <div>
+            <p class="section-kicker">06 · Next Decision System</p>
+            <h2 id="decision-title">下一阶段决策树与风险矩阵</h2>
+          </div>
+          <p>下一步不是简单“继续开发”，而是围绕桌面助手是否真正有用建立语义门禁。</p>
+        </div>
+        <div class="decision-map">
+          <div class="decision-tree">
+            <div class="decision-node">
+              <strong>Step 1：修正记忆过滤与 prompt 注入</strong>
+              <span>过滤内部 route/agent/trace 噪声；只注入用户意图、任务、偏好和必要上下文。</span>
+            </div>
+            <div class="decision-node warning">
+              <strong>Step 2：重跑 M7 3 场景对照</strong>
+              <span>如果仍出现模板化、内部词、无具体下一步，则继续留在工程语义修正阶段。</span>
+            </div>
+            <div class="decision-node success">
+              <strong>Step 3：通过后进入长期桌面实验</strong>
+              <span>只有当桌面助手真正做到少打扰、可执行、可恢复上下文，才恢复移动端扩展。</span>
+            </div>
+          </div>
+          <div class="risk-grid">
+            <article class="risk-card">
+              <span class="tag red">P0 Risk</span>
+              <h3>模型回复可用性不足</h3>
+              <p>链路通过不等于用户愿意每天使用。M7 必须把“语义质量”提升为工程门禁。</p>
+            </article>
+            <article class="risk-card">
+              <span class="tag amber">P1 Risk</span>
+              <h3>记忆系统泄露内部上下文</h3>
+              <p>OpenChronicle 旁路当前会暴露 Picard routed、analyst-agent 等内部词，必须过滤。</p>
+            </article>
+            <article class="risk-card">
+              <span class="tag amber">P1 Risk</span>
+              <h3>跨机器部署未实测</h3>
+              <p>当前单用户自部署范围已完成，但第二台 runtime host 从零部署仍是后续补测项。</p>
+            </article>
+            <article class="risk-card">
+              <span class="tag green">Controlled</span>
+              <h3>移动端范围扩张</h3>
+              <p>M6 已证明真机链路，暂停扩展是正确控制，避免客户端扩张掩盖核心体验问题。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="sources-title">
+        <div class="section-header">
+          <div>
+            <p class="section-kicker">Source Map</p>
+            <h2 id="sources-title">本看板依据的项目文件</h2>
+          </div>
+          <p>页面为汇总型交付物，以下文件是主要信息来源。</p>
+        </div>
+        <div class="source-list">
+          <div><code>README.md</code></div>
+          <div><code>tasks.md</code></div>
+          <div><code>docs/spec.md</code></div>
+          <div><code>docs/final-product-description.md</code></div>
+          <div><code>docs/m5-production-runtime-final-completion-review-2026-04-24.md</code></div>
+          <div><code>docs/m6-mobile-capture-closed-loop-2026-04-24.md</code></div>
+          <div><code>docs/m7-desktop-model-effect-loop-2026-04-26.md</code></div>
+          <div><code>docs/m7-openchronicle-memory-semantic-review-2026-04-26.md</code></div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        MindAnchor Development Flow Board · 生成日期：2026-06-22 · 静态 HTML，无外部依赖。
+      </footer>
+    </main>
+  </body>
+</html>

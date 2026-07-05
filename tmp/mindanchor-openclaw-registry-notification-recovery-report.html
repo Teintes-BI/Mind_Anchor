@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindAnchor macOS 通知恢复报告</title>
+    <style>
+      body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; margin: 0; background: #f5f7fb; color: #1f2937; }
+      .wrap { width: min(1080px, calc(100% - 32px)); margin: 0 auto; padding: 32px 0 56px; }
+      .hero { background: linear-gradient(135deg, #1d4ed8, #4338ca); color: white; border-radius: 24px; padding: 28px 30px; }
+      .hero h1 { margin: 0 0 10px; font-size: 34px; }
+      .hero p { margin: 0; line-height: 1.7; color: rgba(255,255,255,0.9); }
+      .section { background: white; border: 1px solid #dbe3f0; border-radius: 20px; padding: 22px; margin-top: 20px; }
+      .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+      .card { background: #f8fbff; border: 1px solid #dbe3f0; border-radius: 16px; padding: 16px; }
+      h2 { margin: 0 0 14px; font-size: 22px; }
+      h3 { margin: 0 0 10px; font-size: 16px; }
+      p, li { line-height: 1.7; }
+      code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+      code { background: #eef3ff; color: #1d4ed8; padding: 2px 8px; border-radius: 8px; }
+      pre { background: #0f172a; color: #e2e8f0; padding: 14px; border-radius: 14px; overflow: auto; white-space: pre-wrap; word-break: break-word; }
+      .tag { display: inline-block; padding: 6px 10px; border-radius: 999px; background: #e0e7ff; color: #3730a3; font-size: 13px; margin-right: 8px; }
+      .muted { color: #5b6473; }
+      .attempt { border-top: 1px solid #e5e7eb; padding-top: 12px; margin-top: 12px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <section class="hero">
+        <h1>MindAnchor macOS 通知恢复报告</h1>
+        <p>这份报告汇总了当前 bundle 的通知恢复状态、恢复策略、关键证据和下一步动作，方便直接执行和留档。</p>
+      </section>
+
+      <section class="section">
+        <h2>概览</h2>
+        <div class="grid">
+          <div class="card"><h3>Bundle</h3><p><code>com.mindanchor.mac.openclaw.registry.e2e.run1774785804</code></p></div>
+          <div class="card"><h3>结果</h3><p><span class="tag">waiting_for_profile_install</span><span class="tag">install_profile</span></p></div>
+          <div class="card"><h3>开始时间</h3><p>2026-03-29T12:04:37.734Z</p></div>
+          <div class="card"><h3>完成时间</h3><p>2026-03-29T12:04:47.864Z</p></div>
+          <div class="card"><h3>等待策略</h3><p><code>verify_profile_then_rerun</code></p></div>
+          <div class="card"><h3>Debug Log</h3><p><code>/var/folders/n4/786ptkfx6zx4fskgpy1c1x100000gn/T/mindanchor-macos-openclaw-registry-1774785804620-95835/notification-debug.log</code></p></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>关键文件</h2>
+        <ul>
+          <li><code>/Users/claw/mindanchor/tmp/mindanchor-openclaw-registry-notification-recovery-report.json</code></li>
+          <li><code>/var/folders/n4/786ptkfx6zx4fskgpy1c1x100000gn/T/mindanchor-macos-openclaw-registry-1774785804620-95835/notification-debug.log</code></li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>恢复尝试</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>Verify</h3>
+            
+    <div class="attempt">
+      <p><strong>时间：</strong>2026-03-29T12:04:42.862Z</p>
+      <p><strong>Exit Code：</strong><code>1</code></p>
+      <p><strong>stdout</strong></p><pre>
+&gt; mindanchor@0.1.0 verify:macos:openclaw-registry-notifications /Users/claw/mindanchor
+&gt; node scripts/verify-macos-openclaw-registry-notification-profile.mjs
+
+profileInstalled=false
+bundleConfigured=false
+fullyInstalled=false
+profileIdentifier=com.mindanchor.e2e.notifications.profile
+bundleIdentifier=com.mindanchor.mac.openclaw.registry.e2e.run1774785804
+notificationProfile profileInstalled=false bundleConfigured=false fullyInstalled=false
+ ELIFECYCLE  Command failed with exit code 1.
+</pre>
+      <p><strong>stderr</strong></p><pre>MindAnchor OpenClaw Registry E2E notifications profile is not fully installed.
+</pre>
+    </div>
+  
+          </div>
+          <div class="card">
+            <h3>Doctor</h3>
+            <p class="muted">暂无尝试记录。</p>
+          </div>
+        </div>
+        <div class="card" style="margin-top:14px">
+          <h3>Registry E2E</h3>
+          <p class="muted">暂无尝试记录。</p>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

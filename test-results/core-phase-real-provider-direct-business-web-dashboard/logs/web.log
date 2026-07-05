@@ -1,0 +1,11 @@
+Port 4174 is in use, trying another one...
+
+  VITE v6.4.1  ready in 127 ms
+
+  ➜  Local:   http://127.0.0.1:4175/
+
+  VITE v6.4.1  ready in 79 ms
+
+  ➜  Local:   http://127.0.0.1:4174/
+
+[2026-03-24T04:58:58.071Z] process=web exit code=null signal=SIGTERM

@@ -1,0 +1,28 @@
+
+  VITE v6.4.1  ready in 75 ms
+
+  ➜  Local:   http://127.0.0.1:4174/
+10:20:10 AM [vite] vite.config.js changed, restarting server...
+10:20:10 AM [vite] (client) hmr update /src/pages/DashboardPage.js, /src/pages/TasksPage.js, /src/pages/AgentLabPage.js, /src/pages/InboxPage.js, /src/pages/ReflectionsPage.js, /src/pages/RecoveryPage.js, /src/pages/StatePage.js
+10:20:10 AM [vite] (client) hmr update /src/pages/DashboardPage.js, /src/pages/TasksPage.js, /src/pages/InboxPage.js, /src/pages/RecoveryPage.js, /src/pages/StatePage.js
+10:20:10 AM [vite] (client) hmr update /src/pages/DashboardPage.js
+10:20:10 AM [vite] (client) hmr update /src/pages/TasksPage.js
+10:20:10 AM [vite] (client) hmr update /src/pages/InboxPage.js
+10:20:10 AM [vite] (client) hmr update /src/pages/AgentLabPage.js
+10:20:10 AM [vite] (client) hmr update /src/pages/StatePage.js
+10:20:10 AM [vite] (client) hmr update /src/pages/ReflectionsPage.js
+10:20:10 AM [vite] (client) hmr update /src/pages/RecoveryPage.js
+10:20:10 AM [vite] (client) hmr update /src/App.js
+10:20:10 AM [vite] server restarted.
+10:28:20 AM [vite] vite.config.js changed, restarting server...
+10:28:20 AM [vite] server restarted.
+10:51:28 AM [vite] vite.config.js changed, restarting server...
+10:51:28 AM [vite] server restarted.
+10:57:36 AM [vite] vite.config.js changed, restarting server...
+10:57:36 AM [vite] server restarted.
+11:00:13 AM [vite] vite.config.js changed, restarting server...
+11:00:13 AM [vite] server restarted.
+11:07:22 AM [vite] vite.config.js changed, restarting server...
+11:07:22 AM [vite] server restarted.
+
+[2026-03-24T03:12:48.881Z] process=web exit code=null signal=SIGTERM

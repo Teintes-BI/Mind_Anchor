@@ -1,0 +1,1 @@
+{"gatewayMode":"openai-compatible","clusterEnabled":true,"executionStrategy":"cluster-preferred","openClawBaseUrl":"http://127.0.0.1:8788","clusterEndpoints":["/v1/tasks/execute","/tasks/execute","/api/tasks/execute"],"lastDecision":null,"lastFallback":null,"recentTimeline":[]}

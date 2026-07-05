@@ -1,0 +1,539 @@
+{
+  "generatedAt": "2026-04-25T16:45:02.424Z",
+  "startedAt": "2026-04-25T16:45:02.424Z",
+  "completedAt": "2026-04-25T16:45:02.502Z",
+  "durationMs": 78,
+  "mcpUrl": "http://127.0.0.1:8742/mcp",
+  "query": "MindAnchor desktop model effect loop",
+  "preflight": {
+    "mcpReachable": true,
+    "initialized": true
+  },
+  "tools": [
+    {
+      "name": "list_memories",
+      "description": "**ALWAYS CALL FIRST** on the first personal-context turn of a conversation.\n\n        List all memory files with descriptions + entry counts. Cheap (one SQLite\n        query, no file reads), so the cost of calling is essentially zero.\n\n        Call whenever the user asks about themselves, their schedule, preferences,\n        or ongoing work — the response tells you which files exist and what they're\n        about (e.g. `event-YYYY-MM-DD.md` for a given day's session-level activity\n        log; `user-profile.md` for identity; `user-preferences.md` for habits;\n        `project-*.md` / `person-*.md` / `org-*.md` for specific entities).\n\n        If you're about to answer from chat history alone when the user has asked\n        about themselves, you've skipped this tool. Go back and call it.\n        ",
+      "inputSchema": {
+        "properties": {
+          "include_dormant": {
+            "default": false,
+            "title": "Include Dormant",
+            "type": "boolean"
+          },
+          "include_archived": {
+            "default": false,
+            "title": "Include Archived",
+            "type": "boolean"
+          }
+        },
+        "title": "list_memoriesArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "list_memoriesOutput",
+        "type": "object"
+      }
+    },
+    {
+      "name": "read_memory",
+      "description": "Read the full contents of ONE memory file the user has on disk.\n\n        Use after `list_memories` / `search` points you at a promising file.\n        Entries come back chronological. Supports `since` / `until` (ISO timestamps),\n        `tags` (filter by any matching tag), and `tail_n` (most recent N entries only).\n        ",
+      "inputSchema": {
+        "properties": {
+          "path": {
+            "title": "Path",
+            "type": "string"
+          },
+          "since": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Since"
+          },
+          "until": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Until"
+          },
+          "tags": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Tags"
+          },
+          "tail_n": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Tail N"
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "title": "read_memoryArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "read_memoryOutput",
+        "type": "object"
+      }
+    },
+    {
+      "name": "search",
+      "description": "**ALWAYS CALL** before saying \"I don't know\" about something with a keyword in it.\n\n        BM25 full-text search across every entry in COMPRESSED memory files.\n        This searches the distilled Markdown layer — what the user has decided\n        is durable knowledge (preferences, decisions, schedules, project state,\n        people, summaries). It does NOT search raw screen content; for keywords\n        the user merely typed or read on screen (error messages, code symbols,\n        file paths from a doc), use `search_captures` instead, OR call both in\n        parallel.\n\n        Returns the top-k matching entries with file path + timestamp.\n\n        Examples:\n          search(query=\"interview\")         — find scheduled interviews in memory\n          search(query=\"Alice Q3 roadmap\")  — find mentions of that conversation\n          search(query=\"deadline Friday\")   — find time-bounded commitments\n\n        `paths` takes GLOB patterns to scope search, e.g. `['event-*.md']` for\n        scheduled events only, or `['project-*.md']` for project notes.\n        ",
+      "inputSchema": {
+        "properties": {
+          "query": {
+            "title": "Query",
+            "type": "string"
+          },
+          "paths": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Paths"
+          },
+          "since": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Since"
+          },
+          "until": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Until"
+          },
+          "top_k": {
+            "default": 5,
+            "title": "Top K",
+            "type": "integer"
+          },
+          "include_superseded": {
+            "default": false,
+            "title": "Include Superseded",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "title": "searchArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "searchOutput",
+        "type": "object"
+      }
+    },
+    {
+      "name": "recent_activity",
+      "description": "**ALWAYS CALL** when the user references \"yesterday / last week / earlier / 刚才 / 上周\" etc.\n\n        Newest-first cross-file feed of recent memory entries. Best tool for\n        open-ended \"what's new / what has the user been up to\" questions:\n\n          \"what happened today?\" / \"今天做了啥？\"\n          \"what was I doing yesterday afternoon?\"\n          \"anything recent about <topic>?\"\n          \"catch me up on this week\"\n\n        Use `since` (ISO timestamp) to limit to entries newer than a point in\n        time, and `prefix_filter` (e.g. `['event-', 'project-']`) to scope.\n        Without filters, returns the most recent N entries across ALL files.\n\n        If the user's question has any temporal recency dimension, this tool\n        runs in constant time and is strictly better than guessing.\n        ",
+      "inputSchema": {
+        "properties": {
+          "since": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Since"
+          },
+          "limit": {
+            "default": 20,
+            "title": "Limit",
+            "type": "integer"
+          },
+          "prefix_filter": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Prefix Filter"
+          }
+        },
+        "title": "recent_activityArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "recent_activityOutput",
+        "type": "object"
+      }
+    },
+    {
+      "name": "read_recent_capture",
+      "description": "Hydrate ONE raw screen capture — the actual visible_text, focused\n        input value, URL, and (optionally) screenshot from the buffer.\n\n        Use this whenever a compressed memory entry isn't specific enough\n        (e.g. an event-daily entry says \"edited main.py at 14:30\" but you\n        need the actual code, or \"read article\" but you need the text).\n        Most event-daily sub_tasks include an inline `raw:\n        read_recent_capture(at=..., app_name=...)` breadcrumb — call it\n        verbatim. For keyword-driven searches across the whole buffer, prefer\n        `search_captures` first; this tool fetches one specific moment.\n\n        Arguments:\n          at                      — ISO timestamp (\"2026-04-22T14:30\") or bare\n                                    \"HH:MM[:SS]\" (today local). Omit for the\n                                    newest matching capture.\n          app_name                — case-insensitive substring of the app name\n                                    (e.g. \"Cursor\", \"Claude\", \"Chrome\").\n          window_title_substring  — case-insensitive substring of the window\n                                    title (e.g. a filename, tab title).\n          include_screenshot      — include the base64 JPEG. Default false —\n                                    screenshots are large and rarely needed.\n          max_age_minutes         — when `at` is given, only return captures\n                                    within this many minutes of `at`. Default 15.\n\n        Returns the matching capture as JSON with `timestamp`, `app_name`,\n        `window_title`, `url`, `focused_element.value` (what the user was\n        typing), and `visible_text` (~10 k chars of rendered AX text). The buffer\n        retention is bounded (see `[capture]` in config); older captures have\n        their `screenshot` field stripped but keep text. Returns `null` if\n        nothing matches.\n\n        Typical flow: read an event-daily entry, notice `[HH:MM-HH:MM, <app>]`,\n        then call this with `at=\"HH:MM\"` and `app_name=\"<app>\"` to see the\n        actual content from that moment.\n        ",
+      "inputSchema": {
+        "properties": {
+          "at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "At"
+          },
+          "app_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "App Name"
+          },
+          "window_title_substring": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Window Title Substring"
+          },
+          "include_screenshot": {
+            "default": false,
+            "title": "Include Screenshot",
+            "type": "boolean"
+          },
+          "max_age_minutes": {
+            "default": 15,
+            "title": "Max Age Minutes",
+            "type": "integer"
+          }
+        },
+        "title": "read_recent_captureArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "read_recent_captureOutput",
+        "type": "object"
+      }
+    },
+    {
+      "name": "search_captures",
+      "description": "**ALWAYS CALL** (usually in parallel with `search`) when the user mentions a keyword they'd have typed or read on screen.\n\n        Keyword search over RAW screen captures (the uncompressed S1 layer).\n        PREFER this over `search` when the user mentions a keyword they would\n        have *typed* or *read on screen* but that may not have made it into a\n        compressed memory entry yet — e.g. \"find when I saw the term\n        'rate limiter'\", \"what was that error about pyobjc\", \"the URL I had\n        open about Postgres replication\". `search` only sees compressed memory;\n        this sees every captured screen. When you're not sure which layer has\n        it, call both — they're independent indexes and neither is expensive.\n\n        Returns the top-`limit` matching captures (BM25-ranked) with snippet\n        highlighting (matched tokens wrapped in `[...]`). Each hit includes\n        `file_stem` — pass that as `at` to `read_recent_capture` to get the\n        full visible_text.\n\n        Examples:\n          search_captures(query=\"rate limiter\")             — find any time it appeared\n          search_captures(query=\"error\", app_name=\"Cursor\") — keyword scoped to one app\n          search_captures(query=\"todo\", since=\"2026-04-22T09:00:00+08:00\")\n\n        Arguments:\n          query     — free-text keywords. FTS5-tokenized (case-insensitive).\n          since     — ISO timestamp lower bound on capture time.\n          until     — ISO timestamp upper bound on capture time.\n          app_name  — case-insensitive substring on the capturing app name.\n          limit     — top-K BM25 hits to return.\n        ",
+      "inputSchema": {
+        "properties": {
+          "query": {
+            "title": "Query",
+            "type": "string"
+          },
+          "since": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Since"
+          },
+          "until": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Until"
+          },
+          "app_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "App Name"
+          },
+          "limit": {
+            "default": 10,
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "title": "search_capturesArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "search_capturesOutput",
+        "type": "object"
+      }
+    },
+    {
+      "name": "current_context",
+      "description": "**ALWAYS CALL** for present-tense or ambiguous-pronoun questions about the user's state.\n\n        Two high-value trigger patterns:\n          1. Present-tense: *\"right now / currently / just now / what am I /\n             what's open / 现在 / 刚才 / 我在\"* — this is the tool.\n          2. Pronoun with no in-conversation antecedent: *\"that / this / it /\n             the bug / the error / the file / 那个 / 这个 / 这段 / 这个问题\"* —\n             the user is pointing at their screen, not at chat history.\n\n        Never reply with \"I don't have code/context to look at\" or ask the user\n        to paste something — call this tool first. If it comes back empty,\n        then ask. Asking for a paste when this tool would have worked is a\n        tool-selection failure.\n\n        Returns a one-shot snapshot of the current screen state — the same kind of\n        context you would get if every chat turn began with the user narrating\n        their environment. Triggers include:\n\n          - \"what am I working on?\" / \"我在干嘛？\"\n          - \"what's open in front of me?\"\n          - \"is the deploy log still streaming?\"\n          - \"summarize the doc I'm reading\"\n\n        Returns three sections:\n\n          recent_captures_headline    : last ~5 captures as compact lines\n                                        ([HH:MM] App — Window [Role]) — quick\n                                        scan of \"what apps + windows are live\".\n          recent_captures_fulltext    : top ~3 captures deduplicated by\n                                        (app, window) carrying the FULL\n                                        visible_text and focused_element.value\n                                        — the actual content on screen.\n          recent_timeline_blocks      : the last ~8 1-minute timeline blocks\n                                        (LLM-summarized activity slices) so\n                                        you can see how the current moment\n                                        was reached.\n\n        For drill-down on any specific capture or moment, call\n        `read_recent_capture(at=..., app_name=...)` next.\n        ",
+      "inputSchema": {
+        "properties": {
+          "app_filter": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "App Filter"
+          },
+          "headline_limit": {
+            "default": 5,
+            "title": "Headline Limit",
+            "type": "integer"
+          },
+          "fulltext_limit": {
+            "default": 3,
+            "title": "Fulltext Limit",
+            "type": "integer"
+          },
+          "timeline_limit": {
+            "default": 8,
+            "title": "Timeline Limit",
+            "type": "integer"
+          }
+        },
+        "title": "current_contextArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "current_contextOutput",
+        "type": "object"
+      }
+    },
+    {
+      "name": "get_schema",
+      "description": "Return the memory organization spec (file naming, what each prefix means).\n\n        Rarely needed at query time. Useful only if you need to reason about WHERE\n        a new fact would be stored, or explain to the user how their memory is\n        organized. For normal \"look up a fact\" flows, use `search` / `list_memories`\n        directly.\n        ",
+      "inputSchema": {
+        "properties": {},
+        "title": "get_schemaArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "title": "get_schemaOutput",
+        "type": "object"
+      }
+    }
+  ],
+  "toolCalls": [
+    {
+      "name": "current_context",
+      "ok": true,
+      "summary": "{\"recent_captures_headline\": [{\"time\": \"00:44\", \"app_name\": \"Codex\", \"window_title\": \"Codex\", \"focused_role\": \"\", \"file_stem\": \"2026-04-26T00-44-58p08-00\"}, {\"time\": \"00:44\", \"app_…",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"recent_captures_headline\": [{\"time\": \"00:44\", \"app_name\": \"Codex\", \"window_title\": \"Codex\", \"focused_role\": \"\", \"file_stem\": \"2026-04-26T00-44-58p08-00\"}, {\"time\": \"00:44\", \"app_name\": \"Finder\", \"window_title\": \"manuscript_full\", \"focused_role\": \"AXStaticText\", \"file_stem\": \"2026-04-26T00-44-55p08-00\"}, {\"time\": \"00:44\", \"app_name\": \"Microsoft Edge\", \"window_title\": \"\", \"focused_role\": \"\", \"file_stem\": \"2026-04-26T00-44-53p08-00\"}, {\"time\": \"00:44\", \"app_name\": \"Microsoft Edge\", \"window_title\": \"mobadd - 大学生手机成瘾数据库 - 内存使用量高 - 1.5 GB - Microsoft Edge\", \"focused_role\": \"\", \"file_stem\": \"2026-04-26T00-44-01p08-00\"}, {\"time\": \"00:43\", \"app_name\": \"Finder\", \"window_title\": \"manuscript_full\", \"focused_role\": \"AXStaticText\", \"file_stem\": \"2026-04-26T00-43-59p08-00\"}], \"recent_captures_fulltext\": [{\"timestamp\": \"2026-04-26T00:44:58+08:00\", \"app_name\": \"Codex\", \"window_title\": \"Codex\", \"url\": \"\", \"focused_role\": \"\", \"focused_value\": \"\", \"visible_text\": \"## Codex [active]\\n_com.openai.codex_\\n### Codex\", \"file_stem\": \"2026-04-26T00-44-58p08-00\"}], \"recent_timeline_blocks\": [{\"start_time\": \"2026-04-26T00:42:00+08:00\", \"end_time\": \"2026-04-26T00:43:00+08:00\", \"entries\": [\"[WeChat] active, involving —\"], \"apps_used\": [\"WeChat\"], \"capture_count\": 1}, {\"start_time\": \"2026-04-26T00:43:00+08:00\", \"end_time\": \"2026-04-26T00:44:00+08:00\", \"entries\": [\"[Cursor] worked in window 'EverywhereVibeCoding', involving —\", \"[Codex] worked in window 'Codex', involving —\", \"[Cursor] worked in window 'mindanchor', involving —\", \"[Codex] worked in window 'Codex', involving —\", \"[Microsoft Edge] active, involving —\", \"[Codex] worked in window 'Codex', involving —\", \"[Finder] worked in window 'manuscript_full', involving —\", \"[Microsoft Edge] worked in window 'mobadd - 大学生手机成瘾数据库 - 内存使用量高 - 1.5 GB - Microsoft Edge', involving —\", \"[Finder] worked in window 'manuscript_full', involving —\"], \"apps_used\": [\"Codex\", \"Cursor\", \"Finder\", \"Microsoft Edge\"], \"capture_count\": 10}, {\"start_time\": \"2026-04-26T00:44:00+08:00\", \"end_time\": \"2026-04-26T00:45:00+08:00\", \"entries\": [\"[Microsoft Edge] worked in window 'mobadd - 大学生手机成瘾数据库 - 内存使用量高 - 1.5 GB - Microsoft Edge', involving —\", \"[Microsoft Edge] active, involving —\", \"[Finder] worked in window 'manuscript_full', involving —\", \"[Codex] worked in window 'Codex', involving —\"], \"apps_used\": [\"Codex\", \"Finder\", \"Microsoft Edge\"], \"capture_count\": 4}]}"
+          }
+        ],
+        "structuredContent": {
+          "result": "{\"recent_captures_headline\": [{\"time\": \"00:44\", \"app_name\": \"Codex\", \"window_title\": \"Codex\", \"focused_role\": \"\", \"file_stem\": \"2026-04-26T00-44-58p08-00\"}, {\"time\": \"00:44\", \"app_name\": \"Finder\", \"window_title\": \"manuscript_full\", \"focused_role\": \"AXStaticText\", \"file_stem\": \"2026-04-26T00-44-55p08-00\"}, {\"time\": \"00:44\", \"app_name\": \"Microsoft Edge\", \"window_title\": \"\", \"focused_role\": \"\", \"file_stem\": \"2026-04-26T00-44-53p08-00\"}, {\"time\": \"00:44\", \"app_name\": \"Microsoft Edge\", \"window_title\": \"mobadd - 大学生手机成瘾数据库 - 内存使用量高 - 1.5 GB - Microsoft Edge\", \"focused_role\": \"\", \"file_stem\": \"2026-04-26T00-44-01p08-00\"}, {\"time\": \"00:43\", \"app_name\": \"Finder\", \"window_title\": \"manuscript_full\", \"focused_role\": \"AXStaticText\", \"file_stem\": \"2026-04-26T00-43-59p08-00\"}], \"recent_captures_fulltext\": [{\"timestamp\": \"2026-04-26T00:44:58+08:00\", \"app_name\": \"Codex\", \"window_title\": \"Codex\", \"url\": \"\", \"focused_role\": \"\", \"focused_value\": \"\", \"visible_text\": \"## Codex [active]\\n_com.openai.codex_\\n### Codex\", \"file_stem\": \"2026-04-26T00-44-58p08-00\"}], \"recent_timeline_blocks\": [{\"start_time\": \"2026-04-26T00:42:00+08:00\", \"end_time\": \"2026-04-26T00:43:00+08:00\", \"entries\": [\"[WeChat] active, involving —\"], \"apps_used\": [\"WeChat\"], \"capture_count\": 1}, {\"start_time\": \"2026-04-26T00:43:00+08:00\", \"end_time\": \"2026-04-26T00:44:00+08:00\", \"entries\": [\"[Cursor] worked in window 'EverywhereVibeCoding', involving —\", \"[Codex] worked in window 'Codex', involving —\", \"[Cursor] worked in window 'mindanchor', involving —\", \"[Codex] worked in window 'Codex', involving —\", \"[Microsoft Edge] active, involving —\", \"[Codex] worked in window 'Codex', involving —\", \"[Finder] worked in window 'manuscript_full', involving —\", \"[Microsoft Edge] worked in window 'mobadd - 大学生手机成瘾数据库 - 内存使用量高 - 1.5 GB - Microsoft Edge', involving —\", \"[Finder] worked in window 'manuscript_full', involving —\"], \"apps_used\": [\"Codex\", \"Cursor\", \"Finder\", \"Microsoft Edge\"], \"capture_count\": 10}, {\"start_time\": \"2026-04-26T00:44:00+08:00\", \"end_time\": \"2026-04-26T00:45:00+08:00\", \"entries\": [\"[Microsoft Edge] worked in window 'mobadd - 大学生手机成瘾数据库 - 内存使用量高 - 1.5 GB - Microsoft Edge', involving —\", \"[Microsoft Edge] active, involving —\", \"[Finder] worked in window 'manuscript_full', involving —\", \"[Codex] worked in window 'Codex', involving —\"], \"apps_used\": [\"Codex\", \"Finder\", \"Microsoft Edge\"], \"capture_count\": 4}]}"
+        },
+        "isError": false
+      }
+    },
+    {
+      "name": "recent_activity",
+      "ok": true,
+      "summary": "{\"count\": 0, \"entries\": []}",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"count\": 0, \"entries\": []}"
+          }
+        ],
+        "structuredContent": {
+          "result": "{\"count\": 0, \"entries\": []}"
+        },
+        "isError": false
+      }
+    },
+    {
+      "name": "list_memories",
+      "ok": true,
+      "summary": "{\"count\": 0, \"files\": []}",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"count\": 0, \"files\": []}"
+          }
+        ],
+        "structuredContent": {
+          "result": "{\"count\": 0, \"files\": []}"
+        },
+        "isError": false
+      }
+    }
+  ],
+  "errors": [],
+  "summary": {
+    "passed": true,
+    "mcpUrl": "http://127.0.0.1:8742/mcp",
+    "requiredToolsPresent": true,
+    "toolCount": 8,
+    "requiredToolCount": 3,
+    "successfulCallCount": 3,
+    "failedCallCount": 0,
+    "durationMs": 78,
+    "errorSamples": []
+  }
+}

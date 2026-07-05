@@ -1,0 +1,51 @@
+{
+  "startedAt": "2026-03-29T14:16:13.322Z",
+  "completedAt": "2026-03-29T14:18:05.029Z",
+  "rootDir": "/Users/claw/mindanchor",
+  "apiBaseUrl": "http://127.0.0.1:3024",
+  "webBaseUrl": "http://127.0.0.1:4175",
+  "clusterBaseUrl": "http://127.0.0.1:8788",
+  "clusterMode": "local",
+  "providerMode": "mock",
+  "phases": [
+    {
+      "id": "stub",
+      "title": "Phase 1 Stub Baseline",
+      "agentMode": "stub",
+      "openClawBaseUrl": null,
+      "clusterEnabled": false,
+      "startedAt": "2026-03-29T14:18:05.028Z",
+      "completedAt": "2026-03-29T14:18:05.029Z",
+      "status": "failed",
+      "setup": null,
+      "registrySummary": null,
+      "steps": [],
+      "failures": [
+        {
+          "phaseId": "stub",
+          "label": "stub-phase",
+          "message": "stopChild is not defined",
+          "createdAt": "2026-03-29T14:18:05.029Z"
+        }
+      ]
+    }
+  ],
+  "files": {
+    "reportJson": "/Users/claw/mindanchor/test-results/core-phase-2026-03-29T14-16-13-290Z/report.json",
+    "reportMarkdown": "/Users/claw/mindanchor/test-results/core-phase-2026-03-29T14-16-13-290Z/report.md",
+    "logsDir": "/Users/claw/mindanchor/test-results/core-phase-2026-03-29T14-16-13-290Z/logs",
+    "responsesDir": "/Users/claw/mindanchor/test-results/core-phase-2026-03-29T14-16-13-290Z/responses"
+  },
+  "failures": [
+    {
+      "phaseId": "stub",
+      "label": "stub-phase",
+      "message": "stopChild is not defined",
+      "createdAt": "2026-03-29T14:18:05.029Z"
+    }
+  ],
+  "preflight": {
+    "ok": true,
+    "issues": []
+  }
+}

@@ -1,0 +1,20 @@
+.tools/
+node_modules/
+dist/
+coverage/
+.DS_Store
+._*
+.env
+.env.local
+data/*.json
+apps/desktop/.mindanchor-desktop/
+apps/android-recorder/.gradle/
+apps/android-recorder/**/build/
+apps/android-recorder/local.properties
+# Squad: ignore runtime state (logs, inbox, sessions)
+.squad/orchestration-log/
+.squad/log/
+.squad/decisions/inbox/
+.squad/sessions/
+# Squad: SubSquad activation file (local to this machine)
+.squad-workstream

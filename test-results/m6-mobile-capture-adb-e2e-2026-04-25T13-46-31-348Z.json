@@ -1,0 +1,4689 @@
+{
+  "generatedAt": "2026-04-25T13:46:31.348Z",
+  "startedAt": "2026-04-25T13:46:31.348Z",
+  "completedAt": "2026-04-25T13:46:37.621Z",
+  "durationMs": 6273,
+  "apiBaseUrl": "http://127.0.0.1:3011",
+  "apiLanBaseUrl": "http://192.168.0.104:3011",
+  "openClawBaseUrl": "http://192.168.0.104:8800",
+  "device": {
+    "serial": "320146882257",
+    "model": "NX733J",
+    "androidVersion": "15",
+    "wifiIp": "192.168.0.100",
+    "curlPath": "/system/bin/curl"
+  },
+  "preflight": {
+    "adbDeviceConnected": true,
+    "wifiIpDetected": true,
+    "curlAvailable": true,
+    "gatewayLanHealthOk": true
+  },
+  "scenario": "cadenced",
+  "options": {
+    "apiHost": "0.0.0.0",
+    "preferredApiPort": 3011,
+    "userId": "m6-mobile-user",
+    "deviceId": "android-m6-capture",
+    "profileName": "dev",
+    "scenario": "cadenced",
+    "withClientSession": true
+  },
+  "steps": [
+    {
+      "label": "auth-login",
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "status": 401,
+      "ok": false,
+      "countAsFailure": false,
+      "responseIds": {
+        "userId": null,
+        "email": null,
+        "accessTokenPresent": false
+      },
+      "response": {
+        "message": "Invalid email or password."
+      }
+    },
+    {
+      "label": "auth-register",
+      "method": "POST",
+      "endpoint": "/auth/register",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": false,
+      "responseIds": {
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "email": "m6-mobile-client@example.com",
+        "accessTokenPresent": true
+      },
+      "response": {
+        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im02LW1vYmlsZS1jbGllbnRAZXhhbXBsZS5jb20iLCJwcm92aWRlciI6ImdhdGV3YXktbG9jYWwiLCJzdWIiOiI5ZmFiYjZiNy1hYWY5LTQzZDItYWMyNS1mOTg1MjZmZmZlNWIiLCJpc3MiOiJtaW5kYW5jaG9yLWdhdGV3YXktYXV0aCIsImlhdCI6MTc3NzEyNDc5MiwiZXhwIjoxNzc3NzI5NTkyfQ.gpj7apyRksMDpaD8mQzup8b3vYki9BP39t0YqU1lgXs",
+        "refreshToken": null,
+        "expiresAt": "2026-05-02T13:46:32.676Z",
+        "user": {
+          "id": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "email": "m6-mobile-client@example.com",
+          "displayName": "M6 Mobile Client",
+          "provider": "gateway-local"
+        }
+      }
+    },
+    {
+      "label": "auth-login:retry",
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "email": "m6-mobile-client@example.com",
+        "accessTokenPresent": true
+      },
+      "response": {
+        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im02LW1vYmlsZS1jbGllbnRAZXhhbXBsZS5jb20iLCJwcm92aWRlciI6ImdhdGV3YXktbG9jYWwiLCJzdWIiOiI5ZmFiYjZiNy1hYWY5LTQzZDItYWMyNS1mOTg1MjZmZmZlNWIiLCJpc3MiOiJtaW5kYW5jaG9yLWdhdGV3YXktYXV0aCIsImlhdCI6MTc3NzEyNDc5MiwiZXhwIjoxNzc3NzI5NTkyfQ.gpj7apyRksMDpaD8mQzup8b3vYki9BP39t0YqU1lgXs",
+        "refreshToken": null,
+        "expiresAt": "2026-05-02T13:46:32.768Z",
+        "user": {
+          "id": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "email": "m6-mobile-client@example.com",
+          "displayName": "M6 Mobile Client",
+          "provider": "gateway-local"
+        }
+      }
+    },
+    {
+      "label": "mobile-device-register",
+      "method": "POST",
+      "endpoint": "/mobile/devices/register",
+      "status": 201,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "8a8a9120-d4f0-4627-ab12-73cdc2866244",
+        "deviceId": "android-m6-capture"
+      },
+      "response": {
+        "id": "8a8a9120-d4f0-4627-ab12-73cdc2866244",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "deviceName": "NX733J",
+        "platform": "android",
+        "appVersion": "m6-adb-e2e",
+        "platformVersion": "15",
+        "pairingState": "paired",
+        "desktopHost": "192.168.0.104",
+        "consentAcknowledgedAt": "2026-04-25T13:46:32.774Z",
+        "lastSeenAt": "2026-04-25T13:46:32.827Z",
+        "createdAt": "2026-04-25T13:46:32.827Z",
+        "updatedAt": "2026-04-25T13:46:32.827Z"
+      }
+    },
+    {
+      "label": "edge-device-register",
+      "method": "POST",
+      "endpoint": "/devices/register",
+      "status": 201,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "c9106db7-7451-4443-a51d-5bf3b8828a72",
+        "deviceId": "android-m6-capture"
+      },
+      "response": {
+        "id": "c9106db7-7451-4443-a51d-5bf3b8828a72",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "label": "NX733J",
+        "deviceType": "mobile",
+        "platform": "android",
+        "capabilities": [
+          "notifications",
+          "audio_capture",
+          "video_capture",
+          "health_bridge"
+        ],
+        "status": "online",
+        "appVersion": "m6-adb-e2e",
+        "queueDepth": 0,
+        "lastSeenAt": "2026-04-25T13:46:32.880Z",
+        "createdAt": "2026-04-25T13:46:32.828Z",
+        "updatedAt": "2026-04-25T13:46:32.880Z"
+      }
+    },
+    {
+      "label": "device-heartbeat",
+      "method": "POST",
+      "endpoint": "/devices/heartbeat",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "c9106db7-7451-4443-a51d-5bf3b8828a72",
+        "deviceId": "android-m6-capture"
+      },
+      "response": {
+        "id": "c9106db7-7451-4443-a51d-5bf3b8828a72",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "label": "NX733J",
+        "deviceType": "mobile",
+        "platform": "android",
+        "capabilities": [
+          "notifications",
+          "audio_capture",
+          "video_capture",
+          "health_bridge"
+        ],
+        "status": "online",
+        "appVersion": "m6-adb-e2e",
+        "queueDepth": 0,
+        "lastSeenAt": "2026-04-25T13:46:32.941Z",
+        "createdAt": "2026-04-25T13:46:32.828Z",
+        "updatedAt": "2026-04-25T13:46:32.941Z",
+        "lastUploadedAt": "2026-04-25T13:46:32.887Z"
+      }
+    },
+    {
+      "label": "audio-session-start",
+      "method": "POST",
+      "endpoint": "/mobile/capture/sessions/start",
+      "status": 201,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+        "status": "active"
+      },
+      "response": {
+        "id": "ede12685-7b57-4be1-bb85-281bda19a405",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "captureMode": "foreground_microphone_with_call_events",
+        "status": "active",
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "audio/pcm16le",
+        "chunkDurationMs": 1000,
+        "rollingBufferSeconds": 60,
+        "receivedChunkCount": 0,
+        "startedAt": "2026-04-25T13:44:32.493Z"
+      }
+    },
+    {
+      "label": "device-heartbeat:baseline",
+      "method": "POST",
+      "endpoint": "/devices/heartbeat",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "c9106db7-7451-4443-a51d-5bf3b8828a72",
+        "deviceId": "android-m6-capture"
+      },
+      "response": {
+        "id": "c9106db7-7451-4443-a51d-5bf3b8828a72",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "label": "NX733J",
+        "deviceType": "mobile",
+        "platform": "android",
+        "capabilities": [
+          "notifications",
+          "audio_capture",
+          "video_capture",
+          "health_bridge"
+        ],
+        "status": "online",
+        "appVersion": "m6-adb-e2e",
+        "queueDepth": 0,
+        "lastSeenAt": "2026-04-25T13:46:33.065Z",
+        "createdAt": "2026-04-25T13:46:32.828Z",
+        "updatedAt": "2026-04-25T13:46:33.065Z",
+        "lastUploadedAt": "2026-04-25T13:49:32.493Z"
+      }
+    },
+    {
+      "label": "emotion-assessment:baseline",
+      "method": "POST",
+      "endpoint": "/emotion/assessments",
+      "status": 201,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "2292bac3-7b6f-487a-be98-6e83b0e19d08",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405"
+      },
+      "response": {
+        "id": "2292bac3-7b6f-487a-be98-6e83b0e19d08",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+        "chunkSequence": 0,
+        "windowStart": "2026-04-25T13:44:32.493Z",
+        "windowEnd": "2026-04-25T13:49:32.493Z",
+        "emotionLabel": "calm",
+        "valenceScore": 58,
+        "arousalScore": 42,
+        "stressScore": 34,
+        "confidence": 0.86,
+        "summary": "Baseline mobile capture sample remains stable.",
+        "modelName": "m6-adb-e2e-cadenced",
+        "source": "cluster-openai-compatible",
+        "createdAt": "2026-04-25T13:46:33.125Z"
+      }
+    },
+    {
+      "label": "video-assessment:baseline",
+      "method": "POST",
+      "endpoint": "/video/assessments",
+      "status": 201,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "f402203a-a3b5-4935-b0f8-fca2edb6407b",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405"
+      },
+      "response": {
+        "id": "f402203a-a3b5-4935-b0f8-fca2edb6407b",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+        "windowStart": "2026-04-25T13:44:32.493Z",
+        "windowEnd": "2026-04-25T13:49:32.493Z",
+        "fatigueScore": 32,
+        "focusScore": 72,
+        "confidence": 0.88,
+        "summary": "Baseline video sample indicates stable focus.",
+        "modelName": "m6-adb-e2e-cadenced",
+        "featureSummary": "upright posture and normal blink rate",
+        "source": "cluster-openai-compatible",
+        "createdAt": "2026-04-25T13:46:33.235Z"
+      }
+    },
+    {
+      "label": "health-snapshot:baseline",
+      "method": "POST",
+      "endpoint": "/health/snapshots",
+      "status": 201,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "b2ba1073-4069-4bbc-9b62-4f688948842d",
+        "deviceId": "android-m6-capture",
+        "sessionId": null
+      },
+      "response": {
+        "id": "b2ba1073-4069-4bbc-9b62-4f688948842d",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "sourcePlatform": "android",
+        "sourceProvider": "health_connect",
+        "windowStart": "2026-04-25T13:44:32.493Z",
+        "windowEnd": "2026-04-25T13:49:32.493Z",
+        "heartRate": 76,
+        "oxygenSaturation": 98,
+        "restingHeartRate": 64,
+        "sleepMinutes": 430,
+        "summary": "Baseline health bridge sample is within expected range.",
+        "createdAt": "2026-04-25T13:46:33.334Z"
+      }
+    },
+    {
+      "label": "health-latest:baseline",
+      "method": "GET",
+      "endpoint": "/health/latest?userId=9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "latestId": "b2ba1073-4069-4bbc-9b62-4f688948842d",
+        "latestDeviceId": "android-m6-capture"
+      },
+      "response": {
+        "latest": {
+          "id": "b2ba1073-4069-4bbc-9b62-4f688948842d",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "deviceId": "android-m6-capture",
+          "sourcePlatform": "android",
+          "sourceProvider": "health_connect",
+          "windowStart": "2026-04-25T13:44:32.493Z",
+          "windowEnd": "2026-04-25T13:49:32.493Z",
+          "heartRate": 76,
+          "oxygenSaturation": 98,
+          "restingHeartRate": 64,
+          "sleepMinutes": 430,
+          "summary": "Baseline health bridge sample is within expected range.",
+          "createdAt": "2026-04-25T13:46:33.334Z"
+        },
+        "recent": [
+          {
+            "id": "b2ba1073-4069-4bbc-9b62-4f688948842d",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "sourcePlatform": "android",
+            "sourceProvider": "health_connect",
+            "windowStart": "2026-04-25T13:44:32.493Z",
+            "windowEnd": "2026-04-25T13:49:32.493Z",
+            "heartRate": 76,
+            "oxygenSaturation": 98,
+            "restingHeartRate": 64,
+            "sleepMinutes": 430,
+            "summary": "Baseline health bridge sample is within expected range.",
+            "createdAt": "2026-04-25T13:46:33.334Z"
+          }
+        ]
+      }
+    },
+    {
+      "label": "dashboard-summary:baseline",
+      "method": "GET",
+      "endpoint": "/dashboard/summary?userId=9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "latestHealthSnapshotId": "b2ba1073-4069-4bbc-9b62-4f688948842d",
+        "edgeDeviceCount": 1,
+        "inboxCount": 3
+      },
+      "response": {
+        "goalCount": 0,
+        "taskCount": 0,
+        "completedTaskCount": 0,
+        "inProgressTaskCount": 0,
+        "blockedTaskCount": 0,
+        "completionRate": 0,
+        "openInterventions": 0,
+        "suggestedFocusTaskId": null,
+        "summaryHeadline": "当前主线相对稳定，可以继续保持单线程推进。",
+        "coachFrontAgent": {
+          "currentFrontAgent": "director-agent",
+          "routingMode": "auto",
+          "manualOverride": false,
+          "consultedAgent": null,
+          "handoffReason": null,
+          "overrideSourceAgent": null,
+          "visibleSummary": "Picard is currently coordinating the team."
+        },
+        "activeSession": null,
+        "latestAssessment": {
+          "id": "e54a3e63-e204-4190-96e3-aae328031b14",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "windowStart": "2026-04-25T13:31:33.343Z",
+          "windowEnd": "2026-04-25T13:46:33.343Z",
+          "focusScore": 58,
+          "energyScore": 51,
+          "moodScore": 54,
+          "summary": "当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。",
+          "recommendedAction": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+          "emotionSummary": "音频侧提示紧张和压力抬升，说明当前更适合减少切换而不是继续并行处理。",
+          "emotionConfidence": 0.82,
+          "fatigueScore": 32,
+          "videoSummary": "视频侧显示疲劳和视觉稳定度下降，说明持续专注能力正在变弱。",
+          "healthSummary": "健康数据显示恢复基础一般，健康数据提示应优先保证节奏稳定而不是强行加码。",
+          "activeInputs": [
+            "audio_server_inference",
+            "video_server_inference",
+            "health_bridge"
+          ],
+          "mediaFreshness": "mixed",
+          "source": "openai-compatible",
+          "createdAt": "2026-04-25T13:46:33.346Z"
+        },
+        "latestRecoveryPlan": null,
+        "latestBehaviorConclusion": {
+          "id": "86bf8809-20c9-4b6e-9496-d7143e8d6c95",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "assessmentId": "e54a3e63-e204-4190-96e3-aae328031b14",
+          "riskLevel": "high",
+          "summary": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+          "suggestedAction": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+          "trigger": "behavior_conclusion",
+          "recommendedChannel": "mobile_push",
+          "createdAt": "2026-04-25T13:46:33.360Z"
+        },
+        "latestVideoAssessment": {
+          "id": "f402203a-a3b5-4935-b0f8-fca2edb6407b",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "deviceId": "android-m6-capture",
+          "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+          "windowStart": "2026-04-25T13:44:32.493Z",
+          "windowEnd": "2026-04-25T13:49:32.493Z",
+          "fatigueScore": 32,
+          "focusScore": 72,
+          "confidence": 0.88,
+          "summary": "Baseline video sample indicates stable focus.",
+          "modelName": "m6-adb-e2e-cadenced",
+          "featureSummary": "upright posture and normal blink rate",
+          "source": "cluster-openai-compatible",
+          "createdAt": "2026-04-25T13:46:33.235Z"
+        },
+        "latestHealthSnapshot": {
+          "id": "b2ba1073-4069-4bbc-9b62-4f688948842d",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "deviceId": "android-m6-capture",
+          "sourcePlatform": "android",
+          "sourceProvider": "health_connect",
+          "windowStart": "2026-04-25T13:44:32.493Z",
+          "windowEnd": "2026-04-25T13:49:32.493Z",
+          "heartRate": 76,
+          "oxygenSaturation": 98,
+          "restingHeartRate": 64,
+          "sleepMinutes": 430,
+          "summary": "Baseline health bridge sample is within expected range.",
+          "createdAt": "2026-04-25T13:46:33.334Z"
+        },
+        "mobileAudio": {
+          "enabled": true,
+          "latestDevice": {
+            "id": "8a8a9120-d4f0-4627-ab12-73cdc2866244",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "deviceName": "NX733J",
+            "platform": "android",
+            "appVersion": "m6-adb-e2e",
+            "platformVersion": "15",
+            "pairingState": "paired",
+            "desktopHost": "192.168.0.104",
+            "consentAcknowledgedAt": "2026-04-25T13:46:32.774Z",
+            "lastSeenAt": "2026-04-25T13:46:32.827Z",
+            "createdAt": "2026-04-25T13:46:32.827Z",
+            "updatedAt": "2026-04-25T13:46:32.827Z"
+          },
+          "latestSession": {
+            "id": "ede12685-7b57-4be1-bb85-281bda19a405",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "captureMode": "foreground_microphone_with_call_events",
+            "status": "active",
+            "sampleRateHz": 16000,
+            "channels": 1,
+            "encoding": "audio/pcm16le",
+            "chunkDurationMs": 1000,
+            "rollingBufferSeconds": 60,
+            "receivedChunkCount": 1,
+            "lastChunkAt": "2026-04-25T13:49:32.493Z",
+            "startedAt": "2026-04-25T13:44:32.493Z"
+          },
+          "latestEmotionAssessment": {
+            "id": "2292bac3-7b6f-487a-be98-6e83b0e19d08",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+            "chunkSequence": 0,
+            "windowStart": "2026-04-25T13:44:32.493Z",
+            "windowEnd": "2026-04-25T13:49:32.493Z",
+            "emotionLabel": "calm",
+            "valenceScore": 58,
+            "arousalScore": 42,
+            "stressScore": 34,
+            "confidence": 0.86,
+            "summary": "Baseline mobile capture sample remains stable.",
+            "modelName": "m6-adb-e2e-cadenced",
+            "source": "cluster-openai-compatible",
+            "createdAt": "2026-04-25T13:46:33.125Z"
+          },
+          "latestCallEvent": null
+        },
+        "edgeDevices": [
+          {
+            "id": "c9106db7-7451-4443-a51d-5bf3b8828a72",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "label": "NX733J",
+            "deviceType": "mobile",
+            "platform": "android",
+            "capabilities": [
+              "notifications",
+              "audio_capture",
+              "video_capture",
+              "health_bridge"
+            ],
+            "status": "online",
+            "appVersion": "m6-adb-e2e",
+            "queueDepth": 0,
+            "lastUploadedAt": "2026-04-25T13:49:32.493Z",
+            "lastSeenAt": "2026-04-25T13:46:33.065Z",
+            "createdAt": "2026-04-25T13:46:32.828Z",
+            "updatedAt": "2026-04-25T13:46:33.065Z"
+          }
+        ],
+        "inbox": [
+          {
+            "id": "93072200-1bcf-4d3b-8aa2-c2e4dc14a915",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.370Z"
+          },
+          {
+            "id": "701ebd07-aa2b-42a0-8c22-e9582984e77e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.266Z"
+          },
+          {
+            "id": "665f0035-32bd-4285-97f2-7025d6ce9f60",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.178Z"
+          }
+        ],
+        "goals": [],
+        "tasks": []
+      }
+    },
+    {
+      "label": "inbox-overview:baseline",
+      "method": "GET",
+      "endpoint": "/client/inbox/overview?userId=9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "totalMessages": 3,
+        "latestBehaviorConclusionId": "86bf8809-20c9-4b6e-9496-d7143e8d6c95",
+        "latestRecoveryPlanId": null
+      },
+      "response": {
+        "messages": [
+          {
+            "id": "93072200-1bcf-4d3b-8aa2-c2e4dc14a915",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.370Z"
+          },
+          {
+            "id": "701ebd07-aa2b-42a0-8c22-e9582984e77e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.266Z"
+          },
+          {
+            "id": "665f0035-32bd-4285-97f2-7025d6ce9f60",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.178Z"
+          }
+        ],
+        "pendingMessages": [
+          {
+            "id": "93072200-1bcf-4d3b-8aa2-c2e4dc14a915",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.370Z"
+          },
+          {
+            "id": "701ebd07-aa2b-42a0-8c22-e9582984e77e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.266Z"
+          },
+          {
+            "id": "665f0035-32bd-4285-97f2-7025d6ce9f60",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.178Z"
+          }
+        ],
+        "acknowledgedMessages": [],
+        "metricCounts": {
+          "totalMessages": 3,
+          "pendingMessages": 3,
+          "acknowledgedMessages": 0,
+          "openInterventions": 0
+        },
+        "channelCounts": [
+          {
+            "channel": "mobile_push",
+            "total": 3,
+            "pending": 3,
+            "acknowledged": 0
+          },
+          {
+            "channel": "desktop_local",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "feishu_bot",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "telegram_bot",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          }
+        ],
+        "latestBehaviorConclusion": {
+          "id": "86bf8809-20c9-4b6e-9496-d7143e8d6c95",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "assessmentId": "e54a3e63-e204-4190-96e3-aae328031b14",
+          "riskLevel": "high",
+          "summary": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+          "suggestedAction": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+          "trigger": "behavior_conclusion",
+          "recommendedChannel": "mobile_push",
+          "createdAt": "2026-04-25T13:46:33.360Z"
+        },
+        "latestRecoveryPlan": null,
+        "activeSession": null
+      }
+    },
+    {
+      "label": "device-heartbeat:stress-build-up-1",
+      "method": "POST",
+      "endpoint": "/devices/heartbeat",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "c9106db7-7451-4443-a51d-5bf3b8828a72",
+        "deviceId": "android-m6-capture"
+      },
+      "response": {
+        "id": "c9106db7-7451-4443-a51d-5bf3b8828a72",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "label": "NX733J",
+        "deviceType": "mobile",
+        "platform": "android",
+        "capabilities": [
+          "notifications",
+          "audio_capture",
+          "video_capture",
+          "health_bridge"
+        ],
+        "status": "online",
+        "appVersion": "m6-adb-e2e",
+        "queueDepth": 1,
+        "lastSeenAt": "2026-04-25T13:46:33.570Z",
+        "createdAt": "2026-04-25T13:46:32.828Z",
+        "updatedAt": "2026-04-25T13:46:33.570Z",
+        "lastUploadedAt": "2026-04-25T13:55:32.493Z"
+      }
+    },
+    {
+      "label": "call-event:stress-build-up-1",
+      "method": "POST",
+      "endpoint": "/mobile/call-events",
+      "status": 201,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "ada65925-1b2d-44b3-bd42-bb0fb3cfb5e8",
+        "deviceId": "android-m6-capture",
+        "sessionId": null
+      },
+      "response": {
+        "id": "ada65925-1b2d-44b3-bd42-bb0fb3cfb5e8",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "direction": "incoming",
+        "status": "missed",
+        "occurredAt": "2026-04-25T13:55:32.493Z",
+        "createdAt": "2026-04-25T13:46:33.629Z"
+      }
+    },
+    {
+      "label": "emotion-assessment:stress-build-up-1",
+      "method": "POST",
+      "endpoint": "/emotion/assessments",
+      "status": 201,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "948ad56c-235d-4a1b-ab81-2f6c70bf9ca3",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405"
+      },
+      "response": {
+        "id": "948ad56c-235d-4a1b-ab81-2f6c70bf9ca3",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+        "chunkSequence": 1,
+        "windowStart": "2026-04-25T13:50:32.493Z",
+        "windowEnd": "2026-04-25T13:55:32.493Z",
+        "emotionLabel": "tense",
+        "valenceScore": 28,
+        "arousalScore": 68,
+        "stressScore": 72,
+        "confidence": 0.9,
+        "summary": "Stress is rising during the first escalation phase.",
+        "modelName": "m6-adb-e2e-cadenced",
+        "source": "cluster-openai-compatible",
+        "createdAt": "2026-04-25T13:46:33.728Z"
+      }
+    },
+    {
+      "label": "video-assessment:stress-build-up-1",
+      "method": "POST",
+      "endpoint": "/video/assessments",
+      "status": 201,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "1587018f-70f9-46d5-aaa2-10aeb2ed8497",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405"
+      },
+      "response": {
+        "id": "1587018f-70f9-46d5-aaa2-10aeb2ed8497",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+        "windowStart": "2026-04-25T13:50:32.493Z",
+        "windowEnd": "2026-04-25T13:55:32.493Z",
+        "fatigueScore": 66,
+        "focusScore": 44,
+        "confidence": 0.88,
+        "summary": "Video sample indicates elevated fatigue and context drift.",
+        "modelName": "m6-adb-e2e-cadenced",
+        "featureSummary": "increased blink rate and wandering gaze",
+        "source": "cluster-openai-compatible",
+        "createdAt": "2026-04-25T13:46:33.834Z"
+      }
+    },
+    {
+      "label": "health-snapshot:stress-build-up-1",
+      "method": "POST",
+      "endpoint": "/health/snapshots",
+      "status": 201,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "2bc9fb6c-4cb0-4bbd-8625-bbfb74fc2294",
+        "deviceId": "android-m6-capture",
+        "sessionId": null
+      },
+      "response": {
+        "id": "2bc9fb6c-4cb0-4bbd-8625-bbfb74fc2294",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "sourcePlatform": "android",
+        "sourceProvider": "health_connect",
+        "windowStart": "2026-04-25T13:50:32.493Z",
+        "windowEnd": "2026-04-25T13:55:32.493Z",
+        "heartRate": 94,
+        "oxygenSaturation": 96,
+        "restingHeartRate": 68,
+        "sleepMinutes": 360,
+        "summary": "First stress phase shows elevated heart rate and reduced rest quality.",
+        "createdAt": "2026-04-25T13:46:33.942Z"
+      }
+    },
+    {
+      "label": "health-latest:stress-build-up-1",
+      "method": "GET",
+      "endpoint": "/health/latest?userId=9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "latestId": "2bc9fb6c-4cb0-4bbd-8625-bbfb74fc2294",
+        "latestDeviceId": "android-m6-capture"
+      },
+      "response": {
+        "latest": {
+          "id": "2bc9fb6c-4cb0-4bbd-8625-bbfb74fc2294",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "deviceId": "android-m6-capture",
+          "sourcePlatform": "android",
+          "sourceProvider": "health_connect",
+          "windowStart": "2026-04-25T13:50:32.493Z",
+          "windowEnd": "2026-04-25T13:55:32.493Z",
+          "heartRate": 94,
+          "oxygenSaturation": 96,
+          "restingHeartRate": 68,
+          "sleepMinutes": 360,
+          "summary": "First stress phase shows elevated heart rate and reduced rest quality.",
+          "createdAt": "2026-04-25T13:46:33.942Z"
+        },
+        "recent": [
+          {
+            "id": "2bc9fb6c-4cb0-4bbd-8625-bbfb74fc2294",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "sourcePlatform": "android",
+            "sourceProvider": "health_connect",
+            "windowStart": "2026-04-25T13:50:32.493Z",
+            "windowEnd": "2026-04-25T13:55:32.493Z",
+            "heartRate": 94,
+            "oxygenSaturation": 96,
+            "restingHeartRate": 68,
+            "sleepMinutes": 360,
+            "summary": "First stress phase shows elevated heart rate and reduced rest quality.",
+            "createdAt": "2026-04-25T13:46:33.942Z"
+          },
+          {
+            "id": "b2ba1073-4069-4bbc-9b62-4f688948842d",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "sourcePlatform": "android",
+            "sourceProvider": "health_connect",
+            "windowStart": "2026-04-25T13:44:32.493Z",
+            "windowEnd": "2026-04-25T13:49:32.493Z",
+            "heartRate": 76,
+            "oxygenSaturation": 98,
+            "restingHeartRate": 64,
+            "sleepMinutes": 430,
+            "summary": "Baseline health bridge sample is within expected range.",
+            "createdAt": "2026-04-25T13:46:33.334Z"
+          }
+        ]
+      }
+    },
+    {
+      "label": "dashboard-summary:stress-build-up-1",
+      "method": "GET",
+      "endpoint": "/dashboard/summary?userId=9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "latestHealthSnapshotId": "2bc9fb6c-4cb0-4bbd-8625-bbfb74fc2294",
+        "edgeDeviceCount": 1,
+        "inboxCount": 8
+      },
+      "response": {
+        "goalCount": 0,
+        "taskCount": 0,
+        "completedTaskCount": 0,
+        "inProgressTaskCount": 0,
+        "blockedTaskCount": 0,
+        "completionRate": 0,
+        "openInterventions": 0,
+        "suggestedFocusTaskId": null,
+        "summaryHeadline": "当前主线相对稳定，可以继续保持单线程推进。",
+        "coachFrontAgent": {
+          "currentFrontAgent": "director-agent",
+          "routingMode": "auto",
+          "manualOverride": false,
+          "consultedAgent": null,
+          "handoffReason": null,
+          "overrideSourceAgent": null,
+          "visibleSummary": "Picard is currently coordinating the team."
+        },
+        "activeSession": null,
+        "latestAssessment": {
+          "id": "a80a1c46-ce54-42c0-9609-7bc33394fc01",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "windowStart": "2026-04-25T13:31:34.114Z",
+          "windowEnd": "2026-04-25T13:46:34.114Z",
+          "focusScore": 58,
+          "energyScore": 47,
+          "moodScore": 50,
+          "summary": "当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。",
+          "recommendedAction": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+          "emotionSummary": "音频侧提示紧张和压力抬升，说明当前更适合减少切换而不是继续并行处理。",
+          "emotionConfidence": 0.82,
+          "fatigueScore": 66,
+          "videoSummary": "视频侧显示疲劳和视觉稳定度下降，说明持续专注能力正在变弱。",
+          "healthSummary": "健康数据显示恢复基础一般，健康数据提示应优先保证节奏稳定而不是强行加码。",
+          "activeInputs": [
+            "desktop_signal",
+            "audio_server_inference",
+            "video_server_inference",
+            "health_bridge"
+          ],
+          "mediaFreshness": "mixed",
+          "source": "openai-compatible",
+          "createdAt": "2026-04-25T13:46:34.118Z"
+        },
+        "latestRecoveryPlan": null,
+        "latestBehaviorConclusion": {
+          "id": "0933fd64-4654-4d2b-af02-ed4df61c395d",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "assessmentId": "a80a1c46-ce54-42c0-9609-7bc33394fc01",
+          "riskLevel": "high",
+          "summary": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+          "suggestedAction": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+          "trigger": "behavior_conclusion",
+          "recommendedChannel": "mobile_push",
+          "createdAt": "2026-04-25T13:46:34.132Z"
+        },
+        "latestVideoAssessment": {
+          "id": "1587018f-70f9-46d5-aaa2-10aeb2ed8497",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "deviceId": "android-m6-capture",
+          "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+          "windowStart": "2026-04-25T13:50:32.493Z",
+          "windowEnd": "2026-04-25T13:55:32.493Z",
+          "fatigueScore": 66,
+          "focusScore": 44,
+          "confidence": 0.88,
+          "summary": "Video sample indicates elevated fatigue and context drift.",
+          "modelName": "m6-adb-e2e-cadenced",
+          "featureSummary": "increased blink rate and wandering gaze",
+          "source": "cluster-openai-compatible",
+          "createdAt": "2026-04-25T13:46:33.834Z"
+        },
+        "latestHealthSnapshot": {
+          "id": "2bc9fb6c-4cb0-4bbd-8625-bbfb74fc2294",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "deviceId": "android-m6-capture",
+          "sourcePlatform": "android",
+          "sourceProvider": "health_connect",
+          "windowStart": "2026-04-25T13:50:32.493Z",
+          "windowEnd": "2026-04-25T13:55:32.493Z",
+          "heartRate": 94,
+          "oxygenSaturation": 96,
+          "restingHeartRate": 68,
+          "sleepMinutes": 360,
+          "summary": "First stress phase shows elevated heart rate and reduced rest quality.",
+          "createdAt": "2026-04-25T13:46:33.942Z"
+        },
+        "mobileAudio": {
+          "enabled": true,
+          "latestDevice": {
+            "id": "8a8a9120-d4f0-4627-ab12-73cdc2866244",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "deviceName": "NX733J",
+            "platform": "android",
+            "appVersion": "m6-adb-e2e",
+            "platformVersion": "15",
+            "pairingState": "paired",
+            "desktopHost": "192.168.0.104",
+            "consentAcknowledgedAt": "2026-04-25T13:46:32.774Z",
+            "lastSeenAt": "2026-04-25T13:46:32.827Z",
+            "createdAt": "2026-04-25T13:46:32.827Z",
+            "updatedAt": "2026-04-25T13:46:32.827Z"
+          },
+          "latestSession": {
+            "id": "ede12685-7b57-4be1-bb85-281bda19a405",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "captureMode": "foreground_microphone_with_call_events",
+            "status": "active",
+            "sampleRateHz": 16000,
+            "channels": 1,
+            "encoding": "audio/pcm16le",
+            "chunkDurationMs": 1000,
+            "rollingBufferSeconds": 60,
+            "receivedChunkCount": 2,
+            "lastChunkAt": "2026-04-25T13:55:32.493Z",
+            "startedAt": "2026-04-25T13:44:32.493Z"
+          },
+          "latestEmotionAssessment": {
+            "id": "948ad56c-235d-4a1b-ab81-2f6c70bf9ca3",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+            "chunkSequence": 1,
+            "windowStart": "2026-04-25T13:50:32.493Z",
+            "windowEnd": "2026-04-25T13:55:32.493Z",
+            "emotionLabel": "tense",
+            "valenceScore": 28,
+            "arousalScore": 68,
+            "stressScore": 72,
+            "confidence": 0.9,
+            "summary": "Stress is rising during the first escalation phase.",
+            "modelName": "m6-adb-e2e-cadenced",
+            "source": "cluster-openai-compatible",
+            "createdAt": "2026-04-25T13:46:33.728Z"
+          },
+          "latestCallEvent": {
+            "id": "ada65925-1b2d-44b3-bd42-bb0fb3cfb5e8",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "direction": "incoming",
+            "status": "missed",
+            "occurredAt": "2026-04-25T13:55:32.493Z",
+            "createdAt": "2026-04-25T13:46:33.629Z"
+          }
+        },
+        "edgeDevices": [
+          {
+            "id": "c9106db7-7451-4443-a51d-5bf3b8828a72",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "label": "NX733J",
+            "deviceType": "mobile",
+            "platform": "android",
+            "capabilities": [
+              "notifications",
+              "audio_capture",
+              "video_capture",
+              "health_bridge"
+            ],
+            "status": "online",
+            "appVersion": "m6-adb-e2e",
+            "queueDepth": 1,
+            "lastUploadedAt": "2026-04-25T13:55:32.493Z",
+            "lastSeenAt": "2026-04-25T13:46:33.570Z",
+            "createdAt": "2026-04-25T13:46:32.828Z",
+            "updatedAt": "2026-04-25T13:46:33.570Z"
+          }
+        ],
+        "inbox": [
+          {
+            "id": "230d49e6-135b-4d48-8949-701c995cf69d",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.148Z"
+          },
+          {
+            "id": "c1f5b6da-66f5-4c1d-a0f7-4627c100c502",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.984Z"
+          },
+          {
+            "id": "3015e616-17b5-4aa9-9469-79c39c839bd0",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.878Z"
+          },
+          {
+            "id": "32f6647d-746e-444e-a10e-65b42da5a493",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.766Z"
+          },
+          {
+            "id": "bce217f6-2bbd-462c-bcef-b74a1c2a527b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.664Z"
+          },
+          {
+            "id": "93072200-1bcf-4d3b-8aa2-c2e4dc14a915",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.370Z"
+          },
+          {
+            "id": "701ebd07-aa2b-42a0-8c22-e9582984e77e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.266Z"
+          },
+          {
+            "id": "665f0035-32bd-4285-97f2-7025d6ce9f60",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.178Z"
+          }
+        ],
+        "goals": [],
+        "tasks": []
+      }
+    },
+    {
+      "label": "inbox-overview:stress-build-up-1",
+      "method": "GET",
+      "endpoint": "/client/inbox/overview?userId=9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "totalMessages": 9,
+        "latestBehaviorConclusionId": "b39b8967-59a0-4c72-97b3-d36c3a798d4d",
+        "latestRecoveryPlanId": null
+      },
+      "response": {
+        "messages": [
+          {
+            "id": "78c71551-4e0f-4772-9f5a-16bd15111a58",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.256Z"
+          },
+          {
+            "id": "230d49e6-135b-4d48-8949-701c995cf69d",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.148Z"
+          },
+          {
+            "id": "c1f5b6da-66f5-4c1d-a0f7-4627c100c502",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.984Z"
+          },
+          {
+            "id": "3015e616-17b5-4aa9-9469-79c39c839bd0",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.878Z"
+          },
+          {
+            "id": "32f6647d-746e-444e-a10e-65b42da5a493",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.766Z"
+          },
+          {
+            "id": "bce217f6-2bbd-462c-bcef-b74a1c2a527b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.664Z"
+          },
+          {
+            "id": "93072200-1bcf-4d3b-8aa2-c2e4dc14a915",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.370Z"
+          },
+          {
+            "id": "701ebd07-aa2b-42a0-8c22-e9582984e77e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.266Z"
+          },
+          {
+            "id": "665f0035-32bd-4285-97f2-7025d6ce9f60",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.178Z"
+          }
+        ],
+        "pendingMessages": [
+          {
+            "id": "78c71551-4e0f-4772-9f5a-16bd15111a58",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.256Z"
+          },
+          {
+            "id": "230d49e6-135b-4d48-8949-701c995cf69d",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.148Z"
+          },
+          {
+            "id": "c1f5b6da-66f5-4c1d-a0f7-4627c100c502",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.984Z"
+          },
+          {
+            "id": "3015e616-17b5-4aa9-9469-79c39c839bd0",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.878Z"
+          },
+          {
+            "id": "32f6647d-746e-444e-a10e-65b42da5a493",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.766Z"
+          },
+          {
+            "id": "bce217f6-2bbd-462c-bcef-b74a1c2a527b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.664Z"
+          },
+          {
+            "id": "93072200-1bcf-4d3b-8aa2-c2e4dc14a915",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.370Z"
+          },
+          {
+            "id": "701ebd07-aa2b-42a0-8c22-e9582984e77e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.266Z"
+          },
+          {
+            "id": "665f0035-32bd-4285-97f2-7025d6ce9f60",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.178Z"
+          }
+        ],
+        "acknowledgedMessages": [],
+        "metricCounts": {
+          "totalMessages": 9,
+          "pendingMessages": 9,
+          "acknowledgedMessages": 0,
+          "openInterventions": 0
+        },
+        "channelCounts": [
+          {
+            "channel": "mobile_push",
+            "total": 9,
+            "pending": 9,
+            "acknowledged": 0
+          },
+          {
+            "channel": "desktop_local",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "feishu_bot",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "telegram_bot",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          }
+        ],
+        "latestBehaviorConclusion": {
+          "id": "b39b8967-59a0-4c72-97b3-d36c3a798d4d",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "assessmentId": "e5cb0ebd-2d1a-44f6-b6f8-25f1047b9b1e",
+          "riskLevel": "high",
+          "summary": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+          "suggestedAction": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+          "trigger": "behavior_conclusion",
+          "recommendedChannel": "mobile_push",
+          "createdAt": "2026-04-25T13:46:34.240Z"
+        },
+        "latestRecoveryPlan": null,
+        "activeSession": null
+      }
+    },
+    {
+      "label": "device-heartbeat:stress-build-up-2",
+      "method": "POST",
+      "endpoint": "/devices/heartbeat",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "c9106db7-7451-4443-a51d-5bf3b8828a72",
+        "deviceId": "android-m6-capture"
+      },
+      "response": {
+        "id": "c9106db7-7451-4443-a51d-5bf3b8828a72",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "label": "NX733J",
+        "deviceType": "mobile",
+        "platform": "android",
+        "capabilities": [
+          "notifications",
+          "audio_capture",
+          "video_capture",
+          "health_bridge"
+        ],
+        "status": "online",
+        "appVersion": "m6-adb-e2e",
+        "queueDepth": 2,
+        "lastSeenAt": "2026-04-25T13:46:34.327Z",
+        "createdAt": "2026-04-25T13:46:32.828Z",
+        "updatedAt": "2026-04-25T13:46:34.327Z",
+        "lastUploadedAt": "2026-04-25T14:01:32.493Z"
+      }
+    },
+    {
+      "label": "emotion-assessment:stress-build-up-2",
+      "method": "POST",
+      "endpoint": "/emotion/assessments",
+      "status": 201,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "4adcab83-f3a8-4a49-a5c2-f42c1c298bcc",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405"
+      },
+      "response": {
+        "id": "4adcab83-f3a8-4a49-a5c2-f42c1c298bcc",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+        "chunkSequence": 2,
+        "windowStart": "2026-04-25T13:56:32.493Z",
+        "windowEnd": "2026-04-25T14:01:32.493Z",
+        "emotionLabel": "stressed",
+        "valenceScore": 18,
+        "arousalScore": 82,
+        "stressScore": 88,
+        "confidence": 0.92,
+        "summary": "Second stress phase indicates the highest overload level.",
+        "modelName": "m6-adb-e2e-cadenced",
+        "source": "cluster-openai-compatible",
+        "createdAt": "2026-04-25T13:46:34.394Z"
+      }
+    },
+    {
+      "label": "video-assessment:stress-build-up-2",
+      "method": "POST",
+      "endpoint": "/video/assessments",
+      "status": 201,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "e7b4e0ba-c187-4ae2-a4cf-bd485f1de9e7",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405"
+      },
+      "response": {
+        "id": "e7b4e0ba-c187-4ae2-a4cf-bd485f1de9e7",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+        "windowStart": "2026-04-25T13:56:32.493Z",
+        "windowEnd": "2026-04-25T14:01:32.493Z",
+        "fatigueScore": 80,
+        "focusScore": 28,
+        "confidence": 0.9,
+        "summary": "Video sample shows severe fatigue and low focus.",
+        "modelName": "m6-adb-e2e-cadenced",
+        "featureSummary": "slumped posture and repeated gaze shifts",
+        "source": "cluster-openai-compatible",
+        "createdAt": "2026-04-25T13:46:34.513Z"
+      }
+    },
+    {
+      "label": "health-snapshot:stress-build-up-2",
+      "method": "POST",
+      "endpoint": "/health/snapshots",
+      "status": 201,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "b8f58558-cb75-48a7-a204-6c06b427653f",
+        "deviceId": "android-m6-capture",
+        "sessionId": null
+      },
+      "response": {
+        "id": "b8f58558-cb75-48a7-a204-6c06b427653f",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "sourcePlatform": "android",
+        "sourceProvider": "health_connect",
+        "windowStart": "2026-04-25T13:56:32.493Z",
+        "windowEnd": "2026-04-25T14:01:32.493Z",
+        "heartRate": 103,
+        "oxygenSaturation": 95,
+        "restingHeartRate": 72,
+        "sleepMinutes": 300,
+        "summary": "Second stress phase reflects sustained elevated stress physiology.",
+        "createdAt": "2026-04-25T13:46:34.630Z"
+      }
+    },
+    {
+      "label": "health-latest:stress-build-up-2",
+      "method": "GET",
+      "endpoint": "/health/latest?userId=9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "latestId": "b8f58558-cb75-48a7-a204-6c06b427653f",
+        "latestDeviceId": "android-m6-capture"
+      },
+      "response": {
+        "latest": {
+          "id": "b8f58558-cb75-48a7-a204-6c06b427653f",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "deviceId": "android-m6-capture",
+          "sourcePlatform": "android",
+          "sourceProvider": "health_connect",
+          "windowStart": "2026-04-25T13:56:32.493Z",
+          "windowEnd": "2026-04-25T14:01:32.493Z",
+          "heartRate": 103,
+          "oxygenSaturation": 95,
+          "restingHeartRate": 72,
+          "sleepMinutes": 300,
+          "summary": "Second stress phase reflects sustained elevated stress physiology.",
+          "createdAt": "2026-04-25T13:46:34.630Z"
+        },
+        "recent": [
+          {
+            "id": "b8f58558-cb75-48a7-a204-6c06b427653f",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "sourcePlatform": "android",
+            "sourceProvider": "health_connect",
+            "windowStart": "2026-04-25T13:56:32.493Z",
+            "windowEnd": "2026-04-25T14:01:32.493Z",
+            "heartRate": 103,
+            "oxygenSaturation": 95,
+            "restingHeartRate": 72,
+            "sleepMinutes": 300,
+            "summary": "Second stress phase reflects sustained elevated stress physiology.",
+            "createdAt": "2026-04-25T13:46:34.630Z"
+          },
+          {
+            "id": "2bc9fb6c-4cb0-4bbd-8625-bbfb74fc2294",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "sourcePlatform": "android",
+            "sourceProvider": "health_connect",
+            "windowStart": "2026-04-25T13:50:32.493Z",
+            "windowEnd": "2026-04-25T13:55:32.493Z",
+            "heartRate": 94,
+            "oxygenSaturation": 96,
+            "restingHeartRate": 68,
+            "sleepMinutes": 360,
+            "summary": "First stress phase shows elevated heart rate and reduced rest quality.",
+            "createdAt": "2026-04-25T13:46:33.942Z"
+          },
+          {
+            "id": "b2ba1073-4069-4bbc-9b62-4f688948842d",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "sourcePlatform": "android",
+            "sourceProvider": "health_connect",
+            "windowStart": "2026-04-25T13:44:32.493Z",
+            "windowEnd": "2026-04-25T13:49:32.493Z",
+            "heartRate": 76,
+            "oxygenSaturation": 98,
+            "restingHeartRate": 64,
+            "sleepMinutes": 430,
+            "summary": "Baseline health bridge sample is within expected range.",
+            "createdAt": "2026-04-25T13:46:33.334Z"
+          }
+        ]
+      }
+    },
+    {
+      "label": "dashboard-summary:stress-build-up-2",
+      "method": "GET",
+      "endpoint": "/dashboard/summary?userId=9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "latestHealthSnapshotId": "b8f58558-cb75-48a7-a204-6c06b427653f",
+        "edgeDeviceCount": 1,
+        "inboxCount": 10
+      },
+      "response": {
+        "goalCount": 0,
+        "taskCount": 0,
+        "completedTaskCount": 0,
+        "inProgressTaskCount": 0,
+        "blockedTaskCount": 0,
+        "completionRate": 0,
+        "openInterventions": 3,
+        "suggestedFocusTaskId": null,
+        "summaryHeadline": "当前已有恢复方案，建议先按恢复方案收拢主线，再继续推进最重要任务。",
+        "coachFrontAgent": {
+          "currentFrontAgent": "director-agent",
+          "routingMode": "auto",
+          "manualOverride": false,
+          "consultedAgent": null,
+          "handoffReason": null,
+          "overrideSourceAgent": null,
+          "visibleSummary": "Picard is currently coordinating the team."
+        },
+        "activeSession": null,
+        "latestAssessment": {
+          "id": "7778b547-8c63-42bb-8e5e-4e1c51894985",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "windowStart": "2026-04-25T13:31:34.788Z",
+          "windowEnd": "2026-04-25T13:46:34.788Z",
+          "focusScore": 58,
+          "energyScore": 45,
+          "moodScore": 48,
+          "summary": "当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。",
+          "recommendedAction": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+          "emotionSummary": "音频侧提示紧张和压力抬升，说明当前更适合减少切换而不是继续并行处理。",
+          "emotionConfidence": 0.82,
+          "fatigueScore": 80,
+          "videoSummary": "视频侧显示疲劳和视觉稳定度下降，说明持续专注能力正在变弱。",
+          "healthSummary": "健康数据显示恢复基础一般，健康数据提示应优先保证节奏稳定而不是强行加码。",
+          "activeInputs": [
+            "desktop_signal",
+            "audio_server_inference",
+            "video_server_inference",
+            "health_bridge"
+          ],
+          "mediaFreshness": "mixed",
+          "source": "openai-compatible",
+          "createdAt": "2026-04-25T13:46:34.792Z"
+        },
+        "latestRecoveryPlan": null,
+        "latestBehaviorConclusion": {
+          "id": "33918a0f-6bf0-4747-a985-e8ed7a0242ca",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "assessmentId": "7778b547-8c63-42bb-8e5e-4e1c51894985",
+          "riskLevel": "high",
+          "summary": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+          "suggestedAction": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+          "trigger": "behavior_conclusion",
+          "recommendedChannel": "mobile_push",
+          "createdAt": "2026-04-25T13:46:34.809Z"
+        },
+        "latestVideoAssessment": {
+          "id": "e7b4e0ba-c187-4ae2-a4cf-bd485f1de9e7",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "deviceId": "android-m6-capture",
+          "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+          "windowStart": "2026-04-25T13:56:32.493Z",
+          "windowEnd": "2026-04-25T14:01:32.493Z",
+          "fatigueScore": 80,
+          "focusScore": 28,
+          "confidence": 0.9,
+          "summary": "Video sample shows severe fatigue and low focus.",
+          "modelName": "m6-adb-e2e-cadenced",
+          "featureSummary": "slumped posture and repeated gaze shifts",
+          "source": "cluster-openai-compatible",
+          "createdAt": "2026-04-25T13:46:34.513Z"
+        },
+        "latestHealthSnapshot": {
+          "id": "b8f58558-cb75-48a7-a204-6c06b427653f",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "deviceId": "android-m6-capture",
+          "sourcePlatform": "android",
+          "sourceProvider": "health_connect",
+          "windowStart": "2026-04-25T13:56:32.493Z",
+          "windowEnd": "2026-04-25T14:01:32.493Z",
+          "heartRate": 103,
+          "oxygenSaturation": 95,
+          "restingHeartRate": 72,
+          "sleepMinutes": 300,
+          "summary": "Second stress phase reflects sustained elevated stress physiology.",
+          "createdAt": "2026-04-25T13:46:34.630Z"
+        },
+        "mobileAudio": {
+          "enabled": true,
+          "latestDevice": {
+            "id": "8a8a9120-d4f0-4627-ab12-73cdc2866244",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "deviceName": "NX733J",
+            "platform": "android",
+            "appVersion": "m6-adb-e2e",
+            "platformVersion": "15",
+            "pairingState": "paired",
+            "desktopHost": "192.168.0.104",
+            "consentAcknowledgedAt": "2026-04-25T13:46:32.774Z",
+            "lastSeenAt": "2026-04-25T13:46:32.827Z",
+            "createdAt": "2026-04-25T13:46:32.827Z",
+            "updatedAt": "2026-04-25T13:46:32.827Z"
+          },
+          "latestSession": {
+            "id": "ede12685-7b57-4be1-bb85-281bda19a405",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "captureMode": "foreground_microphone_with_call_events",
+            "status": "active",
+            "sampleRateHz": 16000,
+            "channels": 1,
+            "encoding": "audio/pcm16le",
+            "chunkDurationMs": 1000,
+            "rollingBufferSeconds": 60,
+            "receivedChunkCount": 3,
+            "lastChunkAt": "2026-04-25T14:01:32.493Z",
+            "startedAt": "2026-04-25T13:44:32.493Z"
+          },
+          "latestEmotionAssessment": {
+            "id": "4adcab83-f3a8-4a49-a5c2-f42c1c298bcc",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+            "chunkSequence": 2,
+            "windowStart": "2026-04-25T13:56:32.493Z",
+            "windowEnd": "2026-04-25T14:01:32.493Z",
+            "emotionLabel": "stressed",
+            "valenceScore": 18,
+            "arousalScore": 82,
+            "stressScore": 88,
+            "confidence": 0.92,
+            "summary": "Second stress phase indicates the highest overload level.",
+            "modelName": "m6-adb-e2e-cadenced",
+            "source": "cluster-openai-compatible",
+            "createdAt": "2026-04-25T13:46:34.394Z"
+          },
+          "latestCallEvent": {
+            "id": "ada65925-1b2d-44b3-bd42-bb0fb3cfb5e8",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "direction": "incoming",
+            "status": "missed",
+            "occurredAt": "2026-04-25T13:55:32.493Z",
+            "createdAt": "2026-04-25T13:46:33.629Z"
+          }
+        },
+        "edgeDevices": [
+          {
+            "id": "c9106db7-7451-4443-a51d-5bf3b8828a72",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "label": "NX733J",
+            "deviceType": "mobile",
+            "platform": "android",
+            "capabilities": [
+              "notifications",
+              "audio_capture",
+              "video_capture",
+              "health_bridge"
+            ],
+            "status": "online",
+            "appVersion": "m6-adb-e2e",
+            "queueDepth": 2,
+            "lastUploadedAt": "2026-04-25T14:01:32.493Z",
+            "lastSeenAt": "2026-04-25T13:46:34.327Z",
+            "createdAt": "2026-04-25T13:46:32.828Z",
+            "updatedAt": "2026-04-25T13:46:34.327Z"
+          }
+        ],
+        "inbox": [
+          {
+            "id": "10a30347-0124-4b66-8517-04c6159d500e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.825Z"
+          },
+          {
+            "id": "ca48e0e2-0778-429d-b648-3bf84525df48",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.686Z"
+          },
+          {
+            "id": "149864ed-53a5-4a1e-952a-14cf6915231f",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.567Z"
+          },
+          {
+            "id": "04e6ef0c-3ee9-4d2d-a2a7-3895a9b2a380",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.444Z"
+          },
+          {
+            "id": "78c71551-4e0f-4772-9f5a-16bd15111a58",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.256Z"
+          },
+          {
+            "id": "230d49e6-135b-4d48-8949-701c995cf69d",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.148Z"
+          },
+          {
+            "id": "c1f5b6da-66f5-4c1d-a0f7-4627c100c502",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.984Z"
+          },
+          {
+            "id": "3015e616-17b5-4aa9-9469-79c39c839bd0",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.878Z"
+          },
+          {
+            "id": "32f6647d-746e-444e-a10e-65b42da5a493",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.766Z"
+          },
+          {
+            "id": "bce217f6-2bbd-462c-bcef-b74a1c2a527b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.664Z"
+          }
+        ],
+        "goals": [],
+        "tasks": []
+      }
+    },
+    {
+      "label": "inbox-overview:stress-build-up-2",
+      "method": "GET",
+      "endpoint": "/client/inbox/overview?userId=9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "totalMessages": 14,
+        "latestBehaviorConclusionId": "6f811db3-ad0b-4e33-a275-c95637584549",
+        "latestRecoveryPlanId": null
+      },
+      "response": {
+        "messages": [
+          {
+            "id": "cbefd2cf-9901-4ff2-9b13-d58ed5bf1983",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.947Z"
+          },
+          {
+            "id": "10a30347-0124-4b66-8517-04c6159d500e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.825Z"
+          },
+          {
+            "id": "ca48e0e2-0778-429d-b648-3bf84525df48",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.686Z"
+          },
+          {
+            "id": "149864ed-53a5-4a1e-952a-14cf6915231f",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.567Z"
+          },
+          {
+            "id": "04e6ef0c-3ee9-4d2d-a2a7-3895a9b2a380",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.444Z"
+          },
+          {
+            "id": "78c71551-4e0f-4772-9f5a-16bd15111a58",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.256Z"
+          },
+          {
+            "id": "230d49e6-135b-4d48-8949-701c995cf69d",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.148Z"
+          },
+          {
+            "id": "c1f5b6da-66f5-4c1d-a0f7-4627c100c502",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.984Z"
+          },
+          {
+            "id": "3015e616-17b5-4aa9-9469-79c39c839bd0",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.878Z"
+          },
+          {
+            "id": "32f6647d-746e-444e-a10e-65b42da5a493",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.766Z"
+          },
+          {
+            "id": "bce217f6-2bbd-462c-bcef-b74a1c2a527b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.664Z"
+          },
+          {
+            "id": "93072200-1bcf-4d3b-8aa2-c2e4dc14a915",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.370Z"
+          },
+          {
+            "id": "701ebd07-aa2b-42a0-8c22-e9582984e77e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.266Z"
+          },
+          {
+            "id": "665f0035-32bd-4285-97f2-7025d6ce9f60",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.178Z"
+          }
+        ],
+        "pendingMessages": [
+          {
+            "id": "cbefd2cf-9901-4ff2-9b13-d58ed5bf1983",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.947Z"
+          },
+          {
+            "id": "10a30347-0124-4b66-8517-04c6159d500e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.825Z"
+          },
+          {
+            "id": "ca48e0e2-0778-429d-b648-3bf84525df48",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.686Z"
+          },
+          {
+            "id": "149864ed-53a5-4a1e-952a-14cf6915231f",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.567Z"
+          },
+          {
+            "id": "04e6ef0c-3ee9-4d2d-a2a7-3895a9b2a380",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.444Z"
+          },
+          {
+            "id": "78c71551-4e0f-4772-9f5a-16bd15111a58",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.256Z"
+          },
+          {
+            "id": "230d49e6-135b-4d48-8949-701c995cf69d",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.148Z"
+          },
+          {
+            "id": "c1f5b6da-66f5-4c1d-a0f7-4627c100c502",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.984Z"
+          },
+          {
+            "id": "3015e616-17b5-4aa9-9469-79c39c839bd0",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.878Z"
+          },
+          {
+            "id": "32f6647d-746e-444e-a10e-65b42da5a493",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.766Z"
+          },
+          {
+            "id": "bce217f6-2bbd-462c-bcef-b74a1c2a527b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.664Z"
+          },
+          {
+            "id": "93072200-1bcf-4d3b-8aa2-c2e4dc14a915",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.370Z"
+          },
+          {
+            "id": "701ebd07-aa2b-42a0-8c22-e9582984e77e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.266Z"
+          },
+          {
+            "id": "665f0035-32bd-4285-97f2-7025d6ce9f60",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.178Z"
+          }
+        ],
+        "acknowledgedMessages": [],
+        "metricCounts": {
+          "totalMessages": 14,
+          "pendingMessages": 14,
+          "acknowledgedMessages": 0,
+          "openInterventions": 4
+        },
+        "channelCounts": [
+          {
+            "channel": "mobile_push",
+            "total": 14,
+            "pending": 14,
+            "acknowledged": 0
+          },
+          {
+            "channel": "desktop_local",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "feishu_bot",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "telegram_bot",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          }
+        ],
+        "latestBehaviorConclusion": {
+          "id": "6f811db3-ad0b-4e33-a275-c95637584549",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "assessmentId": "0518d6e4-9a68-4074-a563-8d1d80ca2654",
+          "riskLevel": "high",
+          "summary": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+          "suggestedAction": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+          "trigger": "behavior_conclusion",
+          "recommendedChannel": "mobile_push",
+          "createdAt": "2026-04-25T13:46:34.931Z"
+        },
+        "latestRecoveryPlan": null,
+        "activeSession": null
+      }
+    },
+    {
+      "label": "recovery-plan:recovery-trigger",
+      "method": "POST",
+      "endpoint": "/recovery/plan",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "b50b9b6e-f073-442f-bef2-66fb79532a0e",
+        "taskId": null,
+        "reason": "attention_shift_after_interruption"
+      },
+      "response": {
+        "id": "b50b9b6e-f073-442f-bef2-66fb79532a0e",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+        "reason": "attention_shift_after_interruption",
+        "nextStep": "先回到「当前主任务」，只推进一个最小切片，避免继续切去处理旁支任务。",
+        "suggestedMinutes": 25,
+        "reprioritizedTaskIds": [],
+        "createdAt": "2026-04-25T13:46:35.028Z"
+      }
+    },
+    {
+      "label": "recovery-history:recovery-trigger",
+      "method": "GET",
+      "endpoint": "/recovery/history?userId=9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "latestRecoveryPlanId": "b50b9b6e-f073-442f-bef2-66fb79532a0e",
+        "recoveryPlanCount": 1,
+        "suggestedFocusTaskId": null
+      },
+      "response": {
+        "activeSession": null,
+        "interruptedSessions": [],
+        "interventions": [
+          {
+            "id": "211cd913-6d3d-4d65-92e8-b5387c74573b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "assessmentId": "cf8705a1-ceec-46ca-9127-83b4e4def1e7",
+            "trigger": "low_state_score",
+            "action": "reset_focus",
+            "copy": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+            "status": "open",
+            "createdAt": "2026-04-25T13:46:35.089Z"
+          },
+          {
+            "id": "7f1d8d1b-f1ab-407b-a728-0865471bc0f5",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "assessmentId": "0518d6e4-9a68-4074-a563-8d1d80ca2654",
+            "trigger": "low_state_score",
+            "action": "reset_focus",
+            "copy": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+            "status": "open",
+            "createdAt": "2026-04-25T13:46:34.915Z"
+          },
+          {
+            "id": "8b6fd666-b43c-4f6d-9099-7ae3046e8d77",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "assessmentId": "7778b547-8c63-42bb-8e5e-4e1c51894985",
+            "trigger": "low_state_score",
+            "action": "reset_focus",
+            "copy": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+            "status": "open",
+            "createdAt": "2026-04-25T13:46:34.794Z"
+          },
+          {
+            "id": "1f4d3b7a-dbc9-49a2-a40c-54f975f4e305",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "assessmentId": "f085d115-e0c7-4488-8feb-aa0a11c1e731",
+            "trigger": "low_state_score",
+            "action": "reset_focus",
+            "copy": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+            "status": "open",
+            "createdAt": "2026-04-25T13:46:34.650Z"
+          },
+          {
+            "id": "1c635f79-4979-49da-a278-df0b9da3f235",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "assessmentId": "32767476-5277-4b4e-a729-5c0c539fa9f6",
+            "trigger": "low_state_score",
+            "action": "reset_focus",
+            "copy": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+            "status": "open",
+            "createdAt": "2026-04-25T13:46:34.533Z"
+          }
+        ],
+        "recoveryPlans": [
+          {
+            "id": "b50b9b6e-f073-442f-bef2-66fb79532a0e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+            "reason": "attention_shift_after_interruption",
+            "nextStep": "先回到「当前主任务」，只推进一个最小切片，避免继续切去处理旁支任务。",
+            "suggestedMinutes": 25,
+            "reprioritizedTaskIds": [],
+            "createdAt": "2026-04-25T13:46:35.028Z"
+          }
+        ],
+        "pendingTasks": [],
+        "latestAssessment": {
+          "id": "cf8705a1-ceec-46ca-9127-83b4e4def1e7",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "windowStart": "2026-04-25T13:31:35.083Z",
+          "windowEnd": "2026-04-25T13:46:35.082Z",
+          "focusScore": 58,
+          "energyScore": 45,
+          "moodScore": 48,
+          "summary": "当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。",
+          "recommendedAction": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+          "emotionSummary": "音频侧提示紧张和压力抬升，说明当前更适合减少切换而不是继续并行处理。",
+          "emotionConfidence": 0.82,
+          "fatigueScore": 80,
+          "videoSummary": "视频侧显示疲劳和视觉稳定度下降，说明持续专注能力正在变弱。",
+          "healthSummary": "健康数据显示恢复基础一般，健康数据提示应优先保证节奏稳定而不是强行加码。",
+          "activeInputs": [
+            "desktop_signal",
+            "audio_server_inference",
+            "video_server_inference",
+            "health_bridge"
+          ],
+          "mediaFreshness": "mixed",
+          "source": "openai-compatible",
+          "createdAt": "2026-04-25T13:46:35.087Z"
+        },
+        "latestBehaviorConclusion": {
+          "id": "990c4b7b-3f06-4ff6-8ddb-ecc5b1a75842",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "assessmentId": "cf8705a1-ceec-46ca-9127-83b4e4def1e7",
+          "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+          "riskLevel": "high",
+          "summary": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+          "suggestedAction": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+          "trigger": "behavior_conclusion",
+          "recommendedChannel": "mobile_push",
+          "createdAt": "2026-04-25T13:46:35.106Z"
+        },
+        "suggestedFocusTaskId": null
+      }
+    },
+    {
+      "label": "health-latest:recovery-trigger",
+      "method": "GET",
+      "endpoint": "/health/latest?userId=9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "latestId": "b8f58558-cb75-48a7-a204-6c06b427653f",
+        "latestDeviceId": "android-m6-capture"
+      },
+      "response": {
+        "latest": {
+          "id": "b8f58558-cb75-48a7-a204-6c06b427653f",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "deviceId": "android-m6-capture",
+          "sourcePlatform": "android",
+          "sourceProvider": "health_connect",
+          "windowStart": "2026-04-25T13:56:32.493Z",
+          "windowEnd": "2026-04-25T14:01:32.493Z",
+          "heartRate": 103,
+          "oxygenSaturation": 95,
+          "restingHeartRate": 72,
+          "sleepMinutes": 300,
+          "summary": "Second stress phase reflects sustained elevated stress physiology.",
+          "createdAt": "2026-04-25T13:46:34.630Z"
+        },
+        "recent": [
+          {
+            "id": "b8f58558-cb75-48a7-a204-6c06b427653f",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "sourcePlatform": "android",
+            "sourceProvider": "health_connect",
+            "windowStart": "2026-04-25T13:56:32.493Z",
+            "windowEnd": "2026-04-25T14:01:32.493Z",
+            "heartRate": 103,
+            "oxygenSaturation": 95,
+            "restingHeartRate": 72,
+            "sleepMinutes": 300,
+            "summary": "Second stress phase reflects sustained elevated stress physiology.",
+            "createdAt": "2026-04-25T13:46:34.630Z"
+          },
+          {
+            "id": "2bc9fb6c-4cb0-4bbd-8625-bbfb74fc2294",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "sourcePlatform": "android",
+            "sourceProvider": "health_connect",
+            "windowStart": "2026-04-25T13:50:32.493Z",
+            "windowEnd": "2026-04-25T13:55:32.493Z",
+            "heartRate": 94,
+            "oxygenSaturation": 96,
+            "restingHeartRate": 68,
+            "sleepMinutes": 360,
+            "summary": "First stress phase shows elevated heart rate and reduced rest quality.",
+            "createdAt": "2026-04-25T13:46:33.942Z"
+          },
+          {
+            "id": "b2ba1073-4069-4bbc-9b62-4f688948842d",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "sourcePlatform": "android",
+            "sourceProvider": "health_connect",
+            "windowStart": "2026-04-25T13:44:32.493Z",
+            "windowEnd": "2026-04-25T13:49:32.493Z",
+            "heartRate": 76,
+            "oxygenSaturation": 98,
+            "restingHeartRate": 64,
+            "sleepMinutes": 430,
+            "summary": "Baseline health bridge sample is within expected range.",
+            "createdAt": "2026-04-25T13:46:33.334Z"
+          }
+        ]
+      }
+    },
+    {
+      "label": "dashboard-summary:recovery-trigger",
+      "method": "GET",
+      "endpoint": "/dashboard/summary?userId=9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "latestHealthSnapshotId": "b8f58558-cb75-48a7-a204-6c06b427653f",
+        "edgeDeviceCount": 1,
+        "inboxCount": 10
+      },
+      "response": {
+        "goalCount": 0,
+        "taskCount": 0,
+        "completedTaskCount": 0,
+        "inProgressTaskCount": 0,
+        "blockedTaskCount": 0,
+        "completionRate": 0,
+        "openInterventions": 6,
+        "suggestedFocusTaskId": null,
+        "summaryHeadline": "当前已有恢复方案，建议先按恢复方案收拢主线，再继续推进最重要任务。",
+        "coachFrontAgent": {
+          "currentFrontAgent": "director-agent",
+          "routingMode": "auto",
+          "manualOverride": false,
+          "consultedAgent": null,
+          "handoffReason": null,
+          "overrideSourceAgent": null,
+          "visibleSummary": "Picard is currently coordinating the team."
+        },
+        "activeSession": null,
+        "latestAssessment": {
+          "id": "4e565992-f2e5-451c-bd18-faabfe714afe",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "windowStart": "2026-04-25T13:31:35.245Z",
+          "windowEnd": "2026-04-25T13:46:35.245Z",
+          "focusScore": 58,
+          "energyScore": 45,
+          "moodScore": 48,
+          "summary": "当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。",
+          "recommendedAction": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+          "emotionSummary": "音频侧提示紧张和压力抬升，说明当前更适合减少切换而不是继续并行处理。",
+          "emotionConfidence": 0.82,
+          "fatigueScore": 80,
+          "videoSummary": "视频侧显示疲劳和视觉稳定度下降，说明持续专注能力正在变弱。",
+          "healthSummary": "健康数据显示恢复基础一般，健康数据提示应优先保证节奏稳定而不是强行加码。",
+          "activeInputs": [
+            "desktop_signal",
+            "audio_server_inference",
+            "video_server_inference",
+            "health_bridge"
+          ],
+          "mediaFreshness": "mixed",
+          "source": "openai-compatible",
+          "createdAt": "2026-04-25T13:46:35.250Z"
+        },
+        "latestRecoveryPlan": {
+          "id": "b50b9b6e-f073-442f-bef2-66fb79532a0e",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+          "reason": "attention_shift_after_interruption",
+          "nextStep": "先回到「当前主任务」，只推进一个最小切片，避免继续切去处理旁支任务。",
+          "suggestedMinutes": 25,
+          "reprioritizedTaskIds": [],
+          "createdAt": "2026-04-25T13:46:35.028Z"
+        },
+        "latestBehaviorConclusion": {
+          "id": "2bfdd59f-967b-4403-ae22-a0c7a0385457",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "assessmentId": "4e565992-f2e5-451c-bd18-faabfe714afe",
+          "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+          "riskLevel": "high",
+          "summary": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+          "suggestedAction": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+          "trigger": "behavior_conclusion",
+          "recommendedChannel": "mobile_push",
+          "createdAt": "2026-04-25T13:46:35.270Z"
+        },
+        "latestVideoAssessment": {
+          "id": "e7b4e0ba-c187-4ae2-a4cf-bd485f1de9e7",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "deviceId": "android-m6-capture",
+          "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+          "windowStart": "2026-04-25T13:56:32.493Z",
+          "windowEnd": "2026-04-25T14:01:32.493Z",
+          "fatigueScore": 80,
+          "focusScore": 28,
+          "confidence": 0.9,
+          "summary": "Video sample shows severe fatigue and low focus.",
+          "modelName": "m6-adb-e2e-cadenced",
+          "featureSummary": "slumped posture and repeated gaze shifts",
+          "source": "cluster-openai-compatible",
+          "createdAt": "2026-04-25T13:46:34.513Z"
+        },
+        "latestHealthSnapshot": {
+          "id": "b8f58558-cb75-48a7-a204-6c06b427653f",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "deviceId": "android-m6-capture",
+          "sourcePlatform": "android",
+          "sourceProvider": "health_connect",
+          "windowStart": "2026-04-25T13:56:32.493Z",
+          "windowEnd": "2026-04-25T14:01:32.493Z",
+          "heartRate": 103,
+          "oxygenSaturation": 95,
+          "restingHeartRate": 72,
+          "sleepMinutes": 300,
+          "summary": "Second stress phase reflects sustained elevated stress physiology.",
+          "createdAt": "2026-04-25T13:46:34.630Z"
+        },
+        "mobileAudio": {
+          "enabled": true,
+          "latestDevice": {
+            "id": "8a8a9120-d4f0-4627-ab12-73cdc2866244",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "deviceName": "NX733J",
+            "platform": "android",
+            "appVersion": "m6-adb-e2e",
+            "platformVersion": "15",
+            "pairingState": "paired",
+            "desktopHost": "192.168.0.104",
+            "consentAcknowledgedAt": "2026-04-25T13:46:32.774Z",
+            "lastSeenAt": "2026-04-25T13:46:32.827Z",
+            "createdAt": "2026-04-25T13:46:32.827Z",
+            "updatedAt": "2026-04-25T13:46:32.827Z"
+          },
+          "latestSession": {
+            "id": "ede12685-7b57-4be1-bb85-281bda19a405",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "captureMode": "foreground_microphone_with_call_events",
+            "status": "active",
+            "sampleRateHz": 16000,
+            "channels": 1,
+            "encoding": "audio/pcm16le",
+            "chunkDurationMs": 1000,
+            "rollingBufferSeconds": 60,
+            "receivedChunkCount": 3,
+            "lastChunkAt": "2026-04-25T14:01:32.493Z",
+            "startedAt": "2026-04-25T13:44:32.493Z"
+          },
+          "latestEmotionAssessment": {
+            "id": "4adcab83-f3a8-4a49-a5c2-f42c1c298bcc",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+            "chunkSequence": 2,
+            "windowStart": "2026-04-25T13:56:32.493Z",
+            "windowEnd": "2026-04-25T14:01:32.493Z",
+            "emotionLabel": "stressed",
+            "valenceScore": 18,
+            "arousalScore": 82,
+            "stressScore": 88,
+            "confidence": 0.92,
+            "summary": "Second stress phase indicates the highest overload level.",
+            "modelName": "m6-adb-e2e-cadenced",
+            "source": "cluster-openai-compatible",
+            "createdAt": "2026-04-25T13:46:34.394Z"
+          },
+          "latestCallEvent": {
+            "id": "ada65925-1b2d-44b3-bd42-bb0fb3cfb5e8",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "direction": "incoming",
+            "status": "missed",
+            "occurredAt": "2026-04-25T13:55:32.493Z",
+            "createdAt": "2026-04-25T13:46:33.629Z"
+          }
+        },
+        "edgeDevices": [
+          {
+            "id": "c9106db7-7451-4443-a51d-5bf3b8828a72",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "label": "NX733J",
+            "deviceType": "mobile",
+            "platform": "android",
+            "capabilities": [
+              "notifications",
+              "audio_capture",
+              "video_capture",
+              "health_bridge"
+            ],
+            "status": "online",
+            "appVersion": "m6-adb-e2e",
+            "queueDepth": 2,
+            "lastUploadedAt": "2026-04-25T14:01:32.493Z",
+            "lastSeenAt": "2026-04-25T13:46:34.327Z",
+            "createdAt": "2026-04-25T13:46:32.828Z",
+            "updatedAt": "2026-04-25T13:46:34.327Z"
+          }
+        ],
+        "inbox": [
+          {
+            "id": "9a665d8e-98f7-418f-952a-f1bef9bd251e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.289Z"
+          },
+          {
+            "id": "8e1258c8-00ff-43fc-9f33-70d37d9ba71b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.124Z"
+          },
+          {
+            "id": "cbefd2cf-9901-4ff2-9b13-d58ed5bf1983",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.947Z"
+          },
+          {
+            "id": "10a30347-0124-4b66-8517-04c6159d500e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.825Z"
+          },
+          {
+            "id": "ca48e0e2-0778-429d-b648-3bf84525df48",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.686Z"
+          },
+          {
+            "id": "149864ed-53a5-4a1e-952a-14cf6915231f",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.567Z"
+          },
+          {
+            "id": "04e6ef0c-3ee9-4d2d-a2a7-3895a9b2a380",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.444Z"
+          },
+          {
+            "id": "78c71551-4e0f-4772-9f5a-16bd15111a58",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.256Z"
+          },
+          {
+            "id": "230d49e6-135b-4d48-8949-701c995cf69d",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.148Z"
+          },
+          {
+            "id": "c1f5b6da-66f5-4c1d-a0f7-4627c100c502",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.984Z"
+          }
+        ],
+        "goals": [],
+        "tasks": []
+      }
+    },
+    {
+      "label": "inbox-overview:recovery-trigger",
+      "method": "GET",
+      "endpoint": "/client/inbox/overview?userId=9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "totalMessages": 17,
+        "latestBehaviorConclusionId": "cc0af262-8d9f-469b-a61e-a84f36290646",
+        "latestRecoveryPlanId": "b50b9b6e-f073-442f-bef2-66fb79532a0e"
+      },
+      "response": {
+        "messages": [
+          {
+            "id": "7bdaf9f5-d1be-47a1-8bc0-f4d49e982fcc",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.411Z"
+          },
+          {
+            "id": "9a665d8e-98f7-418f-952a-f1bef9bd251e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.289Z"
+          },
+          {
+            "id": "8e1258c8-00ff-43fc-9f33-70d37d9ba71b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.124Z"
+          },
+          {
+            "id": "cbefd2cf-9901-4ff2-9b13-d58ed5bf1983",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.947Z"
+          },
+          {
+            "id": "10a30347-0124-4b66-8517-04c6159d500e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.825Z"
+          },
+          {
+            "id": "ca48e0e2-0778-429d-b648-3bf84525df48",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.686Z"
+          },
+          {
+            "id": "149864ed-53a5-4a1e-952a-14cf6915231f",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.567Z"
+          },
+          {
+            "id": "04e6ef0c-3ee9-4d2d-a2a7-3895a9b2a380",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.444Z"
+          },
+          {
+            "id": "78c71551-4e0f-4772-9f5a-16bd15111a58",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.256Z"
+          },
+          {
+            "id": "230d49e6-135b-4d48-8949-701c995cf69d",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.148Z"
+          },
+          {
+            "id": "c1f5b6da-66f5-4c1d-a0f7-4627c100c502",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.984Z"
+          },
+          {
+            "id": "3015e616-17b5-4aa9-9469-79c39c839bd0",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.878Z"
+          },
+          {
+            "id": "32f6647d-746e-444e-a10e-65b42da5a493",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.766Z"
+          },
+          {
+            "id": "bce217f6-2bbd-462c-bcef-b74a1c2a527b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.664Z"
+          },
+          {
+            "id": "93072200-1bcf-4d3b-8aa2-c2e4dc14a915",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.370Z"
+          },
+          {
+            "id": "701ebd07-aa2b-42a0-8c22-e9582984e77e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.266Z"
+          },
+          {
+            "id": "665f0035-32bd-4285-97f2-7025d6ce9f60",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.178Z"
+          }
+        ],
+        "pendingMessages": [
+          {
+            "id": "7bdaf9f5-d1be-47a1-8bc0-f4d49e982fcc",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.411Z"
+          },
+          {
+            "id": "9a665d8e-98f7-418f-952a-f1bef9bd251e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.289Z"
+          },
+          {
+            "id": "8e1258c8-00ff-43fc-9f33-70d37d9ba71b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.124Z"
+          },
+          {
+            "id": "cbefd2cf-9901-4ff2-9b13-d58ed5bf1983",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.947Z"
+          },
+          {
+            "id": "10a30347-0124-4b66-8517-04c6159d500e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.825Z"
+          },
+          {
+            "id": "ca48e0e2-0778-429d-b648-3bf84525df48",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.686Z"
+          },
+          {
+            "id": "149864ed-53a5-4a1e-952a-14cf6915231f",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.567Z"
+          },
+          {
+            "id": "04e6ef0c-3ee9-4d2d-a2a7-3895a9b2a380",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.444Z"
+          },
+          {
+            "id": "78c71551-4e0f-4772-9f5a-16bd15111a58",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.256Z"
+          },
+          {
+            "id": "230d49e6-135b-4d48-8949-701c995cf69d",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.148Z"
+          },
+          {
+            "id": "c1f5b6da-66f5-4c1d-a0f7-4627c100c502",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.984Z"
+          },
+          {
+            "id": "3015e616-17b5-4aa9-9469-79c39c839bd0",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.878Z"
+          },
+          {
+            "id": "32f6647d-746e-444e-a10e-65b42da5a493",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.766Z"
+          },
+          {
+            "id": "bce217f6-2bbd-462c-bcef-b74a1c2a527b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.664Z"
+          },
+          {
+            "id": "93072200-1bcf-4d3b-8aa2-c2e4dc14a915",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.370Z"
+          },
+          {
+            "id": "701ebd07-aa2b-42a0-8c22-e9582984e77e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.266Z"
+          },
+          {
+            "id": "665f0035-32bd-4285-97f2-7025d6ce9f60",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.178Z"
+          }
+        ],
+        "acknowledgedMessages": [],
+        "metricCounts": {
+          "totalMessages": 17,
+          "pendingMessages": 17,
+          "acknowledgedMessages": 0,
+          "openInterventions": 7
+        },
+        "channelCounts": [
+          {
+            "channel": "mobile_push",
+            "total": 17,
+            "pending": 17,
+            "acknowledged": 0
+          },
+          {
+            "channel": "desktop_local",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "feishu_bot",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "telegram_bot",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          }
+        ],
+        "latestBehaviorConclusion": {
+          "id": "cc0af262-8d9f-469b-a61e-a84f36290646",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "assessmentId": "0c04e578-6bad-4b59-812d-d6b0dace95c5",
+          "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+          "riskLevel": "high",
+          "summary": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+          "suggestedAction": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+          "trigger": "behavior_conclusion",
+          "recommendedChannel": "mobile_push",
+          "createdAt": "2026-04-25T13:46:35.394Z"
+        },
+        "latestRecoveryPlan": {
+          "id": "b50b9b6e-f073-442f-bef2-66fb79532a0e",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+          "reason": "attention_shift_after_interruption",
+          "nextStep": "先回到「当前主任务」，只推进一个最小切片，避免继续切去处理旁支任务。",
+          "suggestedMinutes": 25,
+          "reprioritizedTaskIds": [],
+          "createdAt": "2026-04-25T13:46:35.028Z"
+        },
+        "activeSession": null
+      }
+    },
+    {
+      "label": "device-heartbeat:post-recovery",
+      "method": "POST",
+      "endpoint": "/devices/heartbeat",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "c9106db7-7451-4443-a51d-5bf3b8828a72",
+        "deviceId": "android-m6-capture"
+      },
+      "response": {
+        "id": "c9106db7-7451-4443-a51d-5bf3b8828a72",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "label": "NX733J",
+        "deviceType": "mobile",
+        "platform": "android",
+        "capabilities": [
+          "notifications",
+          "audio_capture",
+          "video_capture",
+          "health_bridge"
+        ],
+        "status": "online",
+        "appVersion": "m6-adb-e2e",
+        "queueDepth": 0,
+        "lastSeenAt": "2026-04-25T13:46:35.507Z",
+        "createdAt": "2026-04-25T13:46:32.828Z",
+        "updatedAt": "2026-04-25T13:46:35.507Z",
+        "lastUploadedAt": "2026-04-25T14:10:32.493Z"
+      }
+    },
+    {
+      "label": "emotion-assessment:post-recovery",
+      "method": "POST",
+      "endpoint": "/emotion/assessments",
+      "status": 201,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "ea1ad2d2-10e3-40ee-b8e5-a3a2d05e7102",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405"
+      },
+      "response": {
+        "id": "ea1ad2d2-10e3-40ee-b8e5-a3a2d05e7102",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+        "chunkSequence": 3,
+        "windowStart": "2026-04-25T14:05:32.493Z",
+        "windowEnd": "2026-04-25T14:10:32.493Z",
+        "emotionLabel": "positive",
+        "valenceScore": 42,
+        "arousalScore": 48,
+        "stressScore": 52,
+        "confidence": 0.87,
+        "summary": "Post-recovery sample indicates partial stabilization.",
+        "modelName": "m6-adb-e2e-cadenced",
+        "source": "cluster-openai-compatible",
+        "createdAt": "2026-04-25T13:46:35.565Z"
+      }
+    },
+    {
+      "label": "video-assessment:post-recovery",
+      "method": "POST",
+      "endpoint": "/video/assessments",
+      "status": 201,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "8148441e-2a20-4426-8160-e2a045bd7d89",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405"
+      },
+      "response": {
+        "id": "8148441e-2a20-4426-8160-e2a045bd7d89",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+        "windowStart": "2026-04-25T14:05:32.493Z",
+        "windowEnd": "2026-04-25T14:10:32.493Z",
+        "fatigueScore": 54,
+        "focusScore": 56,
+        "confidence": 0.86,
+        "summary": "Video sample indicates moderate recovery after intervention.",
+        "modelName": "m6-adb-e2e-cadenced",
+        "featureSummary": "less gaze drift and improved posture",
+        "source": "cluster-openai-compatible",
+        "createdAt": "2026-04-25T13:46:35.685Z"
+      }
+    },
+    {
+      "label": "health-snapshot:post-recovery",
+      "method": "POST",
+      "endpoint": "/health/snapshots",
+      "status": 201,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "id": "c48559e1-1d63-4e96-88c2-74eee7d5fa94",
+        "deviceId": "android-m6-capture",
+        "sessionId": null
+      },
+      "response": {
+        "id": "c48559e1-1d63-4e96-88c2-74eee7d5fa94",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "sourcePlatform": "android",
+        "sourceProvider": "health_connect",
+        "windowStart": "2026-04-25T14:05:32.493Z",
+        "windowEnd": "2026-04-25T14:10:32.493Z",
+        "heartRate": 84,
+        "oxygenSaturation": 97,
+        "restingHeartRate": 66,
+        "sleepMinutes": 360,
+        "summary": "Post-recovery health sample is improved from peak stress.",
+        "createdAt": "2026-04-25T13:46:35.802Z"
+      }
+    },
+    {
+      "label": "recovery-history:post-recovery",
+      "method": "GET",
+      "endpoint": "/recovery/history?userId=9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "latestRecoveryPlanId": "b50b9b6e-f073-442f-bef2-66fb79532a0e",
+        "recoveryPlanCount": 1,
+        "suggestedFocusTaskId": null
+      },
+      "response": {
+        "activeSession": null,
+        "interruptedSessions": [],
+        "interventions": [
+          {
+            "id": "7ac32391-2a8e-49b9-90f5-292db8b390b3",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "assessmentId": "db125ce0-fe2b-45f4-84b4-2a3db4d044b4",
+            "trigger": "low_state_score",
+            "action": "reset_focus",
+            "copy": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+            "status": "open",
+            "createdAt": "2026-04-25T13:46:35.588Z"
+          },
+          {
+            "id": "14114d41-92bf-43bc-bd23-35d8656a9cc4",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "assessmentId": "0c04e578-6bad-4b59-812d-d6b0dace95c5",
+            "trigger": "low_state_score",
+            "action": "reset_focus",
+            "copy": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+            "status": "open",
+            "createdAt": "2026-04-25T13:46:35.376Z"
+          },
+          {
+            "id": "e49b1892-c388-4336-a1ee-e172c40d610b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "assessmentId": "4e565992-f2e5-451c-bd18-faabfe714afe",
+            "trigger": "low_state_score",
+            "action": "reset_focus",
+            "copy": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+            "status": "open",
+            "createdAt": "2026-04-25T13:46:35.253Z"
+          },
+          {
+            "id": "211cd913-6d3d-4d65-92e8-b5387c74573b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "assessmentId": "cf8705a1-ceec-46ca-9127-83b4e4def1e7",
+            "trigger": "low_state_score",
+            "action": "reset_focus",
+            "copy": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+            "status": "open",
+            "createdAt": "2026-04-25T13:46:35.089Z"
+          },
+          {
+            "id": "7f1d8d1b-f1ab-407b-a728-0865471bc0f5",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "assessmentId": "0518d6e4-9a68-4074-a563-8d1d80ca2654",
+            "trigger": "low_state_score",
+            "action": "reset_focus",
+            "copy": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+            "status": "open",
+            "createdAt": "2026-04-25T13:46:34.915Z"
+          },
+          {
+            "id": "8b6fd666-b43c-4f6d-9099-7ae3046e8d77",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "assessmentId": "7778b547-8c63-42bb-8e5e-4e1c51894985",
+            "trigger": "low_state_score",
+            "action": "reset_focus",
+            "copy": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+            "status": "open",
+            "createdAt": "2026-04-25T13:46:34.794Z"
+          },
+          {
+            "id": "1f4d3b7a-dbc9-49a2-a40c-54f975f4e305",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "assessmentId": "f085d115-e0c7-4488-8feb-aa0a11c1e731",
+            "trigger": "low_state_score",
+            "action": "reset_focus",
+            "copy": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+            "status": "open",
+            "createdAt": "2026-04-25T13:46:34.650Z"
+          },
+          {
+            "id": "1c635f79-4979-49da-a278-df0b9da3f235",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "assessmentId": "32767476-5277-4b4e-a729-5c0c539fa9f6",
+            "trigger": "low_state_score",
+            "action": "reset_focus",
+            "copy": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+            "status": "open",
+            "createdAt": "2026-04-25T13:46:34.533Z"
+          }
+        ],
+        "recoveryPlans": [
+          {
+            "id": "b50b9b6e-f073-442f-bef2-66fb79532a0e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+            "reason": "attention_shift_after_interruption",
+            "nextStep": "先回到「当前主任务」，只推进一个最小切片，避免继续切去处理旁支任务。",
+            "suggestedMinutes": 25,
+            "reprioritizedTaskIds": [],
+            "createdAt": "2026-04-25T13:46:35.028Z"
+          }
+        ],
+        "pendingTasks": [],
+        "latestAssessment": {
+          "id": "49711888-8a1f-4660-b48d-ac1c87d76244",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "windowStart": "2026-04-25T13:31:35.925Z",
+          "windowEnd": "2026-04-25T13:46:35.925Z",
+          "focusScore": 58,
+          "energyScore": 48,
+          "moodScore": 52,
+          "summary": "当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。",
+          "recommendedAction": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+          "emotionSummary": "音频侧提示紧张和压力抬升，说明当前更适合减少切换而不是继续并行处理。",
+          "emotionConfidence": 0.82,
+          "fatigueScore": 54,
+          "videoSummary": "视频侧显示疲劳和视觉稳定度下降，说明持续专注能力正在变弱。",
+          "healthSummary": "健康数据显示恢复基础一般，健康数据提示应优先保证节奏稳定而不是强行加码。",
+          "activeInputs": [
+            "desktop_signal",
+            "audio_server_inference",
+            "video_server_inference",
+            "health_bridge"
+          ],
+          "mediaFreshness": "mixed",
+          "source": "openai-compatible",
+          "createdAt": "2026-04-25T13:46:35.931Z"
+        },
+        "latestBehaviorConclusion": {
+          "id": "db8f8153-35b6-44fd-bafa-e55f19ec64cc",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "assessmentId": "49711888-8a1f-4660-b48d-ac1c87d76244",
+          "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+          "riskLevel": "high",
+          "summary": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+          "suggestedAction": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+          "trigger": "behavior_conclusion",
+          "recommendedChannel": "mobile_push",
+          "createdAt": "2026-04-25T13:46:35.950Z"
+        },
+        "suggestedFocusTaskId": null
+      }
+    },
+    {
+      "label": "health-latest:post-recovery",
+      "method": "GET",
+      "endpoint": "/health/latest?userId=9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "latestId": "c48559e1-1d63-4e96-88c2-74eee7d5fa94",
+        "latestDeviceId": "android-m6-capture"
+      },
+      "response": {
+        "latest": {
+          "id": "c48559e1-1d63-4e96-88c2-74eee7d5fa94",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "deviceId": "android-m6-capture",
+          "sourcePlatform": "android",
+          "sourceProvider": "health_connect",
+          "windowStart": "2026-04-25T14:05:32.493Z",
+          "windowEnd": "2026-04-25T14:10:32.493Z",
+          "heartRate": 84,
+          "oxygenSaturation": 97,
+          "restingHeartRate": 66,
+          "sleepMinutes": 360,
+          "summary": "Post-recovery health sample is improved from peak stress.",
+          "createdAt": "2026-04-25T13:46:35.802Z"
+        },
+        "recent": [
+          {
+            "id": "c48559e1-1d63-4e96-88c2-74eee7d5fa94",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "sourcePlatform": "android",
+            "sourceProvider": "health_connect",
+            "windowStart": "2026-04-25T14:05:32.493Z",
+            "windowEnd": "2026-04-25T14:10:32.493Z",
+            "heartRate": 84,
+            "oxygenSaturation": 97,
+            "restingHeartRate": 66,
+            "sleepMinutes": 360,
+            "summary": "Post-recovery health sample is improved from peak stress.",
+            "createdAt": "2026-04-25T13:46:35.802Z"
+          },
+          {
+            "id": "b8f58558-cb75-48a7-a204-6c06b427653f",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "sourcePlatform": "android",
+            "sourceProvider": "health_connect",
+            "windowStart": "2026-04-25T13:56:32.493Z",
+            "windowEnd": "2026-04-25T14:01:32.493Z",
+            "heartRate": 103,
+            "oxygenSaturation": 95,
+            "restingHeartRate": 72,
+            "sleepMinutes": 300,
+            "summary": "Second stress phase reflects sustained elevated stress physiology.",
+            "createdAt": "2026-04-25T13:46:34.630Z"
+          },
+          {
+            "id": "2bc9fb6c-4cb0-4bbd-8625-bbfb74fc2294",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "sourcePlatform": "android",
+            "sourceProvider": "health_connect",
+            "windowStart": "2026-04-25T13:50:32.493Z",
+            "windowEnd": "2026-04-25T13:55:32.493Z",
+            "heartRate": 94,
+            "oxygenSaturation": 96,
+            "restingHeartRate": 68,
+            "sleepMinutes": 360,
+            "summary": "First stress phase shows elevated heart rate and reduced rest quality.",
+            "createdAt": "2026-04-25T13:46:33.942Z"
+          },
+          {
+            "id": "b2ba1073-4069-4bbc-9b62-4f688948842d",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "sourcePlatform": "android",
+            "sourceProvider": "health_connect",
+            "windowStart": "2026-04-25T13:44:32.493Z",
+            "windowEnd": "2026-04-25T13:49:32.493Z",
+            "heartRate": 76,
+            "oxygenSaturation": 98,
+            "restingHeartRate": 64,
+            "sleepMinutes": 430,
+            "summary": "Baseline health bridge sample is within expected range.",
+            "createdAt": "2026-04-25T13:46:33.334Z"
+          }
+        ]
+      }
+    },
+    {
+      "label": "client-inbox:post-recovery",
+      "method": "GET",
+      "endpoint": "/client/inbox?userId=9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "firstMessageId": "ab6d5a9b-4e7a-46b1-9de6-740f185656f3",
+        "totalMessages": 21
+      },
+      "response": {
+        "messages": [
+          {
+            "id": "ab6d5a9b-4e7a-46b1-9de6-740f185656f3",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.969Z"
+          },
+          {
+            "id": "854af679-7d15-477b-a322-01f0d88f2d25",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.860Z"
+          },
+          {
+            "id": "c9c1d2b6-4c6a-4484-83ad-60937554677b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.741Z"
+          },
+          {
+            "id": "b4e37785-f7d0-48d6-b860-e6c9b443a036",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.624Z"
+          },
+          {
+            "id": "7bdaf9f5-d1be-47a1-8bc0-f4d49e982fcc",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.411Z"
+          },
+          {
+            "id": "9a665d8e-98f7-418f-952a-f1bef9bd251e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.289Z"
+          },
+          {
+            "id": "8e1258c8-00ff-43fc-9f33-70d37d9ba71b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.124Z"
+          },
+          {
+            "id": "cbefd2cf-9901-4ff2-9b13-d58ed5bf1983",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.947Z"
+          },
+          {
+            "id": "10a30347-0124-4b66-8517-04c6159d500e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.825Z"
+          },
+          {
+            "id": "ca48e0e2-0778-429d-b648-3bf84525df48",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.686Z"
+          },
+          {
+            "id": "149864ed-53a5-4a1e-952a-14cf6915231f",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.567Z"
+          },
+          {
+            "id": "04e6ef0c-3ee9-4d2d-a2a7-3895a9b2a380",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.444Z"
+          },
+          {
+            "id": "78c71551-4e0f-4772-9f5a-16bd15111a58",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.256Z"
+          },
+          {
+            "id": "230d49e6-135b-4d48-8949-701c995cf69d",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.148Z"
+          },
+          {
+            "id": "c1f5b6da-66f5-4c1d-a0f7-4627c100c502",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.984Z"
+          },
+          {
+            "id": "3015e616-17b5-4aa9-9469-79c39c839bd0",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.878Z"
+          },
+          {
+            "id": "32f6647d-746e-444e-a10e-65b42da5a493",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.766Z"
+          },
+          {
+            "id": "bce217f6-2bbd-462c-bcef-b74a1c2a527b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.664Z"
+          },
+          {
+            "id": "93072200-1bcf-4d3b-8aa2-c2e4dc14a915",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.370Z"
+          },
+          {
+            "id": "701ebd07-aa2b-42a0-8c22-e9582984e77e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.266Z"
+          },
+          {
+            "id": "665f0035-32bd-4285-97f2-7025d6ce9f60",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.178Z"
+          }
+        ]
+      }
+    },
+    {
+      "label": "inbox-ack:post-recovery",
+      "method": "POST",
+      "endpoint": "/client/inbox/ab6d5a9b-4e7a-46b1-9de6-740f185656f3/ack",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "messageId": "ab6d5a9b-4e7a-46b1-9de6-740f185656f3",
+        "status": "acknowledged"
+      },
+      "response": {
+        "id": "ab6d5a9b-4e7a-46b1-9de6-740f185656f3",
+        "createdAt": "2026-04-25T13:46:35.969Z",
+        "status": "acknowledged",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+        "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+        "channel": "mobile_push",
+        "acknowledgedAt": "2026-04-25T13:46:36.138Z"
+      }
+    },
+    {
+      "label": "dashboard-summary:post-recovery",
+      "method": "GET",
+      "endpoint": "/dashboard/summary?userId=9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "latestHealthSnapshotId": "c48559e1-1d63-4e96-88c2-74eee7d5fa94",
+        "edgeDeviceCount": 1,
+        "inboxCount": 10
+      },
+      "response": {
+        "goalCount": 0,
+        "taskCount": 0,
+        "completedTaskCount": 0,
+        "inProgressTaskCount": 0,
+        "blockedTaskCount": 0,
+        "completionRate": 0,
+        "openInterventions": 8,
+        "suggestedFocusTaskId": null,
+        "summaryHeadline": "当前已有恢复方案，建议先按恢复方案收拢主线，再继续推进最重要任务。",
+        "coachFrontAgent": {
+          "currentFrontAgent": "director-agent",
+          "routingMode": "auto",
+          "manualOverride": false,
+          "consultedAgent": null,
+          "handoffReason": null,
+          "overrideSourceAgent": null,
+          "visibleSummary": "Picard is currently coordinating the team."
+        },
+        "activeSession": null,
+        "latestAssessment": {
+          "id": "fb8bf76b-3aa9-49e2-993d-44be6f9bdbda",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "windowStart": "2026-04-25T13:31:36.194Z",
+          "windowEnd": "2026-04-25T13:46:36.194Z",
+          "focusScore": 58,
+          "energyScore": 48,
+          "moodScore": 52,
+          "summary": "当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。",
+          "recommendedAction": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+          "emotionSummary": "音频侧提示紧张和压力抬升，说明当前更适合减少切换而不是继续并行处理。",
+          "emotionConfidence": 0.82,
+          "fatigueScore": 54,
+          "videoSummary": "视频侧显示疲劳和视觉稳定度下降，说明持续专注能力正在变弱。",
+          "healthSummary": "健康数据显示恢复基础一般，健康数据提示应优先保证节奏稳定而不是强行加码。",
+          "activeInputs": [
+            "desktop_signal",
+            "audio_server_inference",
+            "video_server_inference",
+            "health_bridge"
+          ],
+          "mediaFreshness": "mixed",
+          "source": "openai-compatible",
+          "createdAt": "2026-04-25T13:46:36.200Z"
+        },
+        "latestRecoveryPlan": {
+          "id": "b50b9b6e-f073-442f-bef2-66fb79532a0e",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+          "reason": "attention_shift_after_interruption",
+          "nextStep": "先回到「当前主任务」，只推进一个最小切片，避免继续切去处理旁支任务。",
+          "suggestedMinutes": 25,
+          "reprioritizedTaskIds": [],
+          "createdAt": "2026-04-25T13:46:35.028Z"
+        },
+        "latestBehaviorConclusion": {
+          "id": "996fbc4c-cfd3-4de5-8db9-290ceb3c1c6d",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "assessmentId": "fb8bf76b-3aa9-49e2-993d-44be6f9bdbda",
+          "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+          "riskLevel": "high",
+          "summary": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+          "suggestedAction": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+          "trigger": "behavior_conclusion",
+          "recommendedChannel": "mobile_push",
+          "createdAt": "2026-04-25T13:46:36.220Z"
+        },
+        "latestVideoAssessment": {
+          "id": "8148441e-2a20-4426-8160-e2a045bd7d89",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "deviceId": "android-m6-capture",
+          "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+          "windowStart": "2026-04-25T14:05:32.493Z",
+          "windowEnd": "2026-04-25T14:10:32.493Z",
+          "fatigueScore": 54,
+          "focusScore": 56,
+          "confidence": 0.86,
+          "summary": "Video sample indicates moderate recovery after intervention.",
+          "modelName": "m6-adb-e2e-cadenced",
+          "featureSummary": "less gaze drift and improved posture",
+          "source": "cluster-openai-compatible",
+          "createdAt": "2026-04-25T13:46:35.685Z"
+        },
+        "latestHealthSnapshot": {
+          "id": "c48559e1-1d63-4e96-88c2-74eee7d5fa94",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "deviceId": "android-m6-capture",
+          "sourcePlatform": "android",
+          "sourceProvider": "health_connect",
+          "windowStart": "2026-04-25T14:05:32.493Z",
+          "windowEnd": "2026-04-25T14:10:32.493Z",
+          "heartRate": 84,
+          "oxygenSaturation": 97,
+          "restingHeartRate": 66,
+          "sleepMinutes": 360,
+          "summary": "Post-recovery health sample is improved from peak stress.",
+          "createdAt": "2026-04-25T13:46:35.802Z"
+        },
+        "mobileAudio": {
+          "enabled": true,
+          "latestDevice": {
+            "id": "8a8a9120-d4f0-4627-ab12-73cdc2866244",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "deviceName": "NX733J",
+            "platform": "android",
+            "appVersion": "m6-adb-e2e",
+            "platformVersion": "15",
+            "pairingState": "paired",
+            "desktopHost": "192.168.0.104",
+            "consentAcknowledgedAt": "2026-04-25T13:46:32.774Z",
+            "lastSeenAt": "2026-04-25T13:46:32.827Z",
+            "createdAt": "2026-04-25T13:46:32.827Z",
+            "updatedAt": "2026-04-25T13:46:32.827Z"
+          },
+          "latestSession": {
+            "id": "ede12685-7b57-4be1-bb85-281bda19a405",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "captureMode": "foreground_microphone_with_call_events",
+            "status": "active",
+            "sampleRateHz": 16000,
+            "channels": 1,
+            "encoding": "audio/pcm16le",
+            "chunkDurationMs": 1000,
+            "rollingBufferSeconds": 60,
+            "receivedChunkCount": 4,
+            "lastChunkAt": "2026-04-25T14:10:32.493Z",
+            "startedAt": "2026-04-25T13:44:32.493Z"
+          },
+          "latestEmotionAssessment": {
+            "id": "ea1ad2d2-10e3-40ee-b8e5-a3a2d05e7102",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+            "chunkSequence": 3,
+            "windowStart": "2026-04-25T14:05:32.493Z",
+            "windowEnd": "2026-04-25T14:10:32.493Z",
+            "emotionLabel": "positive",
+            "valenceScore": 42,
+            "arousalScore": 48,
+            "stressScore": 52,
+            "confidence": 0.87,
+            "summary": "Post-recovery sample indicates partial stabilization.",
+            "modelName": "m6-adb-e2e-cadenced",
+            "source": "cluster-openai-compatible",
+            "createdAt": "2026-04-25T13:46:35.565Z"
+          },
+          "latestCallEvent": {
+            "id": "ada65925-1b2d-44b3-bd42-bb0fb3cfb5e8",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "direction": "incoming",
+            "status": "missed",
+            "occurredAt": "2026-04-25T13:55:32.493Z",
+            "createdAt": "2026-04-25T13:46:33.629Z"
+          }
+        },
+        "edgeDevices": [
+          {
+            "id": "c9106db7-7451-4443-a51d-5bf3b8828a72",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "deviceId": "android-m6-capture",
+            "label": "NX733J",
+            "deviceType": "mobile",
+            "platform": "android",
+            "capabilities": [
+              "notifications",
+              "audio_capture",
+              "video_capture",
+              "health_bridge"
+            ],
+            "status": "online",
+            "appVersion": "m6-adb-e2e",
+            "queueDepth": 0,
+            "lastUploadedAt": "2026-04-25T14:10:32.493Z",
+            "lastSeenAt": "2026-04-25T13:46:35.507Z",
+            "createdAt": "2026-04-25T13:46:32.828Z",
+            "updatedAt": "2026-04-25T13:46:35.507Z"
+          }
+        ],
+        "inbox": [
+          {
+            "id": "9e69e9ce-0f80-4c9f-b4e8-218d4259c7ce",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:36.241Z"
+          },
+          {
+            "id": "ab6d5a9b-4e7a-46b1-9de6-740f185656f3",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "acknowledged",
+            "createdAt": "2026-04-25T13:46:35.969Z",
+            "acknowledgedAt": "2026-04-25T13:46:36.138Z"
+          },
+          {
+            "id": "854af679-7d15-477b-a322-01f0d88f2d25",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.860Z"
+          },
+          {
+            "id": "c9c1d2b6-4c6a-4484-83ad-60937554677b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.741Z"
+          },
+          {
+            "id": "b4e37785-f7d0-48d6-b860-e6c9b443a036",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.624Z"
+          },
+          {
+            "id": "7bdaf9f5-d1be-47a1-8bc0-f4d49e982fcc",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.411Z"
+          },
+          {
+            "id": "9a665d8e-98f7-418f-952a-f1bef9bd251e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.289Z"
+          },
+          {
+            "id": "8e1258c8-00ff-43fc-9f33-70d37d9ba71b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.124Z"
+          },
+          {
+            "id": "cbefd2cf-9901-4ff2-9b13-d58ed5bf1983",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.947Z"
+          },
+          {
+            "id": "10a30347-0124-4b66-8517-04c6159d500e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.825Z"
+          }
+        ],
+        "goals": [],
+        "tasks": []
+      }
+    },
+    {
+      "label": "inbox-overview:post-recovery",
+      "method": "GET",
+      "endpoint": "/client/inbox/overview?userId=9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "totalMessages": 23,
+        "latestBehaviorConclusionId": "1af79c1c-2049-4fdb-944f-01c86acf13a4",
+        "latestRecoveryPlanId": "b50b9b6e-f073-442f-bef2-66fb79532a0e"
+      },
+      "response": {
+        "messages": [
+          {
+            "id": "8223f3fc-747f-4a7e-bf4e-9b6ae3aaa5ad",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:36.379Z"
+          },
+          {
+            "id": "9e69e9ce-0f80-4c9f-b4e8-218d4259c7ce",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:36.241Z"
+          },
+          {
+            "id": "ab6d5a9b-4e7a-46b1-9de6-740f185656f3",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "acknowledged",
+            "createdAt": "2026-04-25T13:46:35.969Z",
+            "acknowledgedAt": "2026-04-25T13:46:36.138Z"
+          },
+          {
+            "id": "854af679-7d15-477b-a322-01f0d88f2d25",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.860Z"
+          },
+          {
+            "id": "c9c1d2b6-4c6a-4484-83ad-60937554677b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.741Z"
+          },
+          {
+            "id": "b4e37785-f7d0-48d6-b860-e6c9b443a036",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.624Z"
+          },
+          {
+            "id": "7bdaf9f5-d1be-47a1-8bc0-f4d49e982fcc",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.411Z"
+          },
+          {
+            "id": "9a665d8e-98f7-418f-952a-f1bef9bd251e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.289Z"
+          },
+          {
+            "id": "8e1258c8-00ff-43fc-9f33-70d37d9ba71b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.124Z"
+          },
+          {
+            "id": "cbefd2cf-9901-4ff2-9b13-d58ed5bf1983",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.947Z"
+          },
+          {
+            "id": "10a30347-0124-4b66-8517-04c6159d500e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.825Z"
+          },
+          {
+            "id": "ca48e0e2-0778-429d-b648-3bf84525df48",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.686Z"
+          },
+          {
+            "id": "149864ed-53a5-4a1e-952a-14cf6915231f",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.567Z"
+          },
+          {
+            "id": "04e6ef0c-3ee9-4d2d-a2a7-3895a9b2a380",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.444Z"
+          },
+          {
+            "id": "78c71551-4e0f-4772-9f5a-16bd15111a58",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.256Z"
+          },
+          {
+            "id": "230d49e6-135b-4d48-8949-701c995cf69d",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.148Z"
+          },
+          {
+            "id": "c1f5b6da-66f5-4c1d-a0f7-4627c100c502",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.984Z"
+          },
+          {
+            "id": "3015e616-17b5-4aa9-9469-79c39c839bd0",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.878Z"
+          },
+          {
+            "id": "32f6647d-746e-444e-a10e-65b42da5a493",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.766Z"
+          },
+          {
+            "id": "bce217f6-2bbd-462c-bcef-b74a1c2a527b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.664Z"
+          },
+          {
+            "id": "93072200-1bcf-4d3b-8aa2-c2e4dc14a915",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.370Z"
+          },
+          {
+            "id": "701ebd07-aa2b-42a0-8c22-e9582984e77e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.266Z"
+          },
+          {
+            "id": "665f0035-32bd-4285-97f2-7025d6ce9f60",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.178Z"
+          }
+        ],
+        "pendingMessages": [
+          {
+            "id": "8223f3fc-747f-4a7e-bf4e-9b6ae3aaa5ad",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:36.379Z"
+          },
+          {
+            "id": "9e69e9ce-0f80-4c9f-b4e8-218d4259c7ce",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:36.241Z"
+          },
+          {
+            "id": "854af679-7d15-477b-a322-01f0d88f2d25",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.860Z"
+          },
+          {
+            "id": "c9c1d2b6-4c6a-4484-83ad-60937554677b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.741Z"
+          },
+          {
+            "id": "b4e37785-f7d0-48d6-b860-e6c9b443a036",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.624Z"
+          },
+          {
+            "id": "7bdaf9f5-d1be-47a1-8bc0-f4d49e982fcc",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.411Z"
+          },
+          {
+            "id": "9a665d8e-98f7-418f-952a-f1bef9bd251e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.289Z"
+          },
+          {
+            "id": "8e1258c8-00ff-43fc-9f33-70d37d9ba71b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:35.124Z"
+          },
+          {
+            "id": "cbefd2cf-9901-4ff2-9b13-d58ed5bf1983",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.947Z"
+          },
+          {
+            "id": "10a30347-0124-4b66-8517-04c6159d500e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.825Z"
+          },
+          {
+            "id": "ca48e0e2-0778-429d-b648-3bf84525df48",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.686Z"
+          },
+          {
+            "id": "149864ed-53a5-4a1e-952a-14cf6915231f",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.567Z"
+          },
+          {
+            "id": "04e6ef0c-3ee9-4d2d-a2a7-3895a9b2a380",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.444Z"
+          },
+          {
+            "id": "78c71551-4e0f-4772-9f5a-16bd15111a58",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.256Z"
+          },
+          {
+            "id": "230d49e6-135b-4d48-8949-701c995cf69d",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:34.148Z"
+          },
+          {
+            "id": "c1f5b6da-66f5-4c1d-a0f7-4627c100c502",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.984Z"
+          },
+          {
+            "id": "3015e616-17b5-4aa9-9469-79c39c839bd0",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.878Z"
+          },
+          {
+            "id": "32f6647d-746e-444e-a10e-65b42da5a493",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.766Z"
+          },
+          {
+            "id": "bce217f6-2bbd-462c-bcef-b74a1c2a527b",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.664Z"
+          },
+          {
+            "id": "93072200-1bcf-4d3b-8aa2-c2e4dc14a915",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.370Z"
+          },
+          {
+            "id": "701ebd07-aa2b-42a0-8c22-e9582984e77e",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.266Z"
+          },
+          {
+            "id": "665f0035-32bd-4285-97f2-7025d6ce9f60",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-25T13:46:33.178Z"
+          }
+        ],
+        "acknowledgedMessages": [
+          {
+            "id": "ab6d5a9b-4e7a-46b1-9de6-740f185656f3",
+            "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "acknowledged",
+            "createdAt": "2026-04-25T13:46:35.969Z",
+            "acknowledgedAt": "2026-04-25T13:46:36.138Z"
+          }
+        ],
+        "metricCounts": {
+          "totalMessages": 23,
+          "pendingMessages": 22,
+          "acknowledgedMessages": 1,
+          "openInterventions": 8
+        },
+        "channelCounts": [
+          {
+            "channel": "mobile_push",
+            "total": 23,
+            "pending": 22,
+            "acknowledged": 1
+          },
+          {
+            "channel": "desktop_local",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "feishu_bot",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "telegram_bot",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          }
+        ],
+        "latestBehaviorConclusion": {
+          "id": "1af79c1c-2049-4fdb-944f-01c86acf13a4",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "assessmentId": "c1a66507-a3dc-4746-a5dd-96ddaeb820a9",
+          "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+          "riskLevel": "high",
+          "summary": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+          "suggestedAction": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+          "trigger": "behavior_conclusion",
+          "recommendedChannel": "mobile_push",
+          "createdAt": "2026-04-25T13:46:36.355Z"
+        },
+        "latestRecoveryPlan": {
+          "id": "b50b9b6e-f073-442f-bef2-66fb79532a0e",
+          "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+          "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+          "reason": "attention_shift_after_interruption",
+          "nextStep": "先回到「当前主任务」，只推进一个最小切片，避免继续切去处理旁支任务。",
+          "suggestedMinutes": 25,
+          "reprioritizedTaskIds": [],
+          "createdAt": "2026-04-25T13:46:35.028Z"
+        },
+        "activeSession": null
+      }
+    },
+    {
+      "label": "audio-session-end:cadenced-finalize",
+      "method": "POST",
+      "endpoint": "/mobile/capture/sessions/end",
+      "status": 200,
+      "ok": true,
+      "countAsFailure": true,
+      "responseIds": {
+        "sessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+        "status": "completed"
+      },
+      "response": {
+        "id": "ede12685-7b57-4be1-bb85-281bda19a405",
+        "userId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+        "deviceId": "android-m6-capture",
+        "captureMode": "foreground_microphone_with_call_events",
+        "status": "completed",
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "audio/pcm16le",
+        "chunkDurationMs": 1000,
+        "rollingBufferSeconds": 60,
+        "receivedChunkCount": 4,
+        "startedAt": "2026-04-25T13:44:32.493Z",
+        "lastChunkAt": "2026-04-25T14:10:32.493Z",
+        "endedAt": "2026-04-25T13:46:36.395Z"
+      }
+    },
+    {
+      "label": "me:client-session",
+      "method": "GET",
+      "endpoint": "/me",
+      "status": 401,
+      "ok": false,
+      "countAsFailure": true,
+      "responseIds": {
+        "userId": null,
+        "email": null,
+        "authenticated": false
+      },
+      "response": {
+        "raw": "<html>\n<head><title>301 Moved Permanently</title></head>\n<body>\n<center><h1>301 Moved Permanently</h1></center>\n<hr><center>nginx</center>\n</body>\n</html>\nHTTP_STATUS=301HTTP_STATUS=000{\"message\":\"Authentication required.\"}"
+      }
+    }
+  ],
+  "phaseResults": [
+    {
+      "name": "baseline",
+      "latestHealthId": "b2ba1073-4069-4bbc-9b62-4f688948842d",
+      "latestHealthDeviceId": "android-m6-capture",
+      "latestRecoveryPlanId": null,
+      "inboxMessageCount": 3,
+      "inboxLatestRiskLevel": "high",
+      "postRecoveryWriteAccepted": false
+    },
+    {
+      "name": "stress-build-up-1",
+      "latestHealthId": "2bc9fb6c-4cb0-4bbd-8625-bbfb74fc2294",
+      "latestHealthDeviceId": "android-m6-capture",
+      "latestRecoveryPlanId": null,
+      "inboxMessageCount": 9,
+      "inboxLatestRiskLevel": "high",
+      "postRecoveryWriteAccepted": false
+    },
+    {
+      "name": "stress-build-up-2",
+      "latestHealthId": "b8f58558-cb75-48a7-a204-6c06b427653f",
+      "latestHealthDeviceId": "android-m6-capture",
+      "latestRecoveryPlanId": null,
+      "inboxMessageCount": 14,
+      "inboxLatestRiskLevel": "high",
+      "postRecoveryWriteAccepted": false
+    },
+    {
+      "name": "recovery-trigger",
+      "latestHealthId": "b8f58558-cb75-48a7-a204-6c06b427653f",
+      "latestHealthDeviceId": "android-m6-capture",
+      "latestRecoveryPlanId": "b50b9b6e-f073-442f-bef2-66fb79532a0e",
+      "inboxMessageCount": 17,
+      "inboxLatestRiskLevel": "high",
+      "postRecoveryWriteAccepted": false
+    },
+    {
+      "name": "post-recovery",
+      "latestHealthId": "c48559e1-1d63-4e96-88c2-74eee7d5fa94",
+      "latestHealthDeviceId": "android-m6-capture",
+      "latestRecoveryPlanId": "b50b9b6e-f073-442f-bef2-66fb79532a0e",
+      "inboxMessageCount": 23,
+      "inboxLatestRiskLevel": "high",
+      "postRecoveryWriteAccepted": true
+    }
+  ],
+  "responseIds": {
+    "authUserId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+    "authEmail": "m6-mobile-client@example.com",
+    "mobileDeviceId": "8a8a9120-d4f0-4627-ab12-73cdc2866244",
+    "audioSessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+    "emotionAssessmentId": "ea1ad2d2-10e3-40ee-b8e5-a3a2d05e7102",
+    "videoAssessmentId": "8148441e-2a20-4426-8160-e2a045bd7d89",
+    "healthSnapshotId": "c48559e1-1d63-4e96-88c2-74eee7d5fa94",
+    "callEventId": "ada65925-1b2d-44b3-bd42-bb0fb3cfb5e8",
+    "audioSessionStatus": "completed"
+  },
+  "readModels": {
+    "healthLatestReflectsDevice": false,
+    "dashboardReflectsDevice": false,
+    "inboxOverviewOk": false,
+    "inboxAckReflected": false,
+    "recoveryPlanCreated": false,
+    "recoveryHistoryReflectsPlan": false,
+    "recoveryInboxConsistent": false,
+    "recoveryDashboardConsistent": false
+  },
+  "clientSession": {
+    "enabled": true,
+    "authMode": "local-account",
+    "authEmail": "m6-mobile-client@example.com",
+    "authRegistered": true,
+    "authLoggedIn": true,
+    "clientMeOk": false,
+    "clientBootstrapOk": false,
+    "clientInboxOk": false,
+    "clientAckAttempted": false,
+    "clientAckReflected": false
+  },
+  "errors": [
+    "me:client-session failed with HTTP 401"
+  ],
+  "summary": {
+    "passed": false,
+    "totalSteps": 46,
+    "failedSteps": 1,
+    "phaseCount": 5,
+    "phaseResults": [
+      {
+        "name": "baseline",
+        "latestHealthId": "b2ba1073-4069-4bbc-9b62-4f688948842d",
+        "latestHealthDeviceId": "android-m6-capture",
+        "latestRecoveryPlanId": null,
+        "inboxMessageCount": 3,
+        "inboxLatestRiskLevel": "high",
+        "postRecoveryWriteAccepted": false
+      },
+      {
+        "name": "stress-build-up-1",
+        "latestHealthId": "2bc9fb6c-4cb0-4bbd-8625-bbfb74fc2294",
+        "latestHealthDeviceId": "android-m6-capture",
+        "latestRecoveryPlanId": null,
+        "inboxMessageCount": 9,
+        "inboxLatestRiskLevel": "high",
+        "postRecoveryWriteAccepted": false
+      },
+      {
+        "name": "stress-build-up-2",
+        "latestHealthId": "b8f58558-cb75-48a7-a204-6c06b427653f",
+        "latestHealthDeviceId": "android-m6-capture",
+        "latestRecoveryPlanId": null,
+        "inboxMessageCount": 14,
+        "inboxLatestRiskLevel": "high",
+        "postRecoveryWriteAccepted": false
+      },
+      {
+        "name": "recovery-trigger",
+        "latestHealthId": "b8f58558-cb75-48a7-a204-6c06b427653f",
+        "latestHealthDeviceId": "android-m6-capture",
+        "latestRecoveryPlanId": "b50b9b6e-f073-442f-bef2-66fb79532a0e",
+        "inboxMessageCount": 17,
+        "inboxLatestRiskLevel": "high",
+        "postRecoveryWriteAccepted": false
+      },
+      {
+        "name": "post-recovery",
+        "latestHealthId": "c48559e1-1d63-4e96-88c2-74eee7d5fa94",
+        "latestHealthDeviceId": "android-m6-capture",
+        "latestRecoveryPlanId": "b50b9b6e-f073-442f-bef2-66fb79532a0e",
+        "inboxMessageCount": 23,
+        "inboxLatestRiskLevel": "high",
+        "postRecoveryWriteAccepted": true
+      }
+    ],
+    "latestHealthProgressed": true,
+    "recoveryPlanPersistedAcrossPhases": true,
+    "postRecoverySamplingAccepted": true,
+    "authMode": "local-account",
+    "authRegistered": true,
+    "authLoggedIn": true,
+    "clientMeOk": false,
+    "clientBootstrapOk": false,
+    "clientInboxOk": false,
+    "clientAckReflected": true,
+    "clientSession": {
+      "enabled": true,
+      "authMode": "local-account",
+      "authEmail": "m6-mobile-client@example.com",
+      "authRegistered": true,
+      "authLoggedIn": true,
+      "clientMeOk": false,
+      "clientBootstrapOk": false,
+      "clientInboxOk": false,
+      "clientAckReflected": true,
+      "clientAckAttempted": false
+    },
+    "readModels": {
+      "healthLatestReflectsDevice": false,
+      "dashboardReflectsDevice": false,
+      "inboxOverviewOk": false,
+      "inboxAckReflected": false,
+      "recoveryPlanCreated": false,
+      "recoveryHistoryReflectsPlan": false,
+      "recoveryInboxConsistent": false,
+      "recoveryDashboardConsistent": false
+    },
+    "responseIds": {
+      "authUserId": "9fabb6b7-aaf9-43d2-ac25-f98526fffe5b",
+      "authEmail": "m6-mobile-client@example.com",
+      "mobileDeviceId": "8a8a9120-d4f0-4627-ab12-73cdc2866244",
+      "audioSessionId": "ede12685-7b57-4be1-bb85-281bda19a405",
+      "emotionAssessmentId": "ea1ad2d2-10e3-40ee-b8e5-a3a2d05e7102",
+      "videoAssessmentId": "8148441e-2a20-4426-8160-e2a045bd7d89",
+      "healthSnapshotId": "c48559e1-1d63-4e96-88c2-74eee7d5fa94",
+      "callEventId": "ada65925-1b2d-44b3-bd42-bb0fb3cfb5e8",
+      "audioSessionStatus": "completed"
+    },
+    "errorSamples": [
+      "me:client-session failed with HTTP 401",
+      "read model check failed: healthLatestReflectsDevice",
+      "read model check failed: dashboardReflectsDevice",
+      "read model check failed: inboxOverviewOk",
+      "read model check failed: inboxAckReflected",
+      "read model check failed: recoveryPlanCreated",
+      "read model check failed: recoveryHistoryReflectsPlan",
+      "read model check failed: recoveryInboxConsistent",
+      "read model check failed: recoveryDashboardConsistent",
+      "client session check failed: clientMeOk"
+    ]
+  }
+}

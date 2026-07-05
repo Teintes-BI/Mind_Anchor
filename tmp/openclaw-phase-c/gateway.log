@@ -1,0 +1,34 @@
+2026-03-28T22:39:31.694+08:00 [gateway] force: killed pid 78952 (node) on port 19001
+2026-03-28T22:39:31.699+08:00 [gateway] force: waited 100ms for port 19001 to free
+2026-03-28T22:39:31.711+08:00 [gateway] auth mode=none explicitly configured; all gateway connections are unauthenticated.
+2026-03-28T22:39:31.811+08:00 [canvas] host mounted at http://127.0.0.1:19001/__openclaw__/canvas/ (root /Users/claw/.openclaw-dev/canvas)
+2026-03-28T22:39:31.939+08:00 [heartbeat] started
+2026-03-28T22:39:31.950+08:00 [health-monitor] started (interval: 300s, startup-grace: 60s, channel-connect-grace: 120s)
+2026-03-28T22:39:31.955+08:00 [gateway] agent model: codex/gpt-5.4
+2026-03-28T22:39:31.957+08:00 [gateway] listening on ws://127.0.0.1:19001, ws://[::1]:19001 (PID 80637)
+2026-03-28T22:39:31.961+08:00 [gateway] log file: /tmp/openclaw/openclaw-2026-03-28.log
+2026-03-28T22:39:32.001+08:00 [browser/server] Browser control listening on http://127.0.0.1:19003/ (auth=token)
+2026-03-28T22:39:32.048+08:00 Could not bind detected network interface: Error: Error binding socket on utun7: Error: addMembership EADDRNOTAVAIL
+    at Socket.addMembership (node:dgram:907:11)
+    at Socket.<anonymous> (/Users/claw/.openclaw/lib/node_modules/openclaw/node_modules/@homebridge/ciao/src/MDNSServer.ts:518:18)
+    at Socket.onListening (node:dgram:288:7)
+    at Socket.emit (node:events:508:28)
+    at startListening (node:dgram:211:10)
+    at node:dgram:406:7
+    at processTicksAndRejections (node:internal/process/task_queues:91:21)
+    at Socket.<anonymous> (/Users/claw/.openclaw/lib/node_modules/openclaw/node_modules/@homebridge/ciao/src/MDNSServer.ts:536:18)
+    at Socket.onListening (node:dgram:288:7)
+    at Socket.emit (node:events:508:28)
+    at startListening (node:dgram:211:10)
+    at node:dgram:406:7
+    at processTicksAndRejections (node:internal/process/task_queues:91:21)
+2026-03-28T22:39:33.213+08:00 [ws] webchat connected conn=762289de-5c73-4f79-b1bf-9f1a977a46c4 remote=127.0.0.1 client=openclaw-control-ui webchat v2026.3.13
+2026-03-28T22:39:34.459+08:00 [ws] ⇄ res ✓ config.get 1229ms conn=762289de…46c4 id=57f6d59c…7f49
+2026-03-28T22:39:34.464+08:00 [ws] ⇄ res ✓ node.list 1238ms conn=762289de…46c4 id=305cadd0…6b67
+2026-03-28T22:39:34.466+08:00 [ws] ⇄ res ✓ device.pair.list 1238ms conn=762289de…46c4 id=31f6c941…6d76
+2026-03-28T22:39:34.970+08:00 [bonjour] gateway name conflict resolved; newName="claw的Mac mini (OpenClaw) (2)"
+2026-03-28T22:39:34.974+08:00 [bonjour] gateway hostname conflict resolved; newHostname="openclaw-(2)"
+2026-03-28T22:41:08.361+08:00 [gateway] signal SIGTERM received
+2026-03-28T22:41:08.369+08:00 [gateway] received SIGTERM; shutting down
+2026-03-28T22:41:08.393+08:00 [gmail-watcher] gmail watcher stopped
+2026-03-28T22:41:08.449+08:00 [ws] webchat disconnected code=1012 reason=service restart conn=762289de-5c73-4f79-b1bf-9f1a977a46c4

@@ -1,0 +1,213 @@
+{
+  "startedAt": "2026-03-24T03:07:14.275Z",
+  "completedAt": "2026-03-24T03:12:48.924Z",
+  "rootDir": "/Users/claw/mindanchor",
+  "apiBaseUrl": "http://127.0.0.1:3024",
+  "webBaseUrl": "http://127.0.0.1:4175",
+  "clusterBaseUrl": "http://127.0.0.1:8788",
+  "clusterMode": "real",
+  "providerMode": "real",
+  "phases": [
+    {
+      "id": "provider-direct",
+      "title": "Phase 2 Provider Direct",
+      "agentMode": "openai-compatible",
+      "openClawBaseUrl": null,
+      "clusterEnabled": false,
+      "startedAt": "2026-03-24T03:07:23.043Z",
+      "completedAt": "2026-03-24T03:12:48.924Z",
+      "status": "failed",
+      "setup": {
+        "dataFile": "/Users/claw/mindanchor/test-results/core-phase-real-provider-direct-debugs-business/provider-direct-mindanchor.json",
+        "logFile": "/Users/claw/mindanchor/test-results/core-phase-real-provider-direct-debugs-business/logs/api-provider-direct.log",
+        "agentMode": "openai-compatible",
+        "openClawBaseUrl": null
+      },
+      "registrySummary": null,
+      "steps": [
+        {
+          "label": "seed-focus-recovery-loop",
+          "method": "POST",
+          "path": "/debug/scenarios/focus-recovery-loop/seed",
+          "baseUrl": "http://127.0.0.1:3024",
+          "startedAt": "2026-03-24T03:07:23.351Z",
+          "completedAt": "2026-03-24T03:07:23.393Z",
+          "statusCode": 200,
+          "success": null,
+          "responseFile": "/Users/claw/mindanchor/test-results/core-phase-real-provider-direct-debugs-business/responses/provider-direct/seed-focus-recovery-loop.json",
+          "traceId": "5fc51a02-1502-4b3b-91b0-49289aa8ef5c",
+          "fallbackLikely": null,
+          "adapterRoute": null,
+          "selectedEndpoint": null,
+          "fallbackReason": null,
+          "adapterStrategy": null,
+          "conclusion": "passed"
+        },
+        {
+          "label": "seed-goal-reprioritization",
+          "method": "POST",
+          "path": "/debug/scenarios/goal-reprioritization/seed",
+          "baseUrl": "http://127.0.0.1:3024",
+          "startedAt": "2026-03-24T03:07:23.393Z",
+          "completedAt": "2026-03-24T03:07:23.426Z",
+          "statusCode": 200,
+          "success": null,
+          "responseFile": "/Users/claw/mindanchor/test-results/core-phase-real-provider-direct-debugs-business/responses/provider-direct/seed-goal-reprioritization.json",
+          "traceId": "c033d133-416f-43aa-91f7-598b2912ade4",
+          "fallbackLikely": null,
+          "adapterRoute": null,
+          "selectedEndpoint": null,
+          "fallbackReason": null,
+          "adapterStrategy": null,
+          "conclusion": "passed"
+        },
+        {
+          "label": "seed-weekly-reflection-mix",
+          "method": "POST",
+          "path": "/debug/scenarios/weekly-reflection-mix/seed",
+          "baseUrl": "http://127.0.0.1:3024",
+          "startedAt": "2026-03-24T03:07:23.426Z",
+          "completedAt": "2026-03-24T03:07:23.495Z",
+          "statusCode": 200,
+          "success": null,
+          "responseFile": "/Users/claw/mindanchor/test-results/core-phase-real-provider-direct-debugs-business/responses/provider-direct/seed-weekly-reflection-mix.json",
+          "traceId": "df0e002e-3464-461a-9e83-66762c122a46",
+          "fallbackLikely": null,
+          "adapterRoute": null,
+          "selectedEndpoint": null,
+          "fallbackReason": null,
+          "adapterStrategy": null,
+          "conclusion": "passed"
+        },
+        {
+          "label": "debug-state-insight",
+          "method": "GET",
+          "path": "/debug/agent/state-insight?userId=debug-focus-user&scenarioId=focus-recovery-loop",
+          "baseUrl": "http://127.0.0.1:3024",
+          "startedAt": "2026-03-24T03:07:23.495Z",
+          "completedAt": "2026-03-24T03:09:06.863Z",
+          "statusCode": 200,
+          "success": true,
+          "responseFile": "/Users/claw/mindanchor/test-results/core-phase-real-provider-direct-debugs-business/responses/provider-direct/debug-state-insight.json",
+          "traceId": "27431475-3ea0-4c73-83e5-7d4bf6bcc007",
+          "fallbackLikely": false,
+          "adapterRoute": "provider-direct",
+          "selectedEndpoint": "/responses",
+          "fallbackReason": null,
+          "adapterStrategy": "provider-direct",
+          "conclusion": "passed"
+        },
+        {
+          "label": "debug-state-insight-trace",
+          "method": "GET",
+          "path": "/debug/traces/27431475-3ea0-4c73-83e5-7d4bf6bcc007",
+          "baseUrl": "http://127.0.0.1:3024",
+          "startedAt": "2026-03-24T03:09:06.863Z",
+          "completedAt": "2026-03-24T03:09:06.869Z",
+          "statusCode": 200,
+          "success": null,
+          "responseFile": "/Users/claw/mindanchor/test-results/core-phase-real-provider-direct-debugs-business/responses/provider-direct/debug-state-insight-trace.json",
+          "traceId": "27431475-3ea0-4c73-83e5-7d4bf6bcc007",
+          "fallbackLikely": null,
+          "adapterRoute": null,
+          "selectedEndpoint": null,
+          "fallbackReason": null,
+          "adapterStrategy": null,
+          "conclusion": "passed"
+        },
+        {
+          "label": "debug-task-management",
+          "method": "GET",
+          "path": "/debug/agent/task-management?userId=debug-plan-user&goalId=5ae2ca99-4267-4960-ab0c-db909734ad02&scenarioId=goal-reprioritization",
+          "baseUrl": "http://127.0.0.1:3024",
+          "startedAt": "2026-03-24T03:09:06.869Z",
+          "completedAt": "2026-03-24T03:12:48.923Z",
+          "statusCode": null,
+          "success": null,
+          "responseFile": null,
+          "traceId": null,
+          "fallbackLikely": null,
+          "adapterRoute": null,
+          "selectedEndpoint": null,
+          "fallbackReason": null,
+          "adapterStrategy": null,
+          "conclusion": "socket hang up"
+        }
+      ],
+      "failures": [
+        {
+          "phaseId": "provider-direct",
+          "label": "debug-task-management",
+          "message": "socket hang up",
+          "step": {
+            "label": "debug-task-management",
+            "method": "GET",
+            "path": "/debug/agent/task-management?userId=debug-plan-user&goalId=5ae2ca99-4267-4960-ab0c-db909734ad02&scenarioId=goal-reprioritization",
+            "baseUrl": "http://127.0.0.1:3024",
+            "startedAt": "2026-03-24T03:09:06.869Z",
+            "completedAt": "2026-03-24T03:12:48.923Z",
+            "statusCode": null,
+            "success": null,
+            "responseFile": null,
+            "traceId": null,
+            "fallbackLikely": null,
+            "adapterRoute": null,
+            "selectedEndpoint": null,
+            "fallbackReason": null,
+            "adapterStrategy": null,
+            "conclusion": "socket hang up"
+          },
+          "createdAt": "2026-03-24T03:12:48.924Z"
+        },
+        {
+          "phaseId": "provider-direct",
+          "label": "provider-direct-phase",
+          "message": "socket hang up",
+          "createdAt": "2026-03-24T03:12:48.924Z"
+        }
+      ]
+    }
+  ],
+  "files": {
+    "reportJson": "/Users/claw/mindanchor/test-results/core-phase-real-provider-direct-debugs-business/report.json",
+    "reportMarkdown": "/Users/claw/mindanchor/test-results/core-phase-real-provider-direct-debugs-business/report.md",
+    "logsDir": "/Users/claw/mindanchor/test-results/core-phase-real-provider-direct-debugs-business/logs",
+    "responsesDir": "/Users/claw/mindanchor/test-results/core-phase-real-provider-direct-debugs-business/responses"
+  },
+  "failures": [
+    {
+      "phaseId": "provider-direct",
+      "label": "debug-task-management",
+      "message": "socket hang up",
+      "step": {
+        "label": "debug-task-management",
+        "method": "GET",
+        "path": "/debug/agent/task-management?userId=debug-plan-user&goalId=5ae2ca99-4267-4960-ab0c-db909734ad02&scenarioId=goal-reprioritization",
+        "baseUrl": "http://127.0.0.1:3024",
+        "startedAt": "2026-03-24T03:09:06.869Z",
+        "completedAt": "2026-03-24T03:12:48.923Z",
+        "statusCode": null,
+        "success": null,
+        "responseFile": null,
+        "traceId": null,
+        "fallbackLikely": null,
+        "adapterRoute": null,
+        "selectedEndpoint": null,
+        "fallbackReason": null,
+        "adapterStrategy": null,
+        "conclusion": "socket hang up"
+      },
+      "createdAt": "2026-03-24T03:12:48.924Z"
+    },
+    {
+      "phaseId": "provider-direct",
+      "label": "provider-direct-phase",
+      "message": "socket hang up",
+      "createdAt": "2026-03-24T03:12:48.924Z"
+    }
+  ],
+  "preflight": {
+    "ok": true,
+    "issues": []
+  }
+}

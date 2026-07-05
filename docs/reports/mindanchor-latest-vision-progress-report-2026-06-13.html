@@ -1,0 +1,4194 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MindAnchor 最新设想与当前进度汇报</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #18222f;
+        --muted: #5f6b7a;
+        --line: #d9e1e8;
+        --paper: #f7f9fb;
+        --surface: #ffffff;
+        --teal: #0f8b8d;
+        --blue: #2563eb;
+        --green: #14845c;
+        --amber: #b7791f;
+        --rose: #b13b59;
+        --violet: #6d5bd0;
+        --shadow: 0 16px 45px rgba(24, 34, 47, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family:
+          Inter, "SF Pro Display", "SF Pro Text", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+        color: var(--ink);
+        background:
+          linear-gradient(180deg, rgba(15, 139, 141, 0.09), rgba(255, 255, 255, 0) 360px),
+          var(--paper);
+        line-height: 1.62;
+      }
+
+      a {
+        color: var(--blue);
+      }
+
+      .shell {
+        width: min(1180px, calc(100vw - 40px));
+        margin: 0 auto;
+      }
+
+      .hero {
+        min-height: 92vh;
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+        gap: 48px;
+        align-items: center;
+        padding: 56px 0 28px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--teal);
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+
+      .eyebrow svg,
+      .mini-icon {
+        width: 20px;
+        height: 20px;
+        flex: 0 0 auto;
+      }
+
+      h1,
+      h2,
+      h3 {
+        letter-spacing: 0;
+        line-height: 1.12;
+      }
+
+      h1 {
+        margin: 18px 0 22px;
+        font-size: clamp(44px, 6vw, 82px);
+        max-width: 880px;
+      }
+
+      h2 {
+        margin: 0 0 18px;
+        font-size: clamp(28px, 3.5vw, 44px);
+      }
+
+      h3 {
+        margin: 0 0 10px;
+        font-size: 20px;
+      }
+
+      .lead {
+        color: #344254;
+        font-size: clamp(18px, 2vw, 23px);
+        max-width: 760px;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 30px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 44px;
+        padding: 11px 16px;
+        border-radius: 8px;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--ink);
+        text-decoration: none;
+        font-weight: 700;
+        box-shadow: 0 8px 22px rgba(24, 34, 47, 0.06);
+        transition:
+          transform 180ms ease,
+          border-color 180ms ease,
+          box-shadow 180ms ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+        border-color: rgba(15, 139, 141, 0.55);
+        box-shadow: 0 12px 30px rgba(24, 34, 47, 0.1);
+      }
+
+      .button.primary {
+        background: var(--ink);
+        color: white;
+        border-color: var(--ink);
+      }
+
+      .visual-board {
+        position: relative;
+        min-height: 560px;
+      }
+
+      .device {
+        position: absolute;
+        border: 1px solid rgba(24, 34, 47, 0.14);
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: var(--shadow);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .device.mac {
+        inset: 28px 0 auto 20px;
+        height: 330px;
+      }
+
+      .device.phone {
+        right: 22px;
+        bottom: 20px;
+        width: 170px;
+        height: 310px;
+      }
+
+      .device.win {
+        left: 0;
+        bottom: 88px;
+        width: 300px;
+        height: 190px;
+      }
+
+      .device-head {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 38px;
+        padding: 0 14px;
+        border-bottom: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: var(--teal);
+      }
+
+      .device-content {
+        padding: 16px;
+      }
+
+      .screen-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .metric-strip {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .tile {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 12px;
+        min-height: 74px;
+        background: #fbfdff;
+      }
+
+      .tile strong {
+        display: block;
+        font-size: 23px;
+      }
+
+      .tile span,
+      .tiny {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .pulse-line {
+        height: 62px;
+        margin-top: 14px;
+        border-radius: 8px;
+        border: 1px solid #d7e8e6;
+        background:
+          linear-gradient(90deg, transparent 0 8%, rgba(15, 139, 141, 0.24) 8% 9%, transparent 9% 18%),
+          linear-gradient(180deg, #f6fffd, #ffffff);
+        background-size: 90px 100%, 100% 100%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .pulse-line svg {
+        position: absolute;
+        inset: 8px 10px;
+        width: calc(100% - 20px);
+        height: 46px;
+      }
+
+      .phone-list,
+      .win-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .mini-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fbfdff;
+        font-size: 12px;
+      }
+
+      .section {
+        padding: 72px 0;
+      }
+
+      .section-intro {
+        max-width: 820px;
+        margin-bottom: 28px;
+      }
+
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+
+      .kpi {
+        border: 1px solid var(--line);
+        background: var(--surface);
+        border-radius: 8px;
+        padding: 18px;
+        min-height: 152px;
+        box-shadow: 0 8px 26px rgba(24, 34, 47, 0.05);
+      }
+
+      .kpi .num {
+        display: block;
+        margin: 10px 0 4px;
+        font-size: 32px;
+        font-weight: 800;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        min-height: 28px;
+        padding: 4px 9px;
+        border-radius: 8px;
+        border: 1px solid var(--line);
+        background: #fbfdff;
+        font-size: 12px;
+        font-weight: 700;
+        color: #3d4b5f;
+      }
+
+      .badge.done {
+        color: var(--green);
+        border-color: rgba(20, 132, 92, 0.25);
+        background: rgba(20, 132, 92, 0.08);
+      }
+
+      .badge.partial {
+        color: var(--amber);
+        border-color: rgba(183, 121, 31, 0.28);
+        background: rgba(183, 121, 31, 0.1);
+      }
+
+      .badge.gap {
+        color: var(--rose);
+        border-color: rgba(177, 59, 89, 0.25);
+        background: rgba(177, 59, 89, 0.08);
+      }
+
+      .badge.plan {
+        color: var(--blue);
+        border-color: rgba(37, 99, 235, 0.22);
+        background: rgba(37, 99, 235, 0.08);
+      }
+
+      .progress-stack {
+        display: grid;
+        gap: 16px;
+        margin-top: 24px;
+      }
+
+      .bar-row {
+        display: grid;
+        grid-template-columns: minmax(180px, 260px) 1fr 56px;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .bar-track {
+        height: 12px;
+        overflow: hidden;
+        border-radius: 8px;
+        background: #e8edf2;
+      }
+
+      .bar-fill {
+        height: 100%;
+        border-radius: 8px;
+        background: linear-gradient(90deg, var(--teal), var(--blue));
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        background: var(--surface);
+        border-radius: 8px;
+        padding: 24px;
+        box-shadow: 0 8px 28px rgba(24, 34, 47, 0.05);
+      }
+
+      .architecture {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 12px;
+        align-items: stretch;
+        margin-top: 20px;
+      }
+
+      .arch-node {
+        position: relative;
+        min-height: 144px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: linear-gradient(180deg, #ffffff, #f7fbfc);
+        padding: 16px;
+      }
+
+      .arch-node::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -15px;
+        width: 18px;
+        height: 2px;
+        background: var(--line);
+      }
+
+      .arch-node:last-child::after {
+        display: none;
+      }
+
+      .arch-node h3 {
+        font-size: 17px;
+      }
+
+      .arch-node ul,
+      .compact-list {
+        margin: 10px 0 0;
+        padding-left: 18px;
+        color: var(--muted);
+      }
+
+      .compare-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 1120px;
+      }
+
+      th,
+      td {
+        padding: 13px 14px;
+        text-align: left;
+        vertical-align: top;
+        border-bottom: 1px solid var(--line);
+      }
+
+      th {
+        position: sticky;
+        top: 0;
+        background: #eef7f6;
+        z-index: 1;
+        color: #123b40;
+        font-size: 13px;
+      }
+
+      td {
+        font-size: 14px;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .status {
+        white-space: nowrap;
+      }
+
+      .roadmap {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+
+      .phase {
+        border: 1px solid var(--line);
+        border-top: 4px solid var(--teal);
+        border-radius: 8px;
+        padding: 18px;
+        background: var(--surface);
+      }
+
+      .phase:nth-child(2) {
+        border-top-color: var(--blue);
+      }
+
+      .phase:nth-child(3) {
+        border-top-color: var(--violet);
+      }
+
+      .phase:nth-child(4) {
+        border-top-color: var(--amber);
+      }
+
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+
+      .principles {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+
+      .principle {
+        border: 1px solid var(--line);
+        background: var(--surface);
+        border-radius: 8px;
+        padding: 18px;
+      }
+
+      .blueprint-board {
+        display: grid;
+        gap: 18px;
+      }
+
+      .blueprint-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+
+      .module-card {
+        min-height: 210px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: linear-gradient(180deg, #ffffff, #f8fbfd);
+        padding: 16px;
+        box-shadow: 0 8px 26px rgba(24, 34, 47, 0.04);
+      }
+
+      .module-card.wide {
+        grid-column: span 2;
+      }
+
+      .module-card strong {
+        display: block;
+        margin: 10px 0 6px;
+        font-size: 18px;
+      }
+
+      .module-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .module-card ul {
+        margin: 12px 0 0;
+        padding-left: 18px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .blueprint-label {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        background: rgba(15, 139, 141, 0.1);
+        color: var(--teal);
+        font-weight: 800;
+      }
+
+      .plain-flow {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        padding: 22px;
+        box-shadow: 0 8px 28px rgba(24, 34, 47, 0.05);
+      }
+
+      .plain-flow-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 16px;
+        align-items: start;
+        margin-bottom: 18px;
+      }
+
+      .plain-flow-header p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .flow-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: flex-end;
+      }
+
+      .legend-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        min-height: 30px;
+        padding: 4px 9px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fbfdff;
+        color: #405064;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .legend-mark {
+        width: 10px;
+        height: 10px;
+        border-radius: 3px;
+        background: var(--teal);
+      }
+
+      .legend-pill:nth-child(2) .legend-mark {
+        background: var(--blue);
+      }
+
+      .legend-pill:nth-child(3) .legend-mark {
+        background: var(--amber);
+      }
+
+      .legend-pill:nth-child(4) .legend-mark {
+        background: var(--green);
+      }
+
+      .signal-flow {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(122px, 1fr));
+        gap: 10px;
+      }
+
+      .flow-stage {
+        position: relative;
+        display: grid;
+        align-content: start;
+        gap: 10px;
+        min-height: 292px;
+        border: 1px solid #dbe6ed;
+        border-radius: 8px;
+        background: linear-gradient(180deg, #ffffff, #f8fbfd);
+        padding: 14px;
+      }
+
+      .flow-stage::after {
+        content: "→";
+        position: absolute;
+        top: 42px;
+        right: -16px;
+        z-index: 2;
+        width: 22px;
+        height: 22px;
+        border-radius: 999px;
+        background: var(--ink);
+        color: #ffffff;
+        text-align: center;
+        line-height: 22px;
+        font-weight: 800;
+        font-size: 14px;
+      }
+
+      .flow-stage:last-child::after {
+        display: none;
+      }
+
+      .stage-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        background: rgba(15, 139, 141, 0.1);
+        color: var(--teal);
+        font-weight: 800;
+      }
+
+      .flow-stage h4 {
+        margin: 0;
+        font-size: 16px;
+        line-height: 1.25;
+      }
+
+      .stage-plain {
+        margin: 0;
+        color: #405064;
+        font-size: 13px;
+      }
+
+      .stage-part {
+        border-top: 1px solid #e3ebf0;
+        padding-top: 8px;
+      }
+
+      .stage-part b {
+        display: block;
+        margin-bottom: 2px;
+        color: #233246;
+        font-size: 12px;
+      }
+
+      .stage-part span {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .handoff-strip {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .handoff-title {
+        margin: 18px 0 0;
+        font-size: 15px;
+      }
+
+      .handoff {
+        border: 1px dashed #cbd8e2;
+        border-radius: 8px;
+        background: #fbfdff;
+        padding: 10px;
+        color: #536173;
+        font-size: 12px;
+      }
+
+      .handoff strong {
+        display: block;
+        margin-bottom: 3px;
+        color: #263548;
+        font-size: 12px;
+      }
+
+      .layer-detail-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+
+      .layer-detail-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        padding: 18px;
+      }
+
+      .layer-detail-top {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      .layer-detail-card h3 {
+        margin: 0;
+      }
+
+      .layer-columns {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+
+      .layer-column {
+        border: 1px solid #e1e9ef;
+        border-radius: 8px;
+        background: #fbfdff;
+        padding: 10px;
+        min-height: 132px;
+      }
+
+      .layer-column b {
+        display: block;
+        margin-bottom: 6px;
+        color: #263548;
+        font-size: 13px;
+      }
+
+      .layer-column p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.52;
+      }
+
+      .visual-first {
+        display: grid;
+        gap: 18px;
+      }
+
+      .visual-panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        padding: 20px;
+        box-shadow: 0 8px 28px rgba(24, 34, 47, 0.05);
+      }
+
+      .visual-panel h3 {
+        margin-bottom: 6px;
+      }
+
+      .visual-caption {
+        margin: 0 0 16px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .visual-pipeline {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(106px, 1fr));
+        gap: 10px;
+        align-items: stretch;
+      }
+
+      .pipe-node {
+        position: relative;
+        display: grid;
+        place-items: center;
+        gap: 8px;
+        min-height: 132px;
+        border: 1px solid #dbe7ee;
+        border-radius: 8px;
+        background:
+          radial-gradient(circle at 50% 18%, rgba(15, 139, 141, 0.12), transparent 40%),
+          linear-gradient(180deg, #ffffff, #f7fbfc);
+        padding: 12px;
+        text-align: center;
+      }
+
+      .pipe-node::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -14px;
+        width: 18px;
+        height: 2px;
+        background: #9fb2c2;
+      }
+
+      .pipe-node:last-child::after {
+        display: none;
+      }
+
+      .pipe-icon {
+        display: grid;
+        place-items: center;
+        width: 54px;
+        height: 54px;
+        border-radius: 999px;
+        background: #effaf9;
+        color: var(--teal);
+        border: 1px solid rgba(15, 139, 141, 0.24);
+      }
+
+      .pipe-icon svg {
+        width: 28px;
+        height: 28px;
+      }
+
+      .pipe-node strong {
+        font-size: 16px;
+        line-height: 1.2;
+      }
+
+      .pipe-node span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .loop-panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        padding: 20px;
+        box-shadow: 0 8px 28px rgba(24, 34, 47, 0.05);
+      }
+
+      .loop-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
+        gap: 18px;
+        align-items: center;
+      }
+
+      .loop-canvas {
+        overflow-x: auto;
+        border: 1px solid #dbe7ee;
+        border-radius: 8px;
+        background:
+          radial-gradient(circle at 50% 50%, rgba(15, 139, 141, 0.1), transparent 35%),
+          linear-gradient(180deg, #ffffff, #f8fbfd);
+      }
+
+      .loop-svg {
+        display: block;
+        width: 100%;
+        min-width: 620px;
+        height: auto;
+      }
+
+      .loop-node {
+        fill: #ffffff;
+        stroke: #cbd8e2;
+        stroke-width: 2;
+      }
+
+      .loop-node.core {
+        fill: #18222f;
+        stroke: #18222f;
+      }
+
+      .loop-node.fresh {
+        fill: #effaf9;
+        stroke: #0f8b8d;
+      }
+
+      .loop-node.warn {
+        fill: #fff8ec;
+        stroke: #b7791f;
+      }
+
+      .loop-arrow {
+        fill: none;
+        stroke: #536b82;
+        stroke-width: 2.5;
+      }
+
+      .loop-arrow.feedback {
+        stroke: #b13b59;
+        stroke-dasharray: 7 6;
+      }
+
+      .loop-arrow.guard {
+        stroke: #0f8b8d;
+      }
+
+      .loop-text {
+        fill: #263548;
+        font-size: 16px;
+        font-weight: 800;
+        text-anchor: middle;
+      }
+
+      .loop-text.small {
+        fill: #5f6b7a;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .loop-text.core {
+        fill: #ffffff;
+      }
+
+      .loop-key {
+        display: grid;
+        gap: 10px;
+      }
+
+      .loop-chip {
+        display: grid;
+        grid-template-columns: 34px 1fr;
+        gap: 10px;
+        align-items: center;
+        min-height: 64px;
+        border: 1px solid #e1e9ef;
+        border-radius: 8px;
+        background: #fbfdff;
+        padding: 10px;
+      }
+
+      .loop-chip i {
+        display: grid;
+        place-items: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 999px;
+        background: rgba(15, 139, 141, 0.1);
+        color: var(--teal);
+        font-style: normal;
+        font-weight: 900;
+      }
+
+      .loop-chip strong {
+        display: block;
+        font-size: 14px;
+      }
+
+      .loop-chip span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .portable-panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        padding: 20px;
+        box-shadow: 0 8px 28px rgba(24, 34, 47, 0.05);
+      }
+
+      .portable-stack {
+        display: grid;
+        grid-template-columns: 0.95fr 1fr 1.15fr 1fr;
+        gap: 12px;
+        align-items: stretch;
+      }
+
+      .portable-column {
+        position: relative;
+        display: grid;
+        align-content: start;
+        gap: 10px;
+        min-height: 330px;
+        border: 1px solid #dbe7ee;
+        border-radius: 8px;
+        background: linear-gradient(180deg, #ffffff, #f8fbfd);
+        padding: 14px;
+      }
+
+      .portable-column::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -14px;
+        width: 18px;
+        height: 2px;
+        background: #9fb2c2;
+      }
+
+      .portable-column:last-child::after {
+        display: none;
+      }
+
+      .portable-head {
+        display: grid;
+        grid-template-columns: 38px 1fr;
+        gap: 10px;
+        align-items: center;
+        min-height: 50px;
+      }
+
+      .portable-icon {
+        display: grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 8px;
+        background: rgba(15, 139, 141, 0.1);
+        color: var(--teal);
+      }
+
+      .portable-icon svg {
+        width: 23px;
+        height: 23px;
+      }
+
+      .portable-head strong {
+        display: block;
+        font-size: 15px;
+        line-height: 1.2;
+      }
+
+      .portable-head span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .contract-list {
+        display: grid;
+        gap: 8px;
+      }
+
+      .contract-pill {
+        border: 1px solid #e1e9ef;
+        border-radius: 8px;
+        background: #fbfdff;
+        padding: 9px;
+        color: #344254;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .adapter-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .adapter-chip {
+        display: grid;
+        place-items: center;
+        min-height: 58px;
+        border: 1px solid #e1e9ef;
+        border-radius: 8px;
+        background: #fbfdff;
+        color: #233246;
+        text-align: center;
+        font-weight: 800;
+        font-size: 13px;
+      }
+
+      .adapter-chip span {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      .portability-rules {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .portability-rule {
+        border: 1px dashed #cbd8e2;
+        border-radius: 8px;
+        background: #fbfdff;
+        padding: 12px;
+        min-height: 96px;
+      }
+
+      .portability-rule strong {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 14px;
+      }
+
+      .portability-rule span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .mentor-panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        padding: 20px;
+        box-shadow: 0 8px 28px rgba(24, 34, 47, 0.05);
+      }
+
+      .mentor-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+        gap: 18px;
+        align-items: stretch;
+      }
+
+      .mentor-orbit {
+        position: relative;
+        min-height: 410px;
+        border: 1px dashed #cbd8e2;
+        border-radius: 8px;
+        background:
+          radial-gradient(circle at center, rgba(15, 139, 141, 0.12), transparent 31%),
+          linear-gradient(180deg, #ffffff, #f8fbfd);
+        overflow: hidden;
+      }
+
+      .mentor-orbit::before,
+      .mentor-orbit::after {
+        content: "";
+        position: absolute;
+        inset: 44px;
+        border: 1px solid rgba(151, 166, 180, 0.36);
+        border-radius: 999px;
+      }
+
+      .mentor-orbit::after {
+        inset: 86px;
+      }
+
+      .mentor-core {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: 2;
+        display: grid;
+        place-items: center;
+        width: 146px;
+        height: 146px;
+        transform: translate(-50%, -50%);
+        border-radius: 999px;
+        background: var(--ink);
+        color: #ffffff;
+        text-align: center;
+        font-weight: 900;
+        line-height: 1.2;
+        box-shadow: 0 16px 34px rgba(24, 34, 47, 0.16);
+      }
+
+      .mentor-core span {
+        display: block;
+        margin-top: 5px;
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 12px;
+        font-weight: 650;
+      }
+
+      .mentor-bubble {
+        position: absolute;
+        z-index: 2;
+        display: grid;
+        place-items: center;
+        width: 112px;
+        min-height: 76px;
+        border: 1px solid #dbe7ee;
+        border-radius: 8px;
+        background: #ffffff;
+        padding: 9px;
+        color: #233246;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 850;
+        box-shadow: 0 10px 22px rgba(24, 34, 47, 0.08);
+      }
+
+      .mentor-bubble span {
+        display: block;
+        margin-top: 3px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 650;
+      }
+
+      .mentor-bubble:nth-child(2) {
+        left: 7%;
+        top: 9%;
+        border-top: 4px solid var(--teal);
+      }
+
+      .mentor-bubble:nth-child(3) {
+        right: 7%;
+        top: 9%;
+        border-top: 4px solid var(--blue);
+      }
+
+      .mentor-bubble:nth-child(4) {
+        left: 5%;
+        top: 42%;
+        border-top: 4px solid var(--amber);
+      }
+
+      .mentor-bubble:nth-child(5) {
+        right: 5%;
+        top: 42%;
+        border-top: 4px solid var(--green);
+      }
+
+      .mentor-bubble:nth-child(6) {
+        left: 20%;
+        bottom: 8%;
+        border-top: 4px solid var(--rose);
+      }
+
+      .mentor-bubble:nth-child(7) {
+        right: 20%;
+        bottom: 8%;
+        border-top: 4px solid var(--violet);
+      }
+
+      .mentor-flow {
+        display: grid;
+        gap: 10px;
+      }
+
+      .mentor-flow-step {
+        display: grid;
+        grid-template-columns: 44px 1fr;
+        gap: 10px;
+        align-items: center;
+        min-height: 70px;
+        border: 1px solid #e1e9ef;
+        border-radius: 8px;
+        background: #fbfdff;
+        padding: 10px;
+      }
+
+      .mentor-flow-step i {
+        display: grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: rgba(15, 139, 141, 0.11);
+        color: var(--teal);
+        font-style: normal;
+        font-weight: 900;
+      }
+
+      .mentor-flow-step strong {
+        display: block;
+        font-size: 14px;
+      }
+
+      .mentor-flow-step span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .school-map {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .school-card {
+        min-height: 128px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fbfdff;
+        padding: 12px;
+      }
+
+      .school-card.philosophy {
+        border-top: 4px solid var(--teal);
+      }
+
+      .school-card.psychology {
+        border-top: 4px solid var(--blue);
+      }
+
+      .school-card h4 {
+        margin: 0 0 6px;
+        font-size: 15px;
+      }
+
+      .school-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .custom-console {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .console-lane {
+        border: 1px solid #dbe7ee;
+        border-radius: 8px;
+        background: #ffffff;
+        padding: 12px;
+        min-height: 172px;
+      }
+
+      .console-lane strong {
+        display: block;
+        margin-bottom: 8px;
+        color: #233246;
+        font-size: 13px;
+      }
+
+      .console-pill {
+        display: block;
+        margin: 6px 0;
+        border-radius: 999px;
+        background: #f1f7fa;
+        padding: 6px 9px;
+        color: #536173;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .questionnaire-flow {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .q-step {
+        position: relative;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        padding: 12px;
+        min-height: 144px;
+      }
+
+      .q-step::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -14px;
+        width: 18px;
+        height: 2px;
+        background: #9fb2c2;
+      }
+
+      .q-step:last-child::after {
+        display: none;
+      }
+
+      .q-step i {
+        display: grid;
+        place-items: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        background: var(--ink);
+        color: #ffffff;
+        font-style: normal;
+        font-weight: 900;
+      }
+
+      .q-step strong {
+        display: block;
+        margin: 9px 0 5px;
+        font-size: 14px;
+      }
+
+      .q-step span {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .safety-strip {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .safety-item {
+        border: 1px dashed #cbd8e2;
+        border-radius: 8px;
+        background: #fbfdff;
+        padding: 12px;
+        min-height: 92px;
+      }
+
+      .safety-item strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 13px;
+      }
+
+      .safety-item span {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .plugin-shelf,
+      .source-panel,
+      .privacy-panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        padding: 20px;
+        box-shadow: 0 8px 28px rgba(24, 34, 47, 0.05);
+      }
+
+      .plugin-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+
+      .plugin-card {
+        min-height: 150px;
+        border: 1px solid #dbe7ee;
+        border-radius: 8px;
+        background: #fbfdff;
+        padding: 12px;
+      }
+
+      .plugin-card strong,
+      .source-card strong,
+      .workstyle-card strong {
+        display: block;
+        margin-bottom: 6px;
+        color: #233246;
+        font-size: 14px;
+      }
+
+      .plugin-card span,
+      .source-card span,
+      .workstyle-card span {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .plugin-bus {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .bus-chip {
+        display: grid;
+        place-items: center;
+        min-height: 54px;
+        border: 1px dashed #cbd8e2;
+        border-radius: 8px;
+        background: #ffffff;
+        color: #334155;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .source-flow {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+        align-items: stretch;
+      }
+
+      .source-node {
+        position: relative;
+        display: grid;
+        place-items: center;
+        min-height: 120px;
+        border: 1px solid #dbe7ee;
+        border-radius: 8px;
+        background:
+          radial-gradient(circle at 50% 18%, rgba(37, 99, 235, 0.1), transparent 42%),
+          #fbfdff;
+        padding: 12px;
+        text-align: center;
+      }
+
+      .source-node::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -14px;
+        width: 18px;
+        height: 2px;
+        background: #9fb2c2;
+      }
+
+      .source-node:last-child::after {
+        display: none;
+      }
+
+      .source-node strong {
+        display: block;
+        color: #233246;
+        font-size: 15px;
+      }
+
+      .source-node span {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .source-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .source-card {
+        min-height: 146px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        padding: 12px;
+      }
+
+      .source-card.general {
+        border-top: 4px solid var(--teal);
+      }
+
+      .source-card.special {
+        border-top: 4px solid var(--amber);
+      }
+
+      .source-card.private {
+        border-top: 4px solid var(--rose);
+      }
+
+      .source-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 10px;
+      }
+
+      .source-tags i {
+        border-radius: 999px;
+        background: #eef6f8;
+        padding: 4px 7px;
+        color: #365064;
+        font-style: normal;
+        font-size: 11px;
+        font-weight: 750;
+      }
+
+      .interest-plan {
+        display: grid;
+        grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+        gap: 16px;
+        margin-top: 16px;
+      }
+
+      .signal-stack,
+      .plan-stack {
+        display: grid;
+        gap: 9px;
+      }
+
+      .signal-pill,
+      .plan-pill {
+        border: 1px solid #e1e9ef;
+        border-radius: 8px;
+        background: #fbfdff;
+        padding: 10px;
+      }
+
+      .signal-pill b,
+      .plan-pill b {
+        display: block;
+        margin-bottom: 3px;
+        color: #233246;
+        font-size: 13px;
+      }
+
+      .signal-pill span,
+      .plan-pill span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .workstyle-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .workstyle-card {
+        border: 1px dashed #cbd8e2;
+        border-radius: 8px;
+        background: #fbfdff;
+        padding: 12px;
+        min-height: 124px;
+      }
+
+      .privacy-gates {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+      }
+
+      .privacy-gate {
+        position: relative;
+        min-height: 112px;
+        border: 1px solid #dbe7ee;
+        border-top: 4px solid var(--rose);
+        border-radius: 8px;
+        background: #ffffff;
+        padding: 10px;
+      }
+
+      .privacy-gate::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -12px;
+        width: 14px;
+        height: 2px;
+        background: #9fb2c2;
+      }
+
+      .privacy-gate:last-child::after {
+        display: none;
+      }
+
+      .privacy-gate strong {
+        display: block;
+        margin-bottom: 5px;
+        color: #233246;
+        font-size: 13px;
+      }
+
+      .privacy-gate span {
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.4;
+      }
+
+      .privacy-output {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .privacy-output div {
+        border: 1px dashed #cbd8e2;
+        border-radius: 8px;
+        background: #fbfdff;
+        padding: 12px;
+        min-height: 86px;
+      }
+
+      .privacy-output strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 13px;
+      }
+
+      .privacy-output span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .visual-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 18px;
+      }
+
+      .radar-card,
+      .scout-card,
+      .funnel-card,
+      .priority-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        padding: 18px;
+        min-height: 320px;
+      }
+
+      .radar-wrap {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 18px;
+        align-items: center;
+      }
+
+      .radar-svg {
+        width: 100%;
+        max-width: 230px;
+        height: auto;
+      }
+
+      .radar-list {
+        display: grid;
+        gap: 9px;
+      }
+
+      .radar-item {
+        display: grid;
+        grid-template-columns: 22px 1fr auto;
+        gap: 8px;
+        align-items: center;
+        border: 1px solid #e3ebf0;
+        border-radius: 8px;
+        padding: 9px;
+        background: #fbfdff;
+        color: #3b4b5e;
+        font-size: 13px;
+      }
+
+      .color-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 999px;
+        background: var(--teal);
+      }
+
+      .radar-item:nth-child(2) .color-dot,
+      .scout-bubble:nth-child(3) {
+        background: var(--blue);
+      }
+
+      .radar-item:nth-child(3) .color-dot,
+      .scout-bubble:nth-child(4) {
+        background: var(--amber);
+      }
+
+      .radar-item:nth-child(4) .color-dot,
+      .scout-bubble:nth-child(5) {
+        background: var(--green);
+      }
+
+      .radar-item:nth-child(5) .color-dot {
+        background: var(--rose);
+      }
+
+      .scout-map {
+        position: relative;
+        min-height: 260px;
+        border: 1px dashed #cbd8e2;
+        border-radius: 8px;
+        background:
+          radial-gradient(circle at center, rgba(15, 139, 141, 0.11), transparent 34%),
+          #fbfdff;
+      }
+
+      .scout-core,
+      .scout-bubble {
+        position: absolute;
+        display: grid;
+        place-items: center;
+        border-radius: 999px;
+        text-align: center;
+        font-weight: 800;
+        line-height: 1.2;
+      }
+
+      .scout-core {
+        left: 50%;
+        top: 50%;
+        width: 110px;
+        height: 110px;
+        transform: translate(-50%, -50%);
+        background: var(--ink);
+        color: #ffffff;
+      }
+
+      .scout-bubble {
+        width: 92px;
+        height: 92px;
+        background: var(--teal);
+        color: #ffffff;
+        box-shadow: 0 10px 24px rgba(24, 34, 47, 0.1);
+      }
+
+      .scout-bubble span {
+        display: block;
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      .scout-bubble:nth-child(2) {
+        left: 8%;
+        top: 16%;
+      }
+
+      .scout-bubble:nth-child(3) {
+        right: 8%;
+        top: 14%;
+      }
+
+      .scout-bubble:nth-child(4) {
+        left: 11%;
+        bottom: 12%;
+      }
+
+      .scout-bubble:nth-child(5) {
+        right: 11%;
+        bottom: 12%;
+      }
+
+      .decision-funnel {
+        display: grid;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .funnel-step {
+        position: relative;
+        display: grid;
+        grid-template-columns: 44px 1fr auto;
+        align-items: center;
+        gap: 12px;
+        min-height: 62px;
+        border-radius: 8px;
+        background: #fbfdff;
+        border: 1px solid #e1e9ef;
+        padding: 10px 12px;
+      }
+
+      .funnel-step::before {
+        content: "";
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: var(--gate-width);
+        border-radius: 8px 0 0 8px;
+        background: rgba(15, 139, 141, 0.09);
+      }
+
+      .gate-num {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        background: var(--ink);
+        color: #ffffff;
+        font-weight: 800;
+      }
+
+      .funnel-step strong,
+      .funnel-step span {
+        position: relative;
+        z-index: 1;
+      }
+
+      .funnel-step span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .outcome-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .outcome {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        padding: 12px;
+        min-height: 90px;
+        text-align: center;
+      }
+
+      .outcome svg {
+        width: 28px;
+        height: 28px;
+        margin-bottom: 7px;
+        color: var(--teal);
+      }
+
+      .outcome strong {
+        display: block;
+        font-size: 14px;
+      }
+
+      .priority-map {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .priority-tile {
+        min-height: 122px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fbfdff;
+        padding: 12px;
+      }
+
+      .priority-tile strong {
+        display: block;
+        margin: 8px 0 5px;
+        font-size: 15px;
+      }
+
+      .priority-tile span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .mini-meter {
+        height: 8px;
+        border-radius: 999px;
+        background: #e6edf2;
+        overflow: hidden;
+      }
+
+      .mini-meter i {
+        display: block;
+        width: var(--meter);
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--teal), var(--blue));
+      }
+
+      .detail-fold {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .detail-fold + .detail-fold {
+        margin-top: 14px;
+      }
+
+      .detail-fold summary {
+        min-height: 52px;
+        padding: 14px 18px;
+        cursor: pointer;
+        font-weight: 800;
+        color: #203044;
+        background: #f4f8fb;
+      }
+
+      .detail-fold summary::marker {
+        color: var(--teal);
+      }
+
+      .detail-fold > .plain-flow,
+      .detail-fold > .layer-detail-grid,
+      .detail-fold > .panel,
+      .detail-fold > .flow-grid,
+      .detail-fold > .compare-wrap {
+        margin: 16px;
+      }
+
+      .flow-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+
+      .flow-panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        padding: 18px;
+      }
+
+      .flow-lane {
+        display: grid;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .flow-step {
+        display: grid;
+        grid-template-columns: 34px 1fr;
+        gap: 10px;
+        align-items: start;
+        border: 1px solid #dde8ef;
+        border-radius: 8px;
+        background: #fbfdff;
+        padding: 12px;
+      }
+
+      .step-dot {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        background: var(--ink);
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .flow-step h4,
+      .slice h4 {
+        margin: 0 0 4px;
+        font-size: 15px;
+      }
+
+      .flow-step p,
+      .slice p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .object-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+
+      .object-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        padding: 14px;
+        min-height: 148px;
+      }
+
+      .object-card code {
+        display: inline-block;
+        margin-bottom: 8px;
+        padding: 3px 6px;
+        border-radius: 6px;
+        background: #edf6f6;
+        color: #0c6264;
+        font-weight: 700;
+      }
+
+      .object-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .slice-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+
+      .slice {
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--teal);
+        border-radius: 8px;
+        background: var(--surface);
+        padding: 14px;
+        min-height: 164px;
+      }
+
+      .slice:nth-child(2) {
+        border-left-color: var(--blue);
+      }
+
+      .slice:nth-child(3) {
+        border-left-color: var(--violet);
+      }
+
+      .slice:nth-child(4) {
+        border-left-color: var(--amber);
+      }
+
+      .slice:nth-child(5) {
+        border-left-color: var(--green);
+      }
+
+      .slice:nth-child(6) {
+        border-left-color: var(--rose);
+      }
+
+      .callout {
+        border-left: 5px solid var(--teal);
+        background: #f1fbfa;
+        padding: 18px 20px;
+        border-radius: 0 8px 8px 0;
+      }
+
+      .briefing-strip {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 18px;
+        align-items: stretch;
+      }
+
+      .story-map,
+      .principle-wheel,
+      .handoff-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        padding: 18px;
+        box-shadow: 0 10px 28px rgba(24, 34, 47, 0.05);
+      }
+
+      .story-steps {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+      }
+
+      .story-step {
+        position: relative;
+        min-height: 132px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 14px;
+        background: #fbfdff;
+      }
+
+      .story-step::after {
+        content: "";
+        position: absolute;
+        top: 48%;
+        right: -10px;
+        width: 10px;
+        height: 2px;
+        background: var(--line);
+      }
+
+      .story-step:last-child::after {
+        display: none;
+      }
+
+      .story-step b {
+        display: block;
+        margin-bottom: 8px;
+        color: #123b40;
+      }
+
+      .story-step span {
+        display: block;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .principle-wheel {
+        min-height: 282px;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        background:
+          radial-gradient(circle at 50% 50%, rgba(15, 139, 141, 0.18) 0 22%, transparent 23%),
+          conic-gradient(from 20deg, rgba(15, 139, 141, 0.18), rgba(37, 99, 235, 0.15), rgba(109, 91, 208, 0.16), rgba(183, 121, 31, 0.16), rgba(20, 132, 92, 0.16), rgba(15, 139, 141, 0.18));
+      }
+
+      .wheel-core {
+        width: min(245px, 100%);
+        border: 1px solid rgba(24, 34, 47, 0.14);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.92);
+        padding: 18px;
+        box-shadow: 0 10px 32px rgba(24, 34, 47, 0.08);
+      }
+
+      .wheel-core strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 22px;
+      }
+
+      .wheel-core span {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .vision-metrics {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .vision-metric {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        padding: 14px;
+      }
+
+      .vision-metric strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 18px;
+      }
+
+      .vision-metric span {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .footer {
+        padding: 42px 0 72px;
+        color: var(--muted);
+      }
+
+      .source-list {
+        display: grid;
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      @media (max-width: 980px) {
+        .hero,
+        .two-col,
+        .visual-grid,
+        .loop-layout,
+        .mentor-grid,
+        .questionnaire-flow,
+        .briefing-strip,
+        .source-flow,
+        .interest-plan,
+        .privacy-gates,
+        .radar-wrap,
+        .flow-grid,
+        .plain-flow-header {
+          grid-template-columns: 1fr;
+        }
+
+        .flow-legend {
+          justify-content: flex-start;
+        }
+
+        .visual-board {
+          min-height: 520px;
+        }
+
+        .kpi-grid,
+        .architecture,
+        .roadmap,
+        .principles,
+        .portable-stack,
+        .portability-rules,
+        .school-map,
+        .custom-console,
+        .safety-strip,
+        .story-steps,
+        .plugin-grid,
+        .plugin-bus,
+        .source-grid,
+        .workstyle-grid,
+        .privacy-output,
+        .vision-metrics,
+        .visual-pipeline,
+        .outcome-row,
+        .priority-map,
+        .blueprint-grid,
+        .object-grid,
+        .slice-grid,
+        .layer-detail-grid,
+        .layer-columns {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .signal-flow,
+        .visual-pipeline,
+        .portable-stack,
+        .handoff-strip {
+          grid-template-columns: 1fr;
+        }
+
+        .signal-flow,
+        .visual-pipeline {
+          gap: 22px;
+        }
+
+        .flow-stage,
+        .pipe-node {
+          min-height: auto;
+        }
+
+        .pipe-node::after {
+          top: auto;
+          right: auto;
+          left: 50%;
+          bottom: -14px;
+          width: 2px;
+          height: 18px;
+        }
+
+        .portable-column::after {
+          top: auto;
+          right: auto;
+          left: 50%;
+          bottom: -14px;
+          width: 2px;
+          height: 18px;
+        }
+
+        .source-node::after,
+        .privacy-gate::after {
+          top: auto;
+          right: auto;
+          left: 50%;
+          bottom: -14px;
+          width: 2px;
+          height: 18px;
+        }
+
+        .q-step::after {
+          top: auto;
+          right: auto;
+          left: 50%;
+          bottom: -14px;
+          width: 2px;
+          height: 18px;
+        }
+
+        .flow-stage::after {
+          content: "↓";
+          top: auto;
+          right: auto;
+          left: 18px;
+          bottom: -17px;
+        }
+
+        .arch-node::after {
+          display: none;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .shell {
+          width: min(100vw - 24px, 1180px);
+        }
+
+        .hero {
+          min-height: auto;
+          padding-top: 34px;
+        }
+
+        h1 {
+          font-size: 40px;
+        }
+
+        .kpi-grid,
+        .architecture,
+        .roadmap,
+        .principles,
+        .visual-pipeline,
+        .school-map,
+        .custom-console,
+        .story-steps,
+        .plugin-grid,
+        .source-grid,
+        .workstyle-grid,
+        .outcome-row,
+        .priority-map,
+        .safety-strip,
+        .privacy-output,
+        .vision-metrics,
+        .blueprint-grid,
+        .object-grid,
+        .slice-grid,
+        .layer-detail-grid,
+        .layer-columns {
+          grid-template-columns: 1fr;
+        }
+
+        .module-card.wide {
+          grid-column: auto;
+        }
+
+        .plain-flow {
+          padding: 16px;
+        }
+
+        .visual-panel,
+        .loop-panel,
+        .portable-panel,
+        .mentor-panel,
+        .plugin-shelf,
+        .source-panel,
+        .privacy-panel,
+        .radar-card,
+        .scout-card,
+        .funnel-card,
+        .priority-card {
+          padding: 14px;
+        }
+
+        .loop-svg {
+          min-width: 540px;
+        }
+
+        .portability-rules,
+        .adapter-grid,
+        .school-map,
+        .custom-console,
+        .questionnaire-flow,
+        .safety-strip,
+        .plugin-grid,
+        .plugin-bus,
+        .source-flow,
+        .source-grid,
+        .interest-plan,
+        .workstyle-grid,
+        .privacy-gates,
+        .privacy-output {
+          grid-template-columns: 1fr;
+        }
+
+        .mentor-orbit {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+          min-height: auto;
+          padding: 12px;
+        }
+
+        .mentor-orbit::before,
+        .mentor-orbit::after {
+          display: none;
+        }
+
+        .mentor-core,
+        .mentor-bubble,
+        .mentor-bubble:nth-child(n) {
+          position: static;
+          width: auto;
+          min-height: 82px;
+          transform: none;
+        }
+
+        .mentor-core {
+          grid-column: 1 / -1;
+          height: auto;
+          border-radius: 8px;
+        }
+        .funnel-step {
+          grid-template-columns: 40px 1fr;
+        }
+
+        .funnel-step span {
+          grid-column: 2;
+        }
+
+        .bar-row {
+          grid-template-columns: 1fr;
+          gap: 6px;
+        }
+
+        .visual-board {
+          min-height: 680px;
+        }
+
+        .device.mac,
+        .device.win,
+        .device.phone {
+          position: relative;
+          inset: auto;
+          width: 100%;
+          height: auto;
+          margin-bottom: 14px;
+        }
+
+        .device.phone {
+          min-height: 240px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        .button {
+          transition: none;
+        }
+
+        .button:hover {
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="shell hero">
+      <div>
+        <div class="eyebrow">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 12c3.5-7 12.5-7 16 0-3.5 7-12.5 7-16 0Z" fill="none" stroke="currentColor" stroke-width="2" />
+            <circle cx="12" cy="12" r="3" fill="currentColor" />
+          </svg>
+          MindAnchor progress brief · 2026-06-13
+        </div>
+        <h1>从个人生活 Agent 设想到可汇报的工程进度</h1>
+        <p class="lead">
+          MindAnchor 要从“能提醒的 App”升级为“保护自主性的个人 Agent 操作层”：少打扰、先脱敏、能纠错、可迁移到不同 agent 平台。
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#comparison">
+            <svg class="mini-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            </svg>
+            查看设想对照表
+          </a>
+          <a class="button" href="#roadmap">
+            <svg class="mini-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 18c4-9 10-11 14-12M8 7h11v11" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            </svg>
+            查看升级路线
+          </a>
+          <a class="button" href="#calibration">
+            <svg class="mini-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 4v7m0 0 5-5m-5 5-5-5M5 16h14M7 20h10" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            </svg>
+            新增能力
+          </a>
+          <a class="button" href="#blueprint">
+            <svg class="mini-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 5h16v5H4zM4 14h7v5H4zM15 14h5v5h-5z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round" />
+            </svg>
+            实施蓝图
+          </a>
+          <a class="button" href="mindanchor-developer-partner-brief-2026-06-14.html">
+            <svg class="mini-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 7h8M8 12h8M8 17h5M5 4h14v16H5z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round" />
+            </svg>
+            开发者讲解文档
+          </a>
+        </div>
+      </div>
+
+      <div class="visual-board" aria-label="MindAnchor 产品形态示意图">
+        <div class="device mac">
+          <div class="device-head"><span class="dot"></span>Mac · OpenClaw + Gateway + Coach</div>
+          <div class="device-content">
+            <div class="screen-grid">
+              <div class="tile"><span>当前阶段</span><strong>M7</strong><span>桌面模型效果闭环</span></div>
+              <div class="tile"><span>主路径</span><strong>Cluster</strong><span>OpenClaw 大脑</span></div>
+            </div>
+            <div class="pulse-line">
+              <svg viewBox="0 0 360 60" preserveAspectRatio="none" aria-hidden="true">
+                <path
+                  d="M0 36 C 34 36, 36 17, 58 17 S 92 48, 122 37 S 160 19, 190 25 S 236 51, 266 34 S 316 22, 360 31"
+                  fill="none"
+                  stroke="#0f8b8d"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+            <div class="metric-strip">
+              <div class="tile"><span>核心文件</span><strong>467</strong></div>
+              <div class="tile"><span>重点路径</span><strong>369</strong></div>
+              <div class="tile"><span>测试文件</span><strong>110</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="device win">
+          <div class="device-head"><span class="dot" style="background: var(--blue)"></span>Windows · 主要工作设备</div>
+          <div class="device-content win-list">
+            <div class="mini-row"><span class="dot" style="background: var(--amber)"></span>当前可作为 Web 控制台与人工输入端</div>
+            <div class="mini-row"><span class="dot" style="background: var(--rose)"></span>缺正式 Windows collector</div>
+            <div class="mini-row"><span class="dot" style="background: var(--teal)"></span>建议先补最小手动桥接</div>
+          </div>
+        </div>
+
+        <div class="device phone">
+          <div class="device-head"><span class="dot" style="background: var(--green)"></span>Android</div>
+          <div class="device-content phone-list">
+            <div class="mini-row">LAN 第二客户端</div>
+            <div class="mini-row">移动采集 Beta</div>
+            <div class="mini-row">Inbox polling</div>
+            <div class="mini-row">长期体验待产品化</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="shell section" id="summary">
+        <div class="section-intro">
+          <h2>一页结论</h2>
+          <p>
+            工程底座已经能跑；真正要补的是产品智能层。下一步不是继续堆采集，而是把事实校准、兴趣模块、方法插件、隐私发包钩子和低噪音干预做成稳定协议。
+          </p>
+        </div>
+
+        <div class="kpi-grid">
+          <article class="kpi">
+            <span class="badge done">已有底座</span>
+            <span class="num">70%</span>
+            <p>当前设备和代码能支撑个人主链测试：Mac 跑 OpenClaw/Gateway/macOS App/Web，Android 做 LAN 第二客户端。</p>
+          </article>
+          <article class="kpi">
+            <span class="badge partial">最新设想</span>
+            <span class="num">38%</span>
+            <p>“少打扰、状态感知、Coach、记忆候选”已有骨架；语音校准、信息员网络、实验/项目 profile 仍需建模。</p>
+          </article>
+          <article class="kpi">
+            <span class="badge gap">商业化</span>
+            <span class="num">25%</span>
+            <p>产品价值成立，但多用户、授权、隐私、数据隔离、连接器生态和合规边界还没成型。</p>
+          </article>
+          <article class="kpi">
+            <span class="badge plan">优先动作</span>
+            <span class="num">M7+</span>
+            <p>先补“自主性保护 + 语音校准 + 实验候选池 + 项目跟随”，再扩信息员 subagent 与连接器。</p>
+          </article>
+        </div>
+
+        <div class="panel" style="margin-top: 22px">
+          <h3>完成度拆分</h3>
+          <div class="progress-stack">
+            <div class="bar-row">
+              <strong>工程运行底座</strong>
+              <div class="bar-track"><div class="bar-fill" style="width: 78%"></div></div>
+              <span>78%</span>
+            </div>
+            <div class="bar-row">
+              <strong>个人自用测试目标</strong>
+              <div class="bar-track"><div class="bar-fill" style="width: 72%"></div></div>
+              <span>72%</span>
+            </div>
+            <div class="bar-row">
+              <strong>最新生活 Agent 设想</strong>
+              <div class="bar-track"><div class="bar-fill" style="width: 38%"></div></div>
+              <span>38%</span>
+            </div>
+            <div class="bar-row">
+              <strong>商业化产品形态</strong>
+              <div class="bar-track"><div class="bar-fill" style="width: 25%"></div></div>
+              <span>25%</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="shell section" id="visual-briefing">
+        <div class="section-intro">
+          <h2>5 分钟视觉讲解路线</h2>
+          <p>这页给汇报对象先看图：先理解系统为什么存在，再看它如何处理信息、如何保护用户、以及下一阶段补什么。</p>
+        </div>
+
+        <div class="briefing-strip">
+          <div class="story-map">
+            <h3>从生活信号到可信建议</h3>
+            <div class="story-steps" aria-label="MindAnchor 愿景讲解流程">
+              <div class="story-step"><b>1. 观察</b><span>系统、用户记录、兴趣信号、项目状态进入本地。</span></div>
+              <div class="story-step"><b>2. 校准</b><span>语音/文字补齐任务移交、健康、经济和压力变化。</span></div>
+              <div class="story-step"><b>3. 脱敏</b><span>模型调用前只留下抽象事实、约束和目标。</span></div>
+              <div class="story-step"><b>4. 判断</b><span>MethodPack、InterestModule 和主动性门禁一起决策。</span></div>
+              <div class="story-step"><b>5. 回流</b><span>有用、烦、不准、稍后都会反向更新系统。</span></div>
+            </div>
+          </div>
+
+          <div class="principle-wheel" aria-label="MindAnchor 设计原则环">
+            <div class="wheel-core">
+              <strong>保护自主性</strong>
+              <span>所有模块围绕一个中心：帮助用户少消耗，而不是替用户管理人生。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="vision-metrics" aria-label="下一阶段核心指标">
+          <div class="vision-metric"><strong>事实新鲜度</strong><span>主动提醒前先确认关键事实是否过期。</span></div>
+          <div class="vision-metric"><strong>外发最小化</strong><span>默认本地处理；必要外发必须脱敏和审计。</span></div>
+          <div class="vision-metric"><strong>兴趣可沉淀</strong><span>长期有价值的主题升级为可分享模块。</span></div>
+          <div class="vision-metric"><strong>打扰可回退</strong><span>拒绝、忽略、稍后都进入降频闭环。</span></div>
+        </div>
+      </section>
+
+      <section class="shell section" id="vision">
+        <div class="two-col">
+          <div class="panel">
+            <h2>最新软件设想</h2>
+            <p>
+              目标不是“更勤快”，而是“更克制”：只在事实足够新、建议足够有价值、打扰成本足够低时介入。
+            </p>
+            <ul class="compact-list">
+              <li>价值观分层：默认运行、触发处理、主动干预。</li>
+              <li>辅助忽视：不把每个担心都展开成分析。</li>
+              <li>实验候选池：根据近期忙碌程度判断现在做、稍后做或只记录。</li>
+              <li>项目跟随：知道每个项目的阶段、下一步、卡点和是否暂停。</li>
+              <li>语音/文字校准：定期补足非侵入式采集看不到的一手变化。</li>
+              <li>兴趣信息员：为摩托、宠物、AI 新闻等长期价值主题提供专属信息流。</li>
+              <li>授权资料抽取：从日记、社交记录、自媒体、清单和项目记录中提炼行为模式。</li>
+              <li>半侵入式但保护自主性：给选项、给原因、可拒绝、可关闭、会降频。</li>
+            </ul>
+          </div>
+
+          <div class="panel">
+            <h2>当前实际项目</h2>
+            <p>
+              当前项目已经有可运行主链，更像第一代“目标推进 + 状态感知 + OpenClaw Coach”。最新设想里的生活方式 profile、语音校准、信息员网络和隐私外发协议仍需产品化。
+            </p>
+            <ul class="compact-list">
+              <li>API 已有 Goals、Tasks、Sessions、State、Recovery、Reflections、Inbox、Coach。</li>
+              <li>macOS 已有 idle、lock/unlock、active app、window switch 与提醒 snooze/ack。</li>
+              <li>OpenClaw 已有 Picard 路由、persona agents、memory governance 和 authority proposal。</li>
+              <li>M7 已专门观察“下一步、中断恢复、过度提醒”。</li>
+              <li>OpenChronicle 旁路记忆技术可行，但语义噪声暂不合格。</li>
+              <li>尚未接入在线语音模型，也没有按兴趣主题运转的信息员 subagent。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="shell section" id="calibration">
+        <div class="section-intro">
+          <h2>新增开发总目标：校准回路与信息员网络</h2>
+          <p>
+            这次新增的想法把 MindAnchor 从“根据采集信号做建议”推进到“主动维护一手事实和长期生活信息流”。非侵入式采集只能看到行为迹象，看不到任务已移交、紧急任务突然出现、健康/经济状态波动、兴趣主题持续升温这些关键事实。因此系统需要定期校准，也需要把长期有价值的兴趣沉淀成可治理的信息员。
+          </p>
+        </div>
+        <div class="two-col">
+          <div class="panel">
+            <span class="badge plan">语音/文字校准回路</span>
+            <h3>用在线语音模型补足一手事实</h3>
+            <p>
+              每天、每周或固定侵入节点，允许接入在线语音对话模型，例如豆包一类的语音大模型，让你用低成本对话更新近期真实变化。它重点问非侵入式采集抓不到的信息：任务是否移交、紧急任务是否插入、健康和经济状态是否大幅波动、某个项目是否需要暂停或改排。
+            </p>
+            <ul class="compact-list">
+              <li>输入：语音对话、文字对话、固定复盘问题、主动补充事实。</li>
+              <li>输出：事实修正、任务 owner 更新、紧急度更新、生活状态摘要。</li>
+              <li>产品原则：只问少量高价值问题，不把校准变成每日审问。</li>
+              <li>工程建议：新增 `CalibrationSession`、`FactCorrection`、`ContextFreshnessScore`。</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <span class="badge partial">兴趣/专家信息员网络</span>
+            <h3>把长期有价值的兴趣变成可订阅 subagent</h3>
+            <p>
+              当一个念头或生活方式持续出现，并对成长、情绪恢复或长期价值有意义时，系统可以沉淀成主题信息员。它不是随机推送，而是带有主题、来源偏好、频率、价值判断和退出机制的信息流。
+            </p>
+            <ul class="compact-list">
+              <li>摩托信息员：政策、天气、路线、摩旅建议、装备推荐、安全提醒。</li>
+              <li>宠物信息员：猫粮风险、照顾建议、拍照灵感、宠物内容和桌面伴侣玩法。</li>
+              <li>AI 新闻信息员：偏好的自媒体博主更新、模型进展摘要、重要性分级。</li>
+              <li>工程建议：新增 `InterestScoutAgent`、`TopicSubscription`、`IdeaInbox`、`IdeaTrash`。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="shell section" id="blueprint">
+        <div class="section-intro">
+          <h2>实施蓝图：把“要做什么”拆成可开发模块</h2>
+          <p>
+            先看图，再展开细节：新版目标不只是一个 App，而是一套可迁移到 OpenClaw、Hermes、Codex 自动化和其他 agent 平台的个人上下文操作层。
+          </p>
+        </div>
+
+        <div class="blueprint-board">
+          <div class="visual-first" aria-label="图形化开发蓝图">
+            <div class="visual-panel">
+              <h3>第一层：简化入门图</h3>
+              <p class="visual-caption">这张只帮助外行快速理解加工顺序；真实使用不是单向流水线。</p>
+              <div class="visual-pipeline" aria-label="七层信息管道">
+                <div class="pipe-node">
+                  <div class="pipe-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v6c0 4 3 7 7 9 4-2 7-5 7-9V6l-7-3Z" fill="none" stroke="currentColor" stroke-width="2" /><path d="m9 12 2 2 4-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+                  </div>
+                  <strong>授权</strong>
+                  <span>能看什么</span>
+                </div>
+                <div class="pipe-node">
+                  <div class="pipe-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="2" /><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+                  </div>
+                  <strong>事实</strong>
+                  <span>发生了什么</span>
+                </div>
+                <div class="pipe-node">
+                  <div class="pipe-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2" /><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2" /><path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+                  </div>
+                  <strong>判断</strong>
+                  <span>项目/实验/担心</span>
+                </div>
+                <div class="pipe-node">
+                  <div class="pipe-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2" /><circle cx="5" cy="6" r="2" fill="none" stroke="currentColor" stroke-width="2" /><circle cx="19" cy="6" r="2" fill="none" stroke="currentColor" stroke-width="2" /><circle cx="5" cy="18" r="2" fill="none" stroke="currentColor" stroke-width="2" /><circle cx="19" cy="18" r="2" fill="none" stroke="currentColor" stroke-width="2" /><path d="M7 7.5 10 10M17 7.5 14 10M7 16.5 10 14M17 16.5 14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+                  </div>
+                  <strong>信息员</strong>
+                  <span>长期兴趣</span>
+                </div>
+                <div class="pipe-node">
+                  <div class="pipe-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16l-6 7v5l-4 2v-7L4 5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>
+                  </div>
+                  <strong>门禁</strong>
+                  <span>该不该打扰</span>
+                </div>
+                <div class="pipe-node">
+                  <div class="pipe-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14v9H8l-3 3V6Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /><path d="M9 10h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+                  </div>
+                  <strong>输出</strong>
+                  <span>提醒/信息流</span>
+                </div>
+                <div class="pipe-node">
+                  <div class="pipe-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2" /><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2" /><path d="M12 14v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+                  </div>
+                  <strong>治理</strong>
+                  <span>隐私/商业化</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="loop-panel">
+              <h3>第二层：真实运行闭环图</h3>
+              <p class="visual-caption">真实体验靠回流变好：纠错、反馈、降频、沉淀和丢弃会不断改写系统判断。</p>
+              <div class="loop-layout">
+                <div class="loop-canvas" aria-label="MindAnchor 真实运行反馈闭环">
+                  <svg class="loop-svg" viewBox="0 0 720 430" role="img" aria-label="MindAnchor 真实运行闭环图">
+                    <defs>
+                      <marker id="arrow-main" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                        <path d="M0 0 10 5 0 10Z" fill="#536b82" />
+                      </marker>
+                      <marker id="arrow-guard" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                        <path d="M0 0 10 5 0 10Z" fill="#0f8b8d" />
+                      </marker>
+                      <marker id="arrow-feedback" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                        <path d="M0 0 10 5 0 10Z" fill="#b13b59" />
+                      </marker>
+                    </defs>
+
+                    <path class="loop-arrow" marker-end="url(#arrow-main)" d="M130 96 C200 78 250 88 310 135" />
+                    <path class="loop-arrow guard" marker-end="url(#arrow-guard)" d="M360 118 C356 85 380 66 430 58" />
+                    <path class="loop-arrow guard" marker-end="url(#arrow-guard)" d="M430 86 C382 94 365 120 362 160" />
+                    <path class="loop-arrow" marker-end="url(#arrow-main)" d="M408 185 C455 168 500 164 552 184" />
+                    <path class="loop-arrow" marker-end="url(#arrow-main)" d="M588 220 C584 258 560 285 515 300" />
+                    <path class="loop-arrow" marker-end="url(#arrow-main)" d="M470 320 C412 342 355 332 324 286" />
+                    <path class="loop-arrow feedback" marker-end="url(#arrow-feedback)" d="M470 338 C370 408 220 384 190 285" />
+                    <path class="loop-arrow feedback" marker-end="url(#arrow-feedback)" d="M190 265 C212 225 252 210 300 210" />
+                    <path class="loop-arrow feedback" marker-end="url(#arrow-feedback)" d="M513 274 C486 230 448 210 408 205" />
+                    <path class="loop-arrow" marker-end="url(#arrow-main)" d="M312 226 C254 246 205 236 158 204" />
+                    <path class="loop-arrow guard" marker-end="url(#arrow-guard)" d="M158 172 C210 134 260 136 310 164" />
+
+                    <rect class="loop-node fresh" x="34" y="58" width="126" height="76" rx="14" />
+                    <text class="loop-text" x="97" y="91">生活信号</text>
+                    <text class="loop-text small" x="97" y="113">桌面/资料/外部源</text>
+
+                    <rect class="loop-node warn" x="420" y="28" width="132" height="76" rx="14" />
+                    <text class="loop-text" x="486" y="61">校准对话</text>
+                    <text class="loop-text small" x="486" y="83">纠错/补充/确认</text>
+
+                    <rect class="loop-node fresh" x="552" y="178" width="130" height="76" rx="14" />
+                    <text class="loop-text" x="617" y="211">主动门禁</text>
+                    <text class="loop-text small" x="617" y="233">该不该打扰</text>
+
+                    <rect class="loop-node" x="416" y="292" width="142" height="76" rx="14" />
+                    <text class="loop-text" x="487" y="325">输出</text>
+                    <text class="loop-text small" x="487" y="347">提醒/信息流/todo</text>
+
+                    <rect class="loop-node warn" x="88" y="170" width="132" height="76" rx="14" />
+                    <text class="loop-text" x="154" y="203">反馈</text>
+                    <text class="loop-text small" x="154" y="225">有用/烦/不准</text>
+
+                    <rect class="loop-node" x="252" y="276" width="132" height="76" rx="14" />
+                    <text class="loop-text" x="318" y="309">兴趣分流</text>
+                    <text class="loop-text small" x="318" y="331">沉淀/丢弃/稍后</text>
+
+                    <circle class="loop-node core" cx="360" cy="205" r="74" />
+                    <text class="loop-text core" x="360" y="198">事实账本</text>
+                    <text class="loop-text small core" x="360" y="222">最新上下文</text>
+                  </svg>
+                </div>
+                <div class="loop-key">
+                  <div class="loop-chip"><i>1</i><div><strong>纠错回路</strong><span>说错了，校准会写回事实账本。</span></div></div>
+                  <div class="loop-chip"><i>2</i><div><strong>降频回路</strong><span>你拒绝后，门禁降低同类打扰。</span></div></div>
+                  <div class="loop-chip"><i>3</i><div><strong>沉淀回路</strong><span>长期有用的兴趣进入信息员。</span></div></div>
+                  <div class="loop-chip"><i>4</i><div><strong>丢弃回路</strong><span>低价值念头进入 IdeaTrash。</span></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="portable-panel">
+              <h3>第三层：平台无关 Agent Core</h3>
+              <p class="visual-caption">本地 App 只负责采集、授权、审计；采集之后的理解、记忆、判断、反馈和执行建议，要抽成任何 agent 平台都能调用的理念框架。</p>
+              <div class="portable-stack" aria-label="平台无关 MindAnchor 框架">
+                <div class="portable-column">
+                  <div class="portable-head">
+                    <div class="portable-icon">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="2" /><path d="M9 7h6M9 11h6M10 17h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+                    </div>
+                    <div><strong>采集 App</strong><span>系统数据与用户记录</span></div>
+                  </div>
+                  <div class="contract-list">
+                    <div class="contract-pill">操作系统信号</div>
+                    <div class="contract-pill">用户主动记录</div>
+                    <div class="contract-pill">日常操作日志</div>
+                    <div class="contract-pill">语音/文字校准</div>
+                    <div class="contract-pill">授权与撤回</div>
+                  </div>
+                </div>
+
+                <div class="portable-column">
+                  <div class="portable-head">
+                    <div class="portable-icon">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" /><path d="M8 4v16M16 4v16" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+                    </div>
+                    <div><strong>标准数据契约</strong><span>脱离具体 App</span></div>
+                  </div>
+                  <div class="contract-list">
+                    <div class="contract-pill">ContextPacket</div>
+                    <div class="contract-pill">EventLedger</div>
+                    <div class="contract-pill">FactLedger</div>
+                    <div class="contract-pill">ConsentScope</div>
+                    <div class="contract-pill">AuditTrail</div>
+                  </div>
+                </div>
+
+                <div class="portable-column">
+                  <div class="portable-head">
+                    <div class="portable-icon">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2" /><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+                    </div>
+                    <div><strong>MindAnchor Core</strong><span>平台无关处理层</span></div>
+                  </div>
+                  <div class="contract-list">
+                    <div class="contract-pill">CapabilityManifest</div>
+                    <div class="contract-pill">AgentAdapterContract</div>
+                    <div class="contract-pill">MentorProfile</div>
+                    <div class="contract-pill">MethodPack / PluginManifest</div>
+                    <div class="contract-pill">InterestModule / SourceConnector</div>
+                    <div class="contract-pill">PrivacyHook / RedactionReport</div>
+                    <div class="contract-pill">TonePolicy / CadencePolicy</div>
+                    <div class="contract-pill">事实新鲜度与纠错</div>
+                    <div class="contract-pill">记忆治理与价值判断</div>
+                    <div class="contract-pill">项目/实验/兴趣分流</div>
+                    <div class="contract-pill">主动性门禁与降频</div>
+                    <div class="contract-pill">干预建议协议</div>
+                  </div>
+                </div>
+
+                <div class="portable-column">
+                  <div class="portable-head">
+                    <div class="portable-icon">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v5M12 16v5M4 12h5M15 12h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" /><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2" /></svg>
+                    </div>
+                    <div><strong>Agent 适配器</strong><span>任意 Claw / agent 平台</span></div>
+                  </div>
+                  <div class="adapter-grid">
+                    <div class="adapter-chip">OpenClaw<span>本地大脑</span></div>
+                    <div class="adapter-chip">Hermes<span>消息/协调</span></div>
+                    <div class="adapter-chip">Codex<span>自动化执行</span></div>
+                    <div class="adapter-chip">豆包/语音<span>校准入口</span></div>
+                    <div class="adapter-chip">Web Agent<span>研究/检索</span></div>
+                    <div class="adapter-chip">未来 Agent<span>可替换</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="portability-rules" aria-label="平台迁移原则">
+                <div class="portability-rule"><strong>采集集中</strong><span>App 负责权限、来源、原始日志和撤回。</span></div>
+              <div class="portability-rule"><strong>处理解耦</strong><span>理解和判断不绑定某个客户端或模型。</span></div>
+              <div class="portability-rule"><strong>协议驱动</strong><span>Agent 只通过标准上下文包和建议协议协作。</span></div>
+              <div class="portability-rule"><strong>执行可替换</strong><span>OpenClaw、Hermes、Codex 都只是不同执行面。</span></div>
+              </div>
+            </div>
+
+            <div class="mentor-panel">
+              <h3>横切底层：价值观与幸福导师层</h3>
+              <p class="visual-caption">这不是多加一个“心理频道”，而是给整个系统装上可自定义的底层方向盘：数据怎么解释、什么时候提醒、用什么语气提醒、如何把你拉回平静，都由导师配置参与决定。</p>
+              <div class="mentor-grid">
+                <div class="mentor-orbit" aria-label="价值观与幸福导师混合器">
+                  <div class="mentor-core">MentorProfile<span>价值观 / 心理安全 / 提醒偏好</span></div>
+                  <div class="mentor-bubble">哲学 Agent<span>人生观与取舍</span></div>
+                  <div class="mentor-bubble">幸福心理 Skill<span>PERMA / 优势 / 感恩</span></div>
+                  <div class="mentor-bubble">安抚协议<span>呼吸 / grounding / 自我慈悲</span></div>
+                  <div class="mentor-bubble">打扰频率<span>静默 / 低频 / 复盘 / 关键</span></div>
+                  <div class="mentor-bubble">提醒口吻<span>温柔 / 直接 / 提问 / 极简</span></div>
+                  <div class="mentor-bubble">反馈调参<span>舒服 / 烦 / 有用 / 不准</span></div>
+                </div>
+
+                <div class="mentor-flow" aria-label="导师层如何影响信息处理">
+                  <div class="mentor-flow-step"><i>1</i><div><strong>收集之后先过价值镜头</strong><span>同一条数据可以被解释为风险、机会、边界、关系义务或成长实验。</span></div></div>
+                  <div class="mentor-flow-step"><i>2</i><div><strong>生成处理策略</strong><span>决定进入项目、信息流、担心延迟池、只记录，还是先安抚情绪。</span></div></div>
+                  <div class="mentor-flow-step"><i>3</i><div><strong>选择提醒风格</strong><span>同一件事可以用教练式、苏格拉底提问式、温柔陪伴式或极简指令式表达。</span></div></div>
+                  <div class="mentor-flow-step"><i>4</i><div><strong>控制打扰频率</strong><span>根据专注状态、拒绝历史、情绪波动和用户偏好动态降频或升级。</span></div></div>
+                  <div class="mentor-flow-step"><i>5</i><div><strong>先让人回到平静</strong><span>当情绪很高时，先做稳定和澄清，再给建议，避免把提醒变成压力源。</span></div></div>
+                </div>
+              </div>
+
+              <div class="school-map" aria-label="哲学和心理学 agent 分类">
+                <article class="school-card philosophy"><h4>斯多葛</h4><p>区分可控/不可控，把注意力拉回行动、品格和当下选择。</p></article>
+                <article class="school-card philosophy"><h4>道家</h4><p>降低对抗，寻找顺势、低阻力、少用力但不断线的路径。</p></article>
+                <article class="school-card philosophy"><h4>儒家</h4><p>看见关系、责任、礼感和长期修身，适合处理承诺与角色冲突。</p></article>
+                <article class="school-card philosophy"><h4>存在主义</h4><p>承认不确定和孤独，强调选择、意义、承担和真实生活。</p></article>
+                <article class="school-card philosophy"><h4>实用主义</h4><p>不先争论终极答案，先做小实验，看什么真的改善生活。</p></article>
+                <article class="school-card philosophy"><h4>人本主义</h4><p>保护尊严、自主、成长感和自我实现，不把人压成效率机器。</p></article>
+                <article class="school-card psychology"><h4>积极心理学</h4><p>围绕优势、意义、关系、投入和成就，帮助生活从“止损”走向“兴盛”。</p></article>
+                <article class="school-card psychology"><h4>幸福心理学</h4><p>把幸福拆成可观察维度，避免只追求短暂开心，兼顾满足、意义和连接。</p></article>
+                <article class="school-card psychology"><h4>CBT 启发</h4><p>识别想法、证据和替代解释，用于非临床的认知澄清。</p></article>
+                <article class="school-card psychology"><h4>ACT 启发</h4><p>接纳困难感受，同时回到价值方向和小步承诺行动。</p></article>
+                <article class="school-card psychology"><h4>正念与 grounding</h4><p>用呼吸、身体感、环境锚点把注意力带回现在。</p></article>
+                <article class="school-card psychology"><h4>自我慈悲</h4><p>在失败、疲惫和波动时减少自责，换成更稳的内在语气。</p></article>
+              </div>
+
+              <div class="custom-console" aria-label="用户可自定义的处理和提醒维度">
+                <div class="console-lane"><strong>处理数据</strong><span class="console-pill">意义解释</span><span class="console-pill">风险判断</span><span class="console-pill">价值冲突</span><span class="console-pill">行动建议</span></div>
+                <div class="console-lane"><strong>提醒风格</strong><span class="console-pill">温柔陪伴</span><span class="console-pill">直接清晰</span><span class="console-pill">苏格拉底提问</span><span class="console-pill">幽默轻量</span></div>
+                <div class="console-lane"><strong>打扰频率</strong><span class="console-pill">静默</span><span class="console-pill">低频</span><span class="console-pill">每日/每周复盘</span><span class="console-pill">关键节点</span></div>
+                <div class="console-lane"><strong>干预强度</strong><span class="console-pill">只记录</span><span class="console-pill">轻提示</span><span class="console-pill">先提问</span><span class="console-pill">强提醒</span></div>
+                <div class="console-lane"><strong>情绪目标</strong><span class="console-pill">平静</span><span class="console-pill">勇气</span><span class="console-pill">清明</span><span class="console-pill">接纳</span></div>
+              </div>
+
+              <div class="questionnaire-flow" aria-label="问卷式引导 App 激活导师流程">
+                <div class="q-step"><i>1</i><strong>价值取向</strong><span>你更重视自由、责任、关系、成长、平静、成就，还是探索？</span></div>
+                <div class="q-step"><i>2</i><strong>压力反应</strong><span>焦虑时你需要被安慰、被提问、被安排步骤，还是先安静？</span></div>
+                <div class="q-step"><i>3</i><strong>提醒容忍度</strong><span>哪些场景绝不打扰，哪些场景可以打断，哪些只进复盘？</span></div>
+                <div class="q-step"><i>4</i><strong>导师组合</strong><span>选择主导师、辅助 skill、禁用流派和默认语气。</span></div>
+                <div class="q-step"><i>5</i><strong>试运行校准</strong><span>连续反馈“有用/烦/不准/安定”，系统自动调权重。</span></div>
+              </div>
+
+              <div class="safety-strip" aria-label="心理与哲学导师层的安全边界">
+                <div class="safety-item"><strong>非临床定位</strong><span>用于幸福、自我照护、情绪稳定和生活决策支持，不做诊断。</span></div>
+                <div class="safety-item"><strong>用户主权</strong><span>每个流派、skill、提醒频率都能关闭、降级或只在复盘中出现。</span></div>
+                <div class="safety-item"><strong>危机边界</strong><span>识别高风险情绪或伤害信号时，转向现实支持和专业帮助路径。</span></div>
+                <div class="safety-item"><strong>研究校准</strong><span>积极心理学用于提供选择，不替用户规定“应该怎样活”。</span></div>
+              </div>
+              <p class="visual-caption" style="margin-top: 12px">参考边界：WHO 将自我照护定义为个人/家庭/社区促进健康和应对状态的能力，同时强调它不替代卫生系统；宾大 Positive Psychology Center 将积极心理学定位为研究让个人和社区兴盛的因素，并明确 PERMA 是描述性而非规定性的幸福框架。</p>
+            </div>
+
+            <div class="plugin-shelf">
+              <h3>方法插件货架：哲学、心理学、应用方法即插即用</h3>
+              <p class="visual-caption">每个流派或方法都不是“写在 prompt 里的一段话”，而是带 manifest 的模块：它声明自己适合什么场景、需要哪些数据、会怎样解释事实、会输出什么风格、什么时候必须让位给安全边界。</p>
+              <div class="plugin-grid" aria-label="方法插件模块分类">
+                <div class="plugin-card"><strong>Philosophy MethodPack</strong><span>价值镜头：斯多葛、道家、儒家、存在主义、实用主义、人本主义。回答“这件事该如何看待”。</span></div>
+                <div class="plugin-card"><strong>Psychology MethodPack</strong><span>调节镜头：积极心理学、幸福心理学、CBT 启发、ACT 启发、正念、自我慈悲。回答“如何恢复稳定”。</span></div>
+                <div class="plugin-card"><strong>Application MethodPack</strong><span>执行方法：复盘、目标拆解、行为激活、动机访谈、风险预案、预算评估。回答“下一步怎么做”。</span></div>
+                <div class="plugin-card"><strong>User Blend</strong><span>用户自定义组合：主导师、辅助 skill、禁用流派、默认语气、场景权重、反馈调参。</span></div>
+              </div>
+              <div class="plugin-bus" aria-label="方法插件共同接口">
+                <div class="bus-chip">适用场景</div>
+                <div class="bus-chip">所需数据</div>
+                <div class="bus-chip">解释规则</div>
+                <div class="bus-chip">输出语气</div>
+                <div class="bus-chip">打扰策略</div>
+                <div class="bus-chip">安全边界</div>
+              </div>
+            </div>
+
+            <div class="visual-grid">
+              <div class="radar-card">
+                <h3>能力成熟度雷达</h3>
+                <p class="visual-caption">哪块已有基础，哪块需要补课。</p>
+                <div class="radar-wrap">
+                  <svg class="radar-svg" viewBox="0 0 240 240" role="img" aria-label="能力成熟度雷达图">
+                    <polygon points="120,24 211,91 176,198 64,198 29,91" fill="none" stroke="#d8e3ea" stroke-width="2" />
+                    <polygon points="120,56 181,101 158,174 82,174 59,101" fill="none" stroke="#e4edf2" stroke-width="2" />
+                    <polygon points="120,84 154,109 141,150 99,150 86,109" fill="none" stroke="#edf3f6" stroke-width="2" />
+                    <line x1="120" y1="120" x2="120" y2="24" stroke="#e4edf2" />
+                    <line x1="120" y1="120" x2="211" y2="91" stroke="#e4edf2" />
+                    <line x1="120" y1="120" x2="176" y2="198" stroke="#e4edf2" />
+                    <line x1="120" y1="120" x2="64" y2="198" stroke="#e4edf2" />
+                    <line x1="120" y1="120" x2="29" y2="91" stroke="#e4edf2" />
+                    <polygon points="120,48 168,105 145,154 88,164 66,103" fill="rgba(15,139,141,0.18)" stroke="#0f8b8d" stroke-width="3" />
+                    <circle cx="120" cy="48" r="5" fill="#0f8b8d" />
+                    <circle cx="168" cy="105" r="5" fill="#2563eb" />
+                    <circle cx="145" cy="154" r="5" fill="#b7791f" />
+                    <circle cx="88" cy="164" r="5" fill="#14845c" />
+                    <circle cx="66" cy="103" r="5" fill="#b13b59" />
+                  </svg>
+                  <div class="radar-list">
+                    <div class="radar-item"><i class="color-dot"></i><strong>工程底座</strong><span>高</span></div>
+                    <div class="radar-item"><i class="color-dot"></i><strong>事实校准</strong><span>待补</span></div>
+                    <div class="radar-item"><i class="color-dot"></i><strong>信息员</strong><span>待补</span></div>
+                    <div class="radar-item"><i class="color-dot"></i><strong>低噪音</strong><span>中</span></div>
+                    <div class="radar-item"><i class="color-dot"></i><strong>商业化</strong><span>早期</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="scout-card">
+                <h3>信息员星图</h3>
+                <p class="visual-caption">长期兴趣围绕个人生活 Agent 运转，并沉淀成可分享的 `InterestModule`。</p>
+                <div class="scout-map" aria-label="兴趣信息员星图">
+                  <div class="scout-core">个人生活<br />Agent</div>
+                  <div class="scout-bubble">摩托<span>天气/路线/政策</span></div>
+                  <div class="scout-bubble">猫<span>照顾/食品/灵感</span></div>
+                  <div class="scout-bubble">徒步<span>路线/天气/预算</span></div>
+                  <div class="scout-bubble">AI<span>模型/博主/摘要</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="source-panel">
+              <h3>信息源接口库：通用源、专用源、私有源分层复用</h3>
+              <p class="visual-caption">兴趣模块不应该自己到处抓数据。它只声明“我需要天气、路线、内容、预算、位置、时间”，底层由 `SourceConnectorRegistry` 选择已打通、被授权、合规可用的信息源。</p>
+              <div class="source-flow" aria-label="信息源到兴趣计划的信息流">
+                <div class="source-node"><strong>观察信号</strong><span>抖音/自媒体关注、搜索、收藏、停留</span></div>
+                <div class="source-node"><strong>兴趣候选</strong><span>徒步 / 摩托 / 猫 / AI</span></div>
+                <div class="source-node"><strong>信息源匹配</strong><span>通用源 + 专用源 + 私有源</span></div>
+                <div class="source-node"><strong>试推反馈</strong><span>感兴趣 / 太吵 / 不准</span></div>
+                <div class="source-node"><strong>可执行计划</strong><span>时间 / 钱 / 地点 / 天气 / 装备</span></div>
+              </div>
+
+              <div class="source-grid" aria-label="数据来源接口分类">
+                <div class="source-card general"><strong>微信公众号</strong><span>通用内容源。候选路径：搜狗微信搜索、公众号授权、用户导出/收藏。适配徒步、摩托、宠物、AI、自媒体作者追踪。</span><div class="source-tags"><i>通用</i><i>时效</i><i>需合规</i></div></div>
+                <div class="source-card special"><strong>中国天气网 / 天气 MCP</strong><span>专用天气源。适配户外、骑行、徒步、通勤、旅行等需要天气窗口和风险判断的兴趣模块。</span><div class="source-tags"><i>专用</i><i>位置</i><i>天气</i></div></div>
+                <div class="source-card general"><strong>搜索 / Web Agent</strong><span>通用检索源。用于补足政策、攻略、装备评测、路线口碑和近期新闻，但每条结果要保留来源和时间。</span><div class="source-tags"><i>通用</i><i>证据</i><i>摘要</i></div></div>
+                <div class="source-card special"><strong>地图 / 路线 / POI</strong><span>专用地点源。服务路线规划、交通时间、附近补给、停车点、危险路段和返程方案。</span><div class="source-tags"><i>专用</i><i>路线</i><i>执行</i></div></div>
+                <div class="source-card general"><strong>电商 / 装备源</strong><span>半通用决策源。服务预算、装备清单、价格波动、口碑风险和替代方案。</span><div class="source-tags"><i>预算</i><i>装备</i><i>风险</i></div></div>
+                <div class="source-card private"><strong>OS 行为信号</strong><span>私有本地源。键盘、窗口、App、专注状态只能先本地解释；离开发给模型前必须脱敏。</span><div class="source-tags"><i>私有</i><i>本地</i><i>敏感</i></div></div>
+                <div class="source-card private"><strong>用户主动记录</strong><span>私有事实源。语音复盘、文字 check-in、预算、位置偏好、健康状态、时间窗口，默认只在授权范围内使用。</span><div class="source-tags"><i>授权</i><i>一手</i><i>可撤回</i></div></div>
+                <div class="source-card special"><strong>日历 / 预算 / 约束</strong><span>专用约束源。决定计划能不能执行，而不是只给“看起来很美”的建议。</span><div class="source-tags"><i>约束</i><i>时间</i><i>成本</i></div></div>
+              </div>
+
+              <div class="interest-plan" aria-label="徒步兴趣模块从观察到计划">
+                <div class="signal-stack">
+                  <div class="signal-pill"><b>徒步兴趣被观察到</b><span>最近短视频、自媒体、搜索或收藏里反复出现徒步路线、装备、露营、城市周边山线。</span></div>
+                  <div class="signal-pill"><b>先试推，不直接变任务</b><span>小剂量推送路线图、装备避坑、天气窗口、附近路线，等待用户反馈。</span></div>
+                  <div class="signal-pill"><b>反馈确认后升级</b><span>连续正反馈后从 `InterestSignal` 升级成 `InterestModule:hiking`。</span></div>
+                </div>
+                <div class="plan-stack">
+                  <div class="plan-pill"><b>完整计划生成</b><span>地点：离你最近且强度合适；时间：日历空档；天气：避开雨/高温/大风。</span></div>
+                  <div class="plan-pill"><b>成本和风险计算</b><span>交通、门票、装备、餐饮、耗时、体力消耗、安全风险和退出路线。</span></div>
+                  <div class="plan-pill"><b>输出可执行包</b><span>路线、出发时间、预算、装备清单、备选方案、取消条件和回来后的复盘入口。</span></div>
+                </div>
+              </div>
+
+              <div class="workstyle-grid" aria-label="工作类型适配与歧义确认">
+                <div class="workstyle-card"><strong>WorkStyleProfile</strong><span>不同职业的专注形态不同：敲键盘可能是工作，也可能是聊天。</span></div>
+                <div class="workstyle-card"><strong>AmbiguityConfirm</strong><span>信号有歧义时只轻问：现在是在推进、沟通、休息，还是情绪波动？</span></div>
+                <div class="workstyle-card"><strong>MoodAwarePolicy</strong><span>心情好且任务完成，短暂娱乐可被允许；心情差时先不催办。</span></div>
+                <div class="workstyle-card"><strong>Mentor Decision</strong><span>不同哲学/心理学插件会给出不同处理：放过、安抚、提问、复盘或行动。</span></div>
+              </div>
+            </div>
+
+            <div class="privacy-panel">
+              <h3>模型发包前隐私钩子：只允许 SanitizedContext 离开本地</h3>
+              <p class="visual-caption">这个项目天然高度侵入，所以隐私防线必须早于任何大模型调用。每次发包前都像 pre-send hook 一样扫描、最小化、匿名化、记录审计；未通过就不发。</p>
+              <div class="privacy-gates" aria-label="大模型发包前隐私检查流程">
+                <div class="privacy-gate"><strong>1 来源权限</strong><span>检查该数据源是否被授权用于当前目的。</span></div>
+                <div class="privacy-gate"><strong>2 最小必要</strong><span>删除与本次判断无关的原文、姓名、账号、位置细节。</span></div>
+                <div class="privacy-gate"><strong>3 PII 扫描</strong><span>识别身份、联系方式、地址、财务、健康、聊天原文。</span></div>
+                <div class="privacy-gate"><strong>4 假名化</strong><span>把人、地点、项目替换为稳定但不可反推的代号。</span></div>
+                <div class="privacy-gate"><strong>5 秘钥扫描</strong><span>阻断 token、cookie、密钥、验证码、内部路径外泄。</span></div>
+                <div class="privacy-gate"><strong>6 风险决策</strong><span>通过、降级、本地处理、请求用户确认或拒绝发送。</span></div>
+                <div class="privacy-gate"><strong>7 审计报告</strong><span>保存发了什么类别、删了什么类别、为什么允许。</span></div>
+              </div>
+              <div class="privacy-output" aria-label="隐私钩子产物">
+                <div><strong>SanitizedContextPacket</strong><span>给模型的只有抽象事实、约束和目标，没有可识别原始生活数据。</span></div>
+                <div><strong>RedactionReport</strong><span>给用户和系统审计：哪些字段被删除、替换、降级或阻断。</span></div>
+                <div><strong>ModelEgressAudit</strong><span>每次外发都有目的、模型、字段类别、时间、结果和可撤回记录。</span></div>
+              </div>
+            </div>
+
+            <div class="visual-grid">
+              <div class="funnel-card">
+                <h3>打扰决策漏斗</h3>
+                <p class="visual-caption">只有通过四道门，建议才会变成提醒。</p>
+                <div class="decision-funnel">
+                  <div class="funnel-step" style="--gate-width: 100%"><i class="gate-num">1</i><strong>事实新鲜</strong><span>上下文没过期</span></div>
+                  <div class="funnel-step" style="--gate-width: 82%"><i class="gate-num">2</i><strong>不破坏专注</strong><span>不是深度工作</span></div>
+                  <div class="funnel-step" style="--gate-width: 64%"><i class="gate-num">3</i><strong>确实有价值</strong><span>不是随手焦虑</span></div>
+                  <div class="funnel-step" style="--gate-width: 46%"><i class="gate-num">4</i><strong>可拒绝</strong><span>稍后/忽略/关闭</span></div>
+                </div>
+                <div class="outcome-row">
+                  <div class="outcome"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg><strong>不提醒</strong></div>
+                  <div class="outcome"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" /><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2" /></svg><strong>稍后</strong></div>
+                  <div class="outcome"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14v9H8l-3 3V6Z" fill="none" stroke="currentColor" stroke-width="2" /></svg><strong>轻提示</strong></div>
+                  <div class="outcome"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 20h16L12 3Z" fill="none" stroke="currentColor" stroke-width="2" /><path d="M12 9v4M12 17h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg><strong>强提醒</strong></div>
+                </div>
+              </div>
+
+              <div class="priority-card">
+                <h3>MVP 优先级地图</h3>
+                <p class="visual-caption">先做能防止“用旧信息打扰你”的部分。</p>
+                <div class="priority-map">
+                  <div class="priority-tile"><span class="badge gap">P0</span><strong>事实门禁</strong><div class="mini-meter"><i style="--meter: 92%"></i></div><span>主动提醒前先校准</span></div>
+                  <div class="priority-tile"><span class="badge gap">P0</span><strong>校准会话</strong><div class="mini-meter"><i style="--meter: 88%"></i></div><span>语音/文字补事实</span></div>
+                  <div class="priority-tile"><span class="badge gap">P0</span><strong>项目跟随</strong><div class="mini-meter"><i style="--meter: 84%"></i></div><span>任务不会误催</span></div>
+                  <div class="priority-tile"><span class="badge partial">P1</span><strong>信息员</strong><div class="mini-meter"><i style="--meter: 66%"></i></div><span>摩托/猫/AI 试点</span></div>
+                  <div class="priority-tile"><span class="badge partial">P1</span><strong>Idea 分流</strong><div class="mini-meter"><i style="--meter: 58%"></i></div><span>沉淀或丢弃</span></div>
+                  <div class="priority-tile"><span class="badge partial">P1</span><strong>低噪音</strong><div class="mini-meter"><i style="--meter: 54%"></i></div><span>拒绝后降频</span></div>
+                  <div class="priority-tile"><span class="badge gap">P2</span><strong>连接器</strong><div class="mini-meter"><i style="--meter: 36%"></i></div><span>导出包优先</span></div>
+                  <div class="priority-tile"><span class="badge gap">P2</span><strong>商业化</strong><div class="mini-meter"><i style="--meter: 28%"></i></div><span>隐私边界先行</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <details class="detail-fold">
+            <summary>展开：七层文字说明与层间传递</summary>
+          <div class="plain-flow">
+            <div class="plain-flow-header">
+              <div>
+                <h3>七层信息流动总图：从生活信号到行动建议</h3>
+                <p>
+                  可以把 MindAnchor 想成一条“个人生活信息流水线”：左边收集你允许进入系统的信息，中间把信息整理成事实和判断，右边才决定是否提醒、是否进入每日信息流、是否沉淀为长期主题。
+                </p>
+              </div>
+              <div class="flow-legend" aria-label="流程颜色说明">
+                <span class="legend-pill"><span class="legend-mark"></span>进入系统</span>
+                <span class="legend-pill"><span class="legend-mark"></span>变成事实</span>
+                <span class="legend-pill"><span class="legend-mark"></span>做出判断</span>
+                <span class="legend-pill"><span class="legend-mark"></span>输出给你</span>
+              </div>
+            </div>
+
+            <div class="signal-flow" aria-label="MindAnchor 七层信息流动图">
+              <article class="flow-stage">
+                <span class="stage-number">1</span>
+                <h4>输入与授权</h4>
+                <p class="stage-plain">先问清楚：哪些信息能进入系统。</p>
+                <div class="stage-part"><b>输入</b><span>桌面状态、语音复盘、文字补充、导出资料、订阅来源。</span></div>
+                <div class="stage-part"><b>处理</b><span>记录来源、权限、撤回方式和采集频率。</span></div>
+                <div class="stage-part"><b>输出</b><span>一批“被允许使用”的原始信号。</span></div>
+              </article>
+
+              <article class="flow-stage">
+                <span class="stage-number">2</span>
+                <h4>事实账本</h4>
+                <p class="stage-plain">把杂乱信号变成“最近真实发生了什么”。</p>
+                <div class="stage-part"><b>输入</b><span>校准对话、任务变化、项目记录、健康/经济波动。</span></div>
+                <div class="stage-part"><b>处理</b><span>提取事实、标注时间、置信度、影响对象和是否过期。</span></div>
+                <div class="stage-part"><b>输出</b><span>可修正的事实：谁在做、什么变了、什么时候变的。</span></div>
+              </article>
+
+              <article class="flow-stage">
+                <span class="stage-number">3</span>
+                <h4>项目与实验</h4>
+                <p class="stage-plain">判断这件事是项目、实验、担心，还是先不用处理。</p>
+                <div class="stage-part"><b>输入</b><span>事实账本、当前负荷、项目阶段、新念头。</span></div>
+                <div class="stage-part"><b>处理</b><span>更新项目状态，决定现在做、低剂量做、延期或只记录。</span></div>
+                <div class="stage-part"><b>输出</b><span>项目下一步、实验候选、担心候选和生活方式更新。</span></div>
+              </article>
+
+              <article class="flow-stage">
+                <span class="stage-number">4</span>
+                <h4>信息员网络</h4>
+                <p class="stage-plain">把长期有价值的兴趣变成专属信息流。</p>
+                <div class="stage-part"><b>输入</b><span>反复出现的兴趣、SourceConnector、外部新闻和生活场景。</span></div>
+                <div class="stage-part"><b>处理</b><span>主题订阅、来源匹配、证据库、试推反馈、计划生成和降频。</span></div>
+                <div class="stage-part"><b>输出</b><span>摩托、猫、徒步、AI 新闻等 InterestModule 与可执行计划。</span></div>
+              </article>
+
+              <article class="flow-stage">
+                <span class="stage-number">5</span>
+                <h4>主动性策略</h4>
+                <p class="stage-plain">决定“现在要不要打扰你”。</p>
+                <div class="stage-part"><b>输入</b><span>事实新鲜度、WorkStyleProfile、负荷、建议价值、MethodPack、拒绝历史。</span></div>
+                <div class="stage-part"><b>处理</b><span>过事实门禁、专注保护、低噪音规则、方法插件、语气策略和安抚协议。</span></div>
+                <div class="stage-part"><b>输出</b><span>不提醒、稍后提醒、轻提示、询问式弹窗、安抚提示或强提醒。</span></div>
+              </article>
+
+              <article class="flow-stage">
+                <span class="stage-number">6</span>
+                <h4>输出与反馈</h4>
+                <p class="stage-plain">把结果放到合适地方，并听你怎么处理。</p>
+                <div class="stage-part"><b>输入</b><span>提醒候选、信息员摘要、项目下一步、每日复盘、情绪反馈。</span></div>
+                <div class="stage-part"><b>处理</b><span>选择 Web、桌面提醒、每日信息流、todo、安抚卡片或只记录。</span></div>
+                <div class="stage-part"><b>输出</b><span>可读、可拒绝、可稍后、可不再提醒、可评价舒适度的建议。</span></div>
+              </article>
+
+              <article class="flow-stage">
+                <span class="stage-number">7</span>
+                <h4>治理与商业化</h4>
+                <p class="stage-plain">把个人版做可信，再考虑服务别人。</p>
+                <div class="stage-part"><b>输入</b><span>使用记录、授权记录、用户反馈、删除/导出需求。</span></div>
+                <div class="stage-part"><b>处理</b><span>PrivacyHook、数据主权、审计、隔离、多用户、接口库和插件生态。</span></div>
+                <div class="stage-part"><b>输出</b><span>个人可信版本，以及可商业化的插件/接口/隐私边界。</span></div>
+              </article>
+            </div>
+
+            <h4 class="handoff-title">每层之间传递的信息</h4>
+            <div class="handoff-strip" aria-label="每层之间传递的信息">
+              <div class="handoff"><strong>1 → 2</strong>允许使用的原始信号变成可核对事实。</div>
+              <div class="handoff"><strong>2 → 3</strong>最新事实修正项目、任务、实验和担心。</div>
+              <div class="handoff"><strong>3 → 4</strong>长期有价值的念头进入主题订阅。</div>
+              <div class="handoff"><strong>4 → 5</strong>信息员摘要先接受打扰策略过滤。</div>
+              <div class="handoff"><strong>5 → 6</strong>只有合适时机才进入提醒或信息流。</div>
+              <div class="handoff"><strong>6 → 7</strong>你的反馈反过来优化授权、频率和商业化边界。</div>
+            </div>
+          </div>
+
+          <div class="layer-detail-grid">
+            <article class="layer-detail-card">
+              <div class="layer-detail-top"><span class="blueprint-label">1</span><h3>输入与授权层</h3></div>
+              <div class="layer-columns">
+                <div class="layer-column"><b>外行解释</b><p>系统先拿到“被你允许看的东西”，不是偷偷读取生活。</p></div>
+                <div class="layer-column"><b>要开发什么</b><p>授权面板、来源登记、导入入口、语音/文字校准入口。</p></div>
+                <div class="layer-column"><b>看得见的结果</b><p>你能看到每条信息来自哪里，也能暂停或撤回来源。</p></div>
+              </div>
+            </article>
+
+            <article class="layer-detail-card">
+              <div class="layer-detail-top"><span class="blueprint-label">2</span><h3>事实账本层</h3></div>
+              <div class="layer-columns">
+                <div class="layer-column"><b>外行解释</b><p>像一本“最近真实情况笔记”，专门防止系统拿旧信息建议你。</p></div>
+                <div class="layer-column"><b>要开发什么</b><p>事实抽取、事实修正、过期判断、来源证据和冲突处理。</p></div>
+                <div class="layer-column"><b>看得见的结果</b><p>任务移交、紧急变化、健康/经济波动会及时更新上下文。</p></div>
+              </div>
+            </article>
+
+            <article class="layer-detail-card">
+              <div class="layer-detail-top"><span class="blueprint-label">3</span><h3>项目与实验层</h3></div>
+              <div class="layer-columns">
+                <div class="layer-column"><b>外行解释</b><p>系统区分“正在推进的项目”“只是一个想法”“暂时不用管的担心”。</p></div>
+                <div class="layer-column"><b>要开发什么</b><p>项目跟随表、实验候选池、担心延迟池、生活方式版本记录。</p></div>
+                <div class="layer-column"><b>看得见的结果</b><p>新想法不会立刻压成任务，旧项目也不会被错误催办。</p></div>
+              </div>
+            </article>
+
+            <article class="layer-detail-card">
+              <div class="layer-detail-top"><span class="blueprint-label">4</span><h3>信息员网络层</h3></div>
+              <div class="layer-columns">
+                <div class="layer-column"><b>外行解释</b><p>像给你的长期兴趣配专门助理，只推真正有用的信息。</p></div>
+                <div class="layer-column"><b>要开发什么</b><p>InterestModule、SourceConnectorRegistry、证据库、信息质量评分、摘要和退出机制。</p></div>
+                <div class="layer-column"><b>看得见的结果</b><p>徒步、摩托、猫、AI 新闻等主题能试推、反馈、沉淀，并生成可执行计划。</p></div>
+              </div>
+            </article>
+
+            <article class="layer-detail-card">
+              <div class="layer-detail-top"><span class="blueprint-label">5</span><h3>主动性策略层</h3></div>
+              <div class="layer-columns">
+                <div class="layer-column"><b>外行解释</b><p>系统先判断“现在适不适合说”，而不是想到什么就弹窗。</p></div>
+                <div class="layer-column"><b>要开发什么</b><p>事实新鲜度门禁、专注保护、打扰等级、导师语气、拒绝后降频和语言门禁。</p></div>
+                <div class="layer-column"><b>看得见的结果</b><p>提醒会说明为什么现在出现，并按你的导师配置提供安抚、稍后、忽略、不再提醒。</p></div>
+              </div>
+            </article>
+
+            <article class="layer-detail-card">
+              <div class="layer-detail-top"><span class="blueprint-label">6</span><h3>输出与反馈层</h3></div>
+              <div class="layer-columns">
+                <div class="layer-column"><b>外行解释</b><p>不是所有结果都弹出来，有些适合放到信息流，有些只记录。</p></div>
+                <div class="layer-column"><b>要开发什么</b><p>每日信息流、桌面提醒、todo 分流、安抚卡片、反馈按钮和反向学习。</p></div>
+                <div class="layer-column"><b>看得见的结果</b><p>你能快速处理建议，也能评价它是否安定、烦人、有用或不准。</p></div>
+              </div>
+            </article>
+
+            <article class="layer-detail-card">
+              <div class="layer-detail-top"><span class="blueprint-label">7</span><h3>治理与商业化层</h3></div>
+              <div class="layer-columns">
+                <div class="layer-column"><b>外行解释</b><p>先让个人数据边界清楚可信，再把能力开放给其他人。</p></div>
+                <div class="layer-column"><b>要开发什么</b><p>数据导出/删除、审计日志、多用户隔离、订阅计费和信息员生态。</p></div>
+                <div class="layer-column"><b>看得见的结果</b><p>个人版可自用，商业版也有清晰的隐私、权限和服务边界。</p></div>
+              </div>
+            </article>
+          </div>
+
+          </details>
+
+          <details class="detail-fold">
+            <summary>展开：技术拆解版模块卡片</summary>
+          <div class="panel">
+            <h3>七层模块地图：技术拆解版</h3>
+            <p>
+              这七层从输入到输出串起来，形成新版 MindAnchor 的开发总目标：先获得授权信息，再维护事实账本，然后判断项目、实验、兴趣和提醒，最后通过桌面、Web、每日信息流和复盘输出。
+            </p>
+            <div class="blueprint-grid" style="margin-top: 16px">
+              <article class="module-card">
+                <span class="blueprint-label">1</span>
+                <strong>输入与授权层</strong>
+                <p>收集你明确允许进入系统的生活信号和主动补充。</p>
+                <ul>
+                  <li>macOS / Win / Android 状态</li>
+                  <li>语音或文字校准</li>
+                  <li>日记、清单、社交导出包</li>
+                  <li>信息员外部来源订阅</li>
+                </ul>
+              </article>
+              <article class="module-card">
+                <span class="blueprint-label">2</span>
+                <strong>事实账本层</strong>
+                <p>把“最近真实发生了什么”写成可追踪、可修正的事实。</p>
+                <ul>
+                  <li>任务归属是否变化</li>
+                  <li>紧急任务是否插入</li>
+                  <li>健康/经济状态波动</li>
+                  <li>事实来源与新鲜度</li>
+                </ul>
+              </article>
+              <article class="module-card">
+                <span class="blueprint-label">3</span>
+                <strong>项目与实验层</strong>
+                <p>判断当前项目、兴趣念头和新实验是否值得进入行动。</p>
+                <ul>
+                  <li>ProjectTrack 项目阶段</li>
+                  <li>ExperimentCandidate 试验池</li>
+                  <li>ConcernCandidate 担心延迟池</li>
+                  <li>LifestyleVersion 生活方式版本</li>
+                </ul>
+              </article>
+              <article class="module-card">
+                <span class="blueprint-label">4</span>
+                <strong>信息员网络层</strong>
+                <p>把持续有价值的兴趣变成可订阅、可降频、可退出的 subagent。</p>
+                <ul>
+                  <li>摩托：政策、天气、路线、装备</li>
+                  <li>徒步：路线、天气、预算、装备</li>
+                  <li>猫：照顾、食品风险、内容灵感</li>
+                  <li>AI：模型新闻、博主更新、摘要</li>
+                  <li>SourceConnectorRegistry：复用数据源接口</li>
+                </ul>
+              </article>
+              <article class="module-card wide">
+                <span class="blueprint-label">5</span>
+                <strong>主动性与打扰策略层</strong>
+                <p>
+                  所有主动建议先过五道门：事实是否新鲜、你是否处在深度工作、当前负荷是否适合被打扰、导师配置要求怎样表达、这条建议是否能被拒绝或稍后处理。
+                </p>
+                <ul>
+                  <li>Freshness Gate：重要提醒前检查事实是否过期。</li>
+                  <li>FocusGuard：深度工作时延迟非关键提醒。</li>
+                  <li>WorkStyleProfile：按职业/工作模式解释行为信号。</li>
+                  <li>MentorStylePolicy：按哲学/心理学导师选择语气和安抚方式。</li>
+                  <li>MethodPack：哲学、心理学、应用方法可插拔。</li>
+                  <li>CadencePolicy：按用户偏好和反馈动态调整打扰频率。</li>
+                  <li>AutonomyGuardrail：每条建议都必须给选项和原因。</li>
+                  <li>LanguageGate：禁止道德化、自责化和命令式措辞。</li>
+                </ul>
+              </article>
+              <article class="module-card">
+                <span class="blueprint-label">6</span>
+                <strong>输出与反馈层</strong>
+                <p>把结果送到合适的界面，而不是把所有内容都变成弹窗。</p>
+                <ul>
+                  <li>轻提示 / 询问式弹窗 / 强提醒</li>
+                  <li>平静卡片 / 价值提醒 / grounding 步骤</li>
+                  <li>每日信息流与每周复盘</li>
+                  <li>todo、只记录、稍后、忽略</li>
+                  <li>反馈写回模型与频率</li>
+                </ul>
+              </article>
+              <article class="module-card">
+                <span class="blueprint-label">7</span>
+                <strong>治理与商业化层</strong>
+                <p>先让个人版数据边界可信，再考虑服务其他人。</p>
+                <ul>
+                  <li>PrivacyHook：模型发包前强制脱敏</li>
+                  <li>来源审计、授权、撤回</li>
+                  <li>导入、导出、删除</li>
+                  <li>多用户隔离、接口库和计费</li>
+                  <li>方法插件 / 兴趣模块 marketplace 化</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+          </details>
+
+          <details class="detail-fold">
+            <summary>展开：两个关键闭环详细步骤</summary>
+          <div class="flow-grid">
+            <div class="flow-panel">
+              <span class="badge plan">闭环 A</span>
+              <h3>语音/文字校准如何变成最新事实</h3>
+              <div class="flow-lane">
+                <div class="flow-step">
+                  <span class="step-dot">1</span>
+                  <div>
+                    <h4>触发校准</h4>
+                    <p>每日、每周、固定打扰点，或系统发现上下文过期时触发。入口可以是语音，也可以是文字。</p>
+                  </div>
+                </div>
+                <div class="flow-step">
+                  <span class="step-dot">2</span>
+                  <div>
+                    <h4>只问高价值问题</h4>
+                    <p>围绕任务归属、突发紧急事项、健康/经济波动、项目暂停和生活状态变化提问。</p>
+                  </div>
+                </div>
+                <div class="flow-step">
+                  <span class="step-dot">3</span>
+                  <div>
+                    <h4>提取事实修正</h4>
+                    <p>把自然对话拆成 `FactCorrection`，标注来源、置信度、影响对象和有效时间。</p>
+                  </div>
+                </div>
+                <div class="flow-step">
+                  <span class="step-dot">4</span>
+                  <div>
+                    <h4>写回事实账本</h4>
+                    <p>更新 `ProjectTrack`、任务 owner、紧急度、状态摘要和 `ContextFreshnessScore`。</p>
+                  </div>
+                </div>
+                <div class="flow-step">
+                  <span class="step-dot">5</span>
+                  <div>
+                    <h4>重新评估提醒</h4>
+                    <p>如果旧提醒基于过期事实，自动撤回、降频或改写为新的选择建议。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flow-panel">
+              <span class="badge partial">闭环 B</span>
+              <h3>兴趣信息员如何从念头变成信息流</h3>
+              <div class="flow-lane">
+                <div class="flow-step">
+                  <span class="step-dot">1</span>
+                  <div>
+                    <h4>捕捉反复出现的念头</h4>
+                    <p>摩托、猫、AI 新闻这类主题如果多次出现，就先进入 `IdeaInbox`，不立刻变成任务。</p>
+                  </div>
+                </div>
+                <div class="flow-step">
+                  <span class="step-dot">2</span>
+                  <div>
+                    <h4>判断长期价值</h4>
+                    <p>按持续时间、成长价值、情绪收益、时间成本、现实约束打分。</p>
+                  </div>
+                </div>
+                <div class="flow-step">
+                  <span class="step-dot">3</span>
+                  <div>
+                    <h4>试运行主题订阅</h4>
+                    <p>先小剂量运行 `TopicSubscription`，明确来源、频率、摘要格式和退出规则。</p>
+                  </div>
+                </div>
+                <div class="flow-step">
+                  <span class="step-dot">4</span>
+                  <div>
+                    <h4>生成每日信息流</h4>
+                    <p>信息员输出 `ScoutDigest`，可进入阅读、todo、稍后、收藏或直接丢弃。</p>
+                  </div>
+                </div>
+                <div class="flow-step">
+                  <span class="step-dot">5</span>
+                  <div>
+                    <h4>反馈决定沉淀或降级</h4>
+                    <p>长期有用则保留为信息员；低价值且耗时则转入 `IdeaTrash`，避免继续打扰。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </details>
+
+          <details class="detail-fold">
+            <summary>展开：核心数据对象清单</summary>
+          <div class="panel">
+            <h3>核心数据对象清单</h3>
+            <p>这些对象是下一阶段要补的“产品语义层”。它们不一定一次全实现，但应先作为 schema 和 API 边界被设计出来。</p>
+            <div class="object-grid" style="margin-top: 16px">
+              <div class="object-card"><code>CalibrationSession</code><p>一次语音或文字校准，包含触发原因、问题列表、原始摘要、待确认事实。</p></div>
+              <div class="object-card"><code>FactCorrection</code><p>从校准中提取的事实修正，例如任务已移交、健康状态变化、紧急任务插入。</p></div>
+              <div class="object-card"><code>ContextFreshnessScore</code><p>衡量关键上下文是否过期，决定主动提醒前是否必须先校准。</p></div>
+              <div class="object-card"><code>ProjectTrack</code><p>项目阶段、下一步、卡点、owner、暂停状态、最近推进和能量成本。</p></div>
+              <div class="object-card"><code>ExperimentCandidate</code><p>新想法或生活实验候选，决定现在做、低剂量做、延期或只记录。</p></div>
+              <div class="object-card"><code>ConcernCandidate</code><p>暂不处理的担心池，只有复现或造成现实损耗时才升级。</p></div>
+              <div class="object-card"><code>TopicSubscription</code><p>一个长期主题的信息员订阅，含来源偏好、频率、摘要格式和退出规则。</p></div>
+              <div class="object-card"><code>InterestScoutAgent</code><p>具体主题 subagent，例如摩托信息员、宠物信息员、AI 新闻信息员。</p></div>
+              <div class="object-card"><code>InterestModule</code><p>可分享的兴趣模块，例如徒步模块，声明所需信息源、反馈指标、计划模板和退出条件。</p></div>
+              <div class="object-card"><code>InterestSignal</code><p>从短视频、搜索、收藏、阅读停留、主动记录中观察到的兴趣候选，不等于马上变任务。</p></div>
+              <div class="object-card"><code>SourceConnector</code><p>数据来源适配器，标注通用/专用/私有、授权状态、覆盖主题、刷新频率和合规风险。</p></div>
+              <div class="object-card"><code>SourceConnectorRegistry</code><p>接口库；兴趣模块需要数据时先查这里，复用已打通的信息源而不是重复开发。</p></div>
+              <div class="object-card"><code>EvidenceStore</code><p>存放摘要、来源、时间、可信度和失效时间；为信息员和计划建议提供证据底座。</p></div>
+              <div class="object-card"><code>ExecutablePlan</code><p>把兴趣变成可执行方案，包含时间、地点、预算、天气、装备、风险、备选和取消条件。</p></div>
+              <div class="object-card"><code>WorkStyleProfile</code><p>不同职业/工作方式的专注识别模型，避免把敲键盘、聊天、沟通、摸鱼一概而论。</p></div>
+              <div class="object-card"><code>ScoutDigest</code><p>信息员产出的可消费摘要，标注重要性、建议动作、证据来源和过期时间。</p></div>
+              <div class="object-card"><code>IdeaInbox</code><p>暂存突然出现的念头，等待价值判断，不立刻占用行动系统。</p></div>
+              <div class="object-card"><code>IdeaTrash</code><p>低价值、高耗时、无长期收益的念头归档区，可检索但默认不再推送。</p></div>
+              <div class="object-card"><code>InterventionProposal</code><p>准备打扰你之前的候选建议，必须包含 whyNow、选项、拒绝策略和证据。</p></div>
+              <div class="object-card"><code>MentorProfile</code><p>用户选择的哲学流派、心理学 skill、提醒语气、频率容忍度和禁用边界。</p></div>
+              <div class="object-card"><code>PhilosophyAgent</code><p>斯多葛、道家、儒家、存在主义、实用主义等价值解释器，负责“如何看待这件事”。</p></div>
+              <div class="object-card"><code>WellbeingSkill</code><p>积极心理学、幸福心理学、正念、自我慈悲等非临床支持技能，负责“如何安定下来”。</p></div>
+              <div class="object-card"><code>MethodPack</code><p>哲学、心理学或应用方法插件，声明适用场景、输入需求、解释规则、语气和安全边界。</p></div>
+              <div class="object-card"><code>PluginManifest</code><p>统一描述插件能力、版本、依赖、禁用条件、用户可调参数和可迁移平台适配。</p></div>
+              <div class="object-card"><code>TonePolicy</code><p>控制输出口吻：温柔、直接、提问式、教练式、极简或幽默轻量。</p></div>
+              <div class="object-card"><code>CadencePolicy</code><p>控制打扰频率：静默、低频、复盘、关键节点、高支持，并随反馈动态调整。</p></div>
+              <div class="object-card"><code>SoothingProtocol</code><p>当情绪波动较大时优先触发的平静流程，例如 grounding、呼吸、澄清和现实支持路径。</p></div>
+              <div class="object-card"><code>OnboardingQuestionnaire</code><p>问卷式引导 App 的答案集合，用于初始化导师组合、默认语气和提醒容忍度。</p></div>
+              <div class="object-card"><code>ContextPacket</code><p>给任意 agent 使用的标准上下文包，包含事实、权限、时效、置信度和不可使用内容。</p></div>
+              <div class="object-card"><code>SanitizedContextPacket</code><p>真正允许外发给模型的上下文包，只保留抽象事实、约束和目标，移除可识别原文。</p></div>
+              <div class="object-card"><code>PrivacyHook</code><p>模型调用前的本地钩子链：权限、最小化、PII 扫描、假名化、密钥扫描和风险决策。</p></div>
+              <div class="object-card"><code>RedactionReport</code><p>脱敏报告，记录删掉、替换、降级、阻断了哪些类别的数据，供用户审计。</p></div>
+              <div class="object-card"><code>ModelEgressAudit</code><p>每次向大模型发包的审计记录，包含目的、模型、字段类别、时间和结果。</p></div>
+              <div class="object-card"><code>CapabilityManifest</code><p>描述某个 agent 能做什么、不能做什么、需要哪些权限，以及能否执行外部动作。</p></div>
+              <div class="object-card"><code>AgentAdapterContract</code><p>把 OpenClaw、Hermes、Codex 自动化等平台接入核心处理层的统一接口。</p></div>
+            </div>
+          </div>
+          </details>
+
+          <details class="detail-fold">
+            <summary>展开：MVP 切片文字验收标准</summary>
+          <div class="panel">
+            <h3>MVP 切片与验收标准</h3>
+            <p>如果要从“理解设想”进入“能开发”，可以按下面这些切片推进。每个切片都有可验收的输出，不依赖一次性做完整商业化。</p>
+            <div class="slice-grid" style="margin-top: 16px">
+              <article class="slice">
+                <span class="badge gap">P0</span>
+                <h4>事实新鲜度门禁</h4>
+                <p>主动提醒前能判断任务、健康、经济、紧急事项是否超过校准窗口；过期时先问，不直接建议。</p>
+              </article>
+              <article class="slice">
+                <span class="badge gap">P0</span>
+                <h4>校准会话 MVP</h4>
+                <p>先做文字复盘，再接在线语音模型；产出事实修正并写回任务、项目和状态摘要。</p>
+              </article>
+              <article class="slice">
+                <span class="badge gap">P0</span>
+                <h4>项目跟随表</h4>
+                <p>每个项目有 owner、阶段、下一步、暂停、卡点和最近推进，避免系统拿旧任务继续催你。</p>
+              </article>
+              <article class="slice">
+                <span class="badge partial">P1</span>
+                <h4>信息员试点</h4>
+                <p>先做摩托、猫、AI 新闻三个主题，以订阅、摘要、反馈、降频为最小闭环。</p>
+              </article>
+              <article class="slice">
+                <span class="badge partial">P1</span>
+                <h4>Idea 分流</h4>
+                <p>所有新念头先进入 inbox，根据长期价值和情绪收益分到 todo、主题订阅、只记录或 trash。</p>
+              </article>
+              <article class="slice">
+                <span class="badge partial">P1</span>
+                <h4>低噪音输出</h4>
+                <p>同一条建议必须支持稍后、忽略、不再提醒此类，并能因连续拒绝自动降频。</p>
+              </article>
+              <article class="slice">
+                <span class="badge gap">P0</span>
+                <h4>非临床安全边界</h4>
+                <p>所有哲学/心理学导师只做幸福与自我照护支持；高风险信号要转向现实支持和专业帮助路径。</p>
+              </article>
+              <article class="slice">
+                <span class="badge gap">P0</span>
+                <h4>模型发包隐私钩子</h4>
+                <p>任何大模型调用前必须生成 `SanitizedContextPacket` 和 `RedactionReport`；未通过扫描则本地处理或请求确认。</p>
+              </article>
+              <article class="slice">
+                <span class="badge partial">P1</span>
+                <h4>方法插件框架</h4>
+                <p>用 `MethodPack` 和 `PluginManifest` 管理哲学、心理学、应用方法，支持启用、禁用、组合和场景权重。</p>
+              </article>
+              <article class="slice">
+                <span class="badge partial">P1</span>
+                <h4>导师问卷引导 App</h4>
+                <p>用问答选择主导师、辅助 skill、禁用流派、默认语气、打扰容忍度，并生成 `MentorProfile`。</p>
+              </article>
+              <article class="slice">
+                <span class="badge partial">P1</span>
+                <h4>提醒风格控制台</h4>
+                <p>允许调整处理逻辑、提醒语气、打扰频率、干预强度和情绪目标，并能随反馈自动建议修改。</p>
+              </article>
+              <article class="slice">
+                <span class="badge gap">P2</span>
+                <h4>资料连接器</h4>
+                <p>先支持本地导出包和 Markdown，再考虑平台连接；每条 insight 都保留来源和撤回路径。</p>
+              </article>
+              <article class="slice">
+                <span class="badge partial">P1</span>
+                <h4>SourceConnectorRegistry</h4>
+                <p>把微信公众号、天气、地图、搜索、OS 行为等数据源按通用/专用/私有分类，记录可服务哪些兴趣模块。</p>
+              </article>
+              <article class="slice">
+                <span class="badge partial">P1</span>
+                <h4>徒步兴趣端到端</h4>
+                <p>从兴趣观察、试推反馈、天气/路线/预算/位置约束，到生成一个可执行徒步计划作为首个样板。</p>
+              </article>
+              <article class="slice">
+                <span class="badge gap">P2</span>
+                <h4>商业化边界</h4>
+                <p>在个人版跑通后，再设计多用户隔离、授权中心、审计、计费、方法插件和信息源 marketplace。</p>
+              </article>
+            </div>
+          </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="shell section" id="architecture">
+        <div class="section-intro">
+          <h2>当前架构与最新设想的承接关系</h2>
+          <p>已有架构可以保留。需要新增的是夹在“用户数据源”和“Coach 决策”之间的生活智能层，它负责把杂乱生活记录变成可审核、可拒绝、可延迟的建议。</p>
+        </div>
+        <div class="architecture">
+          <div class="arch-node">
+            <h3>授权输入</h3>
+            <ul>
+              <li>macOS 信号</li>
+              <li>Android Beta</li>
+              <li>手动 check-in</li>
+              <li>语音/文字校准</li>
+              <li>SourceConnector 接口库</li>
+            </ul>
+          </div>
+          <div class="arch-node">
+            <h3>Lobster Gateway</h3>
+            <ul>
+              <li>鉴权与设备</li>
+              <li>JSON store</li>
+              <li>read-model</li>
+              <li>trace/debug</li>
+            </ul>
+          </div>
+          <div class="arch-node">
+            <h3>生活智能层</h3>
+            <ul>
+              <li>实验候选池</li>
+              <li>项目跟随表</li>
+              <li>事实新鲜度</li>
+              <li>价值观分层</li>
+              <li>哲学/心理学导师配置</li>
+              <li>MethodPack 插件框架</li>
+              <li>干预强度策略</li>
+            </ul>
+          </div>
+          <div class="arch-node">
+            <h3>OpenClaw 大脑</h3>
+            <ul>
+              <li>Picard 路由</li>
+              <li>Coach personas</li>
+              <li>兴趣信息员</li>
+              <li>幸福导师 skills</li>
+              <li>InterestModule 计划生成</li>
+              <li>Data 记忆治理</li>
+              <li>Jarvis plan proposal</li>
+            </ul>
+          </div>
+          <div class="arch-node">
+            <h3>低噪音输出</h3>
+            <ul>
+              <li>轻提示</li>
+              <li>询问式弹窗</li>
+              <li>少量强提醒</li>
+              <li>每日信息流</li>
+              <li>SanitizedContext 外发</li>
+              <li>周/月生活方式更新</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="shell section" id="comparison">
+        <div class="section-intro">
+          <h2>完整大表：最新设想 vs 当前工作</h2>
+          <p>状态含义：已覆盖表示可直接使用或已有较完整实现；部分覆盖表示有工程骨架但产品语义不足；缺口表示需要新增模块或重大升级。</p>
+        </div>
+
+        <details class="detail-fold">
+          <summary>展开：完整对照大表（详细文字）</summary>
+        <div class="compare-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>最新设想 / 产品要求</th>
+                <th>当前项目已有工作</th>
+                <th>匹配状态</th>
+                <th>主要缺口</th>
+                <th>补充升级建议</th>
+                <th>优先级</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>首先服务于你本人，之后再考虑商业化</td>
+                <td>当前文档和实现都是单用户自部署主线；OpenClaw 作为用户自部署大脑，客户端是入口/出口。</td>
+                <td class="status"><span class="badge done">已覆盖</span></td>
+                <td>商业化所需多用户、组织、计费、合规尚未设计。</td>
+                <td>先固定“个人版体验闭环”，再抽象商业化 profile、tenant、privacy policy。</td>
+                <td>P1</td>
+              </tr>
+              <tr>
+                <td>价值观不变成每日打卡；分为默认运行、触发处理、主动干预三层</td>
+                <td>M7 文档强调少打扰和过度提醒判断；Coach 有记忆与反馈机制。</td>
+                <td class="status"><span class="badge partial">部分覆盖</span></td>
+                <td>没有 attention layer / value layer 的正式 schema 和策略引擎。</td>
+                <td>新增 `AttentionLayer` 与 `ValueProfileRule`，把“默认不处理”写入产品规则。</td>
+                <td>P0</td>
+              </tr>
+              <tr>
+                <td>处理数据、提醒风格、提醒语气、打扰频率都要可自定义</td>
+                <td>当前有低噪音理念和反馈机制，但没有统一的用户控制台。</td>
+                <td class="status"><span class="badge gap">缺口</span></td>
+                <td>提醒策略仍像系统规则，不像用户可调的个人生活协议。</td>
+                <td>新增 `TonePolicy`、`CadencePolicy`、`InterventionIntensity`，做成可视化控制台并允许自动建议调参。</td>
+                <td>P0</td>
+              </tr>
+              <tr>
+                <td>哲学流派、积极心理学、幸福心理学等成为 agent/skill，担任底层价值方向</td>
+                <td>已有 Coach personas 和 agent 架构，可以承载不同人格或角色。</td>
+                <td class="status"><span class="badge partial">部分覆盖</span></td>
+                <td>缺正式分类、启用/禁用机制、冲突处理和非临床安全边界。</td>
+                <td>新增 `MentorProfile`、`PhilosophyAgent`、`WellbeingSkill`、`SoothingProtocol`，先实现少量主流流派试点。</td>
+                <td>P0</td>
+              </tr>
+              <tr>
+                <td>做一个问卷式引导 App，帮助用户选择激活哪些哲学/心理学导师</td>
+                <td>当前没有 onboarding 选择路径，用户偏好主要靠对话逐步沉淀。</td>
+                <td class="status"><span class="badge gap">缺口</span></td>
+                <td>缺从价值取向、压力反应、提醒容忍度到导师组合的结构化入口。</td>
+                <td>新增 `OnboardingQuestionnaire`，用试运行反馈持续调整导师权重、语气和频率。</td>
+                <td>P1</td>
+              </tr>
+              <tr>
+                <td>哲学流派、心理学流派和应用方法要模块化、即插即用、可分享</td>
+                <td>已有 agent/persona 概念，但方法还没有插件 manifest、依赖声明、禁用条件和场景权重。</td>
+                <td class="status"><span class="badge gap">缺口</span></td>
+                <td>方法仍会散落在 prompt 或代码逻辑里，难以迁移到任意 agent 平台。</td>
+                <td>新增 `MethodPack` 与 `PluginManifest`，把哲学、心理学、执行方法都做成可安装模块。</td>
+                <td>P0</td>
+              </tr>
+              <tr>
+                <td>信息员星图也要模块化，可分享；兴趣点可从多种观察中浮现</td>
+                <td>报告已有摩托、猫、AI 信息员示意，但还不是可复用的兴趣模块。</td>
+                <td class="status"><span class="badge partial">部分覆盖</span></td>
+                <td>缺 `InterestSignal` 到 `InterestModule` 的试推、反馈、升级、降级闭环。</td>
+                <td>新增 `InterestModule`，用徒步样板跑通观察、试推、反馈、计划生成。</td>
+                <td>P1</td>
+              </tr>
+              <tr>
+                <td>数据来源接口要按通用/专用/私有分类，并记录适配哪些兴趣点</td>
+                <td>当前有导入和 OpenChronicle 旁路，但缺跨兴趣复用的数据源接口库。</td>
+                <td class="status"><span class="badge gap">缺口</span></td>
+                <td>微信公众号、天气、地图、搜索、OS 行为等接口没有统一注册、授权和覆盖范围管理。</td>
+                <td>新增 `SourceConnectorRegistry`，标注接口状态、刷新频率、合规风险、可服务主题和证据质量。</td>
+                <td>P1</td>
+              </tr>
+              <tr>
+                <td>任何数据发给大模型前都必须匿名化、最小化，并由钩子扫描泄露风险</td>
+                <td>已有数据主权和授权理念，但外发前的强制脱敏流水线尚未成为一等模块。</td>
+                <td class="status"><span class="badge gap">缺口</span></td>
+                <td>高侵入数据一旦原文外发，会破坏用户信任，也阻碍商业化。</td>
+                <td>新增 `PrivacyHook`、`SanitizedContextPacket`、`RedactionReport`、`ModelEgressAudit`，默认本地先处理。</td>
+                <td>P0</td>
+              </tr>
+              <tr>
+                <td>辅助忽视：不是所有担心都值得解决</td>
+                <td>Coach 可以生成建议，M7 有 `over-notification` 场景。</td>
+                <td class="status"><span class="badge partial">部分覆盖</span></td>
+                <td>没有“担心候选池 / 延迟处理 / 复现再升级”的数据模型。</td>
+                <td>新增 `ConcernCandidate`：记录、延迟到期、复现次数、升级条件、自动关闭。</td>
+                <td>P0</td>
+              </tr>
+              <tr>
+                <td>根据近期忙碌和负荷判断新想法是否现在做</td>
+                <td>已有 state signals、health snapshots、tasks、sessions、state trends。</td>
+                <td class="status"><span class="badge partial">部分覆盖</span></td>
+                <td>没有“实验候选池”和负荷门槛判断。</td>
+                <td>新增 `ExperimentCandidate`，给出现在做、两周后、低剂量、只记录四类决策。</td>
+                <td>P0</td>
+              </tr>
+              <tr>
+                <td>项目跟随：知道项目长短、阶段、进度、卡点和下一步</td>
+                <td>已有 Goals、Tasks、FocusSession、GoalFlow overview。</td>
+                <td class="status"><span class="badge partial">部分覆盖</span></td>
+                <td>Goal/Task 粒度不足以表达“项目阶段、暂停、健康度、最近推进”。</td>
+                <td>新增 `ProjectTrack`：stage、recentProgress、nextStep、blocked、pauseUntil、energyCost。</td>
+                <td>P0</td>
+              </tr>
+              <tr>
+                <td>定期语音/文字校准：补足非侵入式采集看不到的一手变化</td>
+                <td>已有 Coach 对话、check-in、反思报告和状态趋势，但没有固定校准流程或语音模型接入。</td>
+                <td class="status"><span class="badge gap">缺口</span></td>
+                <td>系统不知道任务移交、突发紧急任务、健康/经济波动等离线事实，容易基于过期上下文主动打扰。</td>
+                <td>新增 `CalibrationSession`、`FactCorrection`、`ContextFreshnessScore`；支持在线语音模型和文字问答双入口。</td>
+                <td>P0</td>
+              </tr>
+              <tr>
+                <td>主动侵入式建议必须使用最新一手信息</td>
+                <td>当前提醒主要来自 Inbox/notification dispatch 与 state/recovery read-model。</td>
+                <td class="status"><span class="badge partial">部分覆盖</span></td>
+                <td>缺“上下文是否过期”的判断，可能在任务已移交后仍建议继续执行。</td>
+                <td>在 InterventionPolicy 前增加 `freshness gate`：关键建议前检查最近校准时间和事实冲突。</td>
+                <td>P0</td>
+              </tr>
+              <tr>
+                <td>从日记、自媒体、QQ 空间、朋友圈、微信、清单等授权资料中提取事实</td>
+                <td>OpenChronicle 旁路可读；Coach memory candidate 可治理。</td>
+                <td class="status"><span class="badge gap">缺口</span></td>
+                <td>没有连接器、导入格式、权限边界、脱敏和来源追踪。</td>
+                <td>先做本地文件/Markdown/导出包导入，再做平台连接器；所有来源都要可审计和可撤回。</td>
+                <td>P1</td>
+              </tr>
+              <tr>
+                <td>识别你未曾察觉的价值观、品质和长期模式</td>
+                <td>有 Coach memory、AgentMemoryService、DataMemoryService 和 reflections。</td>
+                <td class="status"><span class="badge partial">部分覆盖</span></td>
+                <td>目前主要是对话偏好/习惯记忆，不是跨资料的价值观挖掘。</td>
+                <td>新增 `TraitInsight` / `ValueHypothesis`，必须带证据片段、置信度、人工确认。</td>
+                <td>P1</td>
+              </tr>
+              <tr>
+                <td>引入不同信息员和专家 subagent，形成个性化生活信息流</td>
+                <td>OpenClaw 已有 persona agents 和 agent registry，技术上可扩展新 agent。</td>
+                <td class="status"><span class="badge gap">缺口</span></td>
+                <td>还没有主题订阅、来源偏好、更新频率、信息质量评估和“是否沉淀”的判定流程。</td>
+                <td>新增 `InterestScoutAgent` 与 `TopicSubscription`；先从摩托、宠物、AI 模型新闻三类试点。</td>
+                <td>P1</td>
+              </tr>
+              <tr>
+                <td>信息流能根据长期价值和情绪反馈决定沉淀、todo 或丢弃</td>
+                <td>已有任务、记忆候选和反馈，但没有 idea 分流层。</td>
+                <td class="status"><span class="badge gap">缺口</span></td>
+                <td>突然出现的念头无法被系统判定为长期主题、短期待办、仅记录或 idea 垃圾桶。</td>
+                <td>新增 `IdeaInbox`、`IdeaTrash`、`PromotionRule`：按持续时间、成长价值、情绪收益、时间成本分流。</td>
+                <td>P1</td>
+              </tr>
+              <tr>
+                <td>持续更新 lifestyle、时间管理、精力管理</td>
+                <td>已有 state trends、reflection weekly/monthly、Recovery。</td>
+                <td class="status"><span class="badge partial">部分覆盖</span></td>
+                <td>没有“生活方式版本”和“实验结果写回”的闭环。</td>
+                <td>新增 `LifestyleVersion`：当前原则、变更原因、实验证据、回滚点。</td>
+                <td>P1</td>
+              </tr>
+              <tr>
+                <td>半侵入式 Agent：关键节点主动弹窗、问少量问题</td>
+                <td>macOS 有本地提醒、Inbox、snooze、ack；Gateway 有 notification dispatch。</td>
+                <td class="status"><span class="badge partial">部分覆盖</span></td>
+                <td>提醒还不是按四级主动性和自主性规则调度。</td>
+                <td>新增 `InterventionPolicy`：记录级、轻提示、询问级、强提醒级。</td>
+                <td>P0</td>
+              </tr>
+              <tr>
+                <td>每次弹窗必须保留拒绝权、稍后、忽略、不再提醒</td>
+                <td>macOS Reminder 已有 snooze 15 分钟和 acknowledge。</td>
+                <td class="status"><span class="badge partial">部分覆盖</span></td>
+                <td>缺 ignore、不再提醒此类、连续拒绝自动降频。</td>
+                <td>扩展 Inbox status 和 reminder metadata：ignored、mutedCategory、rejectedCount。</td>
+                <td>P0</td>
+              </tr>
+              <tr>
+                <td>Agent 给选项，不给命令；解释为什么现在提醒</td>
+                <td>Trace/debug 能说明路由；Coach 可显示运行路径。</td>
+                <td class="status"><span class="badge partial">部分覆盖</span></td>
+                <td>用户提醒消息没有稳定的 `whyNow`、`options`、`confidence` 结构。</td>
+                <td>把通知 schema 改成：reason、evidence、choices、defaultChoice、dismissPolicy。</td>
+                <td>P0</td>
+              </tr>
+              <tr>
+                <td>避免道德化语言，不制造新的内在批评者</td>
+                <td>产品文档反对监控；M7 关注语义质量。</td>
+                <td class="status"><span class="badge partial">部分覆盖</span></td>
+                <td>没有 prompt 级语言禁用清单和测试门禁。</td>
+                <td>新增语义门禁：禁止“你又拖延/不自律/不符合价值观”等措辞。</td>
+                <td>P0</td>
+              </tr>
+              <tr>
+                <td>疲惫时提醒休息，空闲时低成本收集反馈</td>
+                <td>有 idle、lock/unlock、health snapshots、video assessments、emotion assessments。</td>
+                <td class="status"><span class="badge partial">部分覆盖</span></td>
+                <td>疲惫判断仍未产品化；视频/健康默认关闭且不进主链。</td>
+                <td>先做显式自评 + 桌面节律疲劳模型，再考虑摄像头/健康数据。</td>
+                <td>P1</td>
+              </tr>
+              <tr>
+                <td>深度工作时少打扰；频繁切换或过载时介入</td>
+                <td>macOS DesktopActivityCollector 已采集 active_app、window_switch、idle。</td>
+                <td class="status"><span class="badge done">已覆盖底层</span></td>
+                <td>采集信号尚未稳定映射为“勿扰/介入”的策略。</td>
+                <td>加入 `FocusGuard`：深度工作保护窗口、切换阈值、延迟提醒队列。</td>
+                <td>P0</td>
+              </tr>
+              <tr>
+                <td>Windows 是主要工作设备，也要被系统理解</td>
+                <td>当前没有正式 Windows collector；Win 只能访问 Web 控制台。</td>
+                <td class="status"><span class="badge gap">缺口</span></td>
+                <td>主要工作现场在 Win 时，系统看不到真实桌面状态。</td>
+                <td>先做 Web 手动桥接和轻量 tray collector，再做完整 Windows collector。</td>
+                <td>P0</td>
+              </tr>
+              <tr>
+                <td>Android 作为移动入口和第二客户端</td>
+                <td>M6 已完成真机 LAN、auth、polling、session recovery 等阶段性验证。</td>
+                <td class="status"><span class="badge partial">部分覆盖</span></td>
+                <td>Android 长期客户端、安全存储、正式体验仍未完成。</td>
+                <td>保留 Beta，先稳定 Mac/Win 主工作流后再恢复移动端产品化。</td>
+                <td>P2</td>
+              </tr>
+              <tr>
+                <td>长期记忆不能污染当前回答</td>
+                <td>OpenChronicle 对照已跑通，但语义评审明确暂不合格。</td>
+                <td class="status"><span class="badge gap">风险</span></td>
+                <td>内部路由痕迹和历史回答片段会污染 Coach 输出。</td>
+                <td>先修 DesktopMemoryAdapter 过滤、上下文压缩、结构化 prompt 注入和语义门禁。</td>
+                <td>P0</td>
+              </tr>
+              <tr>
+                <td>商业化服务其他人</td>
+                <td>当前是私有单用户、自部署、本地 JSON store 和本地 runtime 验证。</td>
+                <td class="status"><span class="badge gap">缺口</span></td>
+                <td>缺 onboarding、租户隔离、数据授权、审计、删除、导出、计费和支持体系。</td>
+                <td>商业化前先定义“个人隐私操作系统”边界，并实现数据主权面板。</td>
+                <td>P2</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        </details>
+      </section>
+
+      <section class="shell section" id="autonomy">
+        <div class="section-intro">
+          <h2>半侵入式 Agent 的产品护栏</h2>
+          <p>最新设想里最关键的不是“更主动”，而是“主动但不夺权”。下面六条应该写成产品原则、prompt 原则和测试门禁。</p>
+        </div>
+        <div class="principles">
+          <div class="principle">
+            <span class="badge done">选择权</span>
+            <h3>给选项，不给命令</h3>
+            <p>每次建议都提供继续、稍后、忽略、低剂量尝试等选择，用户仍是决策者。</p>
+          </div>
+          <div class="principle">
+            <span class="badge plan">解释权</span>
+            <h3>说明为什么现在提醒</h3>
+            <p>弹窗必须携带触发依据，例如连续活跃、频繁切换、预设时间点或实验反馈窗口。</p>
+          </div>
+          <div class="principle">
+            <span class="badge partial">拒绝权</span>
+            <h3>可忽略、可关闭、会降频</h3>
+            <p>连续拒绝某类提醒后，系统应主动降低频率，而不是继续坚持。</p>
+          </div>
+          <div class="principle">
+            <span class="badge done">低噪音</span>
+            <h3>帮助你少想一点</h3>
+            <p>担心没有复现或现实影响时，只进入候选池，不展开分析。</p>
+          </div>
+          <div class="principle">
+            <span class="badge partial">非道德化</span>
+            <h3>不评价人格和自律</h3>
+            <p>避免“你又拖延了”之类语言，改成状态、负荷和下一步选择。</p>
+          </div>
+          <div class="principle">
+            <span class="badge gap">数据主权</span>
+            <h3>授权、撤回、来源可查</h3>
+            <p>个人资料抽取必须可审计、可删除、可暂停，不默默扩大采集范围。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="shell section" id="roadmap">
+        <div class="section-intro">
+          <h2>建议升级路线</h2>
+          <p>路线选择以你当前设备为前提：Mac 跑本地大脑和主客户端，Win 是主要工作现场，Android 做第二客户端。最短路径不是先做全量商业化，而是让系统先真正理解你的 Win 工作流和个人实验节奏。</p>
+        </div>
+        <div class="roadmap">
+          <div class="phase">
+            <span class="badge done">Phase 1</span>
+            <h3>M7 语义收口</h3>
+            <ul class="compact-list">
+              <li>修 OpenChronicle 记忆噪声</li>
+              <li>增加具体下一步门禁</li>
+              <li>增加过度提醒判断</li>
+              <li>禁止内部路由词暴露</li>
+            </ul>
+          </div>
+          <div class="phase">
+            <span class="badge plan">Phase 2</span>
+            <h3>生活智能核心</h3>
+            <ul class="compact-list">
+              <li>ExperimentCandidate</li>
+              <li>ProjectTrack</li>
+              <li>CalibrationSession</li>
+              <li>ConcernCandidate</li>
+              <li>InterventionPolicy</li>
+            </ul>
+          </div>
+          <div class="phase">
+            <span class="badge partial">Phase 3</span>
+            <h3>Win 与一手校准</h3>
+            <ul class="compact-list">
+              <li>Web 快速 check-in</li>
+              <li>语音/文字复盘</li>
+              <li>Win tray collector</li>
+              <li>上下文新鲜度门禁</li>
+              <li>事实修正写回</li>
+            </ul>
+          </div>
+          <div class="phase">
+            <span class="badge partial">Phase 4</span>
+            <h3>信息员与接口库</h3>
+            <ul class="compact-list">
+              <li>摩托/宠物/AI/徒步试点</li>
+              <li>TopicSubscription</li>
+              <li>SourceConnectorRegistry</li>
+              <li>微信公众号/天气/地图源</li>
+              <li>IdeaInbox / IdeaTrash</li>
+              <li>信息价值反馈</li>
+            </ul>
+          </div>
+          <div class="phase">
+            <span class="badge partial">Phase 5</span>
+            <h3>导师与风格控制</h3>
+            <ul class="compact-list">
+              <li>MentorProfile</li>
+              <li>MethodPack / PluginManifest</li>
+              <li>哲学/心理学 skill</li>
+              <li>问卷式引导 App</li>
+              <li>提醒语气与频率控制台</li>
+              <li>非临床安全边界</li>
+            </ul>
+          </div>
+          <div class="phase">
+            <span class="badge gap">Phase 6</span>
+            <h3>隐私发包防线</h3>
+            <ul class="compact-list">
+              <li>PrivacyHook</li>
+              <li>SanitizedContextPacket</li>
+              <li>RedactionReport</li>
+              <li>ModelEgressAudit</li>
+              <li>本地优先处理策略</li>
+            </ul>
+          </div>
+          <div class="phase">
+            <span class="badge gap">Phase 7</span>
+            <h3>商业化准备</h3>
+            <ul class="compact-list">
+              <li>隐私与授权中心</li>
+              <li>多用户隔离</li>
+              <li>导入/导出/删除</li>
+              <li>连接器、方法插件与审计</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="shell section" id="reporting">
+        <div class="callout">
+          <h2>汇报用结论</h2>
+          <p>
+            MindAnchor 已经有可运行工程底座。下一阶段要把它升级为平台无关的个人 Agent 操作层：`MethodPack` 决定解释方式，`InterestModule` 沉淀长期兴趣，`SourceConnectorRegistry` 复用信息源，`PrivacyHook` 阻断敏感外发。商业化可以成立，但前提是个人数据主权、授权透明、接口复用、低侵入体验和外发隐私防线足够稳定。
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="shell footer">
+      <strong>资料来源</strong>
+      <div class="source-list">
+        <a href="https://chatgpt.com/share/6a2c59cb-2d60-83ea-8d7a-5e9527550dc5">ChatGPT share：生活模式与优先级调整</a>
+        <span>本轮新增设想：定期语音/文字校准、在线语音模型接入、兴趣/专家信息员 subagent、个性化信息流、IdeaInbox、IdeaTrash、价值观与幸福导师层、方法插件、信息源接口库、徒步兴趣模块、隐私发包钩子。</span>
+        <a href="https://www.who.int/health-topics/self-care">WHO：Self-care for health and well-being</a>
+        <a href="https://ppc.sas.upenn.edu/learn-more/perma-theory-well-being-and-perma-workshops">University of Pennsylvania Positive Psychology Center：PERMA Theory of Well-Being</a>
+        <a href="https://weixin.sogou.com/">搜狗微信搜索：公众号与文章检索入口</a>
+        <a href="https://www.weather.com.cn/">中国天气网：天气、预警、旅游和生活气象信息</a>
+        <a href="https://www.nist.gov/privacy-framework">NIST Privacy Framework：隐私风险识别和管理参考</a>
+        <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">OWASP Top 10 for LLM Applications：LLM 应用安全风险参考</a>
+        <a href="https://modelcontextprotocol.io/">Model Context Protocol：Agent 工具与上下文协议参考</a>
+        <span>本地项目文件：README.md、tasks.md、docs/final-product-description.md、docs/spec.md、docs/m7-desktop-model-effect-loop-2026-04-26.md、docs/m7-openchronicle-memory-semantic-review-2026-04-26.md、apps/api、apps/macos、apps/web、packages/domain、openclaw。</span>
+        <span>本次统计口径：仓库总大小约 23G；排除主要生成物和运行数据后核心文件约 467 个；重点源码/脚本/文档路径约 369 个；测试相关文件约 110 个。</span>
+      </div>
+    </footer>
+  </body>
+</html>

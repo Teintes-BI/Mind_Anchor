@@ -1,0 +1,28 @@
+{
+  "name": "@mindanchor/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "corepack pnpm --filter @mindanchor/domain build && vite",
+    "build": "node ../../scripts/clean-appledouble.mjs --quiet && corepack pnpm --filter @mindanchor/domain build && tsc -p tsconfig.json && vite build && node ../../scripts/clean-appledouble.mjs --quiet",
+    "test": "node ../../scripts/clean-appledouble.mjs --quiet && vitest run && node ../../scripts/clean-appledouble.mjs --quiet"
+  },
+  "dependencies": {
+    "@mindanchor/domain": "workspace:*",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.2.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.4.1",
+    "jsdom": "^26.1.0",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.0",
+    "vitest": "^3.2.4"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "generatedAt": "2026-04-25T16:10:06.729Z",
+  "startedAt": "2026-04-25T16:10:06.729Z",
+  "completedAt": "2026-04-25T16:10:59.612Z",
+  "durationMs": 52883,
+  "apiBaseUrl": "http://127.0.0.1:3011",
+  "openClawBaseUrl": "http://192.168.0.104:8800",
+  "accountEmail": "m7-desktop-model-effect@example.com",
+  "plannedTurnCount": 1,
+  "preflight": {
+    "openClawReachable": true,
+    "apiHealthy": true,
+    "macAppSignedIn": true
+  },
+  "turns": [
+    {
+      "id": "next-action",
+      "title": "明确下一步",
+      "prompt": "我现在有点散，请只给我一个可以立刻开始的下一步，并说明为什么是它。",
+      "feedbackLabel": "helpful",
+      "assistantStatus": "completed",
+      "fastResponseLength": 37,
+      "fullResponseLength": 27,
+      "executionTrailIncludesOpenClaw": true,
+      "executionTrail": [
+        "OpenClaw 主路径 · cluster"
+      ],
+      "traceId": null,
+      "feedbackPersisted": true,
+      "currentError": null,
+      "userFacingCurrentError": null,
+      "passed": true,
+      "errors": []
+    }
+  ],
+  "errors": [],
+  "summary": {
+    "passed": true,
+    "plannedTurnCount": 1,
+    "completedTurnCount": 1,
+    "turnCount": 1,
+    "failedTurnCount": 0,
+    "openClawTrailCount": 1,
+    "feedbackPersistedCount": 1,
+    "fastResponseCount": 1,
+    "fullResponseCount": 1,
+    "averageFullResponseLength": 27,
+    "durationMs": 52883,
+    "traceIds": [],
+    "errorSamples": []
+  }
+}

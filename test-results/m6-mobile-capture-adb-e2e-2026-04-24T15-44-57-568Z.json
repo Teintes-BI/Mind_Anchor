@@ -1,0 +1,841 @@
+{
+  "generatedAt": "2026-04-24T15:44:57.568Z",
+  "startedAt": "2026-04-24T15:44:57.568Z",
+  "completedAt": "2026-04-24T15:45:00.717Z",
+  "durationMs": 3149,
+  "apiBaseUrl": "http://127.0.0.1:3011",
+  "apiLanBaseUrl": "http://192.168.0.104:3011",
+  "openClawBaseUrl": "http://192.168.0.104:8800",
+  "device": {
+    "serial": "320146882257",
+    "model": "NX733J",
+    "androidVersion": "15",
+    "wifiIp": "192.168.0.100",
+    "curlPath": "/system/bin/curl"
+  },
+  "preflight": {
+    "adbDeviceConnected": true,
+    "wifiIpDetected": true,
+    "curlAvailable": true,
+    "gatewayLanHealthOk": true
+  },
+  "options": {
+    "apiHost": "0.0.0.0",
+    "preferredApiPort": 3011,
+    "userId": "m6-mobile-user",
+    "deviceId": "android-m6-capture",
+    "profileName": "dev"
+  },
+  "steps": [
+    {
+      "label": "mobile-device-register",
+      "method": "POST",
+      "endpoint": "/mobile/devices/register",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "8b573d55-c342-47f9-904d-6d9553ffe14a",
+        "deviceId": "android-m6-capture"
+      },
+      "response": {
+        "id": "8b573d55-c342-47f9-904d-6d9553ffe14a",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "deviceName": "NX733J",
+        "platform": "android",
+        "appVersion": "m6-adb-e2e",
+        "platformVersion": "15",
+        "pairingState": "paired",
+        "desktopHost": "192.168.0.104",
+        "consentAcknowledgedAt": "2026-04-24T15:44:58.718Z",
+        "lastSeenAt": "2026-04-24T15:44:58.784Z",
+        "createdAt": "2026-04-24T15:44:58.784Z",
+        "updatedAt": "2026-04-24T15:44:58.784Z"
+      }
+    },
+    {
+      "label": "edge-device-register",
+      "method": "POST",
+      "endpoint": "/devices/register",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "94bceca5-aa9e-406a-8982-a62758583ece",
+        "deviceId": "android-m6-capture"
+      },
+      "response": {
+        "id": "94bceca5-aa9e-406a-8982-a62758583ece",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "label": "NX733J",
+        "deviceType": "mobile",
+        "platform": "android",
+        "capabilities": [
+          "notifications",
+          "audio_capture",
+          "video_capture",
+          "health_bridge"
+        ],
+        "status": "online",
+        "appVersion": "m6-adb-e2e",
+        "queueDepth": 0,
+        "lastSeenAt": "2026-04-24T15:44:58.865Z",
+        "createdAt": "2026-04-24T15:44:58.784Z",
+        "updatedAt": "2026-04-24T15:44:58.865Z"
+      }
+    },
+    {
+      "label": "device-heartbeat",
+      "method": "POST",
+      "endpoint": "/devices/heartbeat",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "id": "94bceca5-aa9e-406a-8982-a62758583ece",
+        "deviceId": "android-m6-capture"
+      },
+      "response": {
+        "id": "94bceca5-aa9e-406a-8982-a62758583ece",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "label": "NX733J",
+        "deviceType": "mobile",
+        "platform": "android",
+        "capabilities": [
+          "notifications",
+          "audio_capture",
+          "video_capture",
+          "health_bridge"
+        ],
+        "status": "online",
+        "appVersion": "m6-adb-e2e",
+        "queueDepth": 0,
+        "lastSeenAt": "2026-04-24T15:44:59.030Z",
+        "createdAt": "2026-04-24T15:44:58.784Z",
+        "updatedAt": "2026-04-24T15:44:59.030Z",
+        "lastUploadedAt": "2026-04-24T15:44:58.871Z"
+      }
+    },
+    {
+      "label": "audio-session-start",
+      "method": "POST",
+      "endpoint": "/mobile/capture/sessions/start",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "sessionId": "59e32429-a0ef-467c-8cc7-a6585598e806",
+        "status": "active"
+      },
+      "response": {
+        "id": "59e32429-a0ef-467c-8cc7-a6585598e806",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "captureMode": "foreground_microphone_with_call_events",
+        "status": "active",
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "audio/pcm16le",
+        "chunkDurationMs": 1000,
+        "rollingBufferSeconds": 60,
+        "receivedChunkCount": 0,
+        "startedAt": "2026-04-24T15:42:58.718Z"
+      }
+    },
+    {
+      "label": "call-event",
+      "method": "POST",
+      "endpoint": "/mobile/call-events",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "93f4b78a-a36d-4ac6-8188-21d9e10eda2a",
+        "deviceId": "android-m6-capture",
+        "sessionId": null
+      },
+      "response": {
+        "id": "93f4b78a-a36d-4ac6-8188-21d9e10eda2a",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "direction": "incoming",
+        "status": "missed",
+        "occurredAt": "2026-04-24T15:43:59.131Z",
+        "createdAt": "2026-04-24T15:44:59.206Z"
+      }
+    },
+    {
+      "label": "emotion-assessment",
+      "method": "POST",
+      "endpoint": "/emotion/assessments",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "3992889e-9a11-4c43-b360-9822fbe05cab",
+        "deviceId": "android-m6-capture",
+        "sessionId": "59e32429-a0ef-467c-8cc7-a6585598e806"
+      },
+      "response": {
+        "id": "3992889e-9a11-4c43-b360-9822fbe05cab",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "sessionId": "59e32429-a0ef-467c-8cc7-a6585598e806",
+        "chunkSequence": 0,
+        "windowStart": "2026-04-24T15:43:28.718Z",
+        "windowEnd": "2026-04-24T15:44:58.718Z",
+        "emotionLabel": "stressed",
+        "valenceScore": 20,
+        "arousalScore": 28,
+        "stressScore": 88,
+        "confidence": 0.91,
+        "summary": "High stress detected during Android capture window.",
+        "modelName": "m6-adb-e2e",
+        "source": "cluster-openai-compatible",
+        "createdAt": "2026-04-24T15:44:59.384Z"
+      }
+    },
+    {
+      "label": "media-upload-session",
+      "method": "POST",
+      "endpoint": "/media/upload-sessions",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "sessionId": "8e583072-f1ed-473f-8f69-2ea488956751",
+        "status": "pending"
+      },
+      "response": {
+        "id": "8e583072-f1ed-473f-8f69-2ea488956751",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "mediaType": "video",
+        "contentType": "video/webm",
+        "storageBucket": "mindanchor-media",
+        "objectKey": "m6-mobile-user/android-m6-capture/video/a6b1b404-8fdf-40c6-b1cf-f4294b4a52b8",
+        "uploadUrl": "stub://openclaw-storage/m6-mobile-user/android-m6-capture/video/a6b1b404-8fdf-40c6-b1cf-f4294b4a52b8",
+        "status": "pending",
+        "plannedPartCount": 1,
+        "captureStartedAt": "2026-04-24T15:42:58.718Z",
+        "captureEndedAt": "2026-04-24T15:44:28.718Z",
+        "ttlExpiresAt": "2026-04-25T15:44:59.496Z",
+        "createdAt": "2026-04-24T15:44:59.496Z",
+        "updatedAt": "2026-04-24T15:44:59.496Z"
+      }
+    },
+    {
+      "label": "media-upload-part",
+      "method": "POST",
+      "endpoint": "/media/upload-sessions/8e583072-f1ed-473f-8f69-2ea488956751/parts",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "3d96c29a-9e6f-47ed-b553-fbc18487f83e",
+        "sessionId": "8e583072-f1ed-473f-8f69-2ea488956751",
+        "sequence": 0
+      },
+      "response": {
+        "id": "3d96c29a-9e6f-47ed-b553-fbc18487f83e",
+        "sessionId": "8e583072-f1ed-473f-8f69-2ea488956751",
+        "sequence": 0,
+        "checksum": "m6-adb-part-0",
+        "sizeBytes": 2048,
+        "startedAt": "2026-04-24T15:42:58.718Z",
+        "endedAt": "2026-04-24T15:44:28.718Z",
+        "uploadedAt": "2026-04-24T15:44:59.572Z"
+      }
+    },
+    {
+      "label": "media-upload-complete",
+      "method": "POST",
+      "endpoint": "/media/upload-sessions/8e583072-f1ed-473f-8f69-2ea488956751/complete",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "sessionId": "8e583072-f1ed-473f-8f69-2ea488956751",
+        "status": "completed"
+      },
+      "response": {
+        "id": "8e583072-f1ed-473f-8f69-2ea488956751",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "mediaType": "video",
+        "contentType": "video/webm",
+        "storageBucket": "mindanchor-media",
+        "objectKey": "m6-mobile-user/android-m6-capture/video/a6b1b404-8fdf-40c6-b1cf-f4294b4a52b8",
+        "uploadUrl": "stub://openclaw-storage/m6-mobile-user/android-m6-capture/video/a6b1b404-8fdf-40c6-b1cf-f4294b4a52b8",
+        "status": "completed",
+        "plannedPartCount": 1,
+        "captureStartedAt": "2026-04-24T15:42:58.718Z",
+        "captureEndedAt": "2026-04-24T15:44:28.718Z",
+        "ttlExpiresAt": "2026-04-25T15:44:59.496Z",
+        "createdAt": "2026-04-24T15:44:59.496Z",
+        "updatedAt": "2026-04-24T15:44:59.678Z",
+        "completedAt": "2026-04-24T15:44:59.582Z"
+      }
+    },
+    {
+      "label": "video-assessment",
+      "method": "POST",
+      "endpoint": "/video/assessments",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "5f4c7675-da3f-4f47-95f2-075387a5301d",
+        "deviceId": "android-m6-capture",
+        "sessionId": "8e583072-f1ed-473f-8f69-2ea488956751"
+      },
+      "response": {
+        "id": "5f4c7675-da3f-4f47-95f2-075387a5301d",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "sessionId": "8e583072-f1ed-473f-8f69-2ea488956751",
+        "windowStart": "2026-04-24T15:43:28.718Z",
+        "windowEnd": "2026-04-24T15:44:58.718Z",
+        "fatigueScore": 82,
+        "focusScore": 30,
+        "confidence": 0.89,
+        "summary": "Video analysis indicates fatigue and low focus.",
+        "modelName": "m6-adb-e2e",
+        "featureSummary": "heavy blink rate and slumped posture",
+        "source": "cluster-openai-compatible",
+        "createdAt": "2026-04-24T15:44:59.752Z"
+      }
+    },
+    {
+      "label": "health-snapshot",
+      "method": "POST",
+      "endpoint": "/health/snapshots",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "64220b19-c3ed-46de-aff4-ce12a2608e3a",
+        "deviceId": "android-m6-capture",
+        "sessionId": null
+      },
+      "response": {
+        "id": "64220b19-c3ed-46de-aff4-ce12a2608e3a",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "sourcePlatform": "android",
+        "sourceProvider": "health_connect",
+        "windowStart": "2026-04-24T14:44:59.791Z",
+        "windowEnd": "2026-04-24T15:44:58.718Z",
+        "heartRate": 92,
+        "oxygenSaturation": 95,
+        "restingHeartRate": 68,
+        "sleepMinutes": 280,
+        "summary": "Low sleep and elevated heart rate from Android health bridge.",
+        "createdAt": "2026-04-24T15:44:59.870Z"
+      }
+    },
+    {
+      "label": "audio-session-end",
+      "method": "POST",
+      "endpoint": "/mobile/capture/sessions/end",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "sessionId": "59e32429-a0ef-467c-8cc7-a6585598e806",
+        "status": "completed"
+      },
+      "response": {
+        "id": "59e32429-a0ef-467c-8cc7-a6585598e806",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "captureMode": "foreground_microphone_with_call_events",
+        "status": "completed",
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "audio/pcm16le",
+        "chunkDurationMs": 1000,
+        "rollingBufferSeconds": 60,
+        "receivedChunkCount": 1,
+        "startedAt": "2026-04-24T15:42:58.718Z",
+        "lastChunkAt": "2026-04-24T15:44:58.718Z",
+        "endedAt": "2026-04-24T15:44:59.915Z"
+      }
+    },
+    {
+      "label": "health-latest",
+      "method": "GET",
+      "endpoint": "/health/latest?userId=m6-mobile-user",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "latestId": "64220b19-c3ed-46de-aff4-ce12a2608e3a",
+        "latestDeviceId": "android-m6-capture"
+      },
+      "response": {
+        "latest": {
+          "id": "64220b19-c3ed-46de-aff4-ce12a2608e3a",
+          "userId": "m6-mobile-user",
+          "deviceId": "android-m6-capture",
+          "sourcePlatform": "android",
+          "sourceProvider": "health_connect",
+          "windowStart": "2026-04-24T14:44:59.791Z",
+          "windowEnd": "2026-04-24T15:44:58.718Z",
+          "heartRate": 92,
+          "oxygenSaturation": 95,
+          "restingHeartRate": 68,
+          "sleepMinutes": 280,
+          "summary": "Low sleep and elevated heart rate from Android health bridge.",
+          "createdAt": "2026-04-24T15:44:59.870Z"
+        },
+        "recent": [
+          {
+            "id": "64220b19-c3ed-46de-aff4-ce12a2608e3a",
+            "userId": "m6-mobile-user",
+            "deviceId": "android-m6-capture",
+            "sourcePlatform": "android",
+            "sourceProvider": "health_connect",
+            "windowStart": "2026-04-24T14:44:59.791Z",
+            "windowEnd": "2026-04-24T15:44:58.718Z",
+            "heartRate": 92,
+            "oxygenSaturation": 95,
+            "restingHeartRate": 68,
+            "sleepMinutes": 280,
+            "summary": "Low sleep and elevated heart rate from Android health bridge.",
+            "createdAt": "2026-04-24T15:44:59.870Z"
+          }
+        ]
+      }
+    },
+    {
+      "label": "dashboard-summary",
+      "method": "GET",
+      "endpoint": "/dashboard/summary?userId=m6-mobile-user",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "latestHealthSnapshotId": "64220b19-c3ed-46de-aff4-ce12a2608e3a",
+        "edgeDeviceCount": 1,
+        "inboxCount": 5
+      },
+      "response": {
+        "goalCount": 0,
+        "taskCount": 0,
+        "completedTaskCount": 0,
+        "inProgressTaskCount": 0,
+        "blockedTaskCount": 0,
+        "completionRate": 0,
+        "openInterventions": 2,
+        "suggestedFocusTaskId": null,
+        "summaryHeadline": "当前已有恢复方案，建议先按恢复方案收拢主线，再继续推进最重要任务。",
+        "coachFrontAgent": {
+          "currentFrontAgent": "director-agent",
+          "routingMode": "auto",
+          "manualOverride": false,
+          "consultedAgent": null,
+          "handoffReason": null,
+          "overrideSourceAgent": null,
+          "visibleSummary": "Picard is currently coordinating the team."
+        },
+        "activeSession": null,
+        "latestAssessment": {
+          "id": "86549d51-2279-426f-b3bf-df0b95f421fe",
+          "userId": "m6-mobile-user",
+          "windowStart": "2026-04-24T15:29:59.877Z",
+          "windowEnd": "2026-04-24T15:44:59.877Z",
+          "focusScore": 58,
+          "energyScore": 45,
+          "moodScore": 48,
+          "summary": "当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。",
+          "recommendedAction": "先收拢干扰源，回到主任务，只推进一个最小可验证步骤，再决定是否继续扩展。",
+          "emotionSummary": "音频侧提示紧张和压力抬升，说明当前更适合减少切换而不是继续并行处理。",
+          "emotionConfidence": 0.82,
+          "fatigueScore": 82,
+          "videoSummary": "视频侧显示疲劳和视觉稳定度下降，说明持续专注能力正在变弱。",
+          "healthSummary": "健康数据显示恢复基础一般，健康数据提示应优先保证节奏稳定而不是强行加码。",
+          "activeInputs": [
+            "desktop_signal",
+            "audio_server_inference",
+            "video_server_inference",
+            "health_bridge"
+          ],
+          "mediaFreshness": "mixed",
+          "source": "openai-compatible",
+          "createdAt": "2026-04-24T15:44:59.880Z"
+        },
+        "latestRecoveryPlan": null,
+        "latestBehaviorConclusion": {
+          "id": "4bb85f40-18e1-46b7-9173-f345e1ed92dc",
+          "userId": "m6-mobile-user",
+          "assessmentId": "86549d51-2279-426f-b3bf-df0b95f421fe",
+          "riskLevel": "high",
+          "summary": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+          "suggestedAction": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+          "trigger": "behavior_conclusion",
+          "recommendedChannel": "mobile_push",
+          "createdAt": "2026-04-24T15:44:59.891Z"
+        },
+        "latestVideoAssessment": {
+          "id": "5f4c7675-da3f-4f47-95f2-075387a5301d",
+          "userId": "m6-mobile-user",
+          "deviceId": "android-m6-capture",
+          "sessionId": "8e583072-f1ed-473f-8f69-2ea488956751",
+          "windowStart": "2026-04-24T15:43:28.718Z",
+          "windowEnd": "2026-04-24T15:44:58.718Z",
+          "fatigueScore": 82,
+          "focusScore": 30,
+          "confidence": 0.89,
+          "summary": "Video analysis indicates fatigue and low focus.",
+          "modelName": "m6-adb-e2e",
+          "featureSummary": "heavy blink rate and slumped posture",
+          "source": "cluster-openai-compatible",
+          "createdAt": "2026-04-24T15:44:59.752Z"
+        },
+        "latestHealthSnapshot": {
+          "id": "64220b19-c3ed-46de-aff4-ce12a2608e3a",
+          "userId": "m6-mobile-user",
+          "deviceId": "android-m6-capture",
+          "sourcePlatform": "android",
+          "sourceProvider": "health_connect",
+          "windowStart": "2026-04-24T14:44:59.791Z",
+          "windowEnd": "2026-04-24T15:44:58.718Z",
+          "heartRate": 92,
+          "oxygenSaturation": 95,
+          "restingHeartRate": 68,
+          "sleepMinutes": 280,
+          "summary": "Low sleep and elevated heart rate from Android health bridge.",
+          "createdAt": "2026-04-24T15:44:59.870Z"
+        },
+        "mobileAudio": {
+          "enabled": true,
+          "latestDevice": {
+            "id": "8b573d55-c342-47f9-904d-6d9553ffe14a",
+            "userId": "m6-mobile-user",
+            "deviceId": "android-m6-capture",
+            "deviceName": "NX733J",
+            "platform": "android",
+            "appVersion": "m6-adb-e2e",
+            "platformVersion": "15",
+            "pairingState": "paired",
+            "desktopHost": "192.168.0.104",
+            "consentAcknowledgedAt": "2026-04-24T15:44:58.718Z",
+            "lastSeenAt": "2026-04-24T15:44:58.784Z",
+            "createdAt": "2026-04-24T15:44:58.784Z",
+            "updatedAt": "2026-04-24T15:44:58.784Z"
+          },
+          "latestSession": {
+            "id": "59e32429-a0ef-467c-8cc7-a6585598e806",
+            "userId": "m6-mobile-user",
+            "deviceId": "android-m6-capture",
+            "captureMode": "foreground_microphone_with_call_events",
+            "status": "completed",
+            "sampleRateHz": 16000,
+            "channels": 1,
+            "encoding": "audio/pcm16le",
+            "chunkDurationMs": 1000,
+            "rollingBufferSeconds": 60,
+            "receivedChunkCount": 1,
+            "lastChunkAt": "2026-04-24T15:44:58.718Z",
+            "startedAt": "2026-04-24T15:42:58.718Z",
+            "endedAt": "2026-04-24T15:44:59.915Z"
+          },
+          "latestEmotionAssessment": {
+            "id": "3992889e-9a11-4c43-b360-9822fbe05cab",
+            "userId": "m6-mobile-user",
+            "deviceId": "android-m6-capture",
+            "sessionId": "59e32429-a0ef-467c-8cc7-a6585598e806",
+            "chunkSequence": 0,
+            "windowStart": "2026-04-24T15:43:28.718Z",
+            "windowEnd": "2026-04-24T15:44:58.718Z",
+            "emotionLabel": "stressed",
+            "valenceScore": 20,
+            "arousalScore": 28,
+            "stressScore": 88,
+            "confidence": 0.91,
+            "summary": "High stress detected during Android capture window.",
+            "modelName": "m6-adb-e2e",
+            "source": "cluster-openai-compatible",
+            "createdAt": "2026-04-24T15:44:59.384Z"
+          },
+          "latestCallEvent": {
+            "id": "93f4b78a-a36d-4ac6-8188-21d9e10eda2a",
+            "userId": "m6-mobile-user",
+            "deviceId": "android-m6-capture",
+            "direction": "incoming",
+            "status": "missed",
+            "occurredAt": "2026-04-24T15:43:59.131Z",
+            "createdAt": "2026-04-24T15:44:59.206Z"
+          }
+        },
+        "edgeDevices": [
+          {
+            "id": "94bceca5-aa9e-406a-8982-a62758583ece",
+            "userId": "m6-mobile-user",
+            "deviceId": "android-m6-capture",
+            "label": "NX733J",
+            "deviceType": "mobile",
+            "platform": "android",
+            "capabilities": [
+              "notifications",
+              "audio_capture",
+              "video_capture",
+              "health_bridge"
+            ],
+            "status": "online",
+            "appVersion": "m6-adb-e2e",
+            "queueDepth": 0,
+            "lastUploadedAt": "2026-04-24T15:44:58.871Z",
+            "lastSeenAt": "2026-04-24T15:44:59.030Z",
+            "createdAt": "2026-04-24T15:44:58.784Z",
+            "updatedAt": "2026-04-24T15:44:59.030Z"
+          }
+        ],
+        "inbox": [
+          {
+            "id": "560d5c48-81c0-4ba6-9ef0-959d8306dbb9",
+            "userId": "m6-mobile-user",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-24T15:44:59.899Z"
+          },
+          {
+            "id": "d9df4d15-58e7-455e-81ed-47a156d64997",
+            "userId": "m6-mobile-user",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-24T15:44:59.778Z"
+          },
+          {
+            "id": "c2e00fc0-a7bb-41f6-9aa4-445326ca4230",
+            "userId": "m6-mobile-user",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-24T15:44:59.677Z"
+          },
+          {
+            "id": "f8fad838-252c-4019-860f-b7d418765d9c",
+            "userId": "m6-mobile-user",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-24T15:44:59.416Z"
+          },
+          {
+            "id": "12441200-4ac8-44b6-99dd-e17a303f2626",
+            "userId": "m6-mobile-user",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-24T15:44:59.249Z"
+          }
+        ],
+        "goals": [],
+        "tasks": []
+      }
+    },
+    {
+      "label": "inbox-overview",
+      "method": "GET",
+      "endpoint": "/client/inbox/overview?userId=m6-mobile-user",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "totalMessages": 5,
+        "latestBehaviorConclusionId": "4bb85f40-18e1-46b7-9173-f345e1ed92dc",
+        "latestRecoveryPlanId": null
+      },
+      "response": {
+        "messages": [
+          {
+            "id": "560d5c48-81c0-4ba6-9ef0-959d8306dbb9",
+            "userId": "m6-mobile-user",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-24T15:44:59.899Z"
+          },
+          {
+            "id": "d9df4d15-58e7-455e-81ed-47a156d64997",
+            "userId": "m6-mobile-user",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-24T15:44:59.778Z"
+          },
+          {
+            "id": "c2e00fc0-a7bb-41f6-9aa4-445326ca4230",
+            "userId": "m6-mobile-user",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-24T15:44:59.677Z"
+          },
+          {
+            "id": "f8fad838-252c-4019-860f-b7d418765d9c",
+            "userId": "m6-mobile-user",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-24T15:44:59.416Z"
+          },
+          {
+            "id": "12441200-4ac8-44b6-99dd-e17a303f2626",
+            "userId": "m6-mobile-user",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-24T15:44:59.249Z"
+          }
+        ],
+        "pendingMessages": [
+          {
+            "id": "560d5c48-81c0-4ba6-9ef0-959d8306dbb9",
+            "userId": "m6-mobile-user",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-24T15:44:59.899Z"
+          },
+          {
+            "id": "d9df4d15-58e7-455e-81ed-47a156d64997",
+            "userId": "m6-mobile-user",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-24T15:44:59.778Z"
+          },
+          {
+            "id": "c2e00fc0-a7bb-41f6-9aa4-445326ca4230",
+            "userId": "m6-mobile-user",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-24T15:44:59.677Z"
+          },
+          {
+            "id": "f8fad838-252c-4019-860f-b7d418765d9c",
+            "userId": "m6-mobile-user",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-24T15:44:59.416Z"
+          },
+          {
+            "id": "12441200-4ac8-44b6-99dd-e17a303f2626",
+            "userId": "m6-mobile-user",
+            "title": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+            "message": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+            "channel": "mobile_push",
+            "status": "pending",
+            "createdAt": "2026-04-24T15:44:59.249Z"
+          }
+        ],
+        "acknowledgedMessages": [],
+        "metricCounts": {
+          "totalMessages": 5,
+          "pendingMessages": 5,
+          "acknowledgedMessages": 0,
+          "openInterventions": 2
+        },
+        "channelCounts": [
+          {
+            "channel": "mobile_push",
+            "total": 5,
+            "pending": 5,
+            "acknowledged": 0
+          },
+          {
+            "channel": "desktop_local",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "feishu_bot",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "telegram_bot",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          }
+        ],
+        "latestBehaviorConclusion": {
+          "id": "4bb85f40-18e1-46b7-9173-f345e1ed92dc",
+          "userId": "m6-mobile-user",
+          "assessmentId": "86549d51-2279-426f-b3bf-df0b95f421fe",
+          "riskLevel": "high",
+          "summary": "当前已进入需要主动收拢干扰和恢复节奏的阶段。",
+          "suggestedAction": "暂停并回到主任务，只做一个最小恢复块，再决定是否继续延长。",
+          "trigger": "behavior_conclusion",
+          "recommendedChannel": "mobile_push",
+          "createdAt": "2026-04-24T15:44:59.891Z"
+        },
+        "latestRecoveryPlan": null,
+        "activeSession": null
+      }
+    }
+  ],
+  "responseIds": {
+    "mobileDeviceId": "8b573d55-c342-47f9-904d-6d9553ffe14a",
+    "audioSessionId": "59e32429-a0ef-467c-8cc7-a6585598e806",
+    "callEventId": "93f4b78a-a36d-4ac6-8188-21d9e10eda2a",
+    "emotionAssessmentId": "3992889e-9a11-4c43-b360-9822fbe05cab",
+    "mediaUploadSessionId": "8e583072-f1ed-473f-8f69-2ea488956751",
+    "completedMediaStatus": "completed",
+    "videoAssessmentId": "5f4c7675-da3f-4f47-95f2-075387a5301d",
+    "healthSnapshotId": "64220b19-c3ed-46de-aff4-ce12a2608e3a",
+    "audioSessionStatus": "completed",
+    "latestHealthId": "64220b19-c3ed-46de-aff4-ce12a2608e3a",
+    "latestHealthDeviceId": "android-m6-capture",
+    "dashboardLatestHealthSnapshotId": "64220b19-c3ed-46de-aff4-ce12a2608e3a",
+    "dashboardEdgeDeviceCount": 1,
+    "inboxMessageCount": 5,
+    "inboxLatestRiskLevel": "high"
+  },
+  "readModels": {
+    "healthLatestReflectsDevice": true,
+    "dashboardReflectsDevice": true,
+    "inboxOverviewOk": true
+  },
+  "errors": [],
+  "summary": {
+    "passed": true,
+    "totalSteps": 15,
+    "failedSteps": 0,
+    "readModels": {
+      "healthLatestReflectsDevice": true,
+      "dashboardReflectsDevice": true,
+      "inboxOverviewOk": true
+    },
+    "responseIds": {
+      "mobileDeviceId": "8b573d55-c342-47f9-904d-6d9553ffe14a",
+      "audioSessionId": "59e32429-a0ef-467c-8cc7-a6585598e806",
+      "callEventId": "93f4b78a-a36d-4ac6-8188-21d9e10eda2a",
+      "emotionAssessmentId": "3992889e-9a11-4c43-b360-9822fbe05cab",
+      "mediaUploadSessionId": "8e583072-f1ed-473f-8f69-2ea488956751",
+      "completedMediaStatus": "completed",
+      "videoAssessmentId": "5f4c7675-da3f-4f47-95f2-075387a5301d",
+      "healthSnapshotId": "64220b19-c3ed-46de-aff4-ce12a2608e3a",
+      "audioSessionStatus": "completed",
+      "latestHealthId": "64220b19-c3ed-46de-aff4-ce12a2608e3a",
+      "latestHealthDeviceId": "android-m6-capture",
+      "dashboardLatestHealthSnapshotId": "64220b19-c3ed-46de-aff4-ce12a2608e3a",
+      "dashboardEdgeDeviceCount": 1,
+      "inboxMessageCount": 5,
+      "inboxLatestRiskLevel": "high"
+    },
+    "errorSamples": []
+  }
+}

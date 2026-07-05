@@ -1,0 +1,73 @@
+{
+  "startedAt": "2026-04-22T07:01:18.403Z",
+  "completedAt": "2026-04-22T07:01:20.081Z",
+  "rootDir": "/Volumes/固态/Mac迁移_20260420_v3/home/mindanchor",
+  "apiBaseUrl": "http://127.0.0.1:3025",
+  "webBaseUrl": "http://127.0.0.1:4174",
+  "clusterBaseUrl": "http://127.0.0.1:8788",
+  "clusterMode": "real",
+  "providerMode": "real",
+  "phases": [],
+  "files": {
+    "reportJson": "/Volumes/固态/Mac迁移_20260420_v3/home/mindanchor/test-results/core-phase-2026-04-22T07-01-11-435Z/report.json",
+    "reportMarkdown": "/Volumes/固态/Mac迁移_20260420_v3/home/mindanchor/test-results/core-phase-2026-04-22T07-01-11-435Z/report.md",
+    "logsDir": "/Volumes/固态/Mac迁移_20260420_v3/home/mindanchor/test-results/core-phase-2026-04-22T07-01-11-435Z/logs",
+    "responsesDir": "/Volumes/固态/Mac迁移_20260420_v3/home/mindanchor/test-results/core-phase-2026-04-22T07-01-11-435Z/responses"
+  },
+  "failures": [],
+  "preflight": {
+    "ok": false,
+    "issues": [
+      {
+        "code": "invalid_provider_api_key",
+        "message": "真实 provider 认证探针失败：所有候选 endpoint 都返回 HTTP 401。",
+        "guidance": "请检查 `MINDANCHOR_DEFAULT_MODEL_API_KEY` 是否有效，并确认它和 `MINDANCHOR_DEFAULT_MODEL_BASE_URL` 属于同一服务。"
+      }
+    ],
+    "providerAuthProbeEnabled": true,
+    "providerAuthProbe": {
+      "ok": false,
+      "acceptedVia": null,
+      "selectedEndpoint": null,
+      "attempts": [
+        {
+          "endpoint": "/responses",
+          "status": 401,
+          "ok": false,
+          "preview": "{\"code\":\"INVALID_API_KEY\",\"message\":\"Invalid API key\"}"
+        },
+        {
+          "endpoint": "/v1/responses",
+          "status": 401,
+          "ok": false,
+          "preview": "{\"code\":\"INVALID_API_KEY\",\"message\":\"Invalid API key\"}"
+        }
+      ],
+      "issue": {
+        "code": "invalid_provider_api_key",
+        "message": "真实 provider 认证探针失败：所有候选 endpoint 都返回 HTTP 401。",
+        "guidance": "请检查 `MINDANCHOR_DEFAULT_MODEL_API_KEY` 是否有效，并确认它和 `MINDANCHOR_DEFAULT_MODEL_BASE_URL` 属于同一服务。"
+      }
+    },
+    "providerConfigDrift": {
+      "aligned": true,
+      "issues": [],
+      "summary": {
+        "gateway": {
+          "baseUrl": "https://gmncode.cn",
+          "model": "gpt-5.4",
+          "wireApi": "responses",
+          "apiKeyPresent": true,
+          "apiKeyLength": 67
+        },
+        "openClaw": {
+          "baseUrl": "https://gmncode.cn",
+          "model": "gpt-5.4",
+          "wireApi": "responses",
+          "apiKeyPresent": true,
+          "apiKeyLength": 67
+        }
+      }
+    }
+  }
+}

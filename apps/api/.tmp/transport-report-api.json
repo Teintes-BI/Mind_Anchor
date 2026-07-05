@@ -1,0 +1,242 @@
+{
+  "goals": [],
+  "tasks": [],
+  "sessions": [],
+  "stateSignals": [],
+  "stateAssessments": [],
+  "interventions": [],
+  "recoveryPlans": [],
+  "reflectionReports": [],
+  "mobileCaptureDevices": [],
+  "audioCaptureSessions": [],
+  "callEvents": [],
+  "emotionAssessments": [],
+  "edgeDevices": [],
+  "mediaUploadSessions": [],
+  "mediaChunkManifests": [],
+  "videoAssessments": [],
+  "healthSnapshots": [],
+  "behaviorConclusions": [],
+  "clientInboxMessages": [],
+  "coachFrontAgentStates": [],
+  "planChangeProposals": [],
+  "planChangeCommandLogs": [],
+  "coachSessions": [],
+  "coachMessages": [],
+  "coachFeedback": [],
+  "coachMemoryItems": [],
+  "coachTrainingExamples": [],
+  "memoryCandidates": [],
+  "memoryItems": [],
+  "agentDebugRuns": [
+    {
+      "id": "55068424-062b-4759-87da-b97d243ebc18",
+      "createdAt": "2026-04-22T09:19:09.531Z",
+      "userId": "demo-user",
+      "traceId": "0f8d4f5b-2585-4da8-b653-527826ce0f82",
+      "parentTraceId": "10a71cc6-206f-4457-bb8f-6f3d5119ad8b",
+      "kind": "probe",
+      "agentName": "chief-agent",
+      "success": true,
+      "fallbackLikely": false,
+      "model": "gpt-5.4",
+      "wireApi": "responses",
+      "adapter": {
+        "traceId": "0f8d4f5b-2585-4da8-b653-527826ce0f82",
+        "parentTraceId": "10a71cc6-206f-4457-bb8f-6f3d5119ad8b",
+        "target": "chief-agent",
+        "mode": "probe",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"probe\":\"ok\"}"
+          }
+        ]
+      },
+      "summary": "ok",
+      "payload": {
+        "probe": "ok"
+      }
+    }
+  ],
+  "debugRegressionMatrixRuns": [],
+  "traceLogEvents": [
+    {
+      "id": "f04a2649-60e5-4baa-80e2-342ba5406572",
+      "createdAt": "2026-04-22T09:19:09.458Z",
+      "traceId": "175c5896-dd91-44cd-af01-20f12754cbb5",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /health",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-1"
+      }
+    },
+    {
+      "id": "955ef5d9-4d74-40d7-bec2-092b9b258324",
+      "createdAt": "2026-04-22T09:19:09.464Z",
+      "traceId": "175c5896-dd91-44cd-af01-20f12754cbb5",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /health -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/health",
+        "requestId": "req-1",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "20a2b445-e25d-439a-9605-9e5aa9763362",
+      "createdAt": "2026-04-22T09:19:09.507Z",
+      "traceId": "10a71cc6-206f-4457-bb8f-6f3d5119ad8b",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/model-probe/chief-agent?userId=demo-user",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/chief-agent?userId=demo-user",
+        "requestId": "req-2"
+      }
+    },
+    {
+      "id": "381022ef-f1e8-45b1-9437-e30dfa7f61bb",
+      "createdAt": "2026-04-22T09:19:09.510Z",
+      "traceId": "0f8d4f5b-2585-4da8-b653-527826ce0f82",
+      "parentTraceId": "10a71cc6-206f-4457-bb8f-6f3d5119ad8b",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.started",
+      "message": "Cluster dispatch started for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "probe",
+        "taskId": "595098af-9fcd-4dee-b698-edf65d2ec250",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "a2d35578-b23e-43b4-9d5f-191480491619",
+      "createdAt": "2026-04-22T09:19:09.527Z",
+      "traceId": "0f8d4f5b-2585-4da8-b653-527826ce0f82",
+      "parentTraceId": "10a71cc6-206f-4457-bb8f-6f3d5119ad8b",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.cluster.request.succeeded",
+      "message": "Cluster dispatch succeeded for chief-agent",
+      "metadata": {
+        "target": "chief-agent",
+        "endpoint": "/v1/tasks/execute",
+        "mode": "probe",
+        "taskId": "595098af-9fcd-4dee-b698-edf65d2ec250",
+        "retryIndex": 0
+      }
+    },
+    {
+      "id": "5df51f37-04ed-4205-9d04-87c61c57bdc1",
+      "createdAt": "2026-04-22T09:19:09.529Z",
+      "traceId": "0f8d4f5b-2585-4da8-b653-527826ce0f82",
+      "parentTraceId": "10a71cc6-206f-4457-bb8f-6f3d5119ad8b",
+      "level": "info",
+      "component": "model-bridge",
+      "event": "openclaw.adapter.decision",
+      "message": "Adapter routed chief-agent via cluster",
+      "metadata": {
+        "operation": "probe",
+        "agentName": "chief-agent",
+        "userId": "demo-user",
+        "target": "chief-agent",
+        "mode": "probe",
+        "strategy": "cluster-preferred",
+        "route": "cluster",
+        "success": true,
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "fallbackReason": null,
+        "failureCategory": null,
+        "clusterAttempts": [
+          {
+            "endpoint": "/v1/tasks/execute",
+            "status": 200,
+            "ok": true,
+            "preview": "{\"probe\":\"ok\"}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "a983ae9b-e6b9-4e0c-a0f2-c813569be7f3",
+      "createdAt": "2026-04-22T09:19:09.531Z",
+      "traceId": "0f8d4f5b-2585-4da8-b653-527826ce0f82",
+      "parentTraceId": "10a71cc6-206f-4457-bb8f-6f3d5119ad8b",
+      "level": "info",
+      "component": "orchestrator",
+      "event": "agent.debug.persisted",
+      "message": "probe persisted for chief-agent",
+      "metadata": {
+        "agentName": "chief-agent",
+        "success": true,
+        "fallbackLikely": false,
+        "model": "gpt-5.4"
+      }
+    },
+    {
+      "id": "4cb8eb6c-efb2-478a-b316-128f54063c3d",
+      "createdAt": "2026-04-22T09:19:09.533Z",
+      "traceId": "10a71cc6-206f-4457-bb8f-6f3d5119ad8b",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/model-probe/chief-agent?userId=demo-user -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/model-probe/chief-agent?userId=demo-user",
+        "requestId": "req-2",
+        "statusCode": 200
+      }
+    },
+    {
+      "id": "5ec2c40a-16d1-48c3-a044-fb0033816a53",
+      "createdAt": "2026-04-22T09:19:21.318Z",
+      "traceId": "b31a7865-048a-4697-a2af-99ac50f00d2b",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.received",
+      "message": "GET /debug/openclaw/adapter",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/openclaw/adapter",
+        "requestId": "req-3"
+      }
+    },
+    {
+      "id": "fa362186-e758-4fef-8de3-0da1d6d69369",
+      "createdAt": "2026-04-22T09:19:21.320Z",
+      "traceId": "b31a7865-048a-4697-a2af-99ac50f00d2b",
+      "level": "info",
+      "component": "gateway",
+      "event": "gateway.request.completed",
+      "message": "GET /debug/openclaw/adapter -> 200",
+      "metadata": {
+        "method": "GET",
+        "url": "/debug/openclaw/adapter",
+        "requestId": "req-3",
+        "statusCode": 200
+      }
+    }
+  ],
+  "localAuthUsers": []
+}

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>macOS Notification Center 点击诊断</title>
+    <style>
+      body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; margin: 0; background: #f6f8fb; color: #1f2937; }
+      .wrap { width: min(1080px, calc(100% - 32px)); margin: 0 auto; padding: 32px 0 56px; }
+      .hero, .section { background: white; border: 1px solid #dbe3f0; border-radius: 20px; padding: 22px; margin-top: 18px; }
+      .hero { background: linear-gradient(135deg, #1d4ed8, #4338ca); color: white; }
+      .hero h1 { margin: 0 0 10px; }
+      .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+      .card { background: #f8fbff; border: 1px solid #dbe3f0; border-radius: 16px; padding: 14px; }
+      code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+      code { background: #eef3ff; color: #1d4ed8; padding: 2px 8px; border-radius: 8px; }
+      pre { background: #0f172a; color: #e2e8f0; padding: 14px; border-radius: 14px; white-space: pre-wrap; word-break: break-word; overflow: auto; }
+      ul { line-height: 1.8; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <section class="hero">
+        <h1>macOS Notification Center 点击诊断</h1>
+        <p>这份报告用于确认当前问题是通知权限链，还是 Notification Center 展示 / 点击边界。</p>
+      </section>
+      <section class="section">
+        <div class="grid">
+          <div class="card"><strong>Boundary</strong><p><code>notification_center_click_boundary</code></p></div>
+          <div class="card"><strong>Click Result</strong><p><code>not-found</code></p></div>
+          <div class="card"><strong>Notification State</strong><p><code>allowed</code></p></div>
+          <div class="card"><strong>Bundle</strong><p><code>com.mindanchor.mac.openclaw.registry.e2e.run1774785804</code></p></div>
+        </div>
+      </section>
+      <section class="section">
+        <h2>Guidance</h2>
+        <ul><li>通知权限已经就绪，但当前仍无法在 Notification Center 中稳定命中并点击目标通知。</li><li>这说明当前主机的剩余问题集中在 Notification Center 展示 / 点击自动化边界。</li><li>诊断 JSON：/Users/claw/mindanchor/tmp/macos-notification-center-click-diagnostics.json</li><li>诊断 HTML：/Users/claw/mindanchor/tmp/macos-notification-center-click-diagnostics.html</li></ul>
+      </section>
+      <section class="section">
+        <h2>Notification Center Dump</h2>
+        <pre>window:天气预报 subrole:AXUnknown, window:月 subrole:AXUnknown</pre>
+      </section>
+    </div>
+  </body>
+</html>

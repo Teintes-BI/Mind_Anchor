@@ -1,0 +1,47 @@
+{
+  "generatedAt": "2026-04-24T08:26:48.021Z",
+  "baselinePath": "test-results/openclaw-runtime-transport-2026-04-22T09-19-21Z.json",
+  "currentPath": "/Volumes/固态/Mac迁移_20260420_v3/home/mindanchor/test-results/investigate-recheck-2026-04-24T08-26-47Z/openclaw-runtime-transport-incident-2026-04-24T08-26-47-910Z.json",
+  "comparison": {
+    "driftCodes": [
+      "adapter_http_status_changed",
+      "adapter_route_changed",
+      "selected_endpoint_changed",
+      "issue_codes_changed"
+    ],
+    "baseline": {
+      "runtimeStatus": "running",
+      "loopbackOk": true,
+      "lanOk": true,
+      "adapterHttpStatus": 200,
+      "adapterRoute": "cluster",
+      "selectedEndpoint": "cluster:/v1/tasks/execute",
+      "fallbackCategory": null,
+      "issueCodes": [],
+      "clusterAttemptSummary": {
+        "totalAttempts": 0,
+        "uniqueEndpoints": [],
+        "attemptsPerEndpoint": {},
+        "allErrorsFetchFailed": false
+      }
+    },
+    "current": {
+      "runtimeStatus": "running",
+      "loopbackOk": true,
+      "lanOk": true,
+      "adapterHttpStatus": null,
+      "adapterRoute": null,
+      "selectedEndpoint": null,
+      "fallbackCategory": null,
+      "issueCodes": [
+        "adapter_unreachable"
+      ],
+      "clusterAttemptSummary": {
+        "totalAttempts": 0,
+        "uniqueEndpoints": [],
+        "attemptsPerEndpoint": {},
+        "allErrorsFetchFailed": false
+      }
+    }
+  }
+}

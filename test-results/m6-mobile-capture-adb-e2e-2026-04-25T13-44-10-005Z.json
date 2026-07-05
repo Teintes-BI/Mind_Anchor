@@ -1,0 +1,1628 @@
+{
+  "generatedAt": "2026-04-25T13:44:10.006Z",
+  "startedAt": "2026-04-25T13:44:10.006Z",
+  "completedAt": "2026-04-25T13:44:16.293Z",
+  "durationMs": 6287,
+  "apiBaseUrl": "http://127.0.0.1:3011",
+  "apiLanBaseUrl": "http://192.168.0.104:3011",
+  "openClawBaseUrl": "http://192.168.0.104:8800",
+  "device": {
+    "serial": "320146882257",
+    "model": "NX733J",
+    "androidVersion": "15",
+    "wifiIp": "192.168.0.100",
+    "curlPath": "/system/bin/curl"
+  },
+  "preflight": {
+    "adbDeviceConnected": true,
+    "wifiIpDetected": true,
+    "curlAvailable": true,
+    "gatewayLanHealthOk": true
+  },
+  "scenario": "cadenced",
+  "options": {
+    "apiHost": "0.0.0.0",
+    "preferredApiPort": 3011,
+    "userId": "m6-mobile-user",
+    "deviceId": "android-m6-capture",
+    "profileName": "dev",
+    "scenario": "cadenced",
+    "withClientSession": true
+  },
+  "steps": [
+    {
+      "label": "auth-login",
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "status": 401,
+      "ok": false,
+      "responseIds": {
+        "userId": null,
+        "email": null,
+        "accessTokenPresent": false
+      },
+      "response": {
+        "message": "Invalid email or password."
+      }
+    },
+    {
+      "label": "auth-register",
+      "method": "POST",
+      "endpoint": "/auth/register",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+        "email": "m6-mobile-client@example.com",
+        "accessTokenPresent": true
+      },
+      "response": {
+        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im02LW1vYmlsZS1jbGllbnRAZXhhbXBsZS5jb20iLCJwcm92aWRlciI6ImdhdGV3YXktbG9jYWwiLCJzdWIiOiJiZWM0YTRmOC1iOThhLTQ1NGEtYmU4YS0wNmJjOGFiMWEzMjQiLCJpc3MiOiJtaW5kYW5jaG9yLWdhdGV3YXktYXV0aCIsImlhdCI6MTc3NzEyNDY1MiwiZXhwIjoxNzc3NzI5NDUyfQ.ucJx-YuYob8hNK7G2KPz24lahknMylAcoXI52Ys9SYQ",
+        "refreshToken": null,
+        "expiresAt": "2026-05-02T13:44:12.090Z",
+        "user": {
+          "id": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+          "email": "m6-mobile-client@example.com",
+          "displayName": "M6 Mobile Client",
+          "provider": "gateway-local"
+        }
+      }
+    },
+    {
+      "label": "auth-login:retry",
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+        "email": "m6-mobile-client@example.com",
+        "accessTokenPresent": true
+      },
+      "response": {
+        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im02LW1vYmlsZS1jbGllbnRAZXhhbXBsZS5jb20iLCJwcm92aWRlciI6ImdhdGV3YXktbG9jYWwiLCJzdWIiOiJiZWM0YTRmOC1iOThhLTQ1NGEtYmU4YS0wNmJjOGFiMWEzMjQiLCJpc3MiOiJtaW5kYW5jaG9yLWdhdGV3YXktYXV0aCIsImlhdCI6MTc3NzEyNDY1MiwiZXhwIjoxNzc3NzI5NDUyfQ.ucJx-YuYob8hNK7G2KPz24lahknMylAcoXI52Ys9SYQ",
+        "refreshToken": null,
+        "expiresAt": "2026-05-02T13:44:12.203Z",
+        "user": {
+          "id": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+          "email": "m6-mobile-client@example.com",
+          "displayName": "M6 Mobile Client",
+          "provider": "gateway-local"
+        }
+      }
+    },
+    {
+      "label": "mobile-device-register",
+      "method": "POST",
+      "endpoint": "/mobile/devices/register",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "15357817-00df-443c-bd97-d019b213b764",
+        "deviceId": "android-m6-capture"
+      },
+      "response": {
+        "id": "15357817-00df-443c-bd97-d019b213b764",
+        "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+        "deviceId": "android-m6-capture",
+        "deviceName": "NX733J",
+        "platform": "android",
+        "appVersion": "m6-adb-e2e",
+        "platformVersion": "15",
+        "pairingState": "paired",
+        "desktopHost": "192.168.0.104",
+        "consentAcknowledgedAt": "2026-04-25T13:44:12.209Z",
+        "lastSeenAt": "2026-04-25T13:44:12.310Z",
+        "createdAt": "2026-04-25T13:44:12.310Z",
+        "updatedAt": "2026-04-25T13:44:12.310Z"
+      }
+    },
+    {
+      "label": "edge-device-register",
+      "method": "POST",
+      "endpoint": "/devices/register",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "82deb354-1c76-4cf4-8287-d73763cd61ad",
+        "deviceId": "android-m6-capture"
+      },
+      "response": {
+        "id": "82deb354-1c76-4cf4-8287-d73763cd61ad",
+        "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+        "deviceId": "android-m6-capture",
+        "label": "NX733J",
+        "deviceType": "mobile",
+        "platform": "android",
+        "capabilities": [
+          "notifications",
+          "audio_capture",
+          "video_capture",
+          "health_bridge"
+        ],
+        "status": "online",
+        "appVersion": "m6-adb-e2e",
+        "queueDepth": 0,
+        "lastSeenAt": "2026-04-25T13:44:12.406Z",
+        "createdAt": "2026-04-25T13:44:12.312Z",
+        "updatedAt": "2026-04-25T13:44:12.406Z"
+      }
+    },
+    {
+      "label": "device-heartbeat",
+      "method": "POST",
+      "endpoint": "/devices/heartbeat",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "id": "82deb354-1c76-4cf4-8287-d73763cd61ad",
+        "deviceId": "android-m6-capture"
+      },
+      "response": {
+        "id": "82deb354-1c76-4cf4-8287-d73763cd61ad",
+        "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+        "deviceId": "android-m6-capture",
+        "label": "NX733J",
+        "deviceType": "mobile",
+        "platform": "android",
+        "capabilities": [
+          "notifications",
+          "audio_capture",
+          "video_capture",
+          "health_bridge"
+        ],
+        "status": "online",
+        "appVersion": "m6-adb-e2e",
+        "queueDepth": 0,
+        "lastSeenAt": "2026-04-25T13:44:12.498Z",
+        "createdAt": "2026-04-25T13:44:12.312Z",
+        "updatedAt": "2026-04-25T13:44:12.498Z",
+        "lastUploadedAt": "2026-04-25T13:44:12.413Z"
+      }
+    },
+    {
+      "label": "audio-session-start",
+      "method": "POST",
+      "endpoint": "/mobile/capture/sessions/start",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "sessionId": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3",
+        "status": "active"
+      },
+      "response": {
+        "id": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3",
+        "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+        "deviceId": "android-m6-capture",
+        "captureMode": "foreground_microphone_with_call_events",
+        "status": "active",
+        "sampleRateHz": 16000,
+        "channels": 1,
+        "encoding": "audio/pcm16le",
+        "chunkDurationMs": 1000,
+        "rollingBufferSeconds": 60,
+        "receivedChunkCount": 0,
+        "startedAt": "2026-04-25T13:42:11.806Z"
+      }
+    },
+    {
+      "label": "device-heartbeat:baseline",
+      "method": "POST",
+      "endpoint": "/devices/heartbeat",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "id": "82deb354-1c76-4cf4-8287-d73763cd61ad",
+        "deviceId": "android-m6-capture"
+      },
+      "response": {
+        "id": "82deb354-1c76-4cf4-8287-d73763cd61ad",
+        "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+        "deviceId": "android-m6-capture",
+        "label": "NX733J",
+        "deviceType": "mobile",
+        "platform": "android",
+        "capabilities": [
+          "notifications",
+          "audio_capture",
+          "video_capture",
+          "health_bridge"
+        ],
+        "status": "online",
+        "appVersion": "m6-adb-e2e",
+        "queueDepth": 0,
+        "lastSeenAt": "2026-04-25T13:44:12.647Z",
+        "createdAt": "2026-04-25T13:44:12.312Z",
+        "updatedAt": "2026-04-25T13:44:12.647Z",
+        "lastUploadedAt": "2026-04-25T13:47:11.806Z"
+      }
+    },
+    {
+      "label": "emotion-assessment:baseline",
+      "method": "POST",
+      "endpoint": "/emotion/assessments",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "fecadfd9-eb45-4757-89c3-d5968cf42ee2",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3"
+      },
+      "response": {
+        "id": "fecadfd9-eb45-4757-89c3-d5968cf42ee2",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3",
+        "chunkSequence": 0,
+        "windowStart": "2026-04-25T13:42:11.806Z",
+        "windowEnd": "2026-04-25T13:47:11.806Z",
+        "emotionLabel": "calm",
+        "valenceScore": 58,
+        "arousalScore": 42,
+        "stressScore": 34,
+        "confidence": 0.86,
+        "summary": "Baseline mobile capture sample remains stable.",
+        "modelName": "m6-adb-e2e-cadenced",
+        "source": "cluster-openai-compatible",
+        "createdAt": "2026-04-25T13:44:12.730Z"
+      }
+    },
+    {
+      "label": "video-assessment:baseline",
+      "method": "POST",
+      "endpoint": "/video/assessments",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "df806822-3641-4a7e-ad9a-1673becac380",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3"
+      },
+      "response": {
+        "id": "df806822-3641-4a7e-ad9a-1673becac380",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3",
+        "windowStart": "2026-04-25T13:42:11.806Z",
+        "windowEnd": "2026-04-25T13:47:11.806Z",
+        "fatigueScore": 32,
+        "focusScore": 72,
+        "confidence": 0.88,
+        "summary": "Baseline video sample indicates stable focus.",
+        "modelName": "m6-adb-e2e-cadenced",
+        "featureSummary": "upright posture and normal blink rate",
+        "source": "cluster-openai-compatible",
+        "createdAt": "2026-04-25T13:44:12.860Z"
+      }
+    },
+    {
+      "label": "health-snapshot:baseline",
+      "method": "POST",
+      "endpoint": "/health/snapshots",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "fdc62134-2e0e-481f-be13-7b51d8924cb7",
+        "deviceId": "android-m6-capture",
+        "sessionId": null
+      },
+      "response": {
+        "id": "fdc62134-2e0e-481f-be13-7b51d8924cb7",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "sourcePlatform": "android",
+        "sourceProvider": "health_connect",
+        "windowStart": "2026-04-25T13:42:11.806Z",
+        "windowEnd": "2026-04-25T13:47:11.806Z",
+        "heartRate": 76,
+        "oxygenSaturation": 98,
+        "restingHeartRate": 64,
+        "sleepMinutes": 430,
+        "summary": "Baseline health bridge sample is within expected range.",
+        "createdAt": "2026-04-25T13:44:12.978Z"
+      }
+    },
+    {
+      "label": "health-latest:baseline",
+      "method": "GET",
+      "endpoint": "/health/latest?userId=bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "latestId": null,
+        "latestDeviceId": null
+      },
+      "response": {
+        "latest": null,
+        "recent": []
+      }
+    },
+    {
+      "label": "dashboard-summary:baseline",
+      "method": "GET",
+      "endpoint": "/dashboard/summary?userId=bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "latestHealthSnapshotId": null,
+        "edgeDeviceCount": 1,
+        "inboxCount": 0
+      },
+      "response": {
+        "goalCount": 0,
+        "taskCount": 0,
+        "completedTaskCount": 0,
+        "inProgressTaskCount": 0,
+        "blockedTaskCount": 0,
+        "completionRate": 0,
+        "openInterventions": 0,
+        "suggestedFocusTaskId": null,
+        "summaryHeadline": "当前主线相对稳定，可以继续保持单线程推进。",
+        "coachFrontAgent": {
+          "currentFrontAgent": "director-agent",
+          "routingMode": "auto",
+          "manualOverride": false,
+          "consultedAgent": null,
+          "handoffReason": null,
+          "overrideSourceAgent": null,
+          "visibleSummary": "Picard is currently coordinating the team."
+        },
+        "activeSession": null,
+        "latestAssessment": null,
+        "latestRecoveryPlan": null,
+        "latestBehaviorConclusion": null,
+        "latestVideoAssessment": null,
+        "latestHealthSnapshot": null,
+        "mobileAudio": {
+          "enabled": true,
+          "latestDevice": {
+            "id": "15357817-00df-443c-bd97-d019b213b764",
+            "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+            "deviceId": "android-m6-capture",
+            "deviceName": "NX733J",
+            "platform": "android",
+            "appVersion": "m6-adb-e2e",
+            "platformVersion": "15",
+            "pairingState": "paired",
+            "desktopHost": "192.168.0.104",
+            "consentAcknowledgedAt": "2026-04-25T13:44:12.209Z",
+            "lastSeenAt": "2026-04-25T13:44:12.310Z",
+            "createdAt": "2026-04-25T13:44:12.310Z",
+            "updatedAt": "2026-04-25T13:44:12.310Z"
+          },
+          "latestSession": {
+            "id": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3",
+            "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+            "deviceId": "android-m6-capture",
+            "captureMode": "foreground_microphone_with_call_events",
+            "status": "active",
+            "sampleRateHz": 16000,
+            "channels": 1,
+            "encoding": "audio/pcm16le",
+            "chunkDurationMs": 1000,
+            "rollingBufferSeconds": 60,
+            "receivedChunkCount": 1,
+            "lastChunkAt": "2026-04-25T13:47:11.806Z",
+            "startedAt": "2026-04-25T13:42:11.806Z"
+          },
+          "latestEmotionAssessment": null,
+          "latestCallEvent": null
+        },
+        "edgeDevices": [
+          {
+            "id": "82deb354-1c76-4cf4-8287-d73763cd61ad",
+            "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+            "deviceId": "android-m6-capture",
+            "label": "NX733J",
+            "deviceType": "mobile",
+            "platform": "android",
+            "capabilities": [
+              "notifications",
+              "audio_capture",
+              "video_capture",
+              "health_bridge"
+            ],
+            "status": "online",
+            "appVersion": "m6-adb-e2e",
+            "queueDepth": 0,
+            "lastUploadedAt": "2026-04-25T13:47:11.806Z",
+            "lastSeenAt": "2026-04-25T13:44:12.647Z",
+            "createdAt": "2026-04-25T13:44:12.312Z",
+            "updatedAt": "2026-04-25T13:44:12.647Z"
+          }
+        ],
+        "inbox": [],
+        "goals": [],
+        "tasks": []
+      }
+    },
+    {
+      "label": "inbox-overview:baseline",
+      "method": "GET",
+      "endpoint": "/client/inbox/overview?userId=bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "totalMessages": 0,
+        "latestBehaviorConclusionId": null,
+        "latestRecoveryPlanId": null
+      },
+      "response": {
+        "messages": [],
+        "pendingMessages": [],
+        "acknowledgedMessages": [],
+        "metricCounts": {
+          "totalMessages": 0,
+          "pendingMessages": 0,
+          "acknowledgedMessages": 0,
+          "openInterventions": 0
+        },
+        "channelCounts": [
+          {
+            "channel": "mobile_push",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "desktop_local",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "feishu_bot",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "telegram_bot",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          }
+        ],
+        "latestBehaviorConclusion": null,
+        "latestRecoveryPlan": null,
+        "activeSession": null
+      }
+    },
+    {
+      "label": "device-heartbeat:stress-build-up-1",
+      "method": "POST",
+      "endpoint": "/devices/heartbeat",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "id": "82deb354-1c76-4cf4-8287-d73763cd61ad",
+        "deviceId": "android-m6-capture"
+      },
+      "response": {
+        "id": "82deb354-1c76-4cf4-8287-d73763cd61ad",
+        "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+        "deviceId": "android-m6-capture",
+        "label": "NX733J",
+        "deviceType": "mobile",
+        "platform": "android",
+        "capabilities": [
+          "notifications",
+          "audio_capture",
+          "video_capture",
+          "health_bridge"
+        ],
+        "status": "online",
+        "appVersion": "m6-adb-e2e",
+        "queueDepth": 1,
+        "lastSeenAt": "2026-04-25T13:44:13.337Z",
+        "createdAt": "2026-04-25T13:44:12.312Z",
+        "updatedAt": "2026-04-25T13:44:13.337Z",
+        "lastUploadedAt": "2026-04-25T13:53:11.806Z"
+      }
+    },
+    {
+      "label": "call-event:stress-build-up-1",
+      "method": "POST",
+      "endpoint": "/mobile/call-events",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "1ffeebd5-510d-4189-a15e-245654e81744",
+        "deviceId": "android-m6-capture",
+        "sessionId": null
+      },
+      "response": {
+        "id": "1ffeebd5-510d-4189-a15e-245654e81744",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "direction": "incoming",
+        "status": "missed",
+        "occurredAt": "2026-04-25T13:53:11.806Z",
+        "createdAt": "2026-04-25T13:44:13.405Z"
+      }
+    },
+    {
+      "label": "emotion-assessment:stress-build-up-1",
+      "method": "POST",
+      "endpoint": "/emotion/assessments",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "a07bf04e-fd23-4c96-8df9-b101c9ecf03e",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3"
+      },
+      "response": {
+        "id": "a07bf04e-fd23-4c96-8df9-b101c9ecf03e",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3",
+        "chunkSequence": 1,
+        "windowStart": "2026-04-25T13:48:11.806Z",
+        "windowEnd": "2026-04-25T13:53:11.806Z",
+        "emotionLabel": "tense",
+        "valenceScore": 28,
+        "arousalScore": 68,
+        "stressScore": 72,
+        "confidence": 0.9,
+        "summary": "Stress is rising during the first escalation phase.",
+        "modelName": "m6-adb-e2e-cadenced",
+        "source": "cluster-openai-compatible",
+        "createdAt": "2026-04-25T13:44:13.536Z"
+      }
+    },
+    {
+      "label": "video-assessment:stress-build-up-1",
+      "method": "POST",
+      "endpoint": "/video/assessments",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "a5a46cc9-f651-47b0-99f1-02fe8674fb84",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3"
+      },
+      "response": {
+        "id": "a5a46cc9-f651-47b0-99f1-02fe8674fb84",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3",
+        "windowStart": "2026-04-25T13:48:11.806Z",
+        "windowEnd": "2026-04-25T13:53:11.806Z",
+        "fatigueScore": 66,
+        "focusScore": 44,
+        "confidence": 0.88,
+        "summary": "Video sample indicates elevated fatigue and context drift.",
+        "modelName": "m6-adb-e2e-cadenced",
+        "featureSummary": "increased blink rate and wandering gaze",
+        "source": "cluster-openai-compatible",
+        "createdAt": "2026-04-25T13:44:13.625Z"
+      }
+    },
+    {
+      "label": "health-snapshot:stress-build-up-1",
+      "method": "POST",
+      "endpoint": "/health/snapshots",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "91f2b4af-82de-47aa-b728-1f042d1a58fc",
+        "deviceId": "android-m6-capture",
+        "sessionId": null
+      },
+      "response": {
+        "id": "91f2b4af-82de-47aa-b728-1f042d1a58fc",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "sourcePlatform": "android",
+        "sourceProvider": "health_connect",
+        "windowStart": "2026-04-25T13:48:11.806Z",
+        "windowEnd": "2026-04-25T13:53:11.806Z",
+        "heartRate": 94,
+        "oxygenSaturation": 96,
+        "restingHeartRate": 68,
+        "sleepMinutes": 360,
+        "summary": "First stress phase shows elevated heart rate and reduced rest quality.",
+        "createdAt": "2026-04-25T13:44:13.741Z"
+      }
+    },
+    {
+      "label": "health-latest:stress-build-up-1",
+      "method": "GET",
+      "endpoint": "/health/latest?userId=bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "latestId": null,
+        "latestDeviceId": null
+      },
+      "response": {
+        "latest": null,
+        "recent": []
+      }
+    },
+    {
+      "label": "dashboard-summary:stress-build-up-1",
+      "method": "GET",
+      "endpoint": "/dashboard/summary?userId=bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "latestHealthSnapshotId": null,
+        "edgeDeviceCount": 1,
+        "inboxCount": 0
+      },
+      "response": {
+        "goalCount": 0,
+        "taskCount": 0,
+        "completedTaskCount": 0,
+        "inProgressTaskCount": 0,
+        "blockedTaskCount": 0,
+        "completionRate": 0,
+        "openInterventions": 0,
+        "suggestedFocusTaskId": null,
+        "summaryHeadline": "当前主线相对稳定，可以继续保持单线程推进。",
+        "coachFrontAgent": {
+          "currentFrontAgent": "director-agent",
+          "routingMode": "auto",
+          "manualOverride": false,
+          "consultedAgent": null,
+          "handoffReason": null,
+          "overrideSourceAgent": null,
+          "visibleSummary": "Picard is currently coordinating the team."
+        },
+        "activeSession": null,
+        "latestAssessment": null,
+        "latestRecoveryPlan": null,
+        "latestBehaviorConclusion": null,
+        "latestVideoAssessment": null,
+        "latestHealthSnapshot": null,
+        "mobileAudio": {
+          "enabled": true,
+          "latestDevice": {
+            "id": "15357817-00df-443c-bd97-d019b213b764",
+            "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+            "deviceId": "android-m6-capture",
+            "deviceName": "NX733J",
+            "platform": "android",
+            "appVersion": "m6-adb-e2e",
+            "platformVersion": "15",
+            "pairingState": "paired",
+            "desktopHost": "192.168.0.104",
+            "consentAcknowledgedAt": "2026-04-25T13:44:12.209Z",
+            "lastSeenAt": "2026-04-25T13:44:12.310Z",
+            "createdAt": "2026-04-25T13:44:12.310Z",
+            "updatedAt": "2026-04-25T13:44:12.310Z"
+          },
+          "latestSession": {
+            "id": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3",
+            "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+            "deviceId": "android-m6-capture",
+            "captureMode": "foreground_microphone_with_call_events",
+            "status": "active",
+            "sampleRateHz": 16000,
+            "channels": 1,
+            "encoding": "audio/pcm16le",
+            "chunkDurationMs": 1000,
+            "rollingBufferSeconds": 60,
+            "receivedChunkCount": 2,
+            "lastChunkAt": "2026-04-25T13:53:11.806Z",
+            "startedAt": "2026-04-25T13:42:11.806Z"
+          },
+          "latestEmotionAssessment": null,
+          "latestCallEvent": null
+        },
+        "edgeDevices": [
+          {
+            "id": "82deb354-1c76-4cf4-8287-d73763cd61ad",
+            "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+            "deviceId": "android-m6-capture",
+            "label": "NX733J",
+            "deviceType": "mobile",
+            "platform": "android",
+            "capabilities": [
+              "notifications",
+              "audio_capture",
+              "video_capture",
+              "health_bridge"
+            ],
+            "status": "online",
+            "appVersion": "m6-adb-e2e",
+            "queueDepth": 1,
+            "lastUploadedAt": "2026-04-25T13:53:11.806Z",
+            "lastSeenAt": "2026-04-25T13:44:13.337Z",
+            "createdAt": "2026-04-25T13:44:12.312Z",
+            "updatedAt": "2026-04-25T13:44:13.337Z"
+          }
+        ],
+        "inbox": [],
+        "goals": [],
+        "tasks": []
+      }
+    },
+    {
+      "label": "inbox-overview:stress-build-up-1",
+      "method": "GET",
+      "endpoint": "/client/inbox/overview?userId=bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "totalMessages": 0,
+        "latestBehaviorConclusionId": null,
+        "latestRecoveryPlanId": null
+      },
+      "response": {
+        "messages": [],
+        "pendingMessages": [],
+        "acknowledgedMessages": [],
+        "metricCounts": {
+          "totalMessages": 0,
+          "pendingMessages": 0,
+          "acknowledgedMessages": 0,
+          "openInterventions": 0
+        },
+        "channelCounts": [
+          {
+            "channel": "mobile_push",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "desktop_local",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "feishu_bot",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "telegram_bot",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          }
+        ],
+        "latestBehaviorConclusion": null,
+        "latestRecoveryPlan": null,
+        "activeSession": null
+      }
+    },
+    {
+      "label": "device-heartbeat:stress-build-up-2",
+      "method": "POST",
+      "endpoint": "/devices/heartbeat",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "id": "82deb354-1c76-4cf4-8287-d73763cd61ad",
+        "deviceId": "android-m6-capture"
+      },
+      "response": {
+        "id": "82deb354-1c76-4cf4-8287-d73763cd61ad",
+        "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+        "deviceId": "android-m6-capture",
+        "label": "NX733J",
+        "deviceType": "mobile",
+        "platform": "android",
+        "capabilities": [
+          "notifications",
+          "audio_capture",
+          "video_capture",
+          "health_bridge"
+        ],
+        "status": "online",
+        "appVersion": "m6-adb-e2e",
+        "queueDepth": 2,
+        "lastSeenAt": "2026-04-25T13:44:14.039Z",
+        "createdAt": "2026-04-25T13:44:12.312Z",
+        "updatedAt": "2026-04-25T13:44:14.039Z",
+        "lastUploadedAt": "2026-04-25T13:59:11.806Z"
+      }
+    },
+    {
+      "label": "emotion-assessment:stress-build-up-2",
+      "method": "POST",
+      "endpoint": "/emotion/assessments",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "c9b8fbf4-ceab-4d4f-b136-d5f834d874f4",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3"
+      },
+      "response": {
+        "id": "c9b8fbf4-ceab-4d4f-b136-d5f834d874f4",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3",
+        "chunkSequence": 2,
+        "windowStart": "2026-04-25T13:54:11.806Z",
+        "windowEnd": "2026-04-25T13:59:11.806Z",
+        "emotionLabel": "stressed",
+        "valenceScore": 18,
+        "arousalScore": 82,
+        "stressScore": 88,
+        "confidence": 0.92,
+        "summary": "Second stress phase indicates the highest overload level.",
+        "modelName": "m6-adb-e2e-cadenced",
+        "source": "cluster-openai-compatible",
+        "createdAt": "2026-04-25T13:44:14.117Z"
+      }
+    },
+    {
+      "label": "video-assessment:stress-build-up-2",
+      "method": "POST",
+      "endpoint": "/video/assessments",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "9463ae5e-25d3-43b0-acf0-d224170a2be9",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3"
+      },
+      "response": {
+        "id": "9463ae5e-25d3-43b0-acf0-d224170a2be9",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3",
+        "windowStart": "2026-04-25T13:54:11.806Z",
+        "windowEnd": "2026-04-25T13:59:11.806Z",
+        "fatigueScore": 80,
+        "focusScore": 28,
+        "confidence": 0.9,
+        "summary": "Video sample shows severe fatigue and low focus.",
+        "modelName": "m6-adb-e2e-cadenced",
+        "featureSummary": "slumped posture and repeated gaze shifts",
+        "source": "cluster-openai-compatible",
+        "createdAt": "2026-04-25T13:44:14.289Z"
+      }
+    },
+    {
+      "label": "health-snapshot:stress-build-up-2",
+      "method": "POST",
+      "endpoint": "/health/snapshots",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "01a4553b-af00-4c04-a19d-9072e90a17f4",
+        "deviceId": "android-m6-capture",
+        "sessionId": null
+      },
+      "response": {
+        "id": "01a4553b-af00-4c04-a19d-9072e90a17f4",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "sourcePlatform": "android",
+        "sourceProvider": "health_connect",
+        "windowStart": "2026-04-25T13:54:11.806Z",
+        "windowEnd": "2026-04-25T13:59:11.806Z",
+        "heartRate": 103,
+        "oxygenSaturation": 95,
+        "restingHeartRate": 72,
+        "sleepMinutes": 300,
+        "summary": "Second stress phase reflects sustained elevated stress physiology.",
+        "createdAt": "2026-04-25T13:44:14.408Z"
+      }
+    },
+    {
+      "label": "health-latest:stress-build-up-2",
+      "method": "GET",
+      "endpoint": "/health/latest?userId=bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "latestId": null,
+        "latestDeviceId": null
+      },
+      "response": {
+        "latest": null,
+        "recent": []
+      }
+    },
+    {
+      "label": "dashboard-summary:stress-build-up-2",
+      "method": "GET",
+      "endpoint": "/dashboard/summary?userId=bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "latestHealthSnapshotId": null,
+        "edgeDeviceCount": 1,
+        "inboxCount": 0
+      },
+      "response": {
+        "goalCount": 0,
+        "taskCount": 0,
+        "completedTaskCount": 0,
+        "inProgressTaskCount": 0,
+        "blockedTaskCount": 0,
+        "completionRate": 0,
+        "openInterventions": 0,
+        "suggestedFocusTaskId": null,
+        "summaryHeadline": "当前主线相对稳定，可以继续保持单线程推进。",
+        "coachFrontAgent": {
+          "currentFrontAgent": "director-agent",
+          "routingMode": "auto",
+          "manualOverride": false,
+          "consultedAgent": null,
+          "handoffReason": null,
+          "overrideSourceAgent": null,
+          "visibleSummary": "Picard is currently coordinating the team."
+        },
+        "activeSession": null,
+        "latestAssessment": null,
+        "latestRecoveryPlan": null,
+        "latestBehaviorConclusion": null,
+        "latestVideoAssessment": null,
+        "latestHealthSnapshot": null,
+        "mobileAudio": {
+          "enabled": true,
+          "latestDevice": {
+            "id": "15357817-00df-443c-bd97-d019b213b764",
+            "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+            "deviceId": "android-m6-capture",
+            "deviceName": "NX733J",
+            "platform": "android",
+            "appVersion": "m6-adb-e2e",
+            "platformVersion": "15",
+            "pairingState": "paired",
+            "desktopHost": "192.168.0.104",
+            "consentAcknowledgedAt": "2026-04-25T13:44:12.209Z",
+            "lastSeenAt": "2026-04-25T13:44:12.310Z",
+            "createdAt": "2026-04-25T13:44:12.310Z",
+            "updatedAt": "2026-04-25T13:44:12.310Z"
+          },
+          "latestSession": {
+            "id": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3",
+            "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+            "deviceId": "android-m6-capture",
+            "captureMode": "foreground_microphone_with_call_events",
+            "status": "active",
+            "sampleRateHz": 16000,
+            "channels": 1,
+            "encoding": "audio/pcm16le",
+            "chunkDurationMs": 1000,
+            "rollingBufferSeconds": 60,
+            "receivedChunkCount": 3,
+            "lastChunkAt": "2026-04-25T13:59:11.806Z",
+            "startedAt": "2026-04-25T13:42:11.806Z"
+          },
+          "latestEmotionAssessment": null,
+          "latestCallEvent": null
+        },
+        "edgeDevices": [
+          {
+            "id": "82deb354-1c76-4cf4-8287-d73763cd61ad",
+            "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+            "deviceId": "android-m6-capture",
+            "label": "NX733J",
+            "deviceType": "mobile",
+            "platform": "android",
+            "capabilities": [
+              "notifications",
+              "audio_capture",
+              "video_capture",
+              "health_bridge"
+            ],
+            "status": "online",
+            "appVersion": "m6-adb-e2e",
+            "queueDepth": 2,
+            "lastUploadedAt": "2026-04-25T13:59:11.806Z",
+            "lastSeenAt": "2026-04-25T13:44:14.039Z",
+            "createdAt": "2026-04-25T13:44:12.312Z",
+            "updatedAt": "2026-04-25T13:44:14.039Z"
+          }
+        ],
+        "inbox": [],
+        "goals": [],
+        "tasks": []
+      }
+    },
+    {
+      "label": "inbox-overview:stress-build-up-2",
+      "method": "GET",
+      "endpoint": "/client/inbox/overview?userId=bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "totalMessages": 0,
+        "latestBehaviorConclusionId": null,
+        "latestRecoveryPlanId": null
+      },
+      "response": {
+        "messages": [],
+        "pendingMessages": [],
+        "acknowledgedMessages": [],
+        "metricCounts": {
+          "totalMessages": 0,
+          "pendingMessages": 0,
+          "acknowledgedMessages": 0,
+          "openInterventions": 0
+        },
+        "channelCounts": [
+          {
+            "channel": "mobile_push",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "desktop_local",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "feishu_bot",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "telegram_bot",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          }
+        ],
+        "latestBehaviorConclusion": null,
+        "latestRecoveryPlan": null,
+        "activeSession": null
+      }
+    },
+    {
+      "label": "recovery-plan:recovery-trigger",
+      "method": "POST",
+      "endpoint": "/recovery/plan",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "id": "e8c9a577-807d-4fd0-a494-44acd321edf3",
+        "taskId": null,
+        "reason": "attention_shift_after_interruption"
+      },
+      "response": {
+        "id": "e8c9a577-807d-4fd0-a494-44acd321edf3",
+        "userId": "m6-mobile-user",
+        "sessionId": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3",
+        "reason": "attention_shift_after_interruption",
+        "nextStep": "先回到「当前主任务」，只推进一个最小切片，避免继续切去处理旁支任务。",
+        "suggestedMinutes": 25,
+        "reprioritizedTaskIds": [],
+        "createdAt": "2026-04-25T13:44:14.733Z"
+      }
+    },
+    {
+      "label": "recovery-history:recovery-trigger",
+      "method": "GET",
+      "endpoint": "/recovery/history?userId=bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "latestRecoveryPlanId": null,
+        "recoveryPlanCount": 0,
+        "suggestedFocusTaskId": null
+      },
+      "response": {
+        "activeSession": null,
+        "interruptedSessions": [],
+        "interventions": [],
+        "recoveryPlans": [],
+        "pendingTasks": [],
+        "latestAssessment": null,
+        "latestBehaviorConclusion": null,
+        "suggestedFocusTaskId": null
+      }
+    },
+    {
+      "label": "health-latest:recovery-trigger",
+      "method": "GET",
+      "endpoint": "/health/latest?userId=bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "latestId": null,
+        "latestDeviceId": null
+      },
+      "response": {
+        "latest": null,
+        "recent": []
+      }
+    },
+    {
+      "label": "dashboard-summary:recovery-trigger",
+      "method": "GET",
+      "endpoint": "/dashboard/summary?userId=bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "latestHealthSnapshotId": null,
+        "edgeDeviceCount": 1,
+        "inboxCount": 0
+      },
+      "response": {
+        "goalCount": 0,
+        "taskCount": 0,
+        "completedTaskCount": 0,
+        "inProgressTaskCount": 0,
+        "blockedTaskCount": 0,
+        "completionRate": 0,
+        "openInterventions": 0,
+        "suggestedFocusTaskId": null,
+        "summaryHeadline": "当前主线相对稳定，可以继续保持单线程推进。",
+        "coachFrontAgent": {
+          "currentFrontAgent": "director-agent",
+          "routingMode": "auto",
+          "manualOverride": false,
+          "consultedAgent": null,
+          "handoffReason": null,
+          "overrideSourceAgent": null,
+          "visibleSummary": "Picard is currently coordinating the team."
+        },
+        "activeSession": null,
+        "latestAssessment": null,
+        "latestRecoveryPlan": null,
+        "latestBehaviorConclusion": null,
+        "latestVideoAssessment": null,
+        "latestHealthSnapshot": null,
+        "mobileAudio": {
+          "enabled": true,
+          "latestDevice": {
+            "id": "15357817-00df-443c-bd97-d019b213b764",
+            "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+            "deviceId": "android-m6-capture",
+            "deviceName": "NX733J",
+            "platform": "android",
+            "appVersion": "m6-adb-e2e",
+            "platformVersion": "15",
+            "pairingState": "paired",
+            "desktopHost": "192.168.0.104",
+            "consentAcknowledgedAt": "2026-04-25T13:44:12.209Z",
+            "lastSeenAt": "2026-04-25T13:44:12.310Z",
+            "createdAt": "2026-04-25T13:44:12.310Z",
+            "updatedAt": "2026-04-25T13:44:12.310Z"
+          },
+          "latestSession": {
+            "id": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3",
+            "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+            "deviceId": "android-m6-capture",
+            "captureMode": "foreground_microphone_with_call_events",
+            "status": "active",
+            "sampleRateHz": 16000,
+            "channels": 1,
+            "encoding": "audio/pcm16le",
+            "chunkDurationMs": 1000,
+            "rollingBufferSeconds": 60,
+            "receivedChunkCount": 3,
+            "lastChunkAt": "2026-04-25T13:59:11.806Z",
+            "startedAt": "2026-04-25T13:42:11.806Z"
+          },
+          "latestEmotionAssessment": null,
+          "latestCallEvent": null
+        },
+        "edgeDevices": [
+          {
+            "id": "82deb354-1c76-4cf4-8287-d73763cd61ad",
+            "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+            "deviceId": "android-m6-capture",
+            "label": "NX733J",
+            "deviceType": "mobile",
+            "platform": "android",
+            "capabilities": [
+              "notifications",
+              "audio_capture",
+              "video_capture",
+              "health_bridge"
+            ],
+            "status": "online",
+            "appVersion": "m6-adb-e2e",
+            "queueDepth": 2,
+            "lastUploadedAt": "2026-04-25T13:59:11.806Z",
+            "lastSeenAt": "2026-04-25T13:44:14.039Z",
+            "createdAt": "2026-04-25T13:44:12.312Z",
+            "updatedAt": "2026-04-25T13:44:14.039Z"
+          }
+        ],
+        "inbox": [],
+        "goals": [],
+        "tasks": []
+      }
+    },
+    {
+      "label": "inbox-overview:recovery-trigger",
+      "method": "GET",
+      "endpoint": "/client/inbox/overview?userId=bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "totalMessages": 0,
+        "latestBehaviorConclusionId": null,
+        "latestRecoveryPlanId": null
+      },
+      "response": {
+        "messages": [],
+        "pendingMessages": [],
+        "acknowledgedMessages": [],
+        "metricCounts": {
+          "totalMessages": 0,
+          "pendingMessages": 0,
+          "acknowledgedMessages": 0,
+          "openInterventions": 0
+        },
+        "channelCounts": [
+          {
+            "channel": "mobile_push",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "desktop_local",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "feishu_bot",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          },
+          {
+            "channel": "telegram_bot",
+            "total": 0,
+            "pending": 0,
+            "acknowledged": 0
+          }
+        ],
+        "latestBehaviorConclusion": null,
+        "latestRecoveryPlan": null,
+        "activeSession": null
+      }
+    },
+    {
+      "label": "device-heartbeat:post-recovery",
+      "method": "POST",
+      "endpoint": "/devices/heartbeat",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "id": "82deb354-1c76-4cf4-8287-d73763cd61ad",
+        "deviceId": "android-m6-capture"
+      },
+      "response": {
+        "id": "82deb354-1c76-4cf4-8287-d73763cd61ad",
+        "userId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+        "deviceId": "android-m6-capture",
+        "label": "NX733J",
+        "deviceType": "mobile",
+        "platform": "android",
+        "capabilities": [
+          "notifications",
+          "audio_capture",
+          "video_capture",
+          "health_bridge"
+        ],
+        "status": "online",
+        "appVersion": "m6-adb-e2e",
+        "queueDepth": 0,
+        "lastSeenAt": "2026-04-25T13:44:15.106Z",
+        "createdAt": "2026-04-25T13:44:12.312Z",
+        "updatedAt": "2026-04-25T13:44:15.106Z",
+        "lastUploadedAt": "2026-04-25T14:08:11.806Z"
+      }
+    },
+    {
+      "label": "emotion-assessment:post-recovery",
+      "method": "POST",
+      "endpoint": "/emotion/assessments",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "4c7f8168-1eec-4b6a-b3a2-c5ca5083399e",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3"
+      },
+      "response": {
+        "id": "4c7f8168-1eec-4b6a-b3a2-c5ca5083399e",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3",
+        "chunkSequence": 3,
+        "windowStart": "2026-04-25T14:03:11.806Z",
+        "windowEnd": "2026-04-25T14:08:11.806Z",
+        "emotionLabel": "positive",
+        "valenceScore": 42,
+        "arousalScore": 48,
+        "stressScore": 52,
+        "confidence": 0.87,
+        "summary": "Post-recovery sample indicates partial stabilization.",
+        "modelName": "m6-adb-e2e-cadenced",
+        "source": "cluster-openai-compatible",
+        "createdAt": "2026-04-25T13:44:15.164Z"
+      }
+    },
+    {
+      "label": "video-assessment:post-recovery",
+      "method": "POST",
+      "endpoint": "/video/assessments",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "785a8774-14ce-4df0-89ea-df161020bdeb",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3"
+      },
+      "response": {
+        "id": "785a8774-14ce-4df0-89ea-df161020bdeb",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "sessionId": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3",
+        "windowStart": "2026-04-25T14:03:11.806Z",
+        "windowEnd": "2026-04-25T14:08:11.806Z",
+        "fatigueScore": 54,
+        "focusScore": 56,
+        "confidence": 0.86,
+        "summary": "Video sample indicates moderate recovery after intervention.",
+        "modelName": "m6-adb-e2e-cadenced",
+        "featureSummary": "less gaze drift and improved posture",
+        "source": "cluster-openai-compatible",
+        "createdAt": "2026-04-25T13:44:15.299Z"
+      }
+    },
+    {
+      "label": "health-snapshot:post-recovery",
+      "method": "POST",
+      "endpoint": "/health/snapshots",
+      "status": 201,
+      "ok": true,
+      "responseIds": {
+        "id": "c77b191e-069e-498b-8ab9-98a308fb573d",
+        "deviceId": "android-m6-capture",
+        "sessionId": null
+      },
+      "response": {
+        "id": "c77b191e-069e-498b-8ab9-98a308fb573d",
+        "userId": "m6-mobile-user",
+        "deviceId": "android-m6-capture",
+        "sourcePlatform": "android",
+        "sourceProvider": "health_connect",
+        "windowStart": "2026-04-25T14:03:11.806Z",
+        "windowEnd": "2026-04-25T14:08:11.806Z",
+        "heartRate": 84,
+        "oxygenSaturation": 97,
+        "restingHeartRate": 66,
+        "sleepMinutes": 360,
+        "summary": "Post-recovery health sample is improved from peak stress.",
+        "createdAt": "2026-04-25T13:44:15.473Z"
+      }
+    },
+    {
+      "label": "recovery-history:post-recovery",
+      "method": "GET",
+      "endpoint": "/recovery/history?userId=bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "latestRecoveryPlanId": null,
+        "recoveryPlanCount": 0,
+        "suggestedFocusTaskId": null
+      },
+      "response": {
+        "activeSession": null,
+        "interruptedSessions": [],
+        "interventions": [],
+        "recoveryPlans": [],
+        "pendingTasks": [],
+        "latestAssessment": null,
+        "latestBehaviorConclusion": null,
+        "suggestedFocusTaskId": null
+      }
+    },
+    {
+      "label": "health-latest:post-recovery",
+      "method": "GET",
+      "endpoint": "/health/latest?userId=bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "latestId": null,
+        "latestDeviceId": null
+      },
+      "response": {
+        "latest": null,
+        "recent": []
+      }
+    },
+    {
+      "label": "client-inbox:post-recovery",
+      "method": "GET",
+      "endpoint": "/client/inbox?userId=bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+      "status": 200,
+      "ok": true,
+      "responseIds": {
+        "firstMessageId": null,
+        "totalMessages": 0
+      },
+      "response": {
+        "messages": []
+      }
+    }
+  ],
+  "phaseResults": [
+    {
+      "name": "baseline",
+      "latestHealthId": null,
+      "latestHealthDeviceId": null,
+      "latestRecoveryPlanId": null,
+      "inboxMessageCount": 0,
+      "inboxLatestRiskLevel": null,
+      "postRecoveryWriteAccepted": false
+    },
+    {
+      "name": "stress-build-up-1",
+      "latestHealthId": null,
+      "latestHealthDeviceId": null,
+      "latestRecoveryPlanId": null,
+      "inboxMessageCount": 0,
+      "inboxLatestRiskLevel": null,
+      "postRecoveryWriteAccepted": false
+    },
+    {
+      "name": "stress-build-up-2",
+      "latestHealthId": null,
+      "latestHealthDeviceId": null,
+      "latestRecoveryPlanId": null,
+      "inboxMessageCount": 0,
+      "inboxLatestRiskLevel": null,
+      "postRecoveryWriteAccepted": false
+    },
+    {
+      "name": "recovery-trigger",
+      "latestHealthId": null,
+      "latestHealthDeviceId": null,
+      "latestRecoveryPlanId": null,
+      "inboxMessageCount": 0,
+      "inboxLatestRiskLevel": null,
+      "postRecoveryWriteAccepted": false
+    }
+  ],
+  "responseIds": {
+    "authUserId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+    "authEmail": "m6-mobile-client@example.com",
+    "mobileDeviceId": "15357817-00df-443c-bd97-d019b213b764",
+    "audioSessionId": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3",
+    "emotionAssessmentId": "4c7f8168-1eec-4b6a-b3a2-c5ca5083399e",
+    "videoAssessmentId": "785a8774-14ce-4df0-89ea-df161020bdeb",
+    "healthSnapshotId": "c77b191e-069e-498b-8ab9-98a308fb573d",
+    "callEventId": "1ffeebd5-510d-4189-a15e-245654e81744"
+  },
+  "readModels": {
+    "healthLatestReflectsDevice": false,
+    "dashboardReflectsDevice": false,
+    "inboxOverviewOk": false,
+    "inboxAckReflected": false,
+    "recoveryPlanCreated": false,
+    "recoveryHistoryReflectsPlan": false,
+    "recoveryInboxConsistent": false,
+    "recoveryDashboardConsistent": false
+  },
+  "clientSession": {
+    "enabled": true,
+    "authMode": "local-account",
+    "authEmail": "m6-mobile-client@example.com",
+    "authRegistered": true,
+    "authLoggedIn": true,
+    "clientMeOk": false,
+    "clientBootstrapOk": false,
+    "clientInboxOk": false,
+    "clientAckAttempted": false,
+    "clientAckReflected": false
+  },
+  "errors": [
+    "client-inbox returned no message to acknowledge during post-recovery."
+  ],
+  "summary": {
+    "passed": false,
+    "totalSteps": 41,
+    "failedSteps": 1,
+    "phaseCount": 4,
+    "phaseResults": [
+      {
+        "name": "baseline",
+        "latestHealthId": null,
+        "latestHealthDeviceId": null,
+        "latestRecoveryPlanId": null,
+        "inboxMessageCount": 0,
+        "inboxLatestRiskLevel": null,
+        "postRecoveryWriteAccepted": false
+      },
+      {
+        "name": "stress-build-up-1",
+        "latestHealthId": null,
+        "latestHealthDeviceId": null,
+        "latestRecoveryPlanId": null,
+        "inboxMessageCount": 0,
+        "inboxLatestRiskLevel": null,
+        "postRecoveryWriteAccepted": false
+      },
+      {
+        "name": "stress-build-up-2",
+        "latestHealthId": null,
+        "latestHealthDeviceId": null,
+        "latestRecoveryPlanId": null,
+        "inboxMessageCount": 0,
+        "inboxLatestRiskLevel": null,
+        "postRecoveryWriteAccepted": false
+      },
+      {
+        "name": "recovery-trigger",
+        "latestHealthId": null,
+        "latestHealthDeviceId": null,
+        "latestRecoveryPlanId": null,
+        "inboxMessageCount": 0,
+        "inboxLatestRiskLevel": null,
+        "postRecoveryWriteAccepted": false
+      }
+    ],
+    "latestHealthProgressed": false,
+    "recoveryPlanPersistedAcrossPhases": true,
+    "postRecoverySamplingAccepted": false,
+    "authMode": "local-account",
+    "authRegistered": true,
+    "authLoggedIn": true,
+    "clientMeOk": false,
+    "clientBootstrapOk": false,
+    "clientInboxOk": false,
+    "clientAckReflected": true,
+    "clientSession": {
+      "enabled": true,
+      "authMode": "local-account",
+      "authEmail": "m6-mobile-client@example.com",
+      "authRegistered": true,
+      "authLoggedIn": true,
+      "clientMeOk": false,
+      "clientBootstrapOk": false,
+      "clientInboxOk": false,
+      "clientAckReflected": true,
+      "clientAckAttempted": false
+    },
+    "readModels": {
+      "healthLatestReflectsDevice": false,
+      "dashboardReflectsDevice": false,
+      "inboxOverviewOk": false,
+      "inboxAckReflected": false,
+      "recoveryPlanCreated": false,
+      "recoveryHistoryReflectsPlan": false,
+      "recoveryInboxConsistent": false,
+      "recoveryDashboardConsistent": false
+    },
+    "responseIds": {
+      "authUserId": "bec4a4f8-b98a-454a-be8a-06bc8ab1a324",
+      "authEmail": "m6-mobile-client@example.com",
+      "mobileDeviceId": "15357817-00df-443c-bd97-d019b213b764",
+      "audioSessionId": "ab76dfd6-7388-4dbb-8730-8bfb803b61d3",
+      "emotionAssessmentId": "4c7f8168-1eec-4b6a-b3a2-c5ca5083399e",
+      "videoAssessmentId": "785a8774-14ce-4df0-89ea-df161020bdeb",
+      "healthSnapshotId": "c77b191e-069e-498b-8ab9-98a308fb573d",
+      "callEventId": "1ffeebd5-510d-4189-a15e-245654e81744"
+    },
+    "errorSamples": [
+      "auth-login failed with HTTP 401",
+      "read model check failed: healthLatestReflectsDevice",
+      "read model check failed: dashboardReflectsDevice",
+      "read model check failed: inboxOverviewOk",
+      "read model check failed: inboxAckReflected",
+      "read model check failed: recoveryPlanCreated",
+      "read model check failed: recoveryHistoryReflectsPlan",
+      "read model check failed: recoveryInboxConsistent",
+      "read model check failed: recoveryDashboardConsistent",
+      "cadence check failed: latestHealthProgressed"
+    ]
+  }
+}

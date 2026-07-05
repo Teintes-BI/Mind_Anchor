@@ -1,0 +1,736 @@
+{
+  "generatedAt": "2026-04-24T13:50:33.871Z",
+  "startedAt": "2026-04-24T13:50:33.871Z",
+  "completedAt": "2026-04-24T13:50:36.738Z",
+  "durationMs": 2867,
+  "apiBaseUrl": "http://127.0.0.1:3011",
+  "openClawBaseUrl": "http://192.168.0.104:8800",
+  "roundsPlanned": 2,
+  "intervalMs": 1000,
+  "requiredSelectedEndpoint": "cluster:/v1/tasks/execute",
+  "rounds": [
+    {
+      "round": 1,
+      "startedAt": "2026-04-24T13:50:35.594Z",
+      "completedAt": "2026-04-24T13:50:35.594Z",
+      "status": "passed",
+      "errors": [],
+      "checks": [
+        {
+          "target": "chief-agent",
+          "httpStatus": 200,
+          "route": "cluster",
+          "selectedEndpoint": "cluster:/v1/tasks/execute",
+          "traceId": "3ef9747f-7b29-4e4a-92fe-a0acff2e99f2",
+          "fallbackReason": null,
+          "failureCategory": null
+        },
+        {
+          "target": "state-insight-agent",
+          "httpStatus": 200,
+          "route": "cluster",
+          "selectedEndpoint": "cluster:/v1/tasks/execute",
+          "traceId": "c4662359-f99c-4e2a-afd9-ca0a57e29a14",
+          "fallbackReason": null,
+          "failureCategory": null
+        },
+        {
+          "target": "interruption-recovery-agent",
+          "httpStatus": 200,
+          "route": "cluster",
+          "selectedEndpoint": "cluster:/v1/tasks/execute",
+          "traceId": "02448867-f6ca-4ece-8c40-6c6b35b28604",
+          "fallbackReason": null,
+          "failureCategory": null
+        },
+        {
+          "target": "reflection-coach-agent",
+          "httpStatus": 200,
+          "route": "cluster",
+          "selectedEndpoint": "cluster:/v1/tasks/execute",
+          "traceId": "abaa8992-94aa-4a13-a885-aed110a7fe94",
+          "fallbackReason": null,
+          "failureCategory": null
+        },
+        {
+          "target": "task-management-agent",
+          "httpStatus": 200,
+          "route": "cluster",
+          "selectedEndpoint": "cluster:/v1/tasks/execute",
+          "traceId": "48a22c4f-e2f3-4cb5-aa12-b37f26e140aa",
+          "fallbackReason": null,
+          "failureCategory": null
+        },
+        {
+          "target": "progress-feedback-agent",
+          "httpStatus": 200,
+          "route": "cluster",
+          "selectedEndpoint": "cluster:/v1/tasks/execute",
+          "traceId": "f9eb2614-b2b6-49b3-b8cf-621fd7c41529",
+          "fallbackReason": null,
+          "failureCategory": null
+        },
+        {
+          "target": "automation-agent",
+          "httpStatus": 200,
+          "route": "cluster",
+          "selectedEndpoint": "cluster:/v1/tasks/execute",
+          "traceId": "98ec160d-a6d5-4b6b-9e5c-43b4356b4b0c",
+          "fallbackReason": null,
+          "failureCategory": null
+        }
+      ],
+      "adapter": {
+        "gatewayMode": "openai-compatible",
+        "clusterEnabled": true,
+        "executionStrategy": "cluster-preferred",
+        "openClawBaseUrl": "http://192.168.0.104:8800",
+        "clusterEndpoints": [
+          "/v1/tasks/execute",
+          "/tasks/execute",
+          "/api/tasks/execute"
+        ],
+        "lastDecision": {
+          "traceId": "98ec160d-a6d5-4b6b-9e5c-43b4356b4b0c",
+          "parentTraceId": "efc28bb3-ee5d-41b5-a2c8-8d2083375efb",
+          "createdAt": "2026-04-24T13:50:35.587Z",
+          "target": "automation-agent",
+          "mode": "debug",
+          "strategy": "cluster-preferred",
+          "route": "cluster",
+          "success": true,
+          "selectedEndpoint": "cluster:/v1/tasks/execute",
+          "fallbackReason": null,
+          "failureCategory": null,
+          "clusterAttempts": [
+            {
+              "endpoint": "/v1/tasks/execute",
+              "status": 200,
+              "ok": true,
+              "preview": "{\"title\":\"OpenClaw cluster 判断当前已进入高风险状态，建议立即介入。\",\"message\":\"Pause for a short reset before resuming the next small task step.\",\"channel\":\"mobile_push\",\"deliver\":true}"
+            }
+          ]
+        },
+        "lastFallback": null,
+        "failureCategoryCounts": {},
+        "recentTimeline": [
+          {
+            "traceId": "98ec160d-a6d5-4b6b-9e5c-43b4356b4b0c",
+            "parentTraceId": "efc28bb3-ee5d-41b5-a2c8-8d2083375efb",
+            "createdAt": "2026-04-24T13:50:35.587Z",
+            "target": "automation-agent",
+            "mode": "debug",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"title\":\"OpenClaw cluster 判断当前已进入高风险状态，建议立即介入。\",\"message\":\"Pause for a short reset before resuming the next small task step.\",\"channel\":\"mobile_push\",\"deliver\":true}"
+              }
+            ]
+          },
+          {
+            "traceId": "f9eb2614-b2b6-49b3-b8cf-621fd7c41529",
+            "parentTraceId": "f16a74b2-5354-40c2-9e66-ead4c28b3204",
+            "createdAt": "2026-04-24T13:50:35.574Z",
+            "target": "progress-feedback-agent",
+            "mode": "debug",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"goalCount\":1,\"taskCount\":3,\"completedTaskCount\":0,\"inProgressTaskCount\":1,\"blockedTaskCount\":0,\"completionRate\":0,\"openInterventions\":1,\"suggestedFocusTaskId\":\"da89dea6-6c35-4792-ad6d-95b999665d87\",\"summaryHeadline\":\"当前已有恢复方案，建议先按恢复方案收拢主线"
+              }
+            ]
+          },
+          {
+            "traceId": "48a22c4f-e2f3-4cb5-aa12-b37f26e140aa",
+            "parentTraceId": "2c2d5846-5768-4375-b0c9-2e02a1f414ae",
+            "createdAt": "2026-04-24T13:50:35.559Z",
+            "target": "task-management-agent",
+            "mode": "debug",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"orderedTaskIds\":[\"da89dea6-6c35-4792-ad6d-95b999665d87\",\"aaa1178f-f98a-4b1e-a47c-cc021a3388e0\",\"23f6e468-3a9d-43d9-9faf-c4d38f4cd335\"],\"summary\":\"本地 OpenClaw cluster 已将当前最值得继续推进的任务排在最前面，优先保持主线连续性。\",\"suggestedTasks\":[]}"
+              }
+            ]
+          },
+          {
+            "traceId": "abaa8992-94aa-4a13-a885-aed110a7fe94",
+            "parentTraceId": "6742f77b-e1b0-4243-9ac4-ab72e37dd93c",
+            "createdAt": "2026-04-24T13:50:35.548Z",
+            "target": "reflection-coach-agent",
+            "mode": "debug",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"userId\":\"debug-focus-user\",\"periodType\":\"weekly\",\"periodStart\":\"2026-04-17T13:50:35.546Z\",\"periodEnd\":\"2026-04-24T13:50:35.546Z\",\"highlights\":[\"本周已经形成一条相对清晰的执行主线，至少有一个任务被持续推进。\"],\"blockers\":[\"本周的主要阻力来自中断后回到主线的成本偏高。\"],\"trends\":[\"本周专注均值仍有波动，"
+              }
+            ]
+          },
+          {
+            "traceId": "02448867-f6ca-4ece-8c40-6c6b35b28604",
+            "parentTraceId": "42e19427-343e-49c9-bf2d-2f67bf16ea22",
+            "createdAt": "2026-04-24T13:50:35.534Z",
+            "target": "interruption-recovery-agent",
+            "mode": "debug",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"reason\":\"attention_shift_after_interruption\",\"nextStep\":\"先回到「验证 chief-agent 在压力场景下的路由」，只推进一个最小切片，避免继续切去处理旁支任务。\",\"suggestedMinutes\":25,\"reprioritizedTaskIds\":[\"da89dea6-6c35-4792-ad6d-95b999665d87\",\"aaa1178f-f98a-4b1e-a47c-cc021a3388e0\",\"2"
+              }
+            ]
+          },
+          {
+            "traceId": "c4662359-f99c-4e2a-afd9-ca0a57e29a14",
+            "parentTraceId": "0b5a28e8-1981-4d98-a0f5-7d5df2fc7df7",
+            "createdAt": "2026-04-24T13:50:35.522Z",
+            "target": "state-insight-agent",
+            "mode": "debug",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"userId\":\"debug-focus-user\",\"windowStart\":\"2026-04-24T13:35:35.519Z\",\"windowEnd\":\"2026-04-24T13:50:35.519Z\",\"focusScore\":40,\"energyScore\":45,\"moodScore\":49,\"summary\":\"当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。\",\"recommendedAction\""
+              }
+            ]
+          },
+          {
+            "traceId": "3ef9747f-7b29-4e4a-92fe-a0acff2e99f2",
+            "parentTraceId": "d0c82f56-804b-4d07-8b6d-c25968613e85",
+            "createdAt": "2026-04-24T13:50:35.480Z",
+            "target": "chief-agent",
+            "mode": "probe",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"probe\":\"ok\"}"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "round": 2,
+      "startedAt": "2026-04-24T13:50:36.738Z",
+      "completedAt": "2026-04-24T13:50:36.738Z",
+      "status": "passed",
+      "errors": [],
+      "checks": [
+        {
+          "target": "chief-agent",
+          "httpStatus": 200,
+          "route": "cluster",
+          "selectedEndpoint": "cluster:/v1/tasks/execute",
+          "traceId": "a1a2254f-622b-44eb-9af7-b0d1f78e7b13",
+          "fallbackReason": null,
+          "failureCategory": null
+        },
+        {
+          "target": "state-insight-agent",
+          "httpStatus": 200,
+          "route": "cluster",
+          "selectedEndpoint": "cluster:/v1/tasks/execute",
+          "traceId": "240b6075-4e41-4070-bf34-8069ecb9eac8",
+          "fallbackReason": null,
+          "failureCategory": null
+        },
+        {
+          "target": "interruption-recovery-agent",
+          "httpStatus": 200,
+          "route": "cluster",
+          "selectedEndpoint": "cluster:/v1/tasks/execute",
+          "traceId": "33a0ba9f-970f-465d-927f-e57e57af6eae",
+          "fallbackReason": null,
+          "failureCategory": null
+        },
+        {
+          "target": "reflection-coach-agent",
+          "httpStatus": 200,
+          "route": "cluster",
+          "selectedEndpoint": "cluster:/v1/tasks/execute",
+          "traceId": "fdcd21f8-c283-4d4b-a242-6296b9a60728",
+          "fallbackReason": null,
+          "failureCategory": null
+        },
+        {
+          "target": "task-management-agent",
+          "httpStatus": 200,
+          "route": "cluster",
+          "selectedEndpoint": "cluster:/v1/tasks/execute",
+          "traceId": "f98fb766-0bf5-40ee-bcb5-9a194777c798",
+          "fallbackReason": null,
+          "failureCategory": null
+        },
+        {
+          "target": "progress-feedback-agent",
+          "httpStatus": 200,
+          "route": "cluster",
+          "selectedEndpoint": "cluster:/v1/tasks/execute",
+          "traceId": "b0821ec8-a5c8-4e34-aa98-86d4e5e4509e",
+          "fallbackReason": null,
+          "failureCategory": null
+        },
+        {
+          "target": "automation-agent",
+          "httpStatus": 200,
+          "route": "cluster",
+          "selectedEndpoint": "cluster:/v1/tasks/execute",
+          "traceId": "387c9d64-b75a-44ee-a359-a727714d7a15",
+          "fallbackReason": null,
+          "failureCategory": null
+        }
+      ],
+      "adapter": {
+        "gatewayMode": "openai-compatible",
+        "clusterEnabled": true,
+        "executionStrategy": "cluster-preferred",
+        "openClawBaseUrl": "http://192.168.0.104:8800",
+        "clusterEndpoints": [
+          "/v1/tasks/execute",
+          "/tasks/execute",
+          "/api/tasks/execute"
+        ],
+        "lastDecision": {
+          "traceId": "387c9d64-b75a-44ee-a359-a727714d7a15",
+          "parentTraceId": "b9551a22-522e-4e8b-99d1-71ce48e98095",
+          "createdAt": "2026-04-24T13:50:36.729Z",
+          "target": "automation-agent",
+          "mode": "debug",
+          "strategy": "cluster-preferred",
+          "route": "cluster",
+          "success": true,
+          "selectedEndpoint": "cluster:/v1/tasks/execute",
+          "fallbackReason": null,
+          "failureCategory": null,
+          "clusterAttempts": [
+            {
+              "endpoint": "/v1/tasks/execute",
+              "status": 200,
+              "ok": true,
+              "preview": "{\"title\":\"OpenClaw cluster 判断当前已进入高风险状态，建议立即介入。\",\"message\":\"Pause for a short reset before resuming the next small task step.\",\"channel\":\"mobile_push\",\"deliver\":true}"
+            }
+          ]
+        },
+        "lastFallback": null,
+        "failureCategoryCounts": {},
+        "recentTimeline": [
+          {
+            "traceId": "387c9d64-b75a-44ee-a359-a727714d7a15",
+            "parentTraceId": "b9551a22-522e-4e8b-99d1-71ce48e98095",
+            "createdAt": "2026-04-24T13:50:36.729Z",
+            "target": "automation-agent",
+            "mode": "debug",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"title\":\"OpenClaw cluster 判断当前已进入高风险状态，建议立即介入。\",\"message\":\"Pause for a short reset before resuming the next small task step.\",\"channel\":\"mobile_push\",\"deliver\":true}"
+              }
+            ]
+          },
+          {
+            "traceId": "b0821ec8-a5c8-4e34-aa98-86d4e5e4509e",
+            "parentTraceId": "181b99d0-801d-478f-87da-1a56aa865246",
+            "createdAt": "2026-04-24T13:50:36.717Z",
+            "target": "progress-feedback-agent",
+            "mode": "debug",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"goalCount\":1,\"taskCount\":3,\"completedTaskCount\":0,\"inProgressTaskCount\":1,\"blockedTaskCount\":0,\"completionRate\":0,\"openInterventions\":1,\"suggestedFocusTaskId\":\"5deb0247-71f0-4f6e-a764-b0894ef6565d\",\"summaryHeadline\":\"当前已有恢复方案，建议先按恢复方案收拢主线"
+              }
+            ]
+          },
+          {
+            "traceId": "f98fb766-0bf5-40ee-bcb5-9a194777c798",
+            "parentTraceId": "3a04a1bc-8006-410d-b58f-f3c085bce934",
+            "createdAt": "2026-04-24T13:50:36.705Z",
+            "target": "task-management-agent",
+            "mode": "debug",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"orderedTaskIds\":[\"5deb0247-71f0-4f6e-a764-b0894ef6565d\",\"9108be3c-0a52-4258-a001-3874d63cf832\",\"0c00e914-a0ec-44a1-9be6-5c6b3668d7fa\"],\"summary\":\"本地 OpenClaw cluster 已将当前最值得继续推进的任务排在最前面，优先保持主线连续性。\",\"suggestedTasks\":[]}"
+              }
+            ]
+          },
+          {
+            "traceId": "fdcd21f8-c283-4d4b-a242-6296b9a60728",
+            "parentTraceId": "a66e7645-d07a-4389-801a-eeeb7686bdd7",
+            "createdAt": "2026-04-24T13:50:36.694Z",
+            "target": "reflection-coach-agent",
+            "mode": "debug",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"userId\":\"debug-focus-user\",\"periodType\":\"weekly\",\"periodStart\":\"2026-04-17T13:50:36.692Z\",\"periodEnd\":\"2026-04-24T13:50:36.692Z\",\"highlights\":[\"本周已经形成一条相对清晰的执行主线，至少有一个任务被持续推进。\"],\"blockers\":[\"本周的主要阻力来自中断后回到主线的成本偏高。\"],\"trends\":[\"本周专注均值仍有波动，"
+              }
+            ]
+          },
+          {
+            "traceId": "33a0ba9f-970f-465d-927f-e57e57af6eae",
+            "parentTraceId": "c89634f0-7add-48c2-b7b6-6050f9342d74",
+            "createdAt": "2026-04-24T13:50:36.683Z",
+            "target": "interruption-recovery-agent",
+            "mode": "debug",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"reason\":\"attention_shift_after_interruption\",\"nextStep\":\"先回到「验证 chief-agent 在压力场景下的路由」，只推进一个最小切片，避免继续切去处理旁支任务。\",\"suggestedMinutes\":25,\"reprioritizedTaskIds\":[\"5deb0247-71f0-4f6e-a764-b0894ef6565d\",\"9108be3c-0a52-4258-a001-3874d63cf832\",\"0"
+              }
+            ]
+          },
+          {
+            "traceId": "240b6075-4e41-4070-bf34-8069ecb9eac8",
+            "parentTraceId": "3e3d3783-da53-4b61-832d-837070c20263",
+            "createdAt": "2026-04-24T13:50:36.672Z",
+            "target": "state-insight-agent",
+            "mode": "debug",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"userId\":\"debug-focus-user\",\"windowStart\":\"2026-04-24T13:35:36.669Z\",\"windowEnd\":\"2026-04-24T13:50:36.669Z\",\"focusScore\":40,\"energyScore\":45,\"moodScore\":49,\"summary\":\"当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。\",\"recommendedAction\""
+              }
+            ]
+          },
+          {
+            "traceId": "a1a2254f-622b-44eb-9af7-b0d1f78e7b13",
+            "parentTraceId": "0d89945d-1ceb-4cc9-9c04-34bb4bb9c21b",
+            "createdAt": "2026-04-24T13:50:36.629Z",
+            "target": "chief-agent",
+            "mode": "probe",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"probe\":\"ok\"}"
+              }
+            ]
+          },
+          {
+            "traceId": "98ec160d-a6d5-4b6b-9e5c-43b4356b4b0c",
+            "parentTraceId": "efc28bb3-ee5d-41b5-a2c8-8d2083375efb",
+            "createdAt": "2026-04-24T13:50:35.587Z",
+            "target": "automation-agent",
+            "mode": "debug",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"title\":\"OpenClaw cluster 判断当前已进入高风险状态，建议立即介入。\",\"message\":\"Pause for a short reset before resuming the next small task step.\",\"channel\":\"mobile_push\",\"deliver\":true}"
+              }
+            ]
+          },
+          {
+            "traceId": "f9eb2614-b2b6-49b3-b8cf-621fd7c41529",
+            "parentTraceId": "f16a74b2-5354-40c2-9e66-ead4c28b3204",
+            "createdAt": "2026-04-24T13:50:35.574Z",
+            "target": "progress-feedback-agent",
+            "mode": "debug",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"goalCount\":1,\"taskCount\":3,\"completedTaskCount\":0,\"inProgressTaskCount\":1,\"blockedTaskCount\":0,\"completionRate\":0,\"openInterventions\":1,\"suggestedFocusTaskId\":\"da89dea6-6c35-4792-ad6d-95b999665d87\",\"summaryHeadline\":\"当前已有恢复方案，建议先按恢复方案收拢主线"
+              }
+            ]
+          },
+          {
+            "traceId": "48a22c4f-e2f3-4cb5-aa12-b37f26e140aa",
+            "parentTraceId": "2c2d5846-5768-4375-b0c9-2e02a1f414ae",
+            "createdAt": "2026-04-24T13:50:35.559Z",
+            "target": "task-management-agent",
+            "mode": "debug",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"orderedTaskIds\":[\"da89dea6-6c35-4792-ad6d-95b999665d87\",\"aaa1178f-f98a-4b1e-a47c-cc021a3388e0\",\"23f6e468-3a9d-43d9-9faf-c4d38f4cd335\"],\"summary\":\"本地 OpenClaw cluster 已将当前最值得继续推进的任务排在最前面，优先保持主线连续性。\",\"suggestedTasks\":[]}"
+              }
+            ]
+          },
+          {
+            "traceId": "abaa8992-94aa-4a13-a885-aed110a7fe94",
+            "parentTraceId": "6742f77b-e1b0-4243-9ac4-ab72e37dd93c",
+            "createdAt": "2026-04-24T13:50:35.548Z",
+            "target": "reflection-coach-agent",
+            "mode": "debug",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"userId\":\"debug-focus-user\",\"periodType\":\"weekly\",\"periodStart\":\"2026-04-17T13:50:35.546Z\",\"periodEnd\":\"2026-04-24T13:50:35.546Z\",\"highlights\":[\"本周已经形成一条相对清晰的执行主线，至少有一个任务被持续推进。\"],\"blockers\":[\"本周的主要阻力来自中断后回到主线的成本偏高。\"],\"trends\":[\"本周专注均值仍有波动，"
+              }
+            ]
+          },
+          {
+            "traceId": "02448867-f6ca-4ece-8c40-6c6b35b28604",
+            "parentTraceId": "42e19427-343e-49c9-bf2d-2f67bf16ea22",
+            "createdAt": "2026-04-24T13:50:35.534Z",
+            "target": "interruption-recovery-agent",
+            "mode": "debug",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"reason\":\"attention_shift_after_interruption\",\"nextStep\":\"先回到「验证 chief-agent 在压力场景下的路由」，只推进一个最小切片，避免继续切去处理旁支任务。\",\"suggestedMinutes\":25,\"reprioritizedTaskIds\":[\"da89dea6-6c35-4792-ad6d-95b999665d87\",\"aaa1178f-f98a-4b1e-a47c-cc021a3388e0\",\"2"
+              }
+            ]
+          },
+          {
+            "traceId": "c4662359-f99c-4e2a-afd9-ca0a57e29a14",
+            "parentTraceId": "0b5a28e8-1981-4d98-a0f5-7d5df2fc7df7",
+            "createdAt": "2026-04-24T13:50:35.522Z",
+            "target": "state-insight-agent",
+            "mode": "debug",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"userId\":\"debug-focus-user\",\"windowStart\":\"2026-04-24T13:35:35.519Z\",\"windowEnd\":\"2026-04-24T13:50:35.519Z\",\"focusScore\":40,\"energyScore\":45,\"moodScore\":49,\"summary\":\"当前注意力已有下滑迹象，最近桌面活动显示切换与空闲增加；如果继续扩散上下文，主任务推进质量会继续下降。\",\"recommendedAction\""
+              }
+            ]
+          },
+          {
+            "traceId": "3ef9747f-7b29-4e4a-92fe-a0acff2e99f2",
+            "parentTraceId": "d0c82f56-804b-4d07-8b6d-c25968613e85",
+            "createdAt": "2026-04-24T13:50:35.480Z",
+            "target": "chief-agent",
+            "mode": "probe",
+            "strategy": "cluster-preferred",
+            "route": "cluster",
+            "success": true,
+            "selectedEndpoint": "cluster:/v1/tasks/execute",
+            "fallbackReason": null,
+            "failureCategory": null,
+            "clusterAttempts": [
+              {
+                "endpoint": "/v1/tasks/execute",
+                "status": 200,
+                "ok": true,
+                "preview": "{\"probe\":\"ok\"}"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "passed": true,
+    "roundsPlanned": 2,
+    "roundsCompleted": 2,
+    "durationMs": 2867,
+    "clusterRouteCount": 14,
+    "providerFallbackCount": 0,
+    "failedCount": 0,
+    "nonClusterCount": 0,
+    "routeCounts": {
+      "cluster": 14
+    },
+    "failureCategoryCounts": {},
+    "latestByAgent": {
+      "chief-agent": {
+        "route": "cluster",
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "traceId": "a1a2254f-622b-44eb-9af7-b0d1f78e7b13",
+        "fallbackReason": null,
+        "failureCategory": null
+      },
+      "state-insight-agent": {
+        "route": "cluster",
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "traceId": "240b6075-4e41-4070-bf34-8069ecb9eac8",
+        "fallbackReason": null,
+        "failureCategory": null
+      },
+      "interruption-recovery-agent": {
+        "route": "cluster",
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "traceId": "33a0ba9f-970f-465d-927f-e57e57af6eae",
+        "fallbackReason": null,
+        "failureCategory": null
+      },
+      "reflection-coach-agent": {
+        "route": "cluster",
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "traceId": "fdcd21f8-c283-4d4b-a242-6296b9a60728",
+        "fallbackReason": null,
+        "failureCategory": null
+      },
+      "task-management-agent": {
+        "route": "cluster",
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "traceId": "f98fb766-0bf5-40ee-bcb5-9a194777c798",
+        "fallbackReason": null,
+        "failureCategory": null
+      },
+      "progress-feedback-agent": {
+        "route": "cluster",
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "traceId": "b0821ec8-a5c8-4e34-aa98-86d4e5e4509e",
+        "fallbackReason": null,
+        "failureCategory": null
+      },
+      "automation-agent": {
+        "route": "cluster",
+        "selectedEndpoint": "cluster:/v1/tasks/execute",
+        "traceId": "387c9d64-b75a-44ee-a359-a727714d7a15",
+        "fallbackReason": null,
+        "failureCategory": null
+      }
+    },
+    "errorSamples": []
+  }
+}

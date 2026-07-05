@@ -1,0 +1,17 @@
+{
+  "generatedAt": "2026-03-29T12:04:37.220Z",
+  "bundleIdentifier": "com.mindanchor.mac.openclaw.registry.e2e.run1774785804",
+  "title": "OpenClaw Registry 不可达",
+  "message": "已配置外部 OpenClaw runtime，但当前无法连通",
+  "debugLogPath": "/var/folders/n4/786ptkfx6zx4fskgpy1c1x100000gn/T/mindanchor-macos-openclaw-registry-1774785804620-95835/notification-debug.log",
+  "notificationDebugState": "allowed",
+  "clickResult": "not-found",
+  "boundary": "notification_center_click_boundary",
+  "dump": "window:天气预报 subrole:AXUnknown, window:月 subrole:AXUnknown",
+  "guidance": [
+    "通知权限已经就绪，但当前仍无法在 Notification Center 中稳定命中并点击目标通知。",
+    "这说明当前主机的剩余问题集中在 Notification Center 展示 / 点击自动化边界。",
+    "诊断 JSON：/Users/claw/mindanchor/tmp/macos-notification-center-click-diagnostics.json",
+    "诊断 HTML：/Users/claw/mindanchor/tmp/macos-notification-center-click-diagnostics.html"
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "generatedAt": "2026-04-24T17:54:20.273Z",
+  "startedAt": "2026-04-24T17:54:20.273Z",
+  "completedAt": "2026-04-24T17:54:20.286Z",
+  "durationMs": 13,
+  "apiBaseUrl": null,
+  "apiLanBaseUrl": null,
+  "openClawBaseUrl": null,
+  "device": null,
+  "preflight": {
+    "adbDeviceConnected": false,
+    "wifiIpDetected": false,
+    "curlAvailable": false,
+    "gatewayLanHealthOk": false
+  },
+  "scenario": "cadenced",
+  "options": {
+    "apiHost": "0.0.0.0",
+    "preferredApiPort": 3011,
+    "userId": "m6-mobile-user",
+    "deviceId": "android-m6-capture",
+    "profileName": "dev",
+    "scenario": "cadenced",
+    "withClientSession": true
+  },
+  "steps": [],
+  "phaseResults": [],
+  "responseIds": {},
+  "readModels": {
+    "healthLatestReflectsDevice": false,
+    "dashboardReflectsDevice": false,
+    "inboxOverviewOk": false,
+    "inboxAckReflected": false,
+    "recoveryPlanCreated": false,
+    "recoveryHistoryReflectsPlan": false,
+    "recoveryInboxConsistent": false,
+    "recoveryDashboardConsistent": false
+  },
+  "clientSession": {
+    "enabled": true,
+    "authMode": "local-account",
+    "authEmail": "m6-mobile-client@example.com",
+    "authRegistered": false,
+    "authLoggedIn": false,
+    "clientMeOk": false,
+    "clientBootstrapOk": false,
+    "clientInboxOk": false,
+    "clientAckAttempted": false,
+    "clientAckReflected": false
+  },
+  "errors": [
+    "No adb device in 'device' state."
+  ],
+  "summary": {
+    "passed": false,
+    "totalSteps": 0,
+    "failedSteps": 0,
+    "phaseCount": 0,
+    "phaseResults": [],
+    "latestHealthProgressed": true,
+    "recoveryPlanPersistedAcrossPhases": true,
+    "postRecoverySamplingAccepted": true,
+    "authMode": "local-account",
+    "authRegistered": false,
+    "authLoggedIn": false,
+    "clientMeOk": false,
+    "clientBootstrapOk": false,
+    "clientInboxOk": false,
+    "clientAckReflected": true,
+    "clientSession": {
+      "enabled": true,
+      "authMode": "local-account",
+      "authEmail": "m6-mobile-client@example.com",
+      "authRegistered": false,
+      "authLoggedIn": false,
+      "clientMeOk": false,
+      "clientBootstrapOk": false,
+      "clientInboxOk": false,
+      "clientAckReflected": true,
+      "clientAckAttempted": false
+    },
+    "readModels": {
+      "healthLatestReflectsDevice": false,
+      "dashboardReflectsDevice": false,
+      "inboxOverviewOk": false,
+      "inboxAckReflected": false,
+      "recoveryPlanCreated": false,
+      "recoveryHistoryReflectsPlan": false,
+      "recoveryInboxConsistent": false,
+      "recoveryDashboardConsistent": false
+    },
+    "responseIds": {},
+    "errorSamples": [
+      "read model check failed: healthLatestReflectsDevice",
+      "read model check failed: dashboardReflectsDevice",
+      "read model check failed: inboxOverviewOk",
+      "read model check failed: inboxAckReflected",
+      "read model check failed: recoveryPlanCreated",
+      "read model check failed: recoveryHistoryReflectsPlan",
+      "read model check failed: recoveryInboxConsistent",
+      "read model check failed: recoveryDashboardConsistent",
+      "client session check failed: authLoggedIn",
+      "client session check failed: clientMeOk"
+    ]
+  }
+}
