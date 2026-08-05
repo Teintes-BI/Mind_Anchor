@@ -148,6 +148,39 @@ test("stopManagedChild falls back to child.kill when process group signal fails"
   assert.deepEqual(result, { attempted: true, usedProcessGroup: false });
 });
 
+test("stopManagedChild terminates the full descendant tree on Windows", async () => {
+  const taskkillCalls = [];
+  const childKillCalls = [];
+  const child = {
+    pid: 6789,
+    exitCode: null,
+    killed: false,
+    kill(signal) {
+      childKillCalls.push(signal);
+    },
+  };
+
+  const result = await stopManagedChild(child, {
+    platform: "win32",
+    taskkillImpl(command, args, options) {
+      taskkillCalls.push({ command, args, options });
+      child.exitCode = 0;
+      return { status: 0 };
+    },
+    waitForExitImpl: async () => undefined,
+  });
+
+  assert.deepEqual(taskkillCalls, [
+    {
+      command: "taskkill.exe",
+      args: ["/PID", "6789", "/T", "/F"],
+      options: { windowsHide: true, stdio: "ignore" },
+    },
+  ]);
+  assert.deepEqual(childKillCalls, []);
+  assert.deepEqual(result, { attempted: true, usedProcessGroup: true });
+});
+
 test("collectUniqueChildren deduplicates direct and tracked children", () => {
   const childA = { pid: 1 };
   const childB = { pid: 2 };

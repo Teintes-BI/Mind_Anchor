@@ -1,0 +1,53 @@
+{
+  "catalogVersion": "1.0.0",
+  "packs": [
+    {
+      "id": "values_clarification",
+      "version": "1.0.0",
+      "source": {
+        "kind": "internal_synthesis",
+        "label": "MindAnchor values clarification protocol",
+        "citationPolicy": "Use paraphrase and explicit uncertainty; never invent or attribute quotations."
+      },
+      "applicableScopes": ["values", "preferences", "decision_tradeoffs"],
+      "disabledScopes": ["medical_diagnosis", "legal_advice", "financial_execution", "external_messaging"],
+      "description": "Clarifies the user's priorities and trade-offs without choosing on the user's behalf."
+    },
+    {
+      "id": "systems_perspective",
+      "version": "1.0.0",
+      "source": {
+        "kind": "internal_synthesis",
+        "label": "MindAnchor systems perspective protocol",
+        "citationPolicy": "Describe causal hypotheses as hypotheses; never present an attributed quotation as evidence."
+      },
+      "applicableScopes": ["goals", "constraints", "dependencies", "second_order_effects"],
+      "disabledScopes": ["medical_diagnosis", "legal_advice", "financial_execution", "external_messaging"],
+      "description": "Surfaces dependencies, feedback loops and second-order effects for comparison."
+    },
+    {
+      "id": "scientific_reasoning",
+      "version": "1.0.0",
+      "source": {
+        "kind": "internal_synthesis",
+        "label": "MindAnchor scientific reasoning protocol",
+        "citationPolicy": "Separate observations from hypotheses and disclose missing evidence; do not fabricate sources or quotations."
+      },
+      "applicableScopes": ["evidence", "uncertainty", "experiments", "prediction_calibration"],
+      "disabledScopes": ["medical_diagnosis", "legal_advice", "financial_execution", "external_messaging"],
+      "description": "Separates observations, hypotheses, tests and confidence so the user can update beliefs."
+    },
+    {
+      "id": "energy_recovery",
+      "version": "1.0.0",
+      "source": {
+        "kind": "internal_synthesis",
+        "label": "MindAnchor energy and recovery protocol",
+        "citationPolicy": "Offer non-clinical pacing options with uncertainty; never diagnose or prescribe treatment."
+      },
+      "applicableScopes": ["energy", "capacity", "recovery", "intervention_dose"],
+      "disabledScopes": ["medical_diagnosis", "crisis_intervention", "legal_advice", "financial_execution"],
+      "description": "Helps compare load, recovery and pacing options without making a medical claim."
+    }
+  ]
+}

@@ -446,10 +446,141 @@ textarea {
   color: #ffc078;
 }
 
+.status-low,
+.status-confirmed,
+.consent-granted {
+  background: rgba(64, 192, 87, 0.18);
+  color: #8ce99a;
+}
+
+.status-medium,
+.status-awaiting_confirmation,
+.consent-paused {
+  background: rgba(255, 212, 59, 0.18);
+  color: #ffe066;
+}
+
+.status-high,
+.status-critical,
+.status-dismissed,
+.consent-revoked {
+  background: rgba(250, 82, 82, 0.18);
+  color: #ff8787;
+}
+
+.status-draft,
+.status-expired {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--muted);
+}
+
+.success-banner {
+  padding: 0.9rem 1rem;
+  border-radius: 1rem;
+  background: rgba(64, 192, 87, 0.14);
+  color: #b2f2bb;
+}
+
+.success-banner p {
+  margin: 0.4rem 0 0;
+}
+
+.wayfinder-capture-card,
+.wayfinder-situation-card,
+.wayfinder-confirmation-card,
+.wayfinder-outcome-card {
+  border-color: rgba(116, 192, 252, 0.24);
+}
+
+.wayfinder-option-card {
+  min-height: 100%;
+  background: rgba(17, 29, 51, 0.98);
+}
+
+.wayfinder-option-card-selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(116, 192, 252, 0.3);
+}
+
+.wayfinder-option-header {
+  align-items: flex-start;
+}
+
+.wayfinder-first-step {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.85rem;
+  border-left: 3px solid var(--accent);
+  background: rgba(116, 192, 252, 0.08);
+}
+
+.wayfinder-option-details,
+.wayfinder-option-meta {
+  gap: 0.8rem;
+}
+
+.wayfinder-consequence {
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  flex-wrap: wrap;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  line-height: 1.5;
+}
+
+.checkbox-row input {
+  width: auto;
+  margin-top: 0.25rem;
+}
+
+.consent-row {
+  background: rgba(12, 24, 43, 0.7);
+}
+
+.empty-state-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.ledger-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  align-items: end;
+}
+
+.ledger-filter-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-end;
+  min-width: 130px;
+}
+
+.ledger-entry {
+  gap: 1.25rem;
+}
+
+.ledger-outcome-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
 @media (max-width: 960px) {
   .shell,
   .grid-2,
-  .grid-3 {
+  .grid-3,
+  .ledger-filters {
     grid-template-columns: 1fr;
   }
 
@@ -463,5 +594,9 @@ textarea {
   .task-actions,
   .task-summary {
     justify-content: flex-start;
+  }
+
+  .ledger-filter-summary {
+    align-items: flex-start;
   }
 }

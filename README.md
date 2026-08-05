@@ -44,6 +44,8 @@ MindAnchor now treats user-deployed OpenClaw infrastructure as the system brain.
 - First cluster smoke sample report: `docs/openclaw-cluster-first-smoke-report-2026-03-07.md`
 - Local cluster manual verification guide: `docs/local-cluster-manual-verification.md`
 - Unified execution spec: `docs/spec.md`
+- Wayfinder companion implementation plan: `docs/superpowers/plans/2026-08-05-mindanchor-wayfinder-implementation.md`
+- Wayfinder execution boundary and threat model: `docs/wayfinder/README.md`, `docs/wayfinder/threat-model.md`
 
 The `Agent Lab` page now supports one-click debug scenario seeding, persisted run history, a full multi-agent regression run, a targeted override matrix regression runner, and a resolved agent config audit so you can replay flows and verify which model config each agent is actually using.
 

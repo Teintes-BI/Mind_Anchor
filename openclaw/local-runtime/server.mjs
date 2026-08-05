@@ -7,6 +7,9 @@ import { routeWithPicard } from "../runtime/workflows/picard-router.mjs";
 import { executePersonaTurn } from "../runtime/workflows/persona-executor.mjs";
 import { executeJarvisAuthority } from "../runtime/workflows/jarvis-authority.mjs";
 import { executeDataGovernance } from "../runtime/workflows/data-governor.mjs";
+import { frameWayfinderSituation } from "../runtime/workers/wayfinder-situation-worker.mjs";
+import { architectWayfinderOptions } from "../runtime/workers/wayfinder-option-worker.mjs";
+import { reflectWayfinderDecision } from "../runtime/workers/wayfinder-reflection-worker.mjs";
 
 const RUNTIME_NAME = "openclaw-local-cluster";
 const RUNTIME_VERSION = "structured-local-runtime-phase1";
@@ -105,6 +108,8 @@ const PERSONA_BY_AGENT_ID = nativeOpenClawAgentRegistryById;
 const PERSONA_AGENTS = nativeOpenClawAgentRegistry.map((entry) => ({
   name: entry.agentId,
   worker: entry.worker,
+  wayfinderWorker: entry.wayfinderWorker ?? null,
+  wayfinderPerspectivePacks: entry.wayfinderPerspectivePacks ?? [],
   modelTarget: entry.modelTarget,
   skills: entry.skills,
   supportedWorkflows: entry.supportedWorkflows,
@@ -610,6 +615,18 @@ const buildParsedPayload = ({ target, mode, context }) => {
 
   const workflow = pickString(context?.workflow, context?.intent);
 
+  if (target === "director-agent" && workflow === "wayfinder_situation_framing") {
+    return frameWayfinderSituation(context);
+  }
+
+  if (target === "analyst-agent" && workflow === "wayfinder_option_architecture") {
+    return architectWayfinderOptions(context);
+  }
+
+  if (target === "balance-agent" && workflow === "wayfinder_reflection") {
+    return reflectWayfinderDecision(context);
+  }
+
   if (PERSONA_BY_AGENT_ID.has(target) && workflow === "coach_conversation_fast") {
     return buildConversationCoachFast(context);
   }
@@ -710,8 +727,11 @@ export const createLocalOpenClawServer = ({
         agents: AGENTS.map((agent) => ({
           name: agent.name,
           worker: agent.worker,
+          wayfinderWorker: agent.wayfinderWorker ?? null,
+          wayfinderPerspectivePacks: agent.wayfinderPerspectivePacks ?? [],
           modelTarget: agent.modelTarget,
           skillCount: agent.skills.length,
+          skills: agent.skills,
           supportedWorkflows: agent.supportedWorkflows,
           memoryScopes: Array.isArray(agent.memoryScopes) ? agent.memoryScopes : [],
           canFront: agent.canFront === true,
@@ -831,6 +851,7 @@ export const createLocalOpenClawServer = ({
         runtimeVersion: RUNTIME_VERSION,
         worker: agent.worker,
         agent: agent.name,
+        wayfinderPerspectivePacks: agent.wayfinderPerspectivePacks ?? [],
         modelTarget: agent.modelTarget,
         mode,
         responseMode,

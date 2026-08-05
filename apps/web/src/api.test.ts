@@ -19,4 +19,18 @@ describe("web api auth headers", () => {
     const headers = new Headers(init?.headers);
     expect(headers.get("Authorization")).toBe("Bearer dev:demo-user:demo@example.com");
   });
+
+  it("sends the same bearer token for Wayfinder requests", async () => {
+    const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: true,
+      json: async () => ({ grants: [] }),
+    } as Response);
+
+    await api.getWayfinderConsent();
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const init = fetchMock.mock.calls[0]?.[1] as RequestInit | undefined;
+    const headers = new Headers(init?.headers);
+    expect(headers.get("Authorization")).toBe("Bearer dev:demo-user:demo@example.com");
+  });
 });

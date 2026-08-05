@@ -7,10 +7,14 @@ import { StatePage } from "./pages/StatePage";
 import { ReflectionsPage } from "./pages/ReflectionsPage";
 import { RecoveryPage } from "./pages/RecoveryPage";
 import { CoachPage } from "./pages/CoachPage";
+import { WayfinderPage } from "./pages/WayfinderPage";
+import { DecisionLedgerPage } from "./pages/DecisionLedgerPage";
 
 const links = [
   { to: "/", label: "Dashboard" },
   { to: "/coach", label: "Coach" },
+  { to: "/wayfinder", label: "Wayfinder" },
+  { to: "/wayfinder/ledger", label: "选择账本" },
   { to: "/tasks", label: "GoalFlow" },
   { to: "/inbox", label: "收件箱" },
   { to: "/state", label: "状态趋势" },
@@ -48,6 +52,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<DashboardPage />} />
           <Route path="/coach" element={<CoachPage />} />
+          <Route path="/wayfinder" element={<WayfinderPage />} />
+          <Route path="/wayfinder/ledger" element={<DecisionLedgerPage />} />
           <Route path="/tasks" element={<TasksPage />} />
           <Route path="/inbox" element={<InboxPage />} />
           <Route path="/state" element={<StatePage />} />

@@ -98,6 +98,11 @@ import { ConversationCoachService } from "./services/conversation-coach-service.
 import { AgentAuthorityExecutionService } from "./services/agent-authority-execution-service.js";
 import { AgentMemoryProposalService } from "./services/agent-memory-proposal-service.js";
 import { AgentMemoryScopeError, AgentMemoryService } from "./services/agent-memory-service.js";
+import { WayfinderConsentService } from "./services/wayfinder/consent-service.js";
+import { WayfinderDecisionService } from "./services/wayfinder/decision-service.js";
+import { WayfinderSituationService } from "./services/wayfinder/situation-service.js";
+import { WayfinderRepository } from "./services/wayfinder/wayfinder-repository.js";
+import { registerWayfinderRoutes } from "./routes/wayfinder.js";
 import { MindAnchorStore } from "./store.js";
 import { debugScenarioIdSchema } from "./debug-scenarios.js";
 import { nativeOpenClawAgentRegistry } from "../../../openclaw/runtime/agent-registry.mjs";
@@ -126,6 +131,10 @@ export const buildApp = async (env: AppEnv) => {
   const agentMemory = new AgentMemoryService(store);
   const conversationCoach = new ConversationCoachService(store, env, authorityExecution, agentMemory, traceLogger);
   const agentMemoryProposals = new AgentMemoryProposalService(store);
+  const wayfinderRepository = new WayfinderRepository(store);
+  const wayfinderConsent = new WayfinderConsentService(wayfinderRepository);
+  const wayfinderSituations = new WayfinderSituationService(wayfinderRepository);
+  const wayfinderDecisions = new WayfinderDecisionService(wayfinderRepository);
 
   app.addHook("onClose", async () => {
     await conversationCoach.shutdown();
@@ -142,7 +151,10 @@ export const buildApp = async (env: AppEnv) => {
         displayName: agent.displayName,
         runtimeAgentId: agent.runtimeAgentId,
         worker: agent.worker,
+        wayfinderWorker: agent.wayfinderWorker ?? null,
+        wayfinderPerspectivePacks: agent.wayfinderPerspectivePacks ?? [],
         modelTarget: agent.modelTarget,
+        skills: agent.skills,
         soulFilePath: agent.soulFilePath,
         supportedWorkflows: agent.supportedWorkflows,
         memoryScopes: agent.memoryScopes,
@@ -1038,6 +1050,13 @@ export const buildApp = async (env: AppEnv) => {
       memoryId: z.string().min(1),
     }),
   ]);
+
+  await registerWayfinderRoutes(app, {
+    repository: wayfinderRepository,
+    consent: wayfinderConsent,
+    situations: wayfinderSituations,
+    decisions: wayfinderDecisions,
+  });
 
   app.get("/health", async () => ({
     ok: true,

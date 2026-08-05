@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mindanchor.local/openclaw/skills/decision-outcome-skill.schema.json",
+  "title": "Wayfinder decision outcome skill",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["traceId", "agent", "modelTarget", "decisionId", "summary", "evidenceRefs", "confidence", "riskLevel"],
+  "properties": {
+    "traceId": { "type": "string", "minLength": 1 },
+    "agent": { "const": "reflection-worker" },
+    "modelTarget": { "type": "string", "minLength": 1 },
+    "decisionId": { "type": "string", "minLength": 1 },
+    "summary": { "type": "string", "minLength": 1 },
+    "predictionError": { "type": "string" },
+    "evidenceRefs": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "riskLevel": { "enum": ["low", "medium", "high", "critical"] }
+  }
+}

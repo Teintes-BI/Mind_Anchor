@@ -162,9 +162,9 @@ Options:
 };
 
 const options = parseArgs(process.argv.slice(2));
-const COREPACK_BIN = existsSync(resolve(ROOT_DIR, ".tools/node/bin/corepack"))
-  ? resolve(ROOT_DIR, ".tools/node/bin/corepack")
-  : "corepack";
+const localCorepack = resolve(ROOT_DIR, ".tools/node/bin", process.platform === "win32" ? "corepack.cmd" : "corepack");
+const COREPACK_BIN = process.platform === "win32" ? process.execPath : existsSync(localCorepack) ? localCorepack : "corepack";
+const COREPACK_ARGS_PREFIX = process.platform === "win32" ? [resolve("C:/Program Files/nodejs/node_modules/corepack/dist/corepack.js")] : [];
 const TOOL_NODE_BIN = resolve(ROOT_DIR, ".tools/node/bin/node");
 const DEFAULT_NODE_BIN = existsSync(TOOL_NODE_BIN) ? TOOL_NODE_BIN : process.execPath;
 const OPENCLAW_BIN = process.env.OPENCLAW_BIN ?? `${process.env.HOME ?? ""}/.openclaw/bin/openclaw`;
@@ -265,7 +265,7 @@ const baseEnv = () => ({
     process.env.PATH ?? "",
   ]
     .filter(Boolean)
-    .join(":"),
+    .join(process.platform === "win32" ? ";" : ":"),
 });
 
 const extractJsonCandidate = (content) => {
@@ -562,6 +562,7 @@ const execCommand = async ({ label, command, args, env, cwd = ROOT_DIR }) =>
     const child = spawn(command, args, {
       cwd,
       env,
+      ...(process.platform === "win32" && /\.cmd$/i.test(String(command)) ? { shell: true } : {}),
       stdio: ["ignore", "pipe", "pipe"],
     });
     let stdout = "";
@@ -904,7 +905,7 @@ const startApi = async ({ phaseId, agentMode, openClawBaseUrl, extraEnv }) => {
   runState.apiProcess = await spawnLoggedProcess({
     name: `api-${phaseId}`,
     command: COREPACK_BIN,
-    args: ["pnpm", "--filter", "@mindanchor/api", "exec", "tsx", "src/index.ts"],
+    args: [...COREPACK_ARGS_PREFIX, "pnpm", "--filter", "@mindanchor/api", "exec", "tsx", "src/index.ts"],
     env: apiEnv,
     logFile,
   });
@@ -921,7 +922,7 @@ const startWeb = async () => {
   runState.webProcess = await spawnLoggedProcess({
     name: "web",
     command: COREPACK_BIN,
-    args: ["pnpm", "--filter", "@mindanchor/web", "exec", "vite", "--host", options.webHost, "--port", String(options.webPort)],
+    args: [...COREPACK_ARGS_PREFIX, "pnpm", "--filter", "@mindanchor/web", "exec", "vite", "--host", options.webHost, "--port", String(options.webPort)],
     env: {
       ...baseEnv(),
       VITE_API_BASE_URL: API_BASE_URL,
@@ -985,19 +986,19 @@ const buildWorkspaces = async () => {
   await execCommand({
     label: "build-domain",
     command: COREPACK_BIN,
-    args: ["pnpm", "--filter", "@mindanchor/domain", "build"],
+    args: [...COREPACK_ARGS_PREFIX, "pnpm", "--filter", "@mindanchor/domain", "build"],
     env: baseEnv(),
   });
   await execCommand({
     label: "build-api",
     command: COREPACK_BIN,
-    args: ["pnpm", "--filter", "@mindanchor/api", "build"],
+    args: [...COREPACK_ARGS_PREFIX, "pnpm", "--filter", "@mindanchor/api", "build"],
     env: baseEnv(),
   });
   await execCommand({
     label: "build-web",
     command: COREPACK_BIN,
-    args: ["pnpm", "--filter", "@mindanchor/web", "build"],
+    args: [...COREPACK_ARGS_PREFIX, "pnpm", "--filter", "@mindanchor/web", "build"],
     env: baseEnv(),
   });
 };

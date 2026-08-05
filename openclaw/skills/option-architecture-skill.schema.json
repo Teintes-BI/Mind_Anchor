@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mindanchor.local/openclaw/skills/option-architecture-skill.schema.json",
+  "title": "Wayfinder option architecture skill",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["traceId", "agent", "modelTarget", "evidenceRefs", "confidence", "riskLevel", "options"],
+  "properties": {
+    "traceId": { "type": "string", "minLength": 1 },
+    "agent": { "const": "option-architect" },
+    "modelTarget": { "type": "string", "minLength": 1 },
+    "evidenceRefs": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "riskLevel": { "enum": ["low", "medium", "high", "critical"] },
+    "options": { "type": "array", "minItems": 2, "maxItems": 3, "items": { "$ref": "#/$defs/option" } }
+  },
+  "$defs": {
+    "option": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "userId", "situationId", "status", "action", "firstStep", "rationale", "immediateBenefits", "costs", "projectedConsequences", "reversibility", "valueAlignment", "evidenceRefs", "consultedSkills", "riskLevel", "requiresApproval", "createdAt", "traceId"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "userId": { "type": "string", "minLength": 1 },
+        "situationId": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["proposed", "selected", "rejected", "expired"] },
+        "action": { "type": "string", "minLength": 1 },
+        "firstStep": { "type": "string", "minLength": 1 },
+        "rationale": { "type": "string", "minLength": 1 },
+        "immediateBenefits": { "type": "array", "items": { "type": "string" } },
+        "costs": { "type": "array", "items": { "type": "string" } },
+        "projectedConsequences": { "type": "array", "minItems": 1, "items": { "type": "object", "required": ["horizon", "text", "confidence"], "properties": { "horizon": { "enum": ["today", "week", "month", "long_term"] }, "text": { "type": "string" }, "confidence": { "type": "number", "minimum": 0, "maximum": 1 } } } },
+        "reversibility": { "enum": ["reversible", "partly_reversible", "hard_to_reverse"] },
+        "valueAlignment": { "type": "array", "items": { "type": "object", "required": ["valueId", "effect", "explanation"], "properties": { "valueId": { "type": "string" }, "effect": { "enum": ["supports", "trades_off", "unknown"] }, "explanation": { "type": "string" } } } },
+        "evidenceRefs": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "consultedSkills": { "type": "array", "items": { "type": "string" } },
+        "riskLevel": { "enum": ["low", "medium", "high", "critical"] },
+        "requiresApproval": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "traceId": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

@@ -4,6 +4,8 @@ import type {
   ClientInboxMessage,
   ClientInboxOverviewResponse,
   ClientInboxResponse,
+  ConsentGrant,
+  ContextEvent,
   CoachFeedback,
   CoachFrontAgentState,
   CoachMessage,
@@ -31,9 +33,14 @@ import type {
   ReflectionReport,
   ReflectionOverviewResponse,
   RecoveryHistoryResponse,
+  DecisionOption,
+  DecisionRecord,
   StateTrendsResponse,
+  Situation,
   Task,
   VideoAssessment,
+  WayfinderOutcome,
+  CreateContextEventInput,
 } from "@mindanchor/domain";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3001";
@@ -115,6 +122,24 @@ export type DebugScenarioSeedResult = {
 
 export type DebugTraceLookup = DebugTraceLookupResponse;
 
+export type WayfinderEventInput = Omit<CreateContextEventInput, "userId">;
+export type WayfinderHistoryItem = {
+  decision: DecisionRecord;
+  outcomes: WayfinderOutcome[];
+  situation: Situation | null;
+  option: DecisionOption | null;
+};
+export type WayfinderExport = {
+  exportedAt: string;
+  userId: string;
+  contextEvents: ContextEvent[];
+  situations: Situation[];
+  options: DecisionOption[];
+  decisions: DecisionRecord[];
+  outcomes: WayfinderOutcome[];
+  consent: ConsentGrant[];
+};
+
 function withQuery(path: string, query?: Record<string, string | undefined>) {
   if (!query) {
     return path;
@@ -137,7 +162,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   if (hasBody && !headers.has("Content-Type")) {
     headers.set("Content-Type", "application/json");
   }
-  if (path.startsWith("/coach") && coachDevToken && !headers.has("Authorization")) {
+  if ((path.startsWith("/coach") || path.startsWith("/wayfinder")) && coachDevToken && !headers.has("Authorization")) {
     headers.set("Authorization", `Bearer ${coachDevToken}`);
   }
   const response = await fetch(`${apiBaseUrl}${path}`, {
@@ -153,6 +178,51 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export const api = {
+  createWayfinderEvent: (payload: WayfinderEventInput) =>
+    request<{
+      event: ContextEvent;
+      situation: Situation;
+      fastStatus: "completed";
+      fullStatus: "pending";
+    }>("/wayfinder/events", {
+      method: "POST",
+      headers: payload.clientEventId ? { "Idempotency-Key": payload.clientEventId } : undefined,
+      body: JSON.stringify(payload),
+    }),
+  getWayfinderSituation: (situationId: string) => request<Situation>(`/wayfinder/situations/${situationId}`),
+  confirmWayfinderSituation: (situationId: string, payload: { status: "confirmed" | "dismissed"; traceId: string }) =>
+    request<{
+      situation: Situation;
+      fastStatus: "completed";
+      fullStatus: "pending" | "cancelled";
+    }>(`/wayfinder/situations/${situationId}/confirm`, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+  listWayfinderOptions: (situationId: string) =>
+    request<{
+      situationId: string;
+      status: Situation["status"];
+      options: DecisionOption[];
+      fullStatus: "pending";
+    }>(`/wayfinder/situations/${situationId}/options`),
+  recordWayfinderDecision: (
+    payload: Omit<DecisionRecord, "id" | "userId" | "selectedAt"> & { approvalAcknowledged?: boolean },
+  ) => request<DecisionRecord>("/wayfinder/decisions", { method: "POST", body: JSON.stringify(payload) }),
+  recordWayfinderOutcome: (
+    decisionId: string,
+    payload: Omit<WayfinderOutcome, "id" | "userId" | "decisionId" | "observedAt">,
+  ) => request<WayfinderOutcome>(`/wayfinder/decisions/${decisionId}/outcome`, { method: "PATCH", body: JSON.stringify(payload) }),
+  listWayfinderHistory: (payload?: { limit?: number }) =>
+    request<{ decisions: WayfinderHistoryItem[] }>(
+      withQuery("/wayfinder/decisions", { limit: payload?.limit ? String(payload.limit) : undefined }),
+    ),
+  getWayfinderConsent: () => request<{ grants: ConsentGrant[] }>("/wayfinder/consent"),
+  updateWayfinderConsent: (
+    source: string,
+    payload: Omit<ConsentGrant, "id" | "userId" | "grantedAt" | "updatedAt" | "traceId" | "source">,
+  ) => request<ConsentGrant>(`/wayfinder/consent/${encodeURIComponent(source)}`, { method: "PATCH", body: JSON.stringify({ ...payload, source }) }),
+  exportWayfinderData: () => request<WayfinderExport>("/wayfinder/export", { method: "POST" }),
   getGatewayHealth: () => request<GatewayHealth>("/health"),
   getDebugAgentConfigs: () => request<DebugAgentConfigsResponse>("/debug/agent-configs"),
   getDebugOpenClawAdapterStatus: () => request<OpenClawAdapterStatusResponse>("/debug/openclaw/adapter"),

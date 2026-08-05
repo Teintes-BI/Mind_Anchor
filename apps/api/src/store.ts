@@ -22,6 +22,11 @@ import {
   type CreateMediaUploadSessionInput,
   type CreateTaskInput,
   type CreateVideoAssessmentInput,
+  type ContextEvent,
+  type CreateContextEventInput,
+  type ConsentGrant,
+  type DecisionOption,
+  type DecisionRecord,
   type Database,
   type DeviceHeartbeatInput,
   type DebugRegressionMatrixRun,
@@ -42,6 +47,7 @@ import {
   type PlanChangeProposal,
   type RecoveryPlan,
   type ReflectionReport,
+  type Situation,
   type RegisterEdgeDeviceInput,
   type RegisterMediaChunkInput,
   type RegisterMobileDeviceInput,
@@ -52,7 +58,11 @@ import {
   type Task,
   type TraceLogEvent,
   type UpdateTaskInput,
+  type ValueProfile,
   type VideoAssessment,
+  type WayfinderAuditEvent,
+  type WayfinderOutcome,
+  type InterventionBudget,
 } from "@mindanchor/domain";
 import { createId, ensureFile, now, readJsonFile, stableStringify, writeJsonFile } from "./lib/utils.js";
 
@@ -214,6 +224,198 @@ export class MindAnchorStore {
     return this.state.interventions
       .filter((intervention) => intervention.userId === userId)
       .sort((left, right) => right.createdAt.localeCompare(left.createdAt));
+  }
+
+  listWayfinderContextEvents(userId = "demo-user", limit = 100) {
+    return this.state.wayfinderContextEvents
+      .filter((event) => event.userId === userId)
+      .sort((left, right) => right.occurredAt.localeCompare(left.occurredAt))
+      .slice(0, limit);
+  }
+
+  listWayfinderSituations(userId = "demo-user", limit = 100) {
+    return this.state.wayfinderSituations
+      .filter((situation) => situation.userId === userId)
+      .sort((left, right) => right.updatedAt.localeCompare(left.updatedAt))
+      .slice(0, limit);
+  }
+
+  getWayfinderSituation(userId: string, situationId: string) {
+    return this.state.wayfinderSituations.find((situation) => situation.userId === userId && situation.id === situationId) ?? null;
+  }
+
+  listWayfinderOptions(userId: string, situationId: string) {
+    return this.state.wayfinderOptions
+      .filter((option) => option.userId === userId && option.situationId === situationId)
+      .sort((left, right) => left.createdAt.localeCompare(right.createdAt));
+  }
+
+  listWayfinderDecisions(userId = "demo-user", limit = 100) {
+    return this.state.wayfinderDecisions
+      .filter((decision) => decision.userId === userId)
+      .sort((left, right) => right.selectedAt.localeCompare(left.selectedAt))
+      .slice(0, limit);
+  }
+
+  listWayfinderOutcomes(userId: string, decisionId?: string) {
+    return this.state.wayfinderOutcomes.filter(
+      (outcome) => outcome.userId === userId && (decisionId ? outcome.decisionId === decisionId : true),
+    );
+  }
+
+  listWayfinderValueProfiles(userId = "demo-user") {
+    return this.state.wayfinderValueProfiles
+      .filter((profile) => profile.userId === userId)
+      .sort((left, right) => left.priority - right.priority || left.createdAt.localeCompare(right.createdAt));
+  }
+
+  listWayfinderConsentGrants(userId = "demo-user") {
+    return this.state.wayfinderConsentGrants
+      .filter((grant) => grant.userId === userId)
+      .sort((left, right) => left.source.localeCompare(right.source));
+  }
+
+  getWayfinderInterventionBudget(userId: string, budgetDate: string) {
+    return (
+      this.state.wayfinderInterventionBudgets.find(
+        (budget) => budget.userId === userId && budget.budgetDate === budgetDate,
+      ) ?? null
+    );
+  }
+
+  async appendWayfinderContextEvent(input: CreateContextEventInput): Promise<ContextEvent> {
+    const existing = input.clientEventId
+      ? this.state.wayfinderContextEvents.find((event) => event.clientEventId === input.clientEventId)
+      : undefined;
+    if (existing) {
+      if (existing.userId !== input.userId) {
+        throw new Error("client_event_id_conflict");
+      }
+      return existing;
+    }
+
+    const event: ContextEvent = {
+      ...input,
+      id: createId(),
+      receivedAt: now(),
+      evidenceRefs: input.evidenceRefs ?? [],
+      payload: input.payload ?? {},
+    };
+    this.state.wayfinderContextEvents.push(event);
+    await this.persist();
+    return event;
+  }
+
+  async addWayfinderSituation(input: Omit<Situation, "id" | "createdAt" | "updatedAt">): Promise<Situation> {
+    const timestamp = now();
+    const situation: Situation = { ...input, id: createId(), createdAt: timestamp, updatedAt: timestamp };
+    this.state.wayfinderSituations.push(situation);
+    await this.persist();
+    return situation;
+  }
+
+  async updateWayfinderSituation(userId: string, situationId: string, status: Situation["status"]) {
+    const situation = this.getWayfinderSituation(userId, situationId);
+    if (!situation) {
+      return null;
+    }
+    situation.status = status;
+    situation.updatedAt = now();
+    await this.persist();
+    return situation;
+  }
+
+  async saveWayfinderOptions(userId: string, situationId: string, options: DecisionOption[]) {
+    const situation = this.getWayfinderSituation(userId, situationId);
+    if (!situation) {
+      return null;
+    }
+    if (options.some((option) => option.userId !== userId || option.situationId !== situationId)) {
+      throw new Error("wayfinder_option_scope_conflict");
+    }
+    this.state.wayfinderOptions = this.state.wayfinderOptions.filter(
+      (option) => !(option.userId === userId && option.situationId === situationId),
+    );
+    this.state.wayfinderOptions.push(...options);
+    await this.persist();
+    return this.listWayfinderOptions(userId, situationId);
+  }
+
+  async createWayfinderDecision(decision: DecisionRecord) {
+    const situation = this.getWayfinderSituation(decision.userId, decision.situationId);
+    if (!situation) {
+      throw new Error("wayfinder_situation_not_found");
+    }
+    if (decision.selectedOptionId) {
+      const option = this.state.wayfinderOptions.find(
+        (candidate) =>
+          candidate.userId === decision.userId &&
+          candidate.situationId === decision.situationId &&
+          candidate.id === decision.selectedOptionId,
+      );
+      if (!option) {
+        throw new Error("wayfinder_option_not_found");
+      }
+      this.state.wayfinderOptions = this.state.wayfinderOptions.map((candidate) =>
+        candidate.userId === decision.userId && candidate.situationId === decision.situationId
+          ? { ...candidate, status: candidate.id === decision.selectedOptionId ? "selected" : "rejected" }
+          : candidate,
+      );
+    }
+    this.state.wayfinderDecisions.push(decision);
+    await this.persist();
+    return decision;
+  }
+
+  async createWayfinderOutcome(outcome: WayfinderOutcome) {
+    const decision = this.state.wayfinderDecisions.find(
+      (candidate) => candidate.userId === outcome.userId && candidate.id === outcome.decisionId,
+    );
+    if (!decision) {
+      throw new Error("wayfinder_decision_not_found");
+    }
+    this.state.wayfinderOutcomes.push(outcome);
+    await this.persist();
+    return outcome;
+  }
+
+  async saveWayfinderValueProfile(profile: ValueProfile) {
+    this.state.wayfinderValueProfiles = this.state.wayfinderValueProfiles.filter(
+      (candidate) => !(candidate.userId === profile.userId && candidate.id === profile.id),
+    );
+    this.state.wayfinderValueProfiles.push(profile);
+    await this.persist();
+    return profile;
+  }
+
+  async saveWayfinderConsentGrant(grant: ConsentGrant) {
+    this.state.wayfinderConsentGrants = this.state.wayfinderConsentGrants.filter(
+      (candidate) =>
+        !(
+          candidate.userId === grant.userId &&
+          candidate.source === grant.source &&
+          candidate.purpose === grant.purpose &&
+          candidate.scope === grant.scope
+        ),
+    );
+    this.state.wayfinderConsentGrants.push(grant);
+    await this.persist();
+    return grant;
+  }
+
+  async saveWayfinderInterventionBudget(budget: InterventionBudget) {
+    this.state.wayfinderInterventionBudgets = this.state.wayfinderInterventionBudgets.filter(
+      (candidate) => !(candidate.userId === budget.userId && candidate.budgetDate === budget.budgetDate),
+    );
+    this.state.wayfinderInterventionBudgets.push(budget);
+    await this.persist();
+    return budget;
+  }
+
+  async addWayfinderAuditEvent(event: WayfinderAuditEvent) {
+    this.state.wayfinderAuditEvents.push(event);
+    await this.persist();
+    return event;
   }
 
   listRecoveryPlans(userId = "demo-user", limit = 50) {
@@ -737,6 +939,15 @@ export class MindAnchorStore {
     this.state.coachTrainingExamples = this.state.coachTrainingExamples.filter((example) => example.userId !== userId);
     this.state.memoryCandidates = this.state.memoryCandidates.filter((candidate) => candidate.userId !== userId);
     this.state.memoryItems = this.state.memoryItems.filter((item) => item.userId !== userId);
+    this.state.wayfinderContextEvents = this.state.wayfinderContextEvents.filter((event) => event.userId !== userId);
+    this.state.wayfinderSituations = this.state.wayfinderSituations.filter((situation) => situation.userId !== userId);
+    this.state.wayfinderOptions = this.state.wayfinderOptions.filter((option) => option.userId !== userId);
+    this.state.wayfinderDecisions = this.state.wayfinderDecisions.filter((decision) => decision.userId !== userId);
+    this.state.wayfinderOutcomes = this.state.wayfinderOutcomes.filter((outcome) => outcome.userId !== userId);
+    this.state.wayfinderValueProfiles = this.state.wayfinderValueProfiles.filter((profile) => profile.userId !== userId);
+    this.state.wayfinderConsentGrants = this.state.wayfinderConsentGrants.filter((grant) => grant.userId !== userId);
+    this.state.wayfinderInterventionBudgets = this.state.wayfinderInterventionBudgets.filter((budget) => budget.userId !== userId);
+    this.state.wayfinderAuditEvents = this.state.wayfinderAuditEvents.filter((event) => event.userId !== userId);
 
     await this.persist();
     return { userId };

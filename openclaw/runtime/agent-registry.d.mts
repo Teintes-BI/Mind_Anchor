@@ -7,6 +7,8 @@ export type NativeOpenClawRegistryAgent = {
   soulFilePath: string;
   modelTarget: string;
   worker: string;
+  wayfinderWorker?: string;
+  wayfinderPerspectivePacks?: string[];
   skills: string[];
   supportedWorkflows: string[];
   memoryScopes: MemoryScope[];

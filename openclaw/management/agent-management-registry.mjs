@@ -1,7 +1,7 @@
 import {
   agentTeamPersonaMetadata,
   buildOpenClawManagementAgentDescriptor,
-} from "@mindanchor/domain";
+} from "../../packages/domain/dist/index.js";
 
 export const buildOpenClawManagementRegistry = ({ managementProfileKey = "openclaw-dev" } = {}) =>
   Object.keys(agentTeamPersonaMetadata).map((personaKey) =>

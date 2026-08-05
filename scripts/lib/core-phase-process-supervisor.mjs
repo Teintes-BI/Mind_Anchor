@@ -1,4 +1,4 @@
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { createWriteStream } from "node:fs";
 import { dirname } from "node:path";
 import { mkdir } from "node:fs/promises";
@@ -8,12 +8,14 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 export const shouldUseDetachedProcessGroups = (platform = process.platform) => platform !== "win32";
 
 export const buildManagedSpawnOptions = ({
+  command,
   cwd,
   env,
   platform = process.platform,
 }) => ({
   cwd,
   env,
+  ...(platform === "win32" && /\.cmd$/i.test(String(command ?? "")) ? { shell: true } : {}),
   detached: shouldUseDetachedProcessGroups(platform),
   stdio: ["ignore", "pipe", "pipe"],
 });
@@ -44,7 +46,7 @@ export const spawnManagedLoggedProcess = async ({
 }) => {
   await ensureDirImpl(dirname(logFile));
   const stream = createWriteStreamImpl(logFile, { flags: "a" });
-  const child = spawnImpl(command, args, buildManagedSpawnOptions({ cwd, env, platform }));
+  const child = spawnImpl(command, args, buildManagedSpawnOptions({ command, cwd, env, platform }));
   child.stdout?.pipe(stream);
   child.stderr?.pipe(stream);
   child.on("exit", (code, signal) => {
@@ -61,6 +63,21 @@ const killProcessGroup = ({ child, signal, killImpl, platform }) => {
   return true;
 };
 
+// On Windows, the managed command may be a Corepack/pnpm wrapper which then
+// starts tsx/vite as grandchildren. `child.kill()` only terminates the wrapper
+// and leaves those descendants listening on the phase ports. Use the native
+// taskkill tree operation so a phase transition cannot reuse stale processes.
+const killWindowsProcessTree = ({ child, taskkillImpl = spawnSync }) => {
+  if (!child?.pid) {
+    return false;
+  }
+  const result = taskkillImpl("taskkill.exe", ["/PID", String(child.pid), "/T", "/F"], {
+    windowsHide: true,
+    stdio: "ignore",
+  });
+  return result?.status === 0 || result?.status === null;
+};
+
 export const stopManagedChild = async (
   child,
   {
@@ -68,6 +85,7 @@ export const stopManagedChild = async (
     platform = process.platform,
     killImpl = process.kill,
     waitForExitImpl = waitForChildExit,
+    taskkillImpl = spawnSync,
   } = {},
 ) => {
   if (!child || child.exitCode !== null || child.killed) {
@@ -76,14 +94,21 @@ export const stopManagedChild = async (
 
   let usedProcessGroup = false;
   try {
-    usedProcessGroup = killProcessGroup({
-      child,
-      signal: "SIGTERM",
-      killImpl,
-      platform,
-    });
-    if (!usedProcessGroup) {
-      child.kill("SIGTERM");
+    if (platform === "win32") {
+      usedProcessGroup = killWindowsProcessTree({ child, taskkillImpl });
+      if (!usedProcessGroup) {
+        child.kill("SIGTERM");
+      }
+    } else {
+      usedProcessGroup = killProcessGroup({
+        child,
+        signal: "SIGTERM",
+        killImpl,
+        platform,
+      });
+      if (!usedProcessGroup) {
+        child.kill("SIGTERM");
+      }
     }
   } catch {
     child.kill("SIGTERM");
@@ -93,12 +118,14 @@ export const stopManagedChild = async (
 
   if (child.exitCode === null && !child.killed) {
     try {
-      const killedGroup = killProcessGroup({
-        child,
-        signal: "SIGKILL",
-        killImpl,
-        platform,
-      });
+      const killedGroup = platform === "win32"
+        ? killWindowsProcessTree({ child, taskkillImpl })
+        : killProcessGroup({
+            child,
+            signal: "SIGKILL",
+            killImpl,
+            platform,
+          });
       usedProcessGroup = usedProcessGroup || killedGroup;
       if (!killedGroup) {
         child.kill("SIGKILL");

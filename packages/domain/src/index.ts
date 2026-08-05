@@ -1,5 +1,17 @@
 import { z } from "zod";
 import { agentTeamAgentIds, agentTeamPersonaMetadata, memoryScopeValues } from "./agent-team.js";
+import {
+  consentGrantSchema,
+  contextEventSchema,
+  decisionOptionSchema,
+  decisionRecordSchema,
+  interventionBudgetSchema,
+  situationSchema,
+  valueProfileSchema,
+  wayfinderAuditEventSchema,
+  wayfinderOutcomeSchema,
+} from "./wayfinder.js";
+export * from "./wayfinder.js";
 export { agentTeamAgentIds, agentTeamPersonaMetadata, memoryScopeValues } from "./agent-team.js";
 export type { AgentTeamPersonaEntry, AgentTeamPersonaName, AgentTeamPersonaRegistry } from "./agent-team.js";
 export {
@@ -1053,7 +1065,10 @@ export const openClawNativeAgentSchema = z.object({
   displayName: z.string().min(1),
   runtimeAgentId: z.string().min(1),
   worker: z.string().min(1),
+  wayfinderWorker: z.string().min(1).nullable().default(null),
+  wayfinderPerspectivePacks: z.array(z.string().min(1)).default([]),
   modelTarget: z.string().min(1),
+  skills: z.array(z.string().min(1)).default([]),
   soulFilePath: z.string().min(1),
   supportedWorkflows: z.array(z.string().min(1)),
   memoryScopes: z.array(z.string().min(1)),
@@ -1617,6 +1632,15 @@ export const databaseSchema = z.object({
   traceLogEvents: z.array(traceLogEventSchema).default([]),
   localAuthUsers: z.array(localAuthUserSchema).default([]),
   localAuthRefreshTokens: z.array(localAuthRefreshTokenSchema).default([]),
+  wayfinderContextEvents: z.array(contextEventSchema).default([]),
+  wayfinderSituations: z.array(situationSchema).default([]),
+  wayfinderOptions: z.array(decisionOptionSchema).default([]),
+  wayfinderDecisions: z.array(decisionRecordSchema).default([]),
+  wayfinderOutcomes: z.array(wayfinderOutcomeSchema).default([]),
+  wayfinderValueProfiles: z.array(valueProfileSchema).default([]),
+  wayfinderConsentGrants: z.array(consentGrantSchema).default([]),
+  wayfinderInterventionBudgets: z.array(interventionBudgetSchema).default([]),
+  wayfinderAuditEvents: z.array(wayfinderAuditEventSchema).default([]),
 });
 
 export const emptyDatabase = (): Database => ({
@@ -1654,6 +1678,15 @@ export const emptyDatabase = (): Database => ({
   traceLogEvents: [],
   localAuthUsers: [],
   localAuthRefreshTokens: [],
+  wayfinderContextEvents: [],
+  wayfinderSituations: [],
+  wayfinderOptions: [],
+  wayfinderDecisions: [],
+  wayfinderOutcomes: [],
+  wayfinderValueProfiles: [],
+  wayfinderConsentGrants: [],
+  wayfinderInterventionBudgets: [],
+  wayfinderAuditEvents: [],
 });
 
 export const skillNameSchema = z.enum([
@@ -1665,6 +1698,9 @@ export const skillNameSchema = z.enum([
   "interruption-recovery-skill",
   "reflection-report-skill",
   "notification-skill",
+  "situation-framing-skill",
+  "option-architecture-skill",
+  "decision-outcome-skill",
 ]);
 
 export const skillEnvelopeSchema = z.object({
