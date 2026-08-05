@@ -94,4 +94,46 @@ final class MindAnchorMacTests: XCTestCase {
         XCTAssertEqual(store.state.lastDiagnosticsExportPath, exportURL.path)
         XCTAssertNotNil(store.state.lastDiagnosticsExportAt)
     }
+
+    func testLocalStorePersistsWayfinderSnapshotAcrossReload() {
+        let directory = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(UUID().uuidString, isDirectory: true)
+        let situation = WayfinderSituation.fixture(status: .awaitingConfirmation)
+        let snapshot = WayfinderLocalSnapshot(
+            userID: "user-1",
+            situation: situation,
+            options: [],
+            consentGrants: [],
+            lastDecision: nil,
+            fastResponse: "Captured",
+            fullStatus: .pending,
+            savedAt: Date(timeIntervalSince1970: 1_710_000_000)
+        )
+
+        let store = LocalStore(appSupportDirectory: directory)
+        store.cacheWayfinderSnapshot(snapshot)
+
+        let reloaded = LocalStore(appSupportDirectory: directory)
+
+        XCTAssertEqual(reloaded.state.lastWayfinderSnapshot, snapshot)
+        XCTAssertEqual(reloaded.state.lastWayfinderSnapshot?.situation?.id, situation.id)
+    }
+}
+
+private extension WayfinderSituation {
+    static func fixture(status: WayfinderSituationStatus) -> WayfinderSituation {
+        WayfinderSituation(
+            id: "situation-1",
+            userId: "user-1",
+            eventIds: ["event-1"],
+            status: status,
+            summary: "Prepare a proposal",
+            uncertainty: [],
+            linkedGoalIds: [],
+            linkedTaskIds: [],
+            riskLevel: .low,
+            createdAt: "2026-08-05T00:00:00.000Z",
+            updatedAt: "2026-08-05T00:00:00.000Z",
+            traceId: "trace-1"
+        )
+    }
 }

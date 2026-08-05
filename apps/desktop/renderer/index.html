@@ -189,6 +189,27 @@
         </div>
       </section>
 
+      <section class="card wide stack" id="wayfinder-section">
+        <div class="header">
+          <p>Wayfinder</p>
+          <h2>Decision workspace</h2>
+          <p id="wayfinder-status" class="status">Loading Wayfinder...</p>
+        </div>
+        <div class="inline">
+          <button class="secondary" id="wayfinder-refresh">Refresh</button>
+          <button class="secondary" id="wayfinder-consent">Grant consent</button>
+          <span class="pill" id="wayfinder-connection">Not configured</span>
+        </div>
+        <textarea id="wayfinder-summary" placeholder="What needs a deliberate decision?"></textarea>
+        <div class="inline">
+          <button class="primary" id="wayfinder-capture">Capture situation</button>
+          <button class="secondary" id="wayfinder-confirm" hidden>Confirm situation</button>
+          <button class="secondary" id="wayfinder-dismiss" hidden>Ignore</button>
+        </div>
+        <div id="wayfinder-situation" class="message-card" hidden></div>
+        <div id="wayfinder-options" class="stack"></div>
+      </section>
+
       <section class="card wide stack" id="reminders-section">
         <div class="header">
           <p>提醒中心</p>

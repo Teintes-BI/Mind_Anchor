@@ -72,6 +72,31 @@ struct WayfinderView: View {
                     }
                 }
 
+                GroupBox("Wayfinder status") {
+                    HStack(spacing: 14) {
+                        Label(
+                            viewModel.hasActiveWayfinderSituation ? "Active situation" : "No active situation",
+                            systemImage: viewModel.hasActiveWayfinderSituation ? "scope" : "checkmark.circle"
+                        )
+                        .foregroundStyle(viewModel.hasActiveWayfinderSituation ? .primary : .secondary)
+                        Spacer()
+                        if viewModel.wayfinderProposedOptionCount > 0 {
+                            Text("\(viewModel.wayfinderProposedOptionCount) options ready")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                        if viewModel.wayfinderIsRefreshing {
+                            ProgressView()
+                                .controlSize(.small)
+                        }
+                    }
+                    .padding(.vertical, 4)
+                }
+
+                if viewModel.wayfinderSituations.count > 1 {
+                    recentSituations
+                }
+
                 if let situation = viewModel.wayfinderSituation {
                     situationCard(situation)
                 } else {
@@ -129,6 +154,43 @@ struct WayfinderView: View {
             }
         } message: {
             Text("This choice has a high or critical risk level and stays reversible only with your explicit approval.")
+        }
+    }
+
+    @ViewBuilder
+    private var recentSituations: some View {
+        GroupBox("Recent situations") {
+            VStack(alignment: .leading, spacing: 0) {
+                ForEach(viewModel.wayfinderSituations) { situation in
+                    Button {
+                        Task { await viewModel.selectWayfinderSituation(situation) }
+                    } label: {
+                        HStack(alignment: .top, spacing: 10) {
+                            Image(systemName: situation.id == viewModel.wayfinderSituation?.id ? "largecircle.fill.circle" : "circle")
+                                .foregroundStyle(situation.status.isActive ? Color.accentColor : Color.secondary)
+                            VStack(alignment: .leading, spacing: 3) {
+                                Text(situation.summary)
+                                    .font(.subheadline.weight(.medium))
+                                    .lineLimit(2)
+                                Text(situation.status.rawValue.replacingOccurrences(of: "_", with: " ").capitalized)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            Spacer()
+                            riskBadge(situation.riskLevel)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.vertical, 8)
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(viewModel.wayfinderIsRefreshing || viewModel.wayfinderActionInFlight)
+
+                    if situation.id != viewModel.wayfinderSituations.last?.id {
+                        Divider()
+                    }
+                }
+            }
+            .padding(.vertical, 2)
         }
     }
 

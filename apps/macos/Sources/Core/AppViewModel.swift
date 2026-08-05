@@ -77,6 +77,7 @@ final class AppViewModel: NSObject, ObservableObject, UNUserNotificationCenterDe
     @Published var coachConversationDraft = ""
     @Published var coachConversationLastTraceID: String?
     @Published var wayfinderSituation: WayfinderSituation?
+    @Published var wayfinderSituations: [WayfinderSituation] = []
     @Published var wayfinderOptions: [WayfinderDecisionOption] = []
     @Published var wayfinderConsentGrants: [WayfinderConsentGrant] = []
     @Published var wayfinderLastDecision: WayfinderDecisionRecord?
@@ -170,6 +171,16 @@ final class AppViewModel: NSObject, ObservableObject, UNUserNotificationCenterDe
         l10n.pendingBadgeText(count: pendingReminderCount)
     }
 
+    var hasActiveWayfinderSituation: Bool {
+        wayfinderSituation?.status.isActive == true
+    }
+
+    var wayfinderProposedOptionCount: Int {
+        wayfinderOptions.reduce(into: 0) { count, option in
+            if option.status == .proposed { count += 1 }
+        }
+    }
+
     func setAppLanguage(_ language: AppLanguage) {
         guard appLanguage != language else { return }
         appLanguage = language
@@ -258,8 +269,10 @@ final class AppViewModel: NSObject, ObservableObject, UNUserNotificationCenterDe
         }
         if let session = apiClient.loadStoredSession() {
             authSession = session
+            restoreWayfinderSnapshot(for: session.user.id)
             bootstrapState = .loadingWorkspace
             await refreshDataForCurrentMode()
+            await refreshWayfinder()
             startBackgroundWork()
             finalizeBootstrapState()
             return
@@ -294,9 +307,11 @@ final class AppViewModel: NSObject, ObservableObject, UNUserNotificationCenterDe
         do {
             let session = try await apiClient.signIn(email: email, password: password)
             authSession = session
+            restoreWayfinderSnapshot(for: session.user.id)
             currentError = nil
             bootstrapState = .loadingWorkspace
             await refreshDataForCurrentMode()
+            await refreshWayfinder()
             startBackgroundWork()
             finalizeBootstrapState()
         } catch {
@@ -319,9 +334,11 @@ final class AppViewModel: NSObject, ObservableObject, UNUserNotificationCenterDe
         do {
             let session = try await apiClient.register(email: email, password: password, displayName: displayName.isEmpty ? nil : displayName)
             authSession = session
+            restoreWayfinderSnapshot(for: session.user.id)
             currentError = nil
             bootstrapState = .loadingWorkspace
             await refreshDataForCurrentMode()
+            await refreshWayfinder()
             startBackgroundWork()
             finalizeBootstrapState()
         } catch {
@@ -355,6 +372,7 @@ final class AppViewModel: NSObject, ObservableObject, UNUserNotificationCenterDe
         coachConversationDraft = ""
         coachConversationLastTraceID = nil
         wayfinderSituation = nil
+        wayfinderSituations = []
         wayfinderOptions = []
         wayfinderConsentGrants = []
         wayfinderLastDecision = nil
@@ -391,19 +409,58 @@ final class AppViewModel: NSObject, ObservableObject, UNUserNotificationCenterDe
         do {
             let consent = try await apiClient.fetchWayfinderConsent(token: session.accessToken)
             wayfinderConsentGrants = consent.grants
-            if wayfinderSituation == nil {
-                let situations = try await apiClient.fetchWayfinderSituations(token: session.accessToken)
-                wayfinderSituation = situations.situations.first(where: { $0.status == .awaitingConfirmation || $0.status == .confirmed })
+            let situations = try await apiClient.fetchWayfinderSituations(token: session.accessToken)
+            wayfinderSituations = situations.situations
+            let hasRemoteActiveSituation = situations.situations.contains(where: { $0.status.isActive })
+            if let currentID = wayfinderSituation?.id,
+               let matching = situations.situations.first(where: { $0.id == currentID }),
+               matching.status.isActive || !hasRemoteActiveSituation {
+                wayfinderSituation = matching
+            } else {
+                wayfinderSituation = situations.situations.first(where: { $0.status.isActive })
             }
             if let situation = wayfinderSituation {
-                wayfinderSituation = try await apiClient.fetchWayfinderSituation(situation.id, token: session.accessToken)
+                let refreshedSituation = try await apiClient.fetchWayfinderSituation(situation.id, token: session.accessToken)
+                wayfinderSituation = refreshedSituation
+                replaceWayfinderSituation(refreshedSituation)
                 let options = try await apiClient.fetchWayfinderOptions(situation.id, token: session.accessToken)
                 wayfinderOptions = options.options
                 wayfinderFullStatus = options.fullStatus
+            } else {
+                wayfinderOptions = []
+                wayfinderFullStatus = nil
             }
+            cacheWayfinderSnapshot(for: session.user.id)
             currentError = nil
         } catch {
-            if !handleUnauthorized(error) {
+            if !handleUnauthorized(error), !isIgnorableWayfinderError(error) {
+                if isWayfinderConsentDenied(error) {
+                    clearWayfinderState(clearSnapshot: true)
+                }
+                currentError = error.localizedDescription
+            }
+        }
+    }
+
+    func selectWayfinderSituation(_ situation: WayfinderSituation) async {
+        guard let session = authSession, !wayfinderActionInFlight else { return }
+        wayfinderIsRefreshing = true
+        defer { wayfinderIsRefreshing = false }
+        do {
+            wayfinderSituation = try await apiClient.fetchWayfinderSituation(situation.id, token: session.accessToken)
+            if let selected = wayfinderSituation {
+                replaceWayfinderSituation(selected)
+                let options = try await apiClient.fetchWayfinderOptions(selected.id, token: session.accessToken)
+                wayfinderOptions = options.options
+                wayfinderFullStatus = options.fullStatus
+            }
+            cacheWayfinderSnapshot(for: session.user.id)
+            currentError = nil
+        } catch {
+            if !handleUnauthorized(error), !isIgnorableWayfinderError(error) {
+                if isWayfinderConsentDenied(error) {
+                    clearWayfinderState(clearSnapshot: true)
+                }
                 currentError = error.localizedDescription
             }
         }
@@ -427,6 +484,7 @@ final class AppViewModel: NSObject, ObservableObject, UNUserNotificationCenterDe
                 token: session.accessToken
             )
             wayfinderConsentGrants = wayfinderConsentGrants.filter { $0.id != grant.id } + [grant]
+            cacheWayfinderSnapshot(for: session.user.id)
             currentError = nil
         } catch {
             if !handleUnauthorized(error) { currentError = error.localizedDescription }
@@ -459,9 +517,11 @@ final class AppViewModel: NSObject, ObservableObject, UNUserNotificationCenterDe
                 token: session.accessToken
             )
             wayfinderSituation = response.situation
+            replaceWayfinderSituation(response.situation)
             wayfinderOptions = []
             wayfinderFastResponse = "Captured: \(response.situation.summary)"
             wayfinderFullStatus = response.fullStatus
+            cacheWayfinderSnapshot(for: session.user.id)
             currentError = nil
         } catch {
             if !handleUnauthorized(error) {
@@ -483,6 +543,7 @@ final class AppViewModel: NSObject, ObservableObject, UNUserNotificationCenterDe
                 token: session.accessToken
             )
             wayfinderSituation = response.situation
+            replaceWayfinderSituation(response.situation)
             wayfinderFastResponse = status == .confirmed ? "Situation confirmed. Options are being prepared." : "Situation dismissed."
             wayfinderFullStatus = response.fullStatus
             if status == .confirmed {
@@ -492,6 +553,7 @@ final class AppViewModel: NSObject, ObservableObject, UNUserNotificationCenterDe
             } else {
                 wayfinderOptions = []
             }
+            cacheWayfinderSnapshot(for: session.user.id)
             currentError = nil
         } catch {
             if !handleUnauthorized(error) {
@@ -518,6 +580,7 @@ final class AppViewModel: NSObject, ObservableObject, UNUserNotificationCenterDe
             )
             wayfinderFastResponse = "Choice recorded: \(option.action)"
             wayfinderOptions = []
+            cacheWayfinderSnapshot(for: session.user.id)
             currentError = nil
         } catch {
             if !handleUnauthorized(error) {
@@ -530,6 +593,65 @@ final class AppViewModel: NSObject, ObservableObject, UNUserNotificationCenterDe
         guard case APIClientError.server(let statusCode, _) = error, statusCode == 401 else { return false }
         signOut()
         return true
+    }
+
+    private func restoreWayfinderSnapshot(for userID: String) {
+        guard let snapshot = localStore.state.lastWayfinderSnapshot,
+              snapshot.userID == userID else { return }
+        wayfinderSituation = snapshot.situation
+        wayfinderSituations = snapshot.situation.map { [$0] } ?? []
+        wayfinderOptions = snapshot.options
+        wayfinderConsentGrants = snapshot.consentGrants
+        wayfinderLastDecision = snapshot.lastDecision
+        wayfinderFastResponse = snapshot.fastResponse
+        wayfinderFullStatus = snapshot.fullStatus
+    }
+
+    private func clearWayfinderState(clearSnapshot: Bool) {
+        wayfinderSituation = nil
+        wayfinderSituations = []
+        wayfinderOptions = []
+        wayfinderConsentGrants = []
+        wayfinderLastDecision = nil
+        wayfinderFastResponse = nil
+        wayfinderFullStatus = nil
+        if clearSnapshot {
+            localStore.clearWayfinderSnapshot()
+        }
+    }
+
+    private func replaceWayfinderSituation(_ situation: WayfinderSituation) {
+        if let index = wayfinderSituations.firstIndex(where: { $0.id == situation.id }) {
+            wayfinderSituations[index] = situation
+        } else {
+            wayfinderSituations.insert(situation, at: 0)
+        }
+    }
+
+    private func cacheWayfinderSnapshot(for userID: String) {
+        localStore.cacheWayfinderSnapshot(
+            WayfinderLocalSnapshot(
+                userID: userID,
+                situation: wayfinderSituation,
+                options: wayfinderOptions,
+                consentGrants: wayfinderConsentGrants,
+                lastDecision: wayfinderLastDecision,
+                fastResponse: wayfinderFastResponse,
+                fullStatus: wayfinderFullStatus,
+                savedAt: .now
+            )
+        )
+    }
+
+    private func isIgnorableWayfinderError(_ error: Error) -> Bool {
+        let message = error.localizedDescription
+        return message.localizedCaseInsensitiveContains("Wayfinder") &&
+            message.localizedCaseInsensitiveContains("not implemented")
+    }
+
+    private func isWayfinderConsentDenied(_ error: Error) -> Bool {
+        guard case APIClientError.server(let statusCode, _) = error else { return false }
+        return statusCode == 403
     }
 
     func submitCheckIn(focus: Int, energy: Int, mood: Int, note: String) async {

@@ -60,6 +60,29 @@ struct TodayView: View {
                         }
                     }
 
+                    if let situation = viewModel.wayfinderSituation {
+                        GroupBox(text("Wayfinder 情境", "Wayfinder Situation")) {
+                            HStack(alignment: .top, spacing: 12) {
+                                Image(systemName: viewModel.hasActiveWayfinderSituation ? "scope" : "checkmark.circle")
+                                    .font(.title2)
+                                    .foregroundStyle(viewModel.hasActiveWayfinderSituation ? .orange : .secondary)
+                                VStack(alignment: .leading, spacing: 5) {
+                                    Text(situation.summary)
+                                        .font(.headline)
+                                        .lineLimit(2)
+                                    Text(situation.status.rawValue.replacingOccurrences(of: "_", with: " ").capitalized)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                                Spacer()
+                                Button(text("打开 Wayfinder", "Open Wayfinder")) {
+                                    viewModel.focus(destination: .wayfinder)
+                                }
+                                .buttonStyle(.borderedProminent)
+                            }
+                        }
+                    }
+
                     GroupBox(text("连接", "Connection")) {
                         VStack(alignment: .leading, spacing: 10) {
                             HStack {

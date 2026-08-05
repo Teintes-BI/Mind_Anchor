@@ -21,6 +21,16 @@ const taskCount = document.getElementById("task-count");
 const interventionCount = document.getElementById("intervention-count");
 const reminderList = document.getElementById("reminder-list");
 const reminderMeta = document.getElementById("reminder-meta");
+const wayfinderStatus = document.getElementById("wayfinder-status");
+const wayfinderConnection = document.getElementById("wayfinder-connection");
+const wayfinderSummary = document.getElementById("wayfinder-summary");
+const wayfinderCapture = document.getElementById("wayfinder-capture");
+const wayfinderRefresh = document.getElementById("wayfinder-refresh");
+const wayfinderConsent = document.getElementById("wayfinder-consent");
+const wayfinderConfirm = document.getElementById("wayfinder-confirm");
+const wayfinderDismiss = document.getElementById("wayfinder-dismiss");
+const wayfinderSituation = document.getElementById("wayfinder-situation");
+const wayfinderOptions = document.getElementById("wayfinder-options");
 
 let latestStatus = null;
 
@@ -172,12 +182,63 @@ function renderReminders(status, inboxOverview) {
   }
 }
 
+function renderWayfinder(status) {
+  const wayfinder = status?.wayfinder ?? {};
+  wayfinderStatus.textContent = wayfinder.error ?? wayfinder.message ?? "Wayfinder is ready.";
+  wayfinderConnection.textContent = wayfinder.configured ? (wayfinder.connected ? "Connected" : "Configured") : "Not configured";
+  const situation = wayfinder.situation;
+  wayfinderSituation.hidden = !situation;
+  wayfinderConfirm.hidden = !situation || situation.status !== "awaiting_confirmation";
+  wayfinderDismiss.hidden = !situation || situation.status !== "awaiting_confirmation";
+  wayfinderSituation.replaceChildren();
+  wayfinderOptions.replaceChildren();
+  if (situation) {
+    const title = document.createElement("strong");
+    title.textContent = situation.summary ?? "Active situation";
+    const meta = document.createElement("p");
+    meta.className = "muted";
+    meta.textContent = `Status: ${String(situation.status ?? "unknown").replaceAll("_", " ")} | Risk: ${situation.riskLevel ?? "unknown"}`;
+    wayfinderSituation.append(title, meta);
+  }
+  for (const option of wayfinder.options ?? []) {
+    if (option?.status !== "proposed") continue;
+    const item = document.createElement("div");
+    item.className = "message-card";
+    const title = document.createElement("strong");
+    title.textContent = option.action ?? "Option";
+    const detail = document.createElement("p");
+    detail.className = "muted";
+    detail.textContent = `${option.firstStep ?? ""} ${option.rationale ?? ""}`.trim();
+    const button = document.createElement("button");
+    button.className = "primary";
+    button.textContent = "Choose";
+    button.disabled = Boolean(wayfinder.busy);
+    button.addEventListener("click", async () => {
+      await runWayfinderAction(() => window.mindanchorDesktop.wayfinder.selectOption(option.id));
+    });
+    item.append(title, detail, button);
+    wayfinderOptions.appendChild(item);
+  }
+}
+
+async function runWayfinderAction(action) {
+  try {
+    await action();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    wayfinderStatus.textContent = message;
+    wayfinderConnection.textContent = "Action failed";
+  }
+  await refreshAll();
+}
+
 async function refreshAll() {
   latestStatus = await window.mindanchorDesktop.getStatus();
   renderCollector(latestStatus);
   renderPermissions(latestStatus.permissions);
   renderDashboard(await window.mindanchorDesktop.getDashboard());
   renderReminders(latestStatus, await window.mindanchorDesktop.getInboxOverview());
+  renderWayfinder(latestStatus);
 }
 
 window.mindanchorDesktop.onStatus((payload) => {
@@ -186,6 +247,7 @@ window.mindanchorDesktop.onStatus((payload) => {
   renderPermissions(payload.permissions);
   void window.mindanchorDesktop.getDashboard().then(renderDashboard);
   void window.mindanchorDesktop.getInboxOverview().then((overview) => renderReminders(payload, overview));
+  renderWayfinder(payload);
 });
 
 window.mindanchorDesktop.onCommand((payload) => {
@@ -220,6 +282,31 @@ checkinButton.addEventListener("click", async () => {
   });
   noteInput.value = "";
   await refreshAll();
+});
+
+wayfinderRefresh.addEventListener("click", async () => {
+  await runWayfinderAction(() => window.mindanchorDesktop.wayfinder.refresh());
+});
+
+wayfinderConsent.addEventListener("click", async () => {
+  await runWayfinderAction(() => window.mindanchorDesktop.wayfinder.grantConsent());
+});
+
+wayfinderCapture.addEventListener("click", async () => {
+  const summary = wayfinderSummary.value.trim();
+  if (!summary) return;
+  await runWayfinderAction(async () => {
+    await window.mindanchorDesktop.wayfinder.capture(summary);
+    wayfinderSummary.value = "";
+  });
+});
+
+wayfinderConfirm.addEventListener("click", async () => {
+  await runWayfinderAction(() => window.mindanchorDesktop.wayfinder.confirm("confirmed"));
+});
+
+wayfinderDismiss.addEventListener("click", async () => {
+  await runWayfinderAction(() => window.mindanchorDesktop.wayfinder.confirm("dismissed"));
 });
 
 void refreshAll();

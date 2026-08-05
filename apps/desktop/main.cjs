@@ -12,6 +12,7 @@ const flushPollMs = 60_000;
 const snoozeMinutes = 15;
 
 let createAudioBridge;
+let createWayfinderClient;
 let buildFrontmostTransitionSignals;
 let createDesktopSignal;
 let DESKTOP_USER_ID;
@@ -44,9 +45,11 @@ let isQuitting = false;
 let remoteRefreshPromise = null;
 let latestStatusMessage = "Ready.";
 let audioBridge = null;
+let wayfinderClient = null;
 
 async function loadHelpers() {
   ({ createAudioBridge } = await import("./audio-bridge.js"));
+  ({ createWayfinderClient } = await import("./wayfinder-client.js"));
   ({
     buildFrontmostTransitionSignals,
     createDesktopSignal,
@@ -219,6 +222,7 @@ function buildStatusPayload(message = latestStatusMessage, audioOverride) {
     },
     permissions,
     audioBridge: audioOverride ?? audioBridge?.getSummary?.() ?? null,
+    wayfinder: wayfinderClient?.getStatus?.() ?? { configured: false, connected: false, message: "Wayfinder is starting." },
   };
 }
 
@@ -499,6 +503,11 @@ async function bootstrap() {
       apiBaseUrl,
       publishStatus,
     });
+    wayfinderClient = createWayfinderClient({
+      apiBaseUrl,
+      token: process.env.MINDANCHOR_API_TOKEN ?? "",
+      sourceDeviceId: `${process.platform}-desktop`,
+    });
 
     powerMonitor.on("lock-screen", () => void enqueueSignal(createSignal({ eventType: "lock" })));
     powerMonitor.on("unlock-screen", () => void enqueueSignal(createSignal({ eventType: "unlock" })));
@@ -572,6 +581,32 @@ async function bootstrap() {
     });
     publishStatus("Dismissed permissions prompt.");
     return buildPermissionsPromptState(desktopState);
+  });
+  ipcMain.handle("wayfinder:status", async () => wayfinderClient?.getStatus?.() ?? null);
+  ipcMain.handle("wayfinder:refresh", async () => {
+    const status = await wayfinderClient.refresh();
+    publishStatus("Wayfinder state refreshed.");
+    return status;
+  });
+  ipcMain.handle("wayfinder:grant-consent", async () => {
+    const grant = await wayfinderClient.grantConsent();
+    publishStatus("Wayfinder consent granted.");
+    return { grant, status: wayfinderClient.getStatus() };
+  });
+  ipcMain.handle("wayfinder:capture", async (_event, summary) => {
+    const result = await wayfinderClient.capture(summary);
+    publishStatus("Wayfinder situation captured.");
+    return { result, status: wayfinderClient.getStatus() };
+  });
+  ipcMain.handle("wayfinder:confirm", async (_event, status = "confirmed") => {
+    const result = await wayfinderClient.confirm(status);
+    publishStatus(status === "confirmed" ? "Wayfinder situation confirmed." : "Wayfinder situation dismissed.");
+    return { result, status: wayfinderClient.getStatus() };
+  });
+  ipcMain.handle("wayfinder:select-option", async (_event, optionId) => {
+    const decision = await wayfinderClient.selectOption(optionId);
+    publishStatus("Wayfinder choice recorded.");
+    return { decision, status: wayfinderClient.getStatus() };
   });
 }
 

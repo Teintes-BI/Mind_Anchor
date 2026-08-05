@@ -16,6 +16,7 @@ final class LocalStore {
         var permissionsPromptDismissedAt: Date?
         var lastDiagnosticsExportAt: Date?
         var lastDiagnosticsExportPath: String?
+        var lastWayfinderSnapshot: WayfinderLocalSnapshot?
     }
 
     private let baseDirectory: URL
@@ -109,6 +110,16 @@ final class LocalStore {
     ) {
         state.lastReflectionOverview = reflections
         state.lastStateTrends = stateTrends
+        persist()
+    }
+
+    func cacheWayfinderSnapshot(_ snapshot: WayfinderLocalSnapshot) {
+        state.lastWayfinderSnapshot = snapshot
+        persist()
+    }
+
+    func clearWayfinderSnapshot() {
+        state.lastWayfinderSnapshot = nil
         persist()
     }
 

@@ -2,6 +2,15 @@ import XCTest
 @testable import MindAnchorCore
 
 final class WayfinderAPIClientTests: XCTestCase {
+    func testSituationStatusesExposeOnlyAwaitingAndConfirmedAsActive() {
+        XCTAssertTrue(WayfinderSituationStatus.awaitingConfirmation.isActive)
+        XCTAssertTrue(WayfinderSituationStatus.confirmed.isActive)
+        XCTAssertFalse(WayfinderSituationStatus.draft.isActive)
+        XCTAssertFalse(WayfinderSituationStatus.dismissed.isActive)
+        XCTAssertFalse(WayfinderSituationStatus.expired.isActive)
+        XCTAssertFalse(WayfinderSituationStatus.unknown.isActive)
+    }
+
     func testRiskLevelsAboveLowRequireExplicitConfirmation() {
         XCTAssertFalse(WayfinderRiskLevel.low.requiresExplicitConfirmation)
         XCTAssertTrue(WayfinderRiskLevel.medium.requiresExplicitConfirmation)

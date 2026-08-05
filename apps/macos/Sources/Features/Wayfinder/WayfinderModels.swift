@@ -98,6 +98,15 @@ enum WayfinderSituationStatus: String, Codable, Equatable, Sendable {
         let raw = try decoder.singleValueContainer().decode(String.self)
         self = Self(rawValue: raw) ?? .unknown
     }
+
+    var isActive: Bool {
+        switch self {
+        case .awaitingConfirmation, .confirmed:
+            return true
+        case .draft, .dismissed, .expired, .unknown:
+            return false
+        }
+    }
 }
 
 enum WayfinderOptionStatus: String, Codable, Equatable, Sendable {
@@ -473,4 +482,15 @@ struct WayfinderHistoryResponse: Codable, Equatable, Sendable {
 
 struct WayfinderConsentResponse: Codable, Equatable, Sendable {
     let grants: [WayfinderConsentGrant]
+}
+
+struct WayfinderLocalSnapshot: Codable, Equatable, Sendable {
+    let userID: String
+    let situation: WayfinderSituation?
+    let options: [WayfinderDecisionOption]
+    let consentGrants: [WayfinderConsentGrant]
+    let lastDecision: WayfinderDecisionRecord?
+    let fastResponse: String?
+    let fullStatus: WayfinderProcessingStatus?
+    let savedAt: Date
 }

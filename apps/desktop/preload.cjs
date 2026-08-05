@@ -11,6 +11,14 @@ contextBridge.exposeInMainWorld("mindanchorDesktop", {
   snoozeReminder: (messageId, minutes = 15) => ipcRenderer.invoke("desktop:snooze-reminder", messageId, minutes),
   openMainWindow: (options = {}) => ipcRenderer.invoke("desktop:open-window", options),
   dismissPermissionsPrompt: () => ipcRenderer.invoke("desktop:dismiss-permissions-prompt"),
+  wayfinder: {
+    getStatus: () => ipcRenderer.invoke("wayfinder:status"),
+    refresh: () => ipcRenderer.invoke("wayfinder:refresh"),
+    grantConsent: () => ipcRenderer.invoke("wayfinder:grant-consent"),
+    capture: (summary) => ipcRenderer.invoke("wayfinder:capture", summary),
+    confirm: (status = "confirmed") => ipcRenderer.invoke("wayfinder:confirm", status),
+    selectOption: (optionId) => ipcRenderer.invoke("wayfinder:select-option", optionId),
+  },
   onStatus: (handler) => {
     const listener = (_event, payload) => handler(payload);
     ipcRenderer.on("desktop:status", listener);

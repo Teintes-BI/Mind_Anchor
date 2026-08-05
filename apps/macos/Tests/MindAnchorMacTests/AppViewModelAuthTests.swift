@@ -84,6 +84,61 @@ final class AppViewModelAuthTests: XCTestCase {
         XCTAssertEqual(viewModel.bootstrapStatusMessage, "登录后即可开始同步桌面活动、提醒和恢复建议。")
     }
 
+    func testBootstrapRestoresCachedWayfinderSnapshotForSignedInUser() async throws {
+        let client = MockAPIClient()
+        let session = AuthSessionState(
+            accessToken: "stored-token",
+            refreshToken: nil,
+            expiresAt: nil,
+            user: AuthUser(id: "user-1", email: "user@example.com", provider: "gateway-local")
+        )
+        client.storedSession = session
+
+        let store = LocalStore(appSupportDirectory: makeTempDirectory())
+        let situation = WayfinderSituation(
+            id: "situation-cached",
+            userId: "user-1",
+            eventIds: ["event-1"],
+            status: .awaitingConfirmation,
+            summary: "Prepare a proposal",
+            uncertainty: [],
+            linkedGoalIds: [],
+            linkedTaskIds: [],
+            riskLevel: .low,
+            createdAt: "2026-08-05T00:00:00.000Z",
+            updatedAt: "2026-08-05T00:00:00.000Z",
+            traceId: "trace-1"
+        )
+        store.cacheWayfinderSnapshot(
+            WayfinderLocalSnapshot(
+                userID: "user-1",
+                situation: situation,
+                options: [],
+                consentGrants: [],
+                lastDecision: nil,
+                fastResponse: "Captured",
+                fullStatus: .pending,
+                savedAt: .now
+            )
+        )
+
+        let viewModel = AppViewModel(
+            configuration: .testValue,
+            apiClient: client,
+            localStore: store,
+            deviceProfile: .fixture,
+            collector: MockCollector(),
+            shouldConfigureSystemNotifications: false,
+            shouldRefreshDiagnosticsOnBootstrap: false
+        )
+
+        await viewModel.bootstrap()
+
+        XCTAssertEqual(viewModel.wayfinderSituation?.id, "situation-cached")
+        XCTAssertTrue(viewModel.hasActiveWayfinderSituation)
+        XCTAssertEqual(viewModel.wayfinderFastResponse, "Captured")
+    }
+
     private func makeLanguageDefaults() -> UserDefaults {
         let suiteName = "MindAnchorMacTests.AppViewModelLanguage.\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: suiteName)!
