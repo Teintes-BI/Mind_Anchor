@@ -7,12 +7,14 @@ import {
   updateConsentInputSchema,
   updateOutcomeInputSchema,
   wayfinderOutcomeSchema,
+  voiceAudioEventInputSchema,
 } from "@mindanchor/domain";
 import { createId } from "../lib/utils.js";
 import { WayfinderConsentService } from "../services/wayfinder/consent-service.js";
 import { WayfinderDecisionService } from "../services/wayfinder/decision-service.js";
 import { WayfinderRepository } from "../services/wayfinder/wayfinder-repository.js";
 import { WayfinderSituationService } from "../services/wayfinder/situation-service.js";
+import { WayfinderAudioEventService } from "../services/wayfinder/audio-event-service.js";
 
 type RequestWithContext = FastifyRequest & {
   authContext?: { userId: string } | null;
@@ -32,9 +34,30 @@ const traceFor = (request: FastifyRequest) => (request as RequestWithContext).mi
 
 export const registerWayfinderRoutes = async (
   app: FastifyInstance,
-  dependencies: { repository: WayfinderRepository; consent: WayfinderConsentService; situations: WayfinderSituationService; decisions: WayfinderDecisionService },
+  dependencies: {
+    repository: WayfinderRepository;
+    consent: WayfinderConsentService;
+    situations: WayfinderSituationService;
+    decisions: WayfinderDecisionService;
+    audioEvents?: WayfinderAudioEventService;
+  },
 ) => {
-  const { repository, consent, situations, decisions } = dependencies;
+  const { repository, consent, situations, decisions, audioEvents } = dependencies;
+
+  app.post("/wayfinder/audio-events", async (request, reply) => {
+    const userId = requireUser(request, reply);
+    if (!userId) return { message: "Authentication required." };
+    if (!audioEvents) return reply.code(503).send({ message: "Wayfinder audio events unavailable." });
+    const payload = voiceAudioEventInputSchema.parse({ ...(request.body as Record<string, unknown>), userId });
+    try {
+      return await audioEvents.ingest(payload);
+    } catch (error) {
+      if (error instanceof Error && error.message === "wayfinder_consent_required") {
+        return reply.code(403).send({ message: "Wayfinder audio consent is required." });
+      }
+      throw error;
+    }
+  });
 
   app.post("/wayfinder/events", async (request, reply) => {
     const userId = requireUser(request, reply);
@@ -44,6 +67,12 @@ export const registerWayfinderRoutes = async (
     const payload = createContextEventInputSchema.parse({ ...body, userId, clientEventId: body.clientEventId ?? idempotencyKey });
     consent.assertGranted(userId, payload.consentRef);
     return situations.ingestEvent(payload);
+  });
+
+  app.get("/wayfinder/situations", async (request, reply) => {
+    const userId = requireUser(request, reply);
+    if (!userId) return { message: "Authentication required." };
+    return { situations: situations.list(userId) };
   });
 
   app.get("/wayfinder/situations/:situationId", async (request, reply) => {
@@ -91,8 +120,15 @@ export const registerWayfinderRoutes = async (
     if (!userId) return { message: "Authentication required." };
     const body = (request.body ?? {}) as Record<string, unknown>;
     const input = createDecisionInputSchema.omit({ userId: true }).parse({ ...body, userId });
-    const decision = await decisions.recordDecision(userId, { ...input, approvalAcknowledged: body.approvalAcknowledged === true });
-    return reply.code(201).send(decision);
+    try {
+      const decision = await decisions.recordDecision(userId, { ...input, approvalAcknowledged: body.approvalAcknowledged === true });
+      return reply.code(201).send(decision);
+    } catch (error) {
+      if (error instanceof Error && error.message === "wayfinder_option_unavailable") {
+        return reply.code(409).send({ message: "Wayfinder option is no longer available." });
+      }
+      throw error;
+    }
   });
 
   const recordOutcome = async (request: FastifyRequest, reply: FastifyReply) => {

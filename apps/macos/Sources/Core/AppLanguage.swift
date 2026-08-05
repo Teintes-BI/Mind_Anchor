@@ -108,6 +108,7 @@ struct AppLocalization {
         switch (language, destination) {
         case (.chinese, .today): return "今天"
         case (.chinese, .coach): return "Coach"
+        case (.chinese, .wayfinder): return "Wayfinder"
         case (.chinese, .goals): return "目标 / 任务"
         case (.chinese, .state): return "状态"
         case (.chinese, .reflections): return "复盘"
@@ -115,6 +116,7 @@ struct AppLocalization {
         case (.chinese, .settings): return "设置"
         case (.english, .today): return "Today"
         case (.english, .coach): return "Coach"
+        case (.english, .wayfinder): return "Wayfinder"
         case (.english, .goals): return "Goals / Tasks"
         case (.english, .state): return "State"
         case (.english, .reflections): return "Reflections"

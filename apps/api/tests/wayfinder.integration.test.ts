@@ -93,6 +93,13 @@ describe("Wayfinder API", () => {
     });
     expect(firstEvent.statusCode).toBe(200);
     expect(firstEvent.json().situation.status).toBe("awaiting_confirmation");
+    const situations = await app.inject({
+      method: "GET",
+      url: "/wayfinder/situations",
+      headers: { authorization: auth },
+    });
+    expect(situations.statusCode).toBe(200);
+    expect(situations.json().situations[0].id).toBe(firstEvent.json().situation.id);
     const duplicateEvent = await app.inject({
       method: "POST",
       url: "/wayfinder/events",
@@ -147,6 +154,13 @@ describe("Wayfinder API", () => {
       payload: { situationId, selectedOptionId: option.id, actionStatus: "in_progress", traceId: "trace-decision-api" },
     });
     expect(decision.statusCode).toBe(201);
+    const duplicateDecision = await app.inject({
+      method: "POST",
+      url: "/wayfinder/decisions",
+      headers: { authorization: auth },
+      payload: { situationId, selectedOptionId: option.id, actionStatus: "in_progress", traceId: "trace-decision-api-duplicate" },
+    });
+    expect(duplicateDecision.statusCode).toBe(409);
     const outcome = await app.inject({
       method: "PATCH",
       url: `/wayfinder/decisions/${decision.json().id}/outcome`,
@@ -167,5 +181,87 @@ describe("Wayfinder API", () => {
       headers: { authorization: "Bearer dev:user-b:user-b@example.com" },
     });
     expect(response.statusCode).toBe(404);
+  });
+
+  it("turns a consented short-audio chunk into a candidate without creating a Task", async () => {
+    expect(
+      (await app.inject({ method: "POST", url: "/wayfinder/audio-events", payload: {} })).statusCode,
+    ).toBe(401);
+
+    const consent = await app.inject({
+      method: "PATCH",
+      url: "/wayfinder/consent/phone-1",
+      headers: { authorization: auth },
+      payload: {
+        purpose: "wayfinder_voice_candidate",
+        scope: "foreground_short_audio",
+        status: "granted",
+        rawRetentionSeconds: 0,
+        derivedRetentionDays: 7,
+        modelSharing: "local_only",
+      },
+    });
+    const payload = {
+      sourceDeviceId: "phone-1",
+      sessionId: "session-api-1",
+      sequence: 0,
+      startedAt: "2026-08-05T10:00:00+08:00",
+      endedAt: "2026-08-05T10:00:05+08:00",
+      durationMs: 5000,
+      encoding: "audio/pcm16le",
+      checksum: "checksum-api-1",
+      base64Audio: "raw-audio",
+      consentRef: consent.json().id,
+      traceId: "trace-audio-api-1",
+      transcriptHint: "请把周报发给团队",
+    };
+
+    const response = await app.inject({
+      method: "POST",
+      url: "/wayfinder/audio-events",
+      headers: { authorization: auth },
+      payload,
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.json()).toMatchObject({
+      status: "candidate",
+      situation: { status: "awaiting_confirmation" },
+      candidate: { action: "请把周报发给团队" },
+    });
+
+    const duplicate = await app.inject({
+      method: "POST",
+      url: "/wayfinder/audio-events",
+      headers: { authorization: auth },
+      payload,
+    });
+    expect(duplicate.statusCode).toBe(200);
+    expect(duplicate.json().contextEvent.id).toBe(response.json().contextEvent.id);
+    expect((await app.inject({ method: "GET", url: "/tasks?userId=user-a", headers: { authorization: auth } })).json().tasks).toEqual([]);
+  });
+
+  it("rejects a short-audio chunk with an unavailable consent before ASR", async () => {
+    const response = await app.inject({
+      method: "POST",
+      url: "/wayfinder/audio-events",
+      headers: { authorization: auth },
+      payload: {
+        sourceDeviceId: "phone-1",
+        sessionId: "session-api-denied",
+        sequence: 0,
+        startedAt: "2026-08-05T10:00:00+08:00",
+        endedAt: "2026-08-05T10:00:05+08:00",
+        durationMs: 5000,
+        encoding: "audio/pcm16le",
+        checksum: "checksum-api-denied",
+        base64Audio: "local-only",
+        consentRef: "missing-consent",
+        traceId: "trace-audio-api-denied",
+        transcriptHint: "send the report",
+      },
+    });
+
+    expect(response.statusCode).toBe(403);
+    expect(response.json()).toMatchObject({ message: "Wayfinder audio consent is required." });
   });
 });

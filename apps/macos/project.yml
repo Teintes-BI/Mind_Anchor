@@ -32,6 +32,7 @@ targets:
     platform: macOS
     sources:
       - Sources/Core
+      - Sources/Features/Wayfinder/WayfinderModels.swift
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.mindanchor.mac.core

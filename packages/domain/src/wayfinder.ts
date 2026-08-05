@@ -219,6 +219,31 @@ export const wayfinderAuditEventSchema = z.object({
   traceId: identifierSchema,
 });
 
+export const voiceCandidateSchema = z.object({
+  candidateSummary: z.string().min(1).max(240),
+  actor: z.string().min(1).max(80),
+  action: z.string().min(1).max(240),
+  dueAt: dateTimeSchema.optional(),
+  confidence: z.number().min(0).max(1),
+  evidenceRef: identifierSchema,
+});
+
+export const voiceAudioEventInputSchema = z.object({
+  userId: identifierSchema,
+  sourceDeviceId: identifierSchema,
+  sessionId: identifierSchema,
+  sequence: z.number().int().nonnegative(),
+  startedAt: dateTimeSchema,
+  endedAt: dateTimeSchema,
+  durationMs: z.number().int().positive(),
+  encoding: z.enum(["audio/pcm16le", "audio/wav"]),
+  checksum: identifierSchema,
+  base64Audio: z.string().min(1),
+  consentRef: identifierSchema,
+  traceId: identifierSchema,
+  transcriptHint: z.string().max(4000).optional(),
+});
+
 export type ContextEvent = z.infer<typeof contextEventSchema>;
 export type CreateContextEventInput = z.infer<typeof createContextEventInputSchema>;
 export type Situation = z.infer<typeof situationSchema>;
@@ -230,3 +255,5 @@ export type ConsentGrant = z.infer<typeof consentGrantSchema>;
 export type InterventionBudget = z.infer<typeof interventionBudgetSchema>;
 export type InterventionPolicyResult = z.infer<typeof interventionPolicyResultSchema>;
 export type WayfinderAuditEvent = z.infer<typeof wayfinderAuditEventSchema>;
+export type VoiceCandidate = z.infer<typeof voiceCandidateSchema>;
+export type VoiceAudioEventInput = z.infer<typeof voiceAudioEventInputSchema>;

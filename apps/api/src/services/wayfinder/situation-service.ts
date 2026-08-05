@@ -49,6 +49,10 @@ export class WayfinderSituationService {
     return this.repository.getSituation(userId, situationId);
   }
 
+  list(userId: string, limit = 20) {
+    return this.repository.listSituations(userId, limit);
+  }
+
   confirm(userId: string, situationId: string, status: Situation["status"]) {
     return this.repository.confirmSituation(userId, situationId, status);
   }

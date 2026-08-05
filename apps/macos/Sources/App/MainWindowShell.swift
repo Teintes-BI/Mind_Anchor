@@ -20,6 +20,8 @@ struct MainWindowShell: View {
                 TodayView(viewModel: viewModel)
             case .coach:
                 CoachView(viewModel: viewModel)
+            case .wayfinder:
+                WayfinderView(viewModel: viewModel)
             case .goals:
                 GoalsTasksView(viewModel: viewModel)
             case .state:

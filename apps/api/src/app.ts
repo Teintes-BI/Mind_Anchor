@@ -100,6 +100,7 @@ import { AgentMemoryProposalService } from "./services/agent-memory-proposal-ser
 import { AgentMemoryScopeError, AgentMemoryService } from "./services/agent-memory-service.js";
 import { WayfinderConsentService } from "./services/wayfinder/consent-service.js";
 import { WayfinderDecisionService } from "./services/wayfinder/decision-service.js";
+import { FixtureSpeechTranscriber, WayfinderAudioEventService } from "./services/wayfinder/audio-event-service.js";
 import { WayfinderSituationService } from "./services/wayfinder/situation-service.js";
 import { WayfinderRepository } from "./services/wayfinder/wayfinder-repository.js";
 import { registerWayfinderRoutes } from "./routes/wayfinder.js";
@@ -135,6 +136,12 @@ export const buildApp = async (env: AppEnv) => {
   const wayfinderConsent = new WayfinderConsentService(wayfinderRepository);
   const wayfinderSituations = new WayfinderSituationService(wayfinderRepository);
   const wayfinderDecisions = new WayfinderDecisionService(wayfinderRepository);
+  const wayfinderAudioEvents = new WayfinderAudioEventService({
+    repository: wayfinderRepository,
+    consent: wayfinderConsent,
+    situations: wayfinderSituations,
+    transcriber: new FixtureSpeechTranscriber(),
+  });
 
   app.addHook("onClose", async () => {
     await conversationCoach.shutdown();
@@ -1056,6 +1063,7 @@ export const buildApp = async (env: AppEnv) => {
     consent: wayfinderConsent,
     situations: wayfinderSituations,
     decisions: wayfinderDecisions,
+    audioEvents: wayfinderAudioEvents,
   });
 
   app.get("/health", async () => ({

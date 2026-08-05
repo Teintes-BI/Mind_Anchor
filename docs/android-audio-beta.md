@@ -6,6 +6,7 @@
 - Audio is chunked every 5 seconds as PCM16 mono
 - Chunks are sent only to the paired desktop receiver on the same LAN
 - The desktop receiver stores raw chunks locally and writes only structured `EmotionAssessment` data back to the MindAnchor API
+- Wayfinder task extraction is opt-in per capture session and requires a `consentRef`
 
 ## Product boundaries
 
@@ -24,7 +25,16 @@
 
 ## Data path
 
-`Android foreground service -> LAN chunk POST -> Desktop receiver -> local emotion analysis -> MindAnchor API -> Web dashboard`
+`Android foreground service -> LAN chunk POST -> Desktop receiver -> local emotion analysis -> optional ASR/candidate hint -> MindAnchor API -> Web dashboard`
+
+## Wayfinder candidate boundary
+
+- Starting a session without `consentRef` is rejected before any chunk is written.
+- A chunk without active consent is rejected before local analysis.
+- The default desktop bridge sends `local-only` as the audio body to the Wayfinder endpoint and may send only a short `transcript` fixture hint; raw audio is not forwarded to the API unless `MINDANCHOR_WAYFINDER_ASR_REMOTE=1` is explicitly enabled.
+- The API stores a structured `voice_candidate` summary and evidence reference, never the base64 audio.
+- A candidate always creates an `awaiting_confirmation` situation. It never creates a real Task automatically.
+- The desktop bridge may set `MINDANCHOR_API_TOKEN` to an authenticated gateway token before calling the protected Wayfinder endpoint.
 
 ## Storage
 

@@ -4,6 +4,7 @@ import {
   decisionOptionSchema,
   decisionRiskSchema,
   interventionBudgetSchema,
+  voiceCandidateSchema,
 } from "@mindanchor/domain";
 
 const date = "2026-08-05T00:00:00.000Z";
@@ -48,5 +49,17 @@ describe("Wayfinder domain schemas", () => {
         updatedAt: date,
       }),
     ).toMatchObject({ limit: 3, used: 1 });
+  });
+
+  it("validates a structured voice task candidate without raw audio", () => {
+    expect(
+      voiceCandidateSchema.parse({
+        candidateSummary: "Prepare the budget and send it to Li Ming",
+        actor: "user",
+        action: "Prepare the budget and send it to Li Ming",
+        confidence: 0.72,
+        evidenceRef: "audio:session-1:0",
+      }),
+    ).toMatchObject({ confidence: 0.72, evidenceRef: "audio:session-1:0" });
   });
 });

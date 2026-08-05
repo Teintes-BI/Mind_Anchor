@@ -308,10 +308,136 @@ final class APIClient: MindAnchorAPIProviding, @unchecked Sendable {
         try await request(path: "/client/inbox/\(messageID)/ack", method: "POST", token: token)
     }
 
-    private func request<T: Decodable>(path: String, method: String = "GET", token: String?, body: [String: Any]? = nil) async throws -> T {
+    func createWayfinderEvent(payload: WayfinderEventInput, token: String) async throws -> WayfinderEventResponse {
+        var body: [String: Any] = [
+            "sourceDeviceId": payload.sourceDeviceId,
+            "kind": payload.kind.rawValue,
+            "occurredAt": payload.occurredAt,
+            "payload": wayfinderJSONObject(payload.payload),
+            "confidence": payload.confidence,
+            "consentRef": payload.consentRef,
+            "retentionClass": payload.retentionClass.rawValue,
+            "evidenceRefs": payload.evidenceRefs,
+            "traceId": payload.traceId,
+        ]
+        if let clientEventId = payload.clientEventId {
+            body["clientEventId"] = clientEventId
+        }
+        var headers: [String: String] = [:]
+        if let clientEventId = payload.clientEventId {
+            headers["Idempotency-Key"] = clientEventId
+        }
+        return try await request(path: "/wayfinder/events", method: "POST", token: token, body: body, headers: headers)
+    }
+
+    func fetchWayfinderSituations(token: String) async throws -> WayfinderSituationsResponse {
+        try await request(path: "/wayfinder/situations", token: token)
+    }
+
+    func fetchWayfinderSituation(_ situationID: String, token: String) async throws -> WayfinderSituation {
+        try await request(path: "/wayfinder/situations/\(wayfinderPathSegment(situationID))", token: token)
+    }
+
+    func confirmWayfinderSituation(_ situationID: String, status: WayfinderSituationStatus, traceID: String, token: String) async throws -> WayfinderSituationConfirmationResponse {
+        try await request(
+            path: "/wayfinder/situations/\(wayfinderPathSegment(situationID))/confirm",
+            method: "POST",
+            token: token,
+            body: ["status": status.rawValue, "traceId": traceID]
+        )
+    }
+
+    func dismissWayfinderSituation(_ situationID: String, traceID: String, token: String) async throws -> WayfinderSituationConfirmationResponse {
+        try await confirmWayfinderSituation(situationID, status: .dismissed, traceID: traceID, token: token)
+    }
+
+    func ignoreWayfinderSituation(_ situationID: String, traceID: String, token: String) async throws -> WayfinderSituationConfirmationResponse {
+        try await dismissWayfinderSituation(situationID, traceID: traceID, token: token)
+    }
+
+    func fetchWayfinderOptions(_ situationID: String, token: String) async throws -> WayfinderOptionsResponse {
+        try await request(path: "/wayfinder/situations/\(wayfinderPathSegment(situationID))/options", token: token)
+    }
+
+    func saveWayfinderOptions(_ options: [WayfinderDecisionOption], situationID: String, token: String) async throws -> WayfinderOptionsSaveResponse {
+        let encodedOptions = try options.map { try wayfinderJSONObject($0) }
+        return try await request(
+            path: "/wayfinder/situations/\(wayfinderPathSegment(situationID))/options",
+            method: "POST",
+            token: token,
+            body: ["options": encodedOptions]
+        )
+    }
+
+    func saveWayfinderOptions(situationID: String, options: [WayfinderDecisionOption], token: String) async throws -> WayfinderOptionsSaveResponse {
+        try await saveWayfinderOptions(options, situationID: situationID, token: token)
+    }
+
+    func recordWayfinderDecision(payload: WayfinderDecisionInput, token: String) async throws -> WayfinderDecisionRecord {
+        var body: [String: Any] = [
+            "situationId": payload.situationId,
+            "actionStatus": payload.actionStatus.rawValue,
+            "traceId": payload.traceId,
+            "approvalAcknowledged": payload.approvalAcknowledged,
+        ]
+        if let selectedOptionId = payload.selectedOptionId {
+            body["selectedOptionId"] = selectedOptionId
+        }
+        if let userOverride = payload.userOverride {
+            body["userOverride"] = userOverride
+        }
+        if let followUpAt = payload.followUpAt {
+            body["followUpAt"] = followUpAt
+        }
+        return try await request(path: "/wayfinder/decisions", method: "POST", token: token, body: body)
+    }
+
+    func recordWayfinderOutcome(_ decisionID: String, payload: WayfinderOutcomeInput, token: String) async throws -> WayfinderOutcome {
+        var body: [String: Any] = [
+            "status": payload.status.rawValue,
+            "summary": payload.summary,
+            "evidenceRefs": payload.evidenceRefs,
+            "traceId": payload.traceId,
+        ]
+        if let userFeeling = payload.userFeeling { body["userFeeling"] = userFeeling }
+        if let userRating = payload.userRating { body["userRating"] = userRating }
+        if let predictionError = payload.predictionError { body["predictionError"] = predictionError }
+        return try await request(path: "/wayfinder/decisions/\(wayfinderPathSegment(decisionID))/outcome", method: "PATCH", token: token, body: body)
+    }
+
+    func fetchWayfinderHistory(limit: Int? = nil, token: String) async throws -> WayfinderHistoryResponse {
+        let path = limit.map { "/wayfinder/decisions?limit=\($0)" } ?? "/wayfinder/decisions"
+        return try await request(path: path, token: token)
+    }
+
+    func fetchWayfinderConsent(token: String) async throws -> WayfinderConsentResponse {
+        try await request(path: "/wayfinder/consent", token: token)
+    }
+
+    func updateWayfinderConsent(source: String, payload: WayfinderConsentInput, token: String) async throws -> WayfinderConsentGrant {
+        try await request(
+            path: "/wayfinder/consent/\(wayfinderPathSegment(source))",
+            method: "PATCH",
+            token: token,
+            body: [
+                "source": source,
+                "purpose": payload.purpose,
+                "scope": payload.scope,
+                "status": payload.status.rawValue,
+                "rawRetentionSeconds": payload.rawRetentionSeconds,
+                "derivedRetentionDays": payload.derivedRetentionDays,
+                "modelSharing": payload.modelSharing.rawValue,
+            ]
+        )
+    }
+
+    private func request<T: Decodable>(path: String, method: String = "GET", token: String?, body: [String: Any]? = nil, headers: [String: String] = [:]) async throws -> T {
         var request = URLRequest(url: buildURL(path: path))
         request.httpMethod = method
         request.setValue("application/json", forHTTPHeaderField: "Accept")
+        for (name, value) in headers {
+            request.setValue(value, forHTTPHeaderField: name)
+        }
         if let token, !token.isEmpty {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
@@ -328,6 +454,37 @@ final class APIClient: MindAnchorAPIProviding, @unchecked Sendable {
             throw APIClientError.server(statusCode: http.statusCode, message: String(data: data, encoding: .utf8) ?? "Request failed")
         }
         return try JSONDecoder.mindAnchor.decode(T.self, from: data)
+    }
+
+    private func wayfinderJSONObject<T: Encodable>(_ value: T) throws -> [String: Any] {
+        let data = try JSONEncoder().encode(value)
+        guard let object = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+            throw APIClientError.invalidResponse
+        }
+        return object
+    }
+
+    private func wayfinderJSONObject(_ values: [String: WayfinderJSONValue]) -> [String: Any] {
+        values.reduce(into: [String: Any]()) { result, item in
+            result[item.key] = wayfinderJSONAny(item.value)
+        }
+    }
+
+    private func wayfinderJSONAny(_ value: WayfinderJSONValue) -> Any {
+        switch value {
+        case .string(let string): return string
+        case .number(let number): return number
+        case .bool(let bool): return bool
+        case .array(let array): return array.map { wayfinderJSONAny($0) }
+        case .object(let object): return wayfinderJSONObject(object)
+        case .null: return NSNull()
+        }
+    }
+
+    private func wayfinderPathSegment(_ value: String) -> String {
+        var allowed = CharacterSet.alphanumerics
+        allowed.insert(charactersIn: "-._~")
+        return value.addingPercentEncoding(withAllowedCharacters: allowed) ?? value
     }
 
     private func buildURL(path: String) -> URL {

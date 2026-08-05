@@ -76,6 +76,31 @@ const respondJson = (response, statusCode, payload) => {
 
 const sha256Hex = (value) => createHash("sha256").update(value).digest("hex");
 
+export function buildWayfinderAudioEventPayload({ userId, session, body, forwardRawAudio = false }) {
+  const consentRef = String(body.consentRef ?? session?.consentRef ?? "");
+  if (!consentRef) return null;
+  if (session?.consentRef && consentRef !== String(session.consentRef)) return null;
+
+  const startedAt = String(body.startedAt ?? new Date().toISOString());
+  const endedAt = String(body.endedAt ?? startedAt);
+  const parsedDuration = Date.parse(endedAt) - Date.parse(startedAt);
+  return {
+    userId,
+    sourceDeviceId: String(body.deviceId ?? session?.deviceId ?? "unknown-device"),
+    sessionId: String(body.sessionId ?? ""),
+    sequence: Number(body.sequence ?? 0),
+    startedAt,
+    endedAt,
+    durationMs: Math.max(1, Number(body.durationMs ?? (Number.isFinite(parsedDuration) ? parsedDuration : 1))),
+    encoding: String(body.encoding ?? "audio/pcm16le"),
+    checksum: String(body.checksum ?? "audio-checksum-unknown"),
+    base64Audio: forwardRawAudio ? String(body.base64Audio ?? "") : "local-only",
+    consentRef,
+    traceId: String(body.traceId ?? `trace-audio-${body.sessionId ?? "session"}-${body.sequence ?? 0}`),
+    ...(typeof body.transcript === "string" ? { transcriptHint: body.transcript } : {}),
+  };
+}
+
 export function createAudioBridge({
   dataDir,
   apiBaseUrl,
@@ -99,6 +124,7 @@ export function createAudioBridge({
     sessions: {},
     receivedChunkCount: 0,
     latestEmotionAssessment: null,
+    latestVoiceCandidate: null,
     latestCallEvent: null,
   });
 
@@ -106,10 +132,12 @@ export function createAudioBridge({
   const hostBindings = () => listPrivateLanHosts(port);
 
   const postApi = async (path, payload) => {
+    const apiToken = process.env.MINDANCHOR_API_TOKEN;
     const response = await fetch(`${apiBaseUrl}${path}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        ...(apiToken ? { Authorization: `Bearer ${apiToken}` } : {}),
       },
       body: JSON.stringify(payload),
     });
@@ -137,6 +165,7 @@ export function createAudioBridge({
     activeSessionCount: Object.values(state.sessions).filter((session) => session.status === "active").length,
     receivedChunkCount: state.receivedChunkCount,
     latestEmotionAssessment: state.latestEmotionAssessment,
+    latestVoiceCandidate: state.latestVoiceCandidate,
     latestCallEvent: state.latestCallEvent,
     latestDevice: state.pairedDevices.at(-1) ?? null,
   });
@@ -211,6 +240,10 @@ export function createAudioBridge({
           respondJson(response, 403, { message: "Unpaired device." });
           return;
         }
+        if (!String(body.consentRef ?? "")) {
+          respondJson(response, 403, { message: "Wayfinder audio consent is required." });
+          return;
+        }
 
         const apiSession = await postApi("/mobile/capture/sessions/start", {
           userId: "demo-user",
@@ -230,6 +263,7 @@ export function createAudioBridge({
           deviceId: pairedDevice.deviceId,
           status: "active",
           expectedSequence: 0,
+          consentRef: String(body.consentRef),
           dir: sessionDir,
         };
         persistState();
@@ -249,6 +283,16 @@ export function createAudioBridge({
         const session = state.sessions[String(body.sessionId ?? "")];
         if (!session) {
           respondJson(response, 404, { message: "Unknown session." });
+          return;
+        }
+
+        const consentRef = String(body.consentRef ?? session.consentRef ?? "");
+        if (!consentRef) {
+          respondJson(response, 403, { message: "Wayfinder audio consent is required." });
+          return;
+        }
+        if (session.consentRef && consentRef !== session.consentRef) {
+          respondJson(response, 403, { message: "Wayfinder audio consent does not match the session." });
           return;
         }
 
@@ -329,6 +373,22 @@ export function createAudioBridge({
         session.status = body.replayed ? "buffering" : "active";
         state.receivedChunkCount += 1;
         state.latestEmotionAssessment = persistedEmotion;
+        let voiceCandidate = null;
+        const forwardRawAudio = process.env.MINDANCHOR_WAYFINDER_ASR_REMOTE === "1";
+        const candidatePayload = buildWayfinderAudioEventPayload({
+          userId: "demo-user",
+          session: { ...session, consentRef },
+          body,
+          forwardRawAudio,
+        });
+        if (candidatePayload && (candidatePayload.transcriptHint || forwardRawAudio)) {
+          try {
+            voiceCandidate = await postApi("/wayfinder/audio-events", candidatePayload);
+            state.latestVoiceCandidate = voiceCandidate;
+          } catch (error) {
+            recordStatus(error instanceof Error ? `Wayfinder candidate unavailable: ${error.message}` : "Wayfinder candidate unavailable.");
+          }
+        }
         pairedDevice.lastSeenAt = new Date().toISOString();
         persistState();
         recordStatus(`Received audio chunk #${sequence} from ${pairedDevice.deviceName}.`);
@@ -337,6 +397,7 @@ export function createAudioBridge({
           ackSequence: sequence,
           checksum,
           emotionAssessment: persistedEmotion,
+          voiceCandidate,
           filePath,
         });
         return;

@@ -34,6 +34,19 @@ protocol MindAnchorAPIProviding: AnyObject, Sendable {
     func uploadSignals(_ signals: [DesktopSignalEvent], token: String, userID: String) async throws
     func submitCheckIn(focusScore: Int, energyScore: Int, moodScore: Int, note: String, token: String, userID: String) async throws
     func acknowledgeInboxMessage(_ messageID: String, token: String) async throws -> InboxOverviewPayload.Message
+    func createWayfinderEvent(payload: WayfinderEventInput, token: String) async throws -> WayfinderEventResponse
+    func fetchWayfinderSituations(token: String) async throws -> WayfinderSituationsResponse
+    func fetchWayfinderSituation(_ situationID: String, token: String) async throws -> WayfinderSituation
+    func confirmWayfinderSituation(_ situationID: String, status: WayfinderSituationStatus, traceID: String, token: String) async throws -> WayfinderSituationConfirmationResponse
+    func dismissWayfinderSituation(_ situationID: String, traceID: String, token: String) async throws -> WayfinderSituationConfirmationResponse
+    func ignoreWayfinderSituation(_ situationID: String, traceID: String, token: String) async throws -> WayfinderSituationConfirmationResponse
+    func fetchWayfinderOptions(_ situationID: String, token: String) async throws -> WayfinderOptionsResponse
+    func saveWayfinderOptions(_ options: [WayfinderDecisionOption], situationID: String, token: String) async throws -> WayfinderOptionsSaveResponse
+    func recordWayfinderDecision(payload: WayfinderDecisionInput, token: String) async throws -> WayfinderDecisionRecord
+    func recordWayfinderOutcome(_ decisionID: String, payload: WayfinderOutcomeInput, token: String) async throws -> WayfinderOutcome
+    func fetchWayfinderHistory(limit: Int?, token: String) async throws -> WayfinderHistoryResponse
+    func fetchWayfinderConsent(token: String) async throws -> WayfinderConsentResponse
+    func updateWayfinderConsent(source: String, payload: WayfinderConsentInput, token: String) async throws -> WayfinderConsentGrant
 }
 
 private struct UnimplementedCoachAPISurfaceError: LocalizedError {
@@ -113,6 +126,70 @@ extension MindAnchorAPIProviding {
 
     func blockCoachMemoryRecall(_ memoryID: String, token: String) async throws -> DataMemoryPayload {
         throw UnimplementedCoachAPISurfaceError(message: "Coach memory recall-block API is not implemented for this client.")
+    }
+}
+
+private struct UnimplementedWayfinderAPISurfaceError: LocalizedError {
+    let message: String
+
+    var errorDescription: String? { message }
+}
+
+extension MindAnchorAPIProviding {
+    func createWayfinderEvent(payload: WayfinderEventInput, token: String) async throws -> WayfinderEventResponse {
+        throw UnimplementedWayfinderAPISurfaceError(message: "Wayfinder event API is not implemented for this client.")
+    }
+
+    func fetchWayfinderSituations(token: String) async throws -> WayfinderSituationsResponse {
+        throw UnimplementedWayfinderAPISurfaceError(message: "Wayfinder situations API is not implemented for this client.")
+    }
+
+    func fetchWayfinderSituation(_ situationID: String, token: String) async throws -> WayfinderSituation {
+        throw UnimplementedWayfinderAPISurfaceError(message: "Wayfinder situation API is not implemented for this client.")
+    }
+
+    func confirmWayfinderSituation(_ situationID: String, status: WayfinderSituationStatus, traceID: String, token: String) async throws -> WayfinderSituationConfirmationResponse {
+        throw UnimplementedWayfinderAPISurfaceError(message: "Wayfinder situation confirmation API is not implemented for this client.")
+    }
+
+    func dismissWayfinderSituation(_ situationID: String, traceID: String, token: String) async throws -> WayfinderSituationConfirmationResponse {
+        try await confirmWayfinderSituation(situationID, status: .dismissed, traceID: traceID, token: token)
+    }
+
+    func ignoreWayfinderSituation(_ situationID: String, traceID: String, token: String) async throws -> WayfinderSituationConfirmationResponse {
+        try await dismissWayfinderSituation(situationID, traceID: traceID, token: token)
+    }
+
+    func fetchWayfinderOptions(_ situationID: String, token: String) async throws -> WayfinderOptionsResponse {
+        throw UnimplementedWayfinderAPISurfaceError(message: "Wayfinder options API is not implemented for this client.")
+    }
+
+    func saveWayfinderOptions(_ options: [WayfinderDecisionOption], situationID: String, token: String) async throws -> WayfinderOptionsSaveResponse {
+        throw UnimplementedWayfinderAPISurfaceError(message: "Wayfinder options save API is not implemented for this client.")
+    }
+
+    func saveWayfinderOptions(situationID: String, options: [WayfinderDecisionOption], token: String) async throws -> WayfinderOptionsSaveResponse {
+        try await saveWayfinderOptions(options, situationID: situationID, token: token)
+    }
+
+    func recordWayfinderDecision(payload: WayfinderDecisionInput, token: String) async throws -> WayfinderDecisionRecord {
+        throw UnimplementedWayfinderAPISurfaceError(message: "Wayfinder decision API is not implemented for this client.")
+    }
+
+    func recordWayfinderOutcome(_ decisionID: String, payload: WayfinderOutcomeInput, token: String) async throws -> WayfinderOutcome {
+        throw UnimplementedWayfinderAPISurfaceError(message: "Wayfinder outcome API is not implemented for this client.")
+    }
+
+    func fetchWayfinderHistory(limit: Int? = nil, token: String) async throws -> WayfinderHistoryResponse {
+        throw UnimplementedWayfinderAPISurfaceError(message: "Wayfinder history API is not implemented for this client.")
+    }
+
+    func fetchWayfinderConsent(token: String) async throws -> WayfinderConsentResponse {
+        throw UnimplementedWayfinderAPISurfaceError(message: "Wayfinder consent API is not implemented for this client.")
+    }
+
+    func updateWayfinderConsent(source: String, payload: WayfinderConsentInput, token: String) async throws -> WayfinderConsentGrant {
+        throw UnimplementedWayfinderAPISurfaceError(message: "Wayfinder consent update API is not implemented for this client.")
     }
 }
 

@@ -21,6 +21,9 @@ export class WayfinderDecisionService {
       if (!option) {
         throw new Error("wayfinder_option_not_found");
       }
+      if (option.status !== "proposed") {
+        throw new Error("wayfinder_option_unavailable");
+      }
       if (option.requiresApproval && input.approvalAcknowledged !== true) {
         throw new Error("wayfinder_approval_required");
       }
