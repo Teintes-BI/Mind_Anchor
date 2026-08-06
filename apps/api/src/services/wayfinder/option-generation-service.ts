@@ -42,6 +42,26 @@ const optionDraftsSchema = z
     }
   });
 
+const optionDraftContractExample = {
+  options: [
+    {
+      action: "string",
+      firstStep: "string",
+      rationale: "string",
+      immediateBenefits: ["string"],
+      costs: ["string"],
+      projectedConsequences: [
+        { horizon: "today", text: "string", confidence: 0.8 },
+        { horizon: "long_term", text: "string", confidence: 0.6 },
+      ],
+      reversibility: "reversible",
+      valueAlignment: [{ valueId: "agency", effect: "supports", explanation: "string" }],
+      riskLevel: "low",
+      requiresApproval: false,
+    },
+  ],
+};
+
 type OptionDrafts = z.infer<typeof optionDraftsSchema>;
 
 const toDrafts = (options: DecisionOption[]): OptionDrafts =>
@@ -108,8 +128,14 @@ export class WayfinderOptionGenerationService {
       systemPrompt: [
         "You are the Wayfinder option architect.",
         "Return JSON with exactly three genuinely different options and no prose outside JSON.",
-        "Each option must preserve user agency, name costs, include today and long-term consequences, and avoid external action.",
-        "High or critical risk options must require explicit approval.",
+        "Use these exact keys and nesting for every option; do not rename or omit keys:",
+        JSON.stringify(optionDraftContractExample),
+        "Allowed horizon values: today, week, month, long_term.",
+        "Allowed reversibility values: reversible, partly_reversible, hard_to_reverse.",
+        "Allowed valueAlignment effect values: supports, trades_off, unknown.",
+        "Allowed riskLevel values: low, medium, high, critical.",
+        "Each option must preserve user agency, name costs, include today and long_term consequences, and avoid external action.",
+        "High or critical risk options must set requiresApproval to true.",
       ].join(" "),
       userPrompt: JSON.stringify({
         workflow: "wayfinder_option_architecture",

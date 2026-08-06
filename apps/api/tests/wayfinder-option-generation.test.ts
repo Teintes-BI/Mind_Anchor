@@ -49,8 +49,12 @@ describe("WayfinderOptionGenerationService", () => {
       riskLevel: "low",
       traceId: "trace-situation",
     });
+    let systemPrompt = "";
     const modelBridge = {
-      generateJson: async () => ({ options: [draft(1), draft(2), draft(3)] }),
+      generateJson: async (input: { systemPrompt: string }) => {
+        systemPrompt = input.systemPrompt;
+        return { options: [draft(1), draft(2), draft(3)] };
+      },
     };
     let id = 0;
     const service = new WayfinderOptionGenerationService({
@@ -75,6 +79,10 @@ describe("WayfinderOptionGenerationService", () => {
     expect(options.every((option) => option.userId === "user-a" && option.situationId === situation.id)).toBe(true);
     expect(options.every((option) => option.evidenceRefs.includes("event-1"))).toBe(true);
     expect(repository.listOptions("user-a", situation.id)).toEqual(options);
+    expect(systemPrompt).toContain('"firstStep"');
+    expect(systemPrompt).toContain('"projectedConsequences"');
+    expect(systemPrompt).toContain('"long_term"');
+    expect(systemPrompt).toContain('"requiresApproval"');
   });
 
   it("persists three deterministic options when model generation falls back", async () => {
