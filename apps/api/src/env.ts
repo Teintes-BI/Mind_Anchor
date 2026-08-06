@@ -44,6 +44,7 @@ export type AgentModelConfig = {
 };
 
 export type AppEnv = {
+  apiHost: string;
   apiPort: number;
   dataFile: string;
   agentMode: "stub" | "openai-compatible";
@@ -193,6 +194,7 @@ export const getEnv = (): AppEnv => {
   );
 
   return {
+    apiHost: process.env.MINDANCHOR_API_HOST ?? "127.0.0.1",
     apiPort: Number(process.env.MINDANCHOR_API_PORT ?? "3001"),
     dataFile: process.env.MINDANCHOR_DATA_FILE ?? `${process.cwd()}/data/mindanchor.json`,
     agentMode: agentModeSchema.parse(process.env.MINDANCHOR_AGENT_MODE ?? "stub"),

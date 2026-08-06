@@ -28,6 +28,14 @@ describe("env", () => {
     resetMindAnchorEnv();
   });
 
+  it("listens on loopback by default and supports an explicit host override", () => {
+    expect(getEnv().apiHost).toBe("127.0.0.1");
+
+    process.env.MINDANCHOR_API_HOST = "0.0.0.0";
+
+    expect(getEnv().apiHost).toBe("0.0.0.0");
+  });
+
   it("builds default per-agent configs from the shared defaults", () => {
     process.env.MINDANCHOR_AGENT_MODE = "openai-compatible";
     process.env.MINDANCHOR_DEFAULT_MODEL_BASE_URL = "https://default.example";
