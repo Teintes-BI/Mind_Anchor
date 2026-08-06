@@ -1,4 +1,4 @@
-import { agentTeamPersonaMetadata } from "@mindanchor/domain";
+import { agentTeamPersonaMetadata } from "../../packages/domain/dist/index.js";
 import { openClawManagementRegistryByAgentId } from "../management/agent-management-registry.mjs";
 import { WAYFINDER_PERSPECTIVE_PACK_IDS } from "./wayfinder-perspective-packs.mjs";
 

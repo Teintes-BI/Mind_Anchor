@@ -17,8 +17,21 @@ describe("API production bundle", () => {
     }
 
     expect(existsSync("../openclaw/runtime/agent-registry.mjs")).toBe(true);
-    expect(readFileSync("../../openclaw/runtime/agent-registry.mjs", "utf8")).not.toContain(
-      "../../packages/domain/dist/index.js",
+    const stagedAgentRegistry = readFileSync("../openclaw/runtime/agent-registry.mjs", "utf8");
+
+    expect(stagedAgentRegistry).not.toContain(
+      'from "../../packages/domain/dist/index.js"',
+    );
+    expect(stagedAgentRegistry).toContain(
+      'from "../../../packages/domain/dist/index.js"',
+    );
+
+    const stagedManagementRegistry = readFileSync(
+      "../openclaw/management/agent-management-registry.mjs",
+      "utf8",
+    );
+    expect(stagedManagementRegistry).toContain(
+      'from "../../../packages/domain/dist/index.js"',
     );
   }, 90_000);
 });
