@@ -798,9 +798,25 @@ describe("MindAnchor API integration", () => {
 
     expect(signalResponse.statusCode).toBe(200);
 
+    const healthConsent = await app.inject({
+      method: "PATCH",
+      url: "/wayfinder/consent/health",
+      headers: { authorization: "Bearer dev:demo-user:demo@example.com" },
+      payload: {
+        purpose: "wayfinder_health_summary",
+        scope: "health_summary",
+        status: "granted",
+        rawRetentionSeconds: 0,
+        derivedRetentionDays: 30,
+        modelSharing: "local_only",
+      },
+    });
+    expect(healthConsent.statusCode).toBe(200);
+
     const healthResponse = await app.inject({
       method: "POST",
       url: "/health/snapshots",
+      headers: { authorization: "Bearer dev:demo-user:demo@example.com" },
       payload: {
         userId: "demo-user",
         sourcePlatform: "ios",
@@ -811,6 +827,7 @@ describe("MindAnchor API integration", () => {
         oxygenSaturation: 98,
         sleepMinutes: 430,
         summary: "Recovered well overnight.",
+        consentRef: healthConsent.json().id,
       },
     });
 
@@ -1721,9 +1738,25 @@ describe("MindAnchor API integration", () => {
   });
 
   it("records health snapshots and exposes them through health endpoints", async () => {
+    const healthConsent = await app.inject({
+      method: "PATCH",
+      url: "/wayfinder/consent/health",
+      headers: { authorization: "Bearer dev:demo-user:demo@example.com" },
+      payload: {
+        purpose: "wayfinder_health_summary",
+        scope: "health_summary",
+        status: "granted",
+        rawRetentionSeconds: 0,
+        derivedRetentionDays: 30,
+        modelSharing: "local_only",
+      },
+    });
+    expect(healthConsent.statusCode).toBe(200);
+
     const snapshotResponse = await app.inject({
       method: "POST",
       url: "/health/snapshots",
+      headers: { authorization: "Bearer dev:demo-user:demo@example.com" },
       payload: {
         userId: "demo-user",
         deviceId: "ios-1",
@@ -1736,6 +1769,7 @@ describe("MindAnchor API integration", () => {
         restingHeartRate: 58,
         sleepMinutes: 420,
         summary: "Recovered well overnight.",
+        consentRef: healthConsent.json().id,
       },
     });
     expect(snapshotResponse.statusCode).toBe(201);
@@ -1743,6 +1777,7 @@ describe("MindAnchor API integration", () => {
     const healthResponse = await app.inject({
       method: "GET",
       url: "/health/latest",
+      headers: { authorization: "Bearer dev:demo-user:demo@example.com" },
     });
     expect(healthResponse.statusCode).toBe(200);
     expect(healthResponse.json().latest).not.toBeNull();
@@ -3649,5 +3684,103 @@ describe("MindAnchor API integration", () => {
 
     expect(requests.some((request) => request.auth === "Bearer chief-key")).toBe(true);
     expect(requests.some((request) => request.auth === "Bearer recovery-key")).toBe(true);
+  });
+
+  it("requires bearer authentication and binds health signal/calibration routes to that user", async () => {
+    const unauthorizedSignals = await app.inject({ method: "GET", url: "/health/signals" });
+    expect(unauthorizedSignals.statusCode).toBe(401);
+
+    const unauthorizedCalibration = await app.inject({ method: "GET", url: "/health/calibration" });
+    expect(unauthorizedCalibration.statusCode).toBe(401);
+
+    const unauthorizedLatest = await app.inject({ method: "GET", url: "/health/latest" });
+    expect(unauthorizedLatest.statusCode).toBe(401);
+
+    const unauthorizedCalibrationWrite = await app.inject({
+      method: "POST",
+      url: "/health/calibration",
+      payload: {
+        userId: "other-user",
+        windowStart: "2026-08-05T00:00:00.000Z",
+        windowEnd: "2026-08-06T00:00:00.000Z",
+        recommendation: "continue",
+        predictedEnergyBand: "medium",
+        actualEnergyBand: "high",
+        outcome: "completed",
+      },
+    });
+    expect(unauthorizedCalibrationWrite.statusCode).toBe(401);
+
+    const auth = { authorization: "Bearer dev:health-user:health@example.com" };
+    const consent = await app.inject({
+      method: "PATCH",
+      url: "/wayfinder/consent/health",
+      headers: auth,
+      payload: {
+        purpose: "wayfinder_health_summary",
+        scope: "health_summary",
+        status: "granted",
+        rawRetentionSeconds: 0,
+        derivedRetentionDays: 30,
+        modelSharing: "local_only",
+      },
+    });
+    expect(consent.statusCode).toBe(200);
+
+    const summary = await app.inject({
+      method: "POST",
+      url: "/health/summaries",
+      headers: auth,
+      payload: {
+        userId: "spoofed-user",
+        deviceId: "health-device",
+        sourcePlatform: "ios",
+        sourceProvider: "healthkit",
+        windowStart: "2026-08-05T00:00:00.000Z",
+        windowEnd: "2026-08-06T00:00:00.000Z",
+        sleepMinutes: 420,
+        consentRef: consent.json().id,
+      },
+    });
+    expect(summary.statusCode).toBe(201);
+    expect(summary.json().snapshot).toMatchObject({
+      userId: "health-user",
+      consentRef: consent.json().id,
+    });
+
+    const signals = await app.inject({
+      method: "GET",
+      url: "/health/signals?userId=other-user",
+      headers: auth,
+    });
+    expect(signals.statusCode).toBe(200);
+    expect(signals.json().summaries).toHaveLength(1);
+    expect(signals.json().summaries[0].sourceDevice).toBe("health-device");
+
+    const calibration = await app.inject({
+      method: "POST",
+      url: "/health/calibration",
+      headers: auth,
+      payload: {
+        userId: "spoofed-user",
+        windowStart: "2026-08-05T00:00:00.000Z",
+        windowEnd: "2026-08-06T00:00:00.000Z",
+        recommendation: "continue",
+        predictedEnergyBand: "medium",
+        actualEnergyBand: "high",
+        outcome: "completed",
+      },
+    });
+    expect(calibration.statusCode).toBe(201);
+    expect(calibration.json().userId).toBe("health-user");
+
+    const calibrationList = await app.inject({
+      method: "GET",
+      url: "/health/calibration?userId=other-user",
+      headers: auth,
+    });
+    expect(calibrationList.statusCode).toBe(200);
+    expect(calibrationList.json().records).toHaveLength(1);
+    expect(calibrationList.json().records[0].userId).toBe("health-user");
   });
 });

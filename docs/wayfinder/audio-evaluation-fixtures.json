@@ -1,0 +1,37 @@
+[
+  {
+    "id": "clear-task",
+    "expectedCandidate": true,
+    "observedStatus": "candidate",
+    "situationStatus": "awaiting_confirmation",
+    "confidence": 0.92
+  },
+  {
+    "id": "low-confidence-task",
+    "expectedCandidate": true,
+    "observedStatus": "candidate",
+    "situationStatus": "awaiting_confirmation",
+    "confidence": 0.2
+  },
+  {
+    "id": "non-task-conversation",
+    "expectedCandidate": false,
+    "observedStatus": "ignored"
+  },
+  {
+    "id": "third-party-commitment",
+    "expectedCandidate": false,
+    "observedStatus": "ignored"
+  },
+  {
+    "id": "empty-transcription",
+    "expectedCandidate": false,
+    "observedStatus": "ignored"
+  },
+  {
+    "id": "consent-revoked",
+    "expectedCandidate": false,
+    "consentStatus": "revoked",
+    "observedStatus": "rejected"
+  }
+]

@@ -23,24 +23,48 @@ export function createDesktopSignal({
 }
 
 export function buildFrontmostTransitionSignals(previousApp, currentApp, options = {}) {
-  if (!currentApp || currentApp === previousApp) {
+  const {
+    includeWindowTitle = false,
+    previousWindowTitle = "",
+    currentWindowTitle = "",
+    ...signalOptions
+  } = options;
+  const appChanged = Boolean(currentApp) && currentApp !== previousApp;
+  const titleChanged = Boolean(includeWindowTitle && currentWindowTitle && currentWindowTitle !== previousWindowTitle);
+
+  if (!appChanged && !titleChanged) {
     return [];
   }
 
-  const signals = [
-    createDesktopSignal({
-      ...options,
-      eventType: "active_app",
-      payload: { app: currentApp },
-    }),
-  ];
+  const signals = [];
+  const currentPayload = { app: currentApp };
+  if (includeWindowTitle && currentWindowTitle) {
+    currentPayload.windowTitle = currentWindowTitle;
+  }
 
-  if (previousApp) {
+  if (appChanged) {
     signals.push(
       createDesktopSignal({
-        ...options,
+        ...signalOptions,
+        eventType: "active_app",
+        payload: currentPayload,
+      }),
+    );
+  }
+
+  if (previousApp && (appChanged || titleChanged)) {
+    const switchPayload = { from: previousApp, to: currentApp };
+    if (includeWindowTitle && previousWindowTitle) {
+      switchPayload.fromWindowTitle = previousWindowTitle;
+    }
+    if (includeWindowTitle && currentWindowTitle) {
+      switchPayload.toWindowTitle = currentWindowTitle;
+    }
+    signals.push(
+      createDesktopSignal({
+        ...signalOptions,
         eventType: "window_switch",
-        payload: { from: previousApp, to: currentApp },
+        payload: switchPayload,
       }),
     );
   }

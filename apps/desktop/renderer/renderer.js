@@ -1,6 +1,7 @@
 const statusText = document.getElementById("status-text");
 const queueMeta = document.getElementById("queue-meta");
 const collectorSummary = document.getElementById("collector-summary");
+const windowTitleCaptureInput = document.getElementById("window-title-capture");
 const dashboardState = document.getElementById("dashboard-state");
 const dashboardRecovery = document.getElementById("dashboard-recovery");
 const permissionCard = document.getElementById("permissions-card");
@@ -69,6 +70,8 @@ function renderPermissions(permissions) {
 function renderCollector(status) {
   const collector = status?.collector ?? {};
   const activitySummary = collector.activitySummary ?? {};
+  const recordWindowTitles = status?.settings?.recordWindowTitles === true;
+  windowTitleCaptureInput.checked = recordWindowTitles;
   statusText.textContent = status?.message ?? "Ready.";
   queueMeta.textContent = [
     `API ${status?.apiBaseUrl ?? "—"}`,
@@ -88,6 +91,9 @@ function renderCollector(status) {
     `1h idle：${activitySummary.idleCount ?? 0}`,
     collector.frontmostAppAvailable === false ? `前台应用采集不可用：${collector.lastFrontmostAppError ?? "请检查权限"}` : "前台应用采集可用",
   ];
+  if (recordWindowTitles && collector.lastFrontmostWindowTitle) {
+    items.splice(1, 0, `当前窗口标题：${collector.lastFrontmostWindowTitle}`);
+  }
 
   for (const itemText of items) {
     const item = document.createElement("li");
@@ -271,6 +277,20 @@ flushButton.addEventListener("click", async () => {
 
 refreshButton.addEventListener("click", async () => {
   await refreshAll();
+});
+
+windowTitleCaptureInput.addEventListener("change", async () => {
+  const enabled = windowTitleCaptureInput.checked;
+  windowTitleCaptureInput.disabled = true;
+  try {
+    await window.mindanchorDesktop.setWindowTitleCaptureEnabled(enabled);
+    await refreshAll();
+  } catch (error) {
+    windowTitleCaptureInput.checked = !enabled;
+    statusText.textContent = error instanceof Error ? error.message : String(error);
+  } finally {
+    windowTitleCaptureInput.disabled = false;
+  }
 });
 
 checkinButton.addEventListener("click", async () => {

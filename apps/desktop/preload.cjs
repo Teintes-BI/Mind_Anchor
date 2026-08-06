@@ -11,6 +11,7 @@ contextBridge.exposeInMainWorld("mindanchorDesktop", {
   snoozeReminder: (messageId, minutes = 15) => ipcRenderer.invoke("desktop:snooze-reminder", messageId, minutes),
   openMainWindow: (options = {}) => ipcRenderer.invoke("desktop:open-window", options),
   dismissPermissionsPrompt: () => ipcRenderer.invoke("desktop:dismiss-permissions-prompt"),
+  setWindowTitleCaptureEnabled: (enabled) => ipcRenderer.invoke("desktop:set-window-title-capture", Boolean(enabled)),
   wayfinder: {
     getStatus: () => ipcRenderer.invoke("wayfinder:status"),
     refresh: () => ipcRenderer.invoke("wayfinder:refresh"),

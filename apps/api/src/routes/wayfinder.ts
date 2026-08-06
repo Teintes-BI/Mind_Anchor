@@ -174,6 +174,18 @@ export const registerWayfinderRoutes = async (
       decisions: repository.listDecisionHistory(userId),
       outcomes: repository.listOutcomes(userId),
       consent: repository.listConsentGrants(userId),
+      healthSnapshots: repository.listHealthSnapshots(userId),
+      healthCalibrationRecords: repository.listHealthCalibrationRecords(userId),
+      memoryCandidates: repository.listMemoryCandidates(userId),
+      memoryItems: repository.listMemoryItems(userId),
+      auditEvents: repository.listAuditEvents(userId),
     };
+  });
+
+  app.post("/wayfinder/delete", async (request, reply) => {
+    const userId = requireUser(request, reply);
+    if (!userId) return { message: "Authentication required." };
+    await repository.deleteUserData(userId);
+    return { deleted: true, userId, deletedAt: new Date().toISOString() };
   });
 };

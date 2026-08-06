@@ -1,7 +1,59 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { mkdtemp, rm } from "node:fs/promises";
+import { createServer } from "node:net";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { buildStubEmotionAssessment, inspectPcm16LeBase64 } from "../audio-emotion.js";
-import { buildWayfinderAudioEventPayload, isPrivateLanAddress } from "../audio-bridge.js";
+import {
+  buildMobileAudioConsentPayload,
+  buildMobileHealthConsentPayload,
+  buildWayfinderAudioEventPayload,
+  createAudioBridge,
+  isPrivateLanAddress,
+} from "../audio-bridge.js";
+
+const jsonResponse = (payload, status = 200) =>
+  new Response(JSON.stringify(payload), {
+    status,
+    headers: { "Content-Type": "application/json" },
+  });
+
+const reservePort = () =>
+  new Promise((resolve, reject) => {
+    const server = createServer();
+    server.once("error", reject);
+    server.listen(0, "127.0.0.1", () => {
+      const address = server.address();
+      const port = typeof address === "object" && address ? address.port : 0;
+      server.close((error) => (error ? reject(error) : resolve(port)));
+    });
+  });
+
+test("builds a bounded foreground voice consent request for a paired mobile device", () => {
+  assert.deepEqual(
+    buildMobileAudioConsentPayload({ deviceId: "android-1", status: "granted" }),
+    {
+      purpose: "wayfinder_voice_candidate",
+      scope: "foreground_short_audio",
+      status: "granted",
+      rawRetentionSeconds: 0,
+      derivedRetentionDays: 7,
+      modelSharing: "local_only",
+    },
+  );
+});
+
+test("builds a separate health-summary consent request", () => {
+  assert.deepEqual(buildMobileHealthConsentPayload({ status: "granted" }), {
+    purpose: "wayfinder_health_summary",
+    scope: "health_summary",
+    status: "granted",
+    rawRetentionSeconds: 0,
+    derivedRetentionDays: 30,
+    modelSharing: "local_only",
+  });
+});
 
 test("detects private LAN addresses", () => {
   assert.equal(isPrivateLanAddress("192.168.1.4"), true);
@@ -81,4 +133,203 @@ test("does not allow a chunk to replace the session consent reference", () => {
     }),
     null,
   );
+});
+
+test("requires explicit consent on every mobile chunk and deduplicates replayed sequences", async () => {
+  const dataDir = await mkdtemp(join(tmpdir(), "mindanchor-audio-bridge-"));
+  const port = await reservePort();
+  const originalFetch = globalThis.fetch;
+  const calls = [];
+  globalThis.fetch = async (url, options = {}) => {
+    const parsedURL = new URL(url);
+    const body = options.body ? JSON.parse(options.body) : null;
+    calls.push({ method: options.method ?? "GET", path: parsedURL.pathname, body });
+    if (parsedURL.pathname.startsWith("/wayfinder/consent/")) {
+      return jsonResponse({ id: "consent-1", status: body.status, source: "android-1" });
+    }
+    if (parsedURL.pathname === "/mobile/devices/register") return jsonResponse({ id: "device-1" }, 201);
+    if (parsedURL.pathname === "/mobile/capture/sessions/start") return jsonResponse({ id: "session-1" }, 201);
+    if (parsedURL.pathname === "/mobile/capture/sessions/end") return jsonResponse({ sessionId: "session-1" });
+    if (parsedURL.pathname === "/emotion/assessments") return jsonResponse({ id: "emotion-1" }, 201);
+    if (parsedURL.pathname === "/wayfinder/audio-events") return jsonResponse({ status: "candidate" });
+    if (parsedURL.pathname === "/health/summaries") return jsonResponse({ healthSummary: { missingness: "available" } }, 201);
+    if (parsedURL.pathname === "/state/signals/batch") return jsonResponse({ accepted: 1 });
+    throw new Error(`Unexpected fake API call: ${parsedURL.pathname}`);
+  };
+
+  const bridge = createAudioBridge({
+    dataDir,
+    apiBaseUrl: "http://api.test",
+    port,
+    publishStatus: () => {},
+  });
+
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    const baseURL = `http://127.0.0.1:${port}`;
+    const pairResponse = await originalFetch(`${baseURL}/local/mobile/pair`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pairCode: bridge.getSummary().pairCode, deviceId: "android-1" }),
+    });
+    const pairing = await pairResponse.json();
+    assert.equal(pairResponse.status, 200);
+
+    const consentResponse = await originalFetch(`${baseURL}/local/mobile/audio/consent`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pairToken: pairing.pairToken, deviceId: "android-1", status: "granted" }),
+    });
+    const consent = await consentResponse.json();
+    assert.equal(consentResponse.status, 200);
+    assert.equal(consent.consentRef, "consent-1");
+    assert.equal(calls.find((call) => call.path === "/wayfinder/consent/android-1").method, "PATCH");
+
+    const sessionResponse = await originalFetch(`${baseURL}/local/mobile/audio/sessions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        pairToken: pairing.pairToken,
+        deviceId: "android-1",
+        consentRef: consent.consentRef,
+      }),
+    });
+    assert.equal(sessionResponse.status, 200);
+
+    const chunk = {
+      pairToken: pairing.pairToken,
+      deviceId: "android-1",
+      sessionId: "session-1",
+      sequence: 0,
+      startedAt: "2026-08-06T00:00:00.000Z",
+      endedAt: "2026-08-06T00:00:05.000Z",
+      durationMs: 5000,
+      encoding: "audio/pcm16le",
+      checksum: "checksum-1",
+      base64Audio: Buffer.from("pcm").toString("base64"),
+      consentRef: consent.consentRef,
+      transcript: "send the report",
+      rms: 0.2,
+      peak: 0.4,
+    };
+    const withoutConsent = await originalFetch(`${baseURL}/local/mobile/audio/chunks`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...chunk, consentRef: undefined }),
+    });
+    assert.equal(withoutConsent.status, 403);
+
+    const firstChunk = await originalFetch(`${baseURL}/local/mobile/audio/chunks`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(chunk),
+    });
+    assert.equal(firstChunk.status, 200);
+    const emotionCallsAfterFirstChunk = calls.filter((call) => call.path === "/emotion/assessments").length;
+
+    const duplicateChunk = await originalFetch(`${baseURL}/local/mobile/audio/chunks`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...chunk, replayed: true }),
+    });
+    assert.equal(duplicateChunk.status, 200);
+    assert.equal((await duplicateChunk.json()).duplicate, true);
+    assert.equal(calls.filter((call) => call.path === "/emotion/assessments").length, emotionCallsAfterFirstChunk);
+
+    const outOfOrderChunk = await originalFetch(`${baseURL}/local/mobile/audio/chunks`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...chunk, sequence: 2, checksum: "checksum-2" }),
+    });
+    assert.equal(outOfOrderChunk.status, 200);
+    const lateChunk = await originalFetch(`${baseURL}/local/mobile/audio/chunks`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...chunk, sequence: 1, checksum: "checksum-1" }),
+    });
+    assert.equal(lateChunk.status, 200);
+
+    const emptyChunk = await originalFetch(`${baseURL}/local/mobile/audio/chunks`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...chunk, sequence: 1, base64Audio: "" }),
+    });
+    assert.equal(emptyChunk.status, 400);
+
+    const revokeResponse = await originalFetch(`${baseURL}/local/mobile/audio/consent`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pairToken: pairing.pairToken, deviceId: "android-1", status: "revoked" }),
+    });
+    assert.equal(revokeResponse.status, 200);
+    const blockedAfterRevoke = await originalFetch(`${baseURL}/local/mobile/audio/chunks`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...chunk, sequence: 3, checksum: "checksum-3" }),
+    });
+    assert.equal(blockedAfterRevoke.status, 403);
+
+    const healthWithoutConsent = await originalFetch(`${baseURL}/local/mobile/health/summaries`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        pairToken: pairing.pairToken,
+        deviceId: "android-1",
+        sleepMinutes: 420,
+      }),
+    });
+    assert.equal(healthWithoutConsent.status, 403);
+
+    const healthConsentResponse = await originalFetch(`${baseURL}/local/mobile/health/consent`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pairToken: pairing.pairToken, deviceId: "android-1", status: "granted" }),
+    });
+    const healthConsent = await healthConsentResponse.json();
+    assert.equal(healthConsentResponse.status, 200);
+    assert.equal(calls.filter((call) => call.path === "/wayfinder/consent/android-1").length, 3);
+
+    const healthSummaryResponse = await originalFetch(`${baseURL}/local/mobile/health/summaries`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        pairToken: pairing.pairToken,
+        deviceId: "android-1",
+        consentRef: healthConsent.consentRef,
+        sourcePlatform: "android",
+        sourceProvider: "health_connect",
+        windowStart: "2026-08-05T00:00:00.000Z",
+        windowEnd: "2026-08-06T00:00:00.000Z",
+        sleepMinutes: 420,
+      }),
+    });
+    assert.equal(healthSummaryResponse.status, 200);
+    const healthApiCall = calls.find((call) => call.path === "/health/summaries");
+    assert.equal(healthApiCall.body.consentRef, healthConsent.consentRef);
+
+    await originalFetch(`${baseURL}/local/mobile/health/consent`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pairToken: pairing.pairToken, deviceId: "android-1", status: "revoked" }),
+    });
+    const healthAfterRevoke = await originalFetch(`${baseURL}/local/mobile/health/summaries`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        pairToken: pairing.pairToken,
+        deviceId: "android-1",
+        consentRef: healthConsent.consentRef,
+        sourcePlatform: "android",
+        sourceProvider: "health_connect",
+        windowStart: "2026-08-05T00:00:00.000Z",
+        windowEnd: "2026-08-06T00:00:00.000Z",
+        sleepMinutes: 420,
+      }),
+    });
+    assert.equal(healthAfterRevoke.status, 403);
+  } finally {
+    bridge.dispose();
+    globalThis.fetch = originalFetch;
+    await rm(dataDir, { recursive: true, force: true });
+  }
 });

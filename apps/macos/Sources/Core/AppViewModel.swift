@@ -92,6 +92,7 @@ final class AppViewModel: NSObject, ObservableObject, UNUserNotificationCenterDe
     @Published var permissionsHint: AppPermissionHint?
     @Published var currentError: String?
     @Published var selectedDestination: AppDestination = .today
+    @Published var recordWindowTitles = false
     @Published var email = ""
     @Published var password = ""
     @Published var displayName = ""
@@ -113,6 +114,7 @@ final class AppViewModel: NSObject, ObservableObject, UNUserNotificationCenterDe
     let apiClient: any MindAnchorAPIProviding
     let languageStore: AppLanguageStore
     let localStore: LocalStore
+    let windowTitleCaptureSettingsStore: WindowTitleCaptureSettingsStore
     let deviceProfile: DesktopDeviceProfile
     let collector: any DesktopActivityCollecting
     let reminderPresenter: any ReminderPresenting
@@ -205,6 +207,7 @@ final class AppViewModel: NSObject, ObservableObject, UNUserNotificationCenterDe
         diagnostics: PermissionsDiagnostics? = nil,
         notificationInspector: (any NotificationInspecting)? = nil,
         languageStore: AppLanguageStore? = nil,
+        windowTitleCaptureSettingsStore: WindowTitleCaptureSettingsStore? = nil,
         windowManager: (any MainWindowManaging)? = nil,
         shouldConfigureSystemNotifications: Bool = true,
         shouldRefreshDiagnosticsOnBootstrap: Bool = true
@@ -216,6 +219,9 @@ final class AppViewModel: NSObject, ObservableObject, UNUserNotificationCenterDe
         let appSupportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first ?? URL(fileURLWithPath: NSTemporaryDirectory())
         let resolvedLocalStore = localStore ?? LocalStore(appSupportDirectory: appSupportDirectory)
         self.localStore = resolvedLocalStore
+        let resolvedWindowTitleCaptureSettingsStore = windowTitleCaptureSettingsStore ?? WindowTitleCaptureSettingsStore()
+        self.windowTitleCaptureSettingsStore = resolvedWindowTitleCaptureSettingsStore
+        self.recordWindowTitles = resolvedWindowTitleCaptureSettingsStore.load()
         let resolvedDeviceProfile = deviceProfile ?? DesktopDeviceProfile(
             deviceID: Host.current().localizedName ?? UUID().uuidString,
             label: Host.current().localizedName ?? "MindAnchor Mac",
@@ -242,6 +248,7 @@ final class AppViewModel: NSObject, ObservableObject, UNUserNotificationCenterDe
         self.shouldConfigureSystemNotifications = shouldConfigureSystemNotifications
         self.shouldRefreshDiagnosticsOnBootstrap = shouldRefreshDiagnosticsOnBootstrap
         super.init()
+        self.collector.setWindowTitleCaptureEnabled(recordWindowTitles)
         if shouldConfigureSystemNotifications {
             UNUserNotificationCenter.current().delegate = self
             self.reminderPresenter.configureCategories(language: appLanguage)
@@ -250,6 +257,12 @@ final class AppViewModel: NSObject, ObservableObject, UNUserNotificationCenterDe
             self?.objectWillChange.send()
         }
         refreshRuntimeStatus()
+    }
+
+    func setWindowTitleCaptureEnabled(_ enabled: Bool) {
+        recordWindowTitles = enabled
+        windowTitleCaptureSettingsStore.save(enabled)
+        collector.setWindowTitleCaptureEnabled(enabled)
     }
 
     func bootstrap() async {
@@ -2167,4 +2180,5 @@ extension AppViewModel {
 private final class NoopDesktopActivityCollector: DesktopActivityCollecting {
     func start() {}
     func stop() {}
+    func setWindowTitleCaptureEnabled(_ enabled: Bool) {}
 }

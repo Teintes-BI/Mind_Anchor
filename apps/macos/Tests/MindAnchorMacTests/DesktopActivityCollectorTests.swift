@@ -70,6 +70,68 @@ final class DesktopActivityCollectorTests: XCTestCase {
         XCTAssertEqual(collector.collectionModeTitle, "Basic desktop signals")
         XCTAssertEqual(collector.collectionModeDetail, "Idle, lock/unlock, and app-switch signals continue. Accessibility-only window context is unavailable.")
     }
+
+    func testWindowTitlesAreOmittedUntilExplicitlyEnabled() {
+        var emitted: [DesktopSignalEvent] = []
+        let collector = DesktopActivityCollector(
+            configuration: .testValue,
+            environment: .init(
+                now: { Date(timeIntervalSince1970: 1_710_000_000) },
+                idleSeconds: { 0 },
+                accessibilityGranted: { true },
+                frontmostWindowTitle: { "Inbox - Safari" }
+            ),
+            onSignal: { emitted.append($0) }
+        )
+
+        collector.handleWorkspaceActivation(appName: "Safari")
+
+        XCTAssertEqual(emitted[0].payload, ["app": "Safari"])
+        XCTAssertNil(collector.recentActivity.lastWindowTitle)
+
+        collector.setWindowTitleCaptureEnabled(true)
+        collector.handleWorkspaceActivation(appName: "Xcode")
+
+        XCTAssertEqual(emitted[1].payload, ["app": "Xcode", "windowTitle": "Inbox - Safari"])
+        XCTAssertEqual(collector.recentActivity.lastWindowTitle, "Inbox - Safari")
+    }
+
+    func testOptedInWindowTitleChangeEmitsWindowSwitchContext() {
+        var emitted: [DesktopSignalEvent] = []
+        var title = "main.swift - Xcode"
+        let collector = DesktopActivityCollector(
+            configuration: .testValue,
+            environment: .init(
+                now: { Date(timeIntervalSince1970: 1_710_000_000) },
+                idleSeconds: { 0 },
+                accessibilityGranted: { true },
+                frontmostWindowTitle: { title }
+            ),
+            onSignal: { emitted.append($0) }
+        )
+
+        collector.setWindowTitleCaptureEnabled(true)
+        collector.handleWorkspaceActivation(appName: "Xcode")
+        title = "AppModels.swift - Xcode"
+        collector.handleWorkspaceActivation(appName: "Xcode")
+
+        XCTAssertEqual(emitted.map(\.eventType), ["active_app", "active_app", "window_switch"])
+        XCTAssertEqual(emitted[2].payload["fromWindowTitle"], "main.swift - Xcode")
+        XCTAssertEqual(emitted[2].payload["toWindowTitle"], "AppModels.swift - Xcode")
+    }
+
+    func testWindowTitleSettingDefaultsOffAndPersistsExplicitOptIn() {
+        let suiteName = "MindAnchorWindowTitleTests-\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suiteName)!
+        defer { defaults.removePersistentDomain(forName: suiteName) }
+
+        let store = WindowTitleCaptureSettingsStore(userDefaults: defaults)
+        XCTAssertFalse(store.load())
+
+        store.save(true)
+
+        XCTAssertTrue(WindowTitleCaptureSettingsStore(userDefaults: defaults).load())
+    }
 }
 
 private extension AppConfiguration {

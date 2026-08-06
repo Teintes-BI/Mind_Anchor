@@ -33,6 +33,7 @@ export function createInitialDesktopState() {
       lastFlushAt: null,
       lastFlushError: null,
       lastFrontmostApp: "",
+      lastFrontmostWindowTitle: "",
       lastFrontmostAppCheckedAt: null,
       frontmostAppAvailable: true,
       lastFrontmostAppError: null,
@@ -54,6 +55,9 @@ export function createInitialDesktopState() {
     },
     permissions: {
       promptDismissedAt: null,
+    },
+    settings: {
+      recordWindowTitles: false,
     },
   };
 }
@@ -105,6 +109,7 @@ export function hydrateDesktopState(rawState = {}) {
   const rawCollector = asObject(raw.collector);
   const rawReminders = asObject(raw.reminders);
   const rawPermissions = asObject(raw.permissions);
+  const rawSettings = asObject(raw.settings);
   const inboxOverview = recalculateInboxCollections(rawReminders.latestInboxOverview ?? createEmptyInboxOverview());
 
   const state = {
@@ -129,6 +134,10 @@ export function hydrateDesktopState(rawState = {}) {
     permissions: {
       ...base.permissions,
       ...rawPermissions,
+    },
+    settings: {
+      ...base.settings,
+      recordWindowTitles: rawSettings.recordWindowTitles === true,
     },
   };
 
@@ -164,9 +173,15 @@ export function recordCollectorSignal(state, signal) {
   switch (signal.eventType) {
     case "active_app":
       nextState.collector.lastFrontmostApp = String(signal.payload?.app ?? nextState.collector.lastFrontmostApp ?? "");
+      nextState.collector.lastFrontmostWindowTitle = String(signal.payload?.windowTitle ?? "");
       nextState.collector.lastFrontmostAppCheckedAt = signal.occurredAt;
       nextState.collector.frontmostAppAvailable = true;
       nextState.collector.lastFrontmostAppError = null;
+      break;
+    case "window_switch":
+      if (Object.prototype.hasOwnProperty.call(signal.payload ?? {}, "toWindowTitle")) {
+        nextState.collector.lastFrontmostWindowTitle = String(signal.payload?.toWindowTitle ?? "");
+      }
       break;
     case "idle":
       nextState.collector.lastIdleSignalAt = signal.occurredAt;
@@ -251,6 +266,7 @@ export function getRecentActivitySummary(state, nowMs = Date.now()) {
     lastLockAt: state.collector.lastLockAt,
     lastUnlockAt: state.collector.lastUnlockAt,
     lastFrontmostApp: state.collector.lastFrontmostApp,
+    lastFrontmostWindowTitle: state.collector.lastFrontmostWindowTitle,
     lastIdleSeconds: state.collector.lastIdleSeconds,
   };
 }
@@ -344,13 +360,22 @@ export function dismissPermissionsPrompt(state, timestamp = new Date().toISOStri
   return nextState;
 }
 
+export function setWindowTitleCaptureEnabled(state, enabled) {
+  const nextState = state;
+  nextState.settings.recordWindowTitles = Boolean(enabled);
+  if (!nextState.settings.recordWindowTitles) {
+    nextState.collector.lastFrontmostWindowTitle = "";
+  }
+  return nextState;
+}
+
 export function buildPermissionsPromptState(state) {
   return {
     visible: !state.permissions.promptDismissedAt,
     dismissedAt: state.permissions.promptDismissedAt,
     items: [
       "允许通知权限，用于显示桌面提醒。",
-      "如果前台应用采集不可用，请检查 macOS Automation / Accessibility 权限。",
+      "如果前台应用采集不可用，请检查系统的桌面应用权限。",
       "MindAnchor 第一阶段不会采集键入内容、截图、聊天正文或文档正文。",
     ],
   };

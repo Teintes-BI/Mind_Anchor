@@ -116,10 +116,11 @@ export const scoreState = ({
 
   if (latestHealthSnapshot) {
     activeInputs.push("health_bridge");
-    if ((latestHealthSnapshot.sleepMinutes ?? 420) < 360) {
+    const healthMissingness = latestHealthSnapshot.missingness ?? "available";
+    if (healthMissingness === "available" && (latestHealthSnapshot.sleepMinutes ?? 420) < 360) {
       energyScore = clamp(energyScore - 8, 0, 100);
     }
-    if ((latestHealthSnapshot.oxygenSaturation ?? 100) < 94) {
+    if (healthMissingness === "available" && latestHealthSnapshot.oxygenSaturation !== undefined && latestHealthSnapshot.oxygenSaturation < 94) {
       energyScore = clamp(energyScore - 6, 0, 100);
     }
   }

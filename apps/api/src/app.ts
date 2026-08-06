@@ -1,4 +1,4 @@
-import Fastify, { type FastifyRequest } from "fastify";
+import Fastify, { type FastifyReply, type FastifyRequest } from "fastify";
 import cors from "@fastify/cors";
 import { readFile } from "node:fs/promises";
 import { z } from "zod";
@@ -30,6 +30,7 @@ import {
   createEmotionAssessmentInputSchema,
   createGoalInputSchema,
   createHealthSnapshotInputSchema,
+  healthCalibrationRecordSchema,
   createMediaUploadSessionInputSchema,
   createTaskInputSchema,
   createVideoAssessmentInputSchema,
@@ -103,6 +104,7 @@ import { WayfinderDecisionService } from "./services/wayfinder/decision-service.
 import { FixtureSpeechTranscriber, WayfinderAudioEventService } from "./services/wayfinder/audio-event-service.js";
 import { WayfinderSituationService } from "./services/wayfinder/situation-service.js";
 import { WayfinderRepository } from "./services/wayfinder/wayfinder-repository.js";
+import { HealthSignalService, healthBridgeSnapshotInputSchema } from "./services/wayfinder/health-signal-service.js";
 import { registerWayfinderRoutes } from "./routes/wayfinder.js";
 import { MindAnchorStore } from "./store.js";
 import { debugScenarioIdSchema } from "./debug-scenarios.js";
@@ -136,6 +138,7 @@ export const buildApp = async (env: AppEnv) => {
   const wayfinderConsent = new WayfinderConsentService(wayfinderRepository);
   const wayfinderSituations = new WayfinderSituationService(wayfinderRepository);
   const wayfinderDecisions = new WayfinderDecisionService(wayfinderRepository);
+  const healthSignals = new HealthSignalService();
   const wayfinderAudioEvents = new WayfinderAudioEventService({
     repository: wayfinderRepository,
     consent: wayfinderConsent,
@@ -977,6 +980,30 @@ export const buildApp = async (env: AppEnv) => {
   const getRequestAuth = (request: FastifyRequest) => (request as typeof request & TraceAwareRequest).authContext ?? null;
   const getRequestUserId = (request: FastifyRequest, fallbackUserId?: string) =>
     getRequestAuth(request)?.userId ?? fallbackUserId ?? "demo-user";
+  const requireAuthenticatedHealthUser = (request: FastifyRequest, reply: FastifyReply) => {
+    const userId = getRequestAuth(request)?.userId;
+    if (!userId) {
+      reply.code(401);
+      return null;
+    }
+    return userId;
+  };
+  const requireHealthConsent = (userId: string, consentRef: string | undefined, reply: FastifyReply) => {
+    if (!consentRef) {
+      reply.code(403);
+      return false;
+    }
+    try {
+      wayfinderConsent.assertGranted(userId, consentRef);
+      return true;
+    } catch (error) {
+      if (error instanceof Error && error.message === "wayfinder_consent_required") {
+        reply.code(403);
+        return false;
+      }
+      throw error;
+    }
+  };
   const buildMeResponse = (request: FastifyRequest) => {
     const auth = getRequestAuth(request);
     return meResponseSchema.parse({
@@ -2026,15 +2053,67 @@ export const buildApp = async (env: AppEnv) => {
   });
 
   app.post("/health/snapshots", async (request, reply) => {
-    const payload = createHealthSnapshotInputSchema.parse(request.body);
-    const snapshot = await orchestrator.recordHealthSnapshot(payload);
+    const userId = requireAuthenticatedHealthUser(request, reply);
+    if (!userId) return { message: "Authentication required." };
+    const body = ((request.body as Record<string, unknown> | undefined) ?? {}) as Record<string, unknown>;
+    const payload = healthBridgeSnapshotInputSchema.parse({ ...body, userId });
+    if (!requireHealthConsent(userId, payload.consentRef, reply)) {
+      return { message: "Health summary consent is required." };
+    }
+    const normalized = healthSignals.normalize(payload);
+    const snapshot = await orchestrator.recordHealthSnapshot(normalized.snapshot);
     reply.code(201);
-    return snapshot;
+    return { ...snapshot, healthSummary: normalized.summary };
   });
 
-  app.get("/health/latest", async (request) => {
-    const query = healthQuerySchema.parse(request.query);
-    const userId = getRequestUserId(request, query.userId ?? "demo-user");
+  app.post("/health/summaries", async (request, reply) => {
+    const userId = requireAuthenticatedHealthUser(request, reply);
+    if (!userId) return { message: "Authentication required." };
+    const body = ((request.body as Record<string, unknown> | undefined) ?? {}) as Record<string, unknown>;
+    const payload = healthBridgeSnapshotInputSchema.parse({ ...body, userId });
+    if (!requireHealthConsent(userId, payload.consentRef, reply)) {
+      return { message: "Health summary consent is required." };
+    }
+    const normalized = healthSignals.normalize(payload);
+    const snapshot = await orchestrator.recordHealthSnapshot(normalized.snapshot);
+    reply.code(201);
+    return { snapshot, healthSummary: normalized.summary, policyModifiers: healthSignals.buildPolicyModifiers(normalized.summary) };
+  });
+
+  app.get("/health/signals", async (request, reply) => {
+    const userId = requireAuthenticatedHealthUser(request, reply);
+    if (!userId) return { message: "Authentication required." };
+    healthQuerySchema.parse(request.query);
+    const summaries = store.listHealthSnapshots(userId, 20).map((snapshot) =>
+      healthSignals.normalize({ ...snapshot, userId }).summary,
+    );
+    return { summaries };
+  });
+
+  app.post("/health/calibration", async (request, reply) => {
+    const userId = requireAuthenticatedHealthUser(request, reply);
+    if (!userId) return { message: "Authentication required." };
+    const body = (request.body ?? {}) as Record<string, unknown>;
+    const input = healthCalibrationRecordSchema.omit({ id: true, createdAt: true, absoluteError: true }).parse({ ...body, userId });
+    const record = healthSignals.createCalibrationRecord(input);
+    const { id: _id, createdAt: _createdAt, ...persistInput } = record;
+    const persisted = await store.addHealthCalibrationRecord(persistInput);
+    reply.code(201);
+    return persisted;
+  });
+
+  app.get("/health/calibration", async (request, reply) => {
+    const userId = requireAuthenticatedHealthUser(request, reply);
+    if (!userId) return { message: "Authentication required." };
+    healthQuerySchema.parse(request.query);
+    const records = store.listHealthCalibrationRecords(userId, 100);
+    return { records, summary: healthSignals.summarizeCalibration(records) };
+  });
+
+  app.get("/health/latest", async (request, reply) => {
+    const userId = requireAuthenticatedHealthUser(request, reply);
+    if (!userId) return { message: "Authentication required." };
+    healthQuerySchema.parse(request.query);
     return healthLatestResponseSchema.parse({
       latest: store.getLatestHealthSnapshot(userId),
       recent: store.listHealthSnapshots(userId, 20),

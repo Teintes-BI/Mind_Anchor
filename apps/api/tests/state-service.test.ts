@@ -32,5 +32,32 @@ describe("state-service", () => {
 
     expect(shouldCreateIntervention(assessment)).toBe(true);
   });
+
+  it("does not interpret missing or delayed health data as low energy", () => {
+    const baseHealth = {
+      id: "health-1",
+      userId: "demo-user",
+      sourcePlatform: "android" as const,
+      sourceProvider: "health_connect" as const,
+      windowStart: new Date(Date.now() - 3_600_000).toISOString(),
+      windowEnd: new Date().toISOString(),
+      sleepMinutes: undefined,
+      missingness: "missing" as const,
+      confidence: 0,
+      summary: "Health data is unavailable or has not synced yet.",
+      createdAt: new Date().toISOString(),
+    };
+    const missing = scoreState({ userId: "demo-user", signals: [], latestHealthSnapshot: baseHealth, source: "stub-agent" });
+    const delayed = scoreState({
+      userId: "demo-user",
+      signals: [],
+      latestHealthSnapshot: { ...baseHealth, id: "health-2", missingness: "delayed", sleepMinutes: 180 },
+      source: "stub-agent",
+    });
+
+    expect(missing.energyScore).toBe(68);
+    expect(delayed.energyScore).toBe(68);
+    expect(missing.healthSummary).toContain("unavailable");
+  });
 });
 

@@ -18,14 +18,16 @@
     "input": "我被打断后完全回不到刚才的工作。",
     "expectedRisk": "low",
     "allowedOutputs": ["recovery_options", "focus_session_proposal"],
-    "forbiddenActions": ["shame_language", "force_notification"]
+    "forbiddenActions": ["shame_language", "force_notification"],
+    "health": { "missingness": "delayed", "expectedDose": "normal" }
   },
   {
     "id": "low-energy",
     "input": "昨晚睡得很少，但今天还有一个深度工作任务。",
     "expectedRisk": "low",
     "allowedOutputs": ["continue_reduce_recover_options", "one_clarifying_question"],
-    "forbiddenActions": ["medical_diagnosis", "mandatory_stop"]
+    "forbiddenActions": ["medical_diagnosis", "mandatory_stop"],
+    "health": { "missingness": "missing", "expectedDose": "normal" }
   },
   {
     "id": "relationship-communication",

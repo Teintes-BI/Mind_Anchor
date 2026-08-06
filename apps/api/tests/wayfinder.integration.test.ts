@@ -264,4 +264,134 @@ describe("Wayfinder API", () => {
     expect(response.statusCode).toBe(403);
     expect(response.json()).toMatchObject({ message: "Wayfinder audio consent is required." });
   });
+
+  it("exports and deletes Wayfinder data including health summaries", async () => {
+    const consent = await app.inject({
+      method: "PATCH",
+      url: "/wayfinder/consent/health",
+      headers: { authorization: auth },
+      payload: {
+        purpose: "wayfinder_health_summary",
+        scope: "health_summary",
+        status: "granted",
+        rawRetentionSeconds: 0,
+        derivedRetentionDays: 30,
+        modelSharing: "local_only",
+      },
+    });
+    expect(consent.statusCode).toBe(200);
+
+    const health = await app.inject({
+      method: "POST",
+      url: "/health/summaries",
+      headers: { authorization: auth },
+      payload: {
+        userId: "user-a",
+        deviceId: "iphone-health",
+        sourcePlatform: "ios",
+        sourceProvider: "healthkit",
+        windowStart: "2026-08-05T00:00:00.000Z",
+        windowEnd: "2026-08-06T00:00:00.000Z",
+        sleepMinutes: 420,
+        consentRef: consent.json().id,
+      },
+    });
+    expect(health.statusCode).toBe(201);
+
+    const exported = await app.inject({ method: "POST", url: "/wayfinder/export", headers: { authorization: auth } });
+    expect(exported.statusCode).toBe(200);
+    expect(exported.json().healthSnapshots).toHaveLength(1);
+    expect(exported.json().memoryCandidates).toEqual([]);
+    expect(exported.json().memoryItems).toEqual([]);
+    expect(exported.json().auditEvents).toEqual([]);
+
+    const deleted = await app.inject({ method: "POST", url: "/wayfinder/delete", headers: { authorization: auth } });
+    expect(deleted.statusCode).toBe(200);
+    expect(deleted.json().deleted).toBe(true);
+
+    const afterDelete = await app.inject({ method: "POST", url: "/wayfinder/export", headers: { authorization: auth } });
+    expect(afterDelete.statusCode).toBe(200);
+    expect(afterDelete.json().healthSnapshots).toEqual([]);
+    expect(afterDelete.json().contextEvents).toEqual([]);
+    expect(afterDelete.json().memoryCandidates).toEqual([]);
+    expect(afterDelete.json().memoryItems).toEqual([]);
+    expect(afterDelete.json().auditEvents).toEqual([]);
+
+    await app.close();
+    app = await buildApp(env);
+    const afterRestart = await app.inject({ method: "POST", url: "/wayfinder/export", headers: { authorization: auth } });
+    expect(afterRestart.statusCode).toBe(200);
+    expect(afterRestart.json().healthSnapshots).toEqual([]);
+    expect(afterRestart.json().contextEvents).toEqual([]);
+    expect(afterRestart.json().memoryCandidates).toEqual([]);
+    expect(afterRestart.json().memoryItems).toEqual([]);
+    expect(afterRestart.json().auditEvents).toEqual([]);
+  });
+
+  it("binds health writes to the authenticated user and requires health consent", async () => {
+    const consent = await app.inject({
+      method: "PATCH",
+      url: "/wayfinder/consent/health",
+      headers: { authorization: auth },
+      payload: {
+        purpose: "wayfinder_health_summary",
+        scope: "health_summary",
+        status: "granted",
+        rawRetentionSeconds: 0,
+        derivedRetentionDays: 30,
+        modelSharing: "local_only",
+      },
+    });
+    expect(consent.statusCode).toBe(200);
+
+    const withoutAuth = await app.inject({
+      method: "POST",
+      url: "/health/summaries",
+      payload: {
+        userId: "user-a",
+        deviceId: "health-unauthenticated",
+        sourcePlatform: "android",
+        sourceProvider: "health_connect",
+        windowStart: "2026-08-05T00:00:00.000Z",
+        windowEnd: "2026-08-06T00:00:00.000Z",
+        sleepMinutes: 420,
+        consentRef: consent.json().id,
+      },
+    });
+    expect(withoutAuth.statusCode).toBe(401);
+
+    const withoutConsent = await app.inject({
+      method: "POST",
+      url: "/health/summaries",
+      headers: { authorization: auth },
+      payload: {
+        userId: "user-a",
+        deviceId: "health-no-consent",
+        sourcePlatform: "android",
+        sourceProvider: "health_connect",
+        windowStart: "2026-08-05T00:00:00.000Z",
+        windowEnd: "2026-08-06T00:00:00.000Z",
+        sleepMinutes: 420,
+      },
+    });
+    expect(withoutConsent.statusCode).toBe(403);
+
+    const spoofedUser = await app.inject({
+      method: "POST",
+      url: "/health/summaries",
+      headers: { authorization: auth },
+      payload: {
+        userId: "user-b",
+        deviceId: "health-spoofed-user",
+        sourcePlatform: "android",
+        sourceProvider: "health_connect",
+        windowStart: "2026-08-05T00:00:00.000Z",
+        windowEnd: "2026-08-06T00:00:00.000Z",
+        sleepMinutes: 420,
+        consentRef: consent.json().id,
+      },
+    });
+    expect(spoofedUser.statusCode).toBe(201);
+    expect(spoofedUser.json().snapshot.userId).toBe("user-a");
+  });
 });

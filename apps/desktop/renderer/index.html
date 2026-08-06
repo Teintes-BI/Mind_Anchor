@@ -2,7 +2,7 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <title>MindAnchor for Mac</title>
+    <title>MindAnchor Desktop</title>
     <style>
       :root {
         color-scheme: dark;
@@ -139,7 +139,7 @@
     <div class="shell">
       <section class="card wide stack">
         <div class="header">
-          <p>MindAnchor for Mac</p>
+          <p>MindAnchor Desktop</p>
           <h1>活动信号采集与桌面提醒</h1>
           <p id="status-text" class="status">Starting…</p>
           <p id="queue-meta" class="muted">Loading queue…</p>
@@ -155,7 +155,7 @@
       <section class="card stack" id="permissions-card" hidden>
         <div class="header">
           <p>First-run 提示</p>
-          <h2>通知与 macOS 权限说明</h2>
+          <h2>通知与桌面权限说明</h2>
         </div>
         <ul id="permissions-list"></ul>
         <div class="inline">
@@ -168,6 +168,10 @@
           <p>采集状态</p>
           <h2>Collector</h2>
         </div>
+        <label>
+          <input id="window-title-capture" type="checkbox" />
+          记录窗口标题（可选，可能包含文档名或聊天标题）
+        </label>
         <ul id="collector-summary"></ul>
       </section>
 

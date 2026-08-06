@@ -4,12 +4,14 @@ import {
   buildPermissionsPromptState,
   clearSignalQueue,
   createInitialDesktopState,
+  hydrateDesktopState,
   getNotifiableReminderMessages,
   getRecentActivitySummary,
   markReminderAcknowledged,
   markFlushFailure,
   markReminderSeen,
   recordCollectorSignal,
+  setWindowTitleCaptureEnabled,
   setInboxOverview,
   snoozeReminder,
 } from "../desktop-state.js";
@@ -23,6 +25,58 @@ test("builds active_app and window_switch signals when the frontmost app changes
   assert.equal(signals[0].payload.app, "Safari");
   assert.equal(signals[1].eventType, "window_switch");
   assert.deepEqual(signals[1].payload, { from: "Code", to: "Safari" });
+});
+
+test("includes window titles only for an opted-in app transition", () => {
+  const signals = buildFrontmostTransitionSignals("Code", "Safari", {
+    userId: "demo-user",
+    includeWindowTitle: true,
+    previousWindowTitle: "main.js - Code",
+    currentWindowTitle: "Inbox - Safari",
+  });
+
+  assert.deepEqual(signals[0].payload, { app: "Safari", windowTitle: "Inbox - Safari" });
+  assert.deepEqual(signals[1].payload, {
+    from: "Code",
+    to: "Safari",
+    fromWindowTitle: "main.js - Code",
+    toWindowTitle: "Inbox - Safari",
+  });
+});
+
+test("emits a window switch when only an opted-in title changes", () => {
+  const signals = buildFrontmostTransitionSignals("Code", "Code", {
+    includeWindowTitle: true,
+    previousWindowTitle: "main.js - Code",
+    currentWindowTitle: "README.md - Code",
+  });
+
+  assert.equal(signals.length, 1);
+  assert.equal(signals[0].eventType, "window_switch");
+  assert.deepEqual(signals[0].payload, {
+    from: "Code",
+    to: "Code",
+    fromWindowTitle: "main.js - Code",
+    toWindowTitle: "README.md - Code",
+  });
+});
+
+test("defaults window title capture off and clears a title when disabled", () => {
+  const state = createInitialDesktopState();
+  assert.equal(state.settings.recordWindowTitles, false);
+
+  const hydrated = hydrateDesktopState({ settings: { recordWindowTitles: true } });
+  assert.equal(hydrated.settings.recordWindowTitles, true);
+
+  recordCollectorSignal(
+    hydrated,
+    createDesktopSignal({ eventType: "active_app", payload: { app: "Code", windowTitle: "main.js - Code" } }),
+  );
+  assert.equal(hydrated.collector.lastFrontmostWindowTitle, "main.js - Code");
+
+  setWindowTitleCaptureEnabled(hydrated, false);
+  assert.equal(hydrated.settings.recordWindowTitles, false);
+  assert.equal(hydrated.collector.lastFrontmostWindowTitle, "");
 });
 
 test("throttles idle signals until the cooldown expires", () => {

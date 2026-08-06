@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain, Menu, Notification, Tray, nativeImage, powe
 const { existsSync, mkdirSync, readFileSync } = require("node:fs");
 const { execFile } = require("node:child_process");
 const { join } = require("node:path");
+const { createWindowsForegroundReader } = require("./windows-foreground.cjs");
 
 const apiBaseUrl = process.env.MINDANCHOR_API_URL ?? "http://localhost:3001";
 const inboxLimit = 10;
@@ -32,6 +33,7 @@ let markSignalDelivered;
 let readDesktopState;
 let setDashboardSummary;
 let setInboxOverview;
+let setWindowTitleCaptureEnabled;
 let applyReminderSnooze;
 let writeDesktopState;
 
@@ -46,6 +48,8 @@ let remoteRefreshPromise = null;
 let latestStatusMessage = "Ready.";
 let audioBridge = null;
 let wayfinderClient = null;
+const windowsForegroundReader =
+  process.platform === "win32" ? createWindowsForegroundReader({ execFileImpl: execFile }) : null;
 
 async function loadHelpers() {
   ({ createAudioBridge } = await import("./audio-bridge.js"));
@@ -72,6 +76,7 @@ async function loadHelpers() {
     readDesktopState,
     setDashboardSummary,
     setInboxOverview,
+    setWindowTitleCaptureEnabled,
     snoozeReminder: applyReminderSnooze,
     writeDesktopState,
   } = await import("./desktop-state.js"));
@@ -221,6 +226,7 @@ function buildStatusPayload(message = latestStatusMessage, audioOverride) {
       pendingDesktopLocalCount: getPendingDesktopLocalReminderCount(),
     },
     permissions,
+    settings: { ...desktopState.settings },
     audioBridge: audioOverride ?? audioBridge?.getSummary?.() ?? null,
     wayfinder: wayfinderClient?.getStatus?.() ?? { configured: false, connected: false, message: "Wayfinder is starting." },
   };
@@ -305,8 +311,18 @@ function removeLocalReminderState(messageId) {
 
 function getFrontmostApp() {
   return new Promise((resolve) => {
+    if (process.platform === "win32") {
+      void windowsForegroundReader.read({ includeWindowTitle: desktopState?.settings?.recordWindowTitles === true }).then(resolve).catch((error) => {
+        resolve({
+          appName: "",
+          error: error instanceof Error ? error.message : String(error),
+        });
+      });
+      return;
+    }
+
     if (process.platform !== "darwin") {
-      resolve({ appName: "", error: "Frontmost app polling is only available on macOS." });
+      resolve({ appName: "", error: "Frontmost app capture is unavailable on this platform." });
       return;
     }
 
@@ -326,7 +342,7 @@ function getFrontmostApp() {
 }
 
 async function pollFrontmostApp() {
-  const { appName, error } = await getFrontmostApp();
+  const { appName, windowTitle = "", error } = await getFrontmostApp();
   if (!appName) {
     updateDesktopState((state) => {
       markFrontmostUnavailable(state, error ?? "Frontmost app is unavailable.");
@@ -339,8 +355,12 @@ async function pollFrontmostApp() {
     markFrontmostAvailable(state);
   });
 
+  const includeWindowTitle = desktopState.settings.recordWindowTitles === true;
   const transitionSignals = buildFrontmostTransitionSignals(desktopState.collector.lastFrontmostApp, String(appName), {
     userId: DESKTOP_USER_ID,
+    includeWindowTitle,
+    previousWindowTitle: desktopState.collector.lastFrontmostWindowTitle,
+    currentWindowTitle: includeWindowTitle ? String(windowTitle) : "",
   });
 
   for (const signal of transitionSignals) {
@@ -581,6 +601,13 @@ async function bootstrap() {
     });
     publishStatus("Dismissed permissions prompt.");
     return buildPermissionsPromptState(desktopState);
+  });
+  ipcMain.handle("desktop:set-window-title-capture", async (_event, enabled) => {
+    updateDesktopState((state) => {
+      setWindowTitleCaptureEnabled(state, enabled);
+    });
+    publishStatus(desktopState.settings.recordWindowTitles ? "Window title capture enabled." : "Window title capture disabled.");
+    return buildStatusPayload();
   });
   ipcMain.handle("wayfinder:status", async () => wayfinderClient?.getStatus?.() ?? null);
   ipcMain.handle("wayfinder:refresh", async () => {

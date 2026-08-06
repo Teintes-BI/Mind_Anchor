@@ -21,9 +21,20 @@ data class StartSessionResult(
     val sessionId: String,
 )
 
+data class AudioConsentResult(
+    val consentRef: String,
+    val status: String,
+)
+
+data class HealthConsentResult(
+    val consentRef: String,
+    val status: String,
+)
+
 data class AudioChunkPayload(
     val sessionId: String,
     val deviceId: String,
+    val consentRef: String,
     val sequence: Int,
     val startedAt: String,
     val endedAt: String,
@@ -114,7 +125,7 @@ class LanBridgeClient {
         )
     }
 
-    suspend fun startSession(config: PairingConfig): StartSessionResult {
+    suspend fun startSession(config: PairingConfig, consentRef: String): StartSessionResult {
         val response = request(
             method = "POST",
             url = "${config.receiverBaseUrl}/local/mobile/audio/sessions",
@@ -127,6 +138,7 @@ class LanBridgeClient {
                 .put("encoding", "audio/pcm16le")
                 .put("chunkDurationMs", 5000)
                 .put("rollingBufferSeconds", 3600)
+                .put("consentRef", consentRef)
                 .put("startedAt", Instant.now().toString()),
         )
 
@@ -150,11 +162,12 @@ class LanBridgeClient {
                 .put("base64Audio", chunk.base64Audio)
                 .put("rms", chunk.rms)
                 .put("peak", chunk.peak)
+                .put("consentRef", chunk.consentRef)
                 .put("replayed", chunk.replayed),
         )
     }
 
-    suspend fun completeSession(config: PairingConfig, sessionId: String) {
+    suspend fun completeSession(config: PairingConfig, sessionId: String, consentRef: String) {
         request(
             method = "POST",
             url = "${config.receiverBaseUrl}/local/mobile/audio/sessions/$sessionId/complete",
@@ -162,7 +175,41 @@ class LanBridgeClient {
                 .put("pairToken", config.pairToken)
                 .put("deviceId", config.deviceId)
                 .put("status", "completed")
+                .put("consentRef", consentRef)
                 .put("endedAt", Instant.now().toString()),
+        )
+    }
+
+    suspend fun setAudioConsent(config: PairingConfig, status: String): AudioConsentResult {
+        val response = request(
+            method = "POST",
+            url = "${config.receiverBaseUrl}/local/mobile/audio/consent",
+            body = JSONObject()
+                .put("pairToken", config.pairToken)
+                .put("deviceId", config.deviceId)
+                .put("status", status),
+        )
+        return AudioConsentResult(
+            consentRef = response.getString("consentRef"),
+            status = response.getString("status"),
+        )
+    }
+
+    suspend fun setHealthConsent(config: PairingConfig, status: String): HealthConsentResult {
+        require(status in setOf("granted", "paused", "revoked")) {
+            "Unsupported health consent status: $status"
+        }
+        val response = request(
+            method = "POST",
+            url = "${config.receiverBaseUrl}/local/mobile/health/consent",
+            body = JSONObject()
+                .put("pairToken", config.pairToken)
+                .put("deviceId", config.deviceId)
+                .put("status", status),
+        )
+        return HealthConsentResult(
+            consentRef = response.getString("consentRef"),
+            status = response.getString("status"),
         )
     }
 
@@ -176,6 +223,15 @@ class LanBridgeClient {
                 .put("status", status)
                 .put("direction", direction)
                 .put("occurredAt", Instant.now().toString()),
+        )
+    }
+
+    suspend fun uploadHealthSummary(config: PairingConfig, summary: HealthSummaryPayload, consentRef: String) {
+        request(
+            method = "POST",
+            url = "${config.receiverBaseUrl}/local/mobile/health/summaries",
+            body = summary.toJson(config.deviceId, consentRef)
+                .put("pairToken", config.pairToken),
         )
     }
 }

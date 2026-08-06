@@ -11,7 +11,9 @@ import {
   wayfinderAuditEventSchema,
   wayfinderOutcomeSchema,
 } from "./wayfinder.js";
+import { healthProvenanceFieldsSchema, healthCalibrationRecordSchema } from "./health-signal.js";
 export * from "./wayfinder.js";
+export * from "./health-signal.js";
 export { agentTeamAgentIds, agentTeamPersonaMetadata, memoryScopeValues } from "./agent-team.js";
 export type { AgentTeamPersonaEntry, AgentTeamPersonaName, AgentTeamPersonaRegistry } from "./agent-team.js";
 export {
@@ -549,9 +551,11 @@ export const healthSnapshotSchema = z.object({
   oxygenSaturation: z.number().min(0).max(100).optional(),
   restingHeartRate: z.number().positive().optional(),
   sleepMinutes: z.number().int().nonnegative().optional(),
+  activeMinutes: z.number().int().nonnegative().optional(),
+  steps: z.number().int().nonnegative().optional(),
   summary: z.string().optional(),
   createdAt: isoDateTimeSchema,
-});
+}).merge(healthProvenanceFieldsSchema);
 
 export const createHealthSnapshotInputSchema = healthSnapshotSchema.omit({
   id: true,
@@ -1615,6 +1619,7 @@ export const databaseSchema = z.object({
   mediaChunkManifests: z.array(mediaChunkManifestSchema).default([]),
   videoAssessments: z.array(videoAssessmentSchema).default([]),
   healthSnapshots: z.array(healthSnapshotSchema).default([]),
+  healthCalibrationRecords: z.array(healthCalibrationRecordSchema).default([]),
   behaviorConclusions: z.array(behaviorConclusionSchema).default([]),
   clientInboxMessages: z.array(clientInboxMessageSchema).default([]),
   coachFrontAgentStates: z.array(storedCoachFrontAgentStateSchema).default([]),
@@ -1661,6 +1666,7 @@ export const emptyDatabase = (): Database => ({
   mediaChunkManifests: [],
   videoAssessments: [],
   healthSnapshots: [],
+  healthCalibrationRecords: [],
   behaviorConclusions: [],
   clientInboxMessages: [],
   coachFrontAgentStates: [],
@@ -1845,6 +1851,7 @@ export type VideoAssessment = z.infer<typeof videoAssessmentSchema>;
 export type CreateVideoAssessmentInput = z.infer<typeof createVideoAssessmentInputSchema>;
 export type HealthSnapshot = z.infer<typeof healthSnapshotSchema>;
 export type CreateHealthSnapshotInput = z.infer<typeof createHealthSnapshotInputSchema>;
+export type HealthCalibrationRecord = z.infer<typeof healthCalibrationRecordSchema>;
 export type BehaviorConclusion = z.infer<typeof behaviorConclusionSchema>;
 export type CoachFrontAgentState = z.infer<typeof coachFrontAgentStateSchema>;
 export type StoredCoachFrontAgentState = z.infer<typeof storedCoachFrontAgentStateSchema>;

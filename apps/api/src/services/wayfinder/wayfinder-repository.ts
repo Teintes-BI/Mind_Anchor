@@ -105,6 +105,30 @@ export class WayfinderRepository {
     return this.store.listWayfinderDecisions(userId, limit);
   }
 
+  listHealthSnapshots(userId: string, limit = 100) {
+    return this.store.listHealthSnapshots(userId, limit);
+  }
+
+  listHealthCalibrationRecords(userId: string, limit = 100) {
+    return this.store.listHealthCalibrationRecords(userId, limit);
+  }
+
+  listMemoryCandidates(userId: string, limit = 100) {
+    return this.store.listMemoryCandidates(userId, limit);
+  }
+
+  listMemoryItems(userId: string, limit = 100) {
+    return this.store.listMemoryItems(userId, limit);
+  }
+
+  listAuditEvents(userId: string, limit = 100) {
+    return this.store.listWayfinderAuditEvents(userId, limit);
+  }
+
+  deleteUserData(userId: string) {
+    return this.store.resetUserData(userId);
+  }
+
   revokeMemory(userId: string, memoryId: string) {
     return this.store.revokeCoachMemoryItem(userId, memoryId);
   }

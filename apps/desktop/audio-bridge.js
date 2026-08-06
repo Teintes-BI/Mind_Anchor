@@ -76,6 +76,36 @@ const respondJson = (response, statusCode, payload) => {
 
 const sha256Hex = (value) => createHash("sha256").update(value).digest("hex");
 
+export function buildMobileAudioConsentPayload({ status }) {
+  if (!["granted", "paused", "revoked"].includes(String(status))) {
+    throw new Error("Unsupported Wayfinder audio consent status.");
+  }
+
+  return {
+    purpose: "wayfinder_voice_candidate",
+    scope: "foreground_short_audio",
+    status: String(status),
+    rawRetentionSeconds: 0,
+    derivedRetentionDays: 7,
+    modelSharing: "local_only",
+  };
+}
+
+export function buildMobileHealthConsentPayload({ status }) {
+  if (!["granted", "paused", "revoked"].includes(String(status))) {
+    throw new Error("Unsupported Wayfinder health consent status.");
+  }
+
+  return {
+    purpose: "wayfinder_health_summary",
+    scope: "health_summary",
+    status: String(status),
+    rawRetentionSeconds: 0,
+    derivedRetentionDays: 30,
+    modelSharing: "local_only",
+  };
+}
+
 export function buildWayfinderAudioEventPayload({ userId, session, body, forwardRawAudio = false }) {
   const consentRef = String(body.consentRef ?? session?.consentRef ?? "");
   if (!consentRef) return null;
@@ -122,19 +152,24 @@ export function createAudioBridge({
     pairCodeIssuedAt: new Date().toISOString(),
     pairedDevices: [],
     sessions: {},
+    consents: {},
+    healthConsents: {},
     receivedChunkCount: 0,
     latestEmotionAssessment: null,
     latestVoiceCandidate: null,
     latestCallEvent: null,
+    latestHealthSummary: null,
   });
 
+  state.consents ??= {};
+  state.healthConsents ??= {};
   const persistState = () => writeJson(stateFile, state);
   const hostBindings = () => listPrivateLanHosts(port);
 
-  const postApi = async (path, payload) => {
+  const requestApi = async (method, path, payload) => {
     const apiToken = process.env.MINDANCHOR_API_TOKEN;
     const response = await fetch(`${apiBaseUrl}${path}`, {
-      method: "POST",
+      method,
       headers: {
         "Content-Type": "application/json",
         ...(apiToken ? { Authorization: `Bearer ${apiToken}` } : {}),
@@ -148,6 +183,9 @@ export function createAudioBridge({
 
     return response.json();
   };
+
+  const postApi = (path, payload) => requestApi("POST", path, payload);
+  const patchApi = (path, payload) => requestApi("PATCH", path, payload);
 
   const getPairedDevice = (deviceId, pairToken) =>
     state.pairedDevices.find((device) => device.deviceId === deviceId && device.pairToken === pairToken) ?? null;
@@ -167,6 +205,7 @@ export function createAudioBridge({
     latestEmotionAssessment: state.latestEmotionAssessment,
     latestVoiceCandidate: state.latestVoiceCandidate,
     latestCallEvent: state.latestCallEvent,
+    latestHealthSummary: state.latestHealthSummary,
     latestDevice: state.pairedDevices.at(-1) ?? null,
   });
 
@@ -244,6 +283,11 @@ export function createAudioBridge({
           respondJson(response, 403, { message: "Wayfinder audio consent is required." });
           return;
         }
+        const activeConsent = state.consents[pairedDevice.deviceId];
+        if (!activeConsent || activeConsent.status !== "granted" || activeConsent.consentRef !== String(body.consentRef)) {
+          respondJson(response, 403, { message: "Wayfinder audio consent is not currently granted." });
+          return;
+        }
 
         const apiSession = await postApi("/mobile/capture/sessions/start", {
           userId: "demo-user",
@@ -263,12 +307,69 @@ export function createAudioBridge({
           deviceId: pairedDevice.deviceId,
           status: "active",
           expectedSequence: 0,
+          receivedSequences: [],
           consentRef: String(body.consentRef),
           dir: sessionDir,
         };
         persistState();
         recordStatus(`Started mobile audio session ${apiSession.id}.`);
         respondJson(response, 200, { sessionId: apiSession.id });
+        return;
+      }
+
+      if (request.method === "POST" && url.pathname === "/local/mobile/audio/consent") {
+        const body = await readRequestJson(request);
+        const pairedDevice = getPairedDevice(String(body.deviceId ?? ""), String(body.pairToken ?? ""));
+        if (!pairedDevice) {
+          respondJson(response, 403, { message: "Unpaired device." });
+          return;
+        }
+
+        const consent = await patchApi(
+          `/wayfinder/consent/${encodeURIComponent(pairedDevice.deviceId)}`,
+          buildMobileAudioConsentPayload({ status: body.status }),
+        );
+        state.consents[pairedDevice.deviceId] = {
+          consentRef: consent.id,
+          status: consent.status,
+          updatedAt: new Date().toISOString(),
+        };
+        pairedDevice.lastSeenAt = new Date().toISOString();
+        persistState();
+        recordStatus(
+          consent.status === "granted"
+            ? `Granted Wayfinder audio consent for ${pairedDevice.deviceName}.`
+            : `Updated Wayfinder audio consent for ${pairedDevice.deviceName}: ${consent.status}.`,
+        );
+        respondJson(response, 200, { consentRef: consent.id, status: consent.status, consent });
+        return;
+      }
+
+      if (request.method === "POST" && url.pathname === "/local/mobile/health/consent") {
+        const body = await readRequestJson(request);
+        const pairedDevice = getPairedDevice(String(body.deviceId ?? ""), String(body.pairToken ?? ""));
+        if (!pairedDevice) {
+          respondJson(response, 403, { message: "Unpaired device." });
+          return;
+        }
+
+        const consent = await patchApi(
+          `/wayfinder/consent/${encodeURIComponent(pairedDevice.deviceId)}`,
+          buildMobileHealthConsentPayload({ status: body.status }),
+        );
+        state.healthConsents[pairedDevice.deviceId] = {
+          consentRef: consent.id,
+          status: consent.status,
+          updatedAt: new Date().toISOString(),
+        };
+        pairedDevice.lastSeenAt = new Date().toISOString();
+        persistState();
+        recordStatus(
+          consent.status === "granted"
+            ? `Granted Wayfinder health consent for ${pairedDevice.deviceName}.`
+            : `Updated Wayfinder health consent for ${pairedDevice.deviceName}: ${consent.status}.`,
+        );
+        respondJson(response, 200, { consentRef: consent.id, status: consent.status, consent });
         return;
       }
 
@@ -286,7 +387,7 @@ export function createAudioBridge({
           return;
         }
 
-        const consentRef = String(body.consentRef ?? session.consentRef ?? "");
+        const consentRef = String(body.consentRef ?? "");
         if (!consentRef) {
           respondJson(response, 403, { message: "Wayfinder audio consent is required." });
           return;
@@ -295,10 +396,34 @@ export function createAudioBridge({
           respondJson(response, 403, { message: "Wayfinder audio consent does not match the session." });
           return;
         }
+        const activeConsent = state.consents[session.deviceId];
+        if (!activeConsent || activeConsent.status !== "granted" || activeConsent.consentRef !== consentRef) {
+          respondJson(response, 403, { message: "Wayfinder audio consent is not currently granted." });
+          return;
+        }
 
-        const rawBuffer = Buffer.from(String(body.base64Audio ?? ""), "base64");
-        const checksum = String(body.checksum ?? sha256Hex(rawBuffer));
         const sequence = Number(body.sequence ?? 0);
+        if (!Number.isInteger(sequence) || sequence < 0) {
+          respondJson(response, 400, { message: "Audio chunk sequence must be a non-negative integer." });
+          return;
+        }
+        const base64Audio = String(body.base64Audio ?? "");
+        if (!base64Audio.trim()) {
+          respondJson(response, 400, { message: "Audio chunk cannot be empty." });
+          return;
+        }
+        const receivedSequences = Array.isArray(session.receivedSequences) ? session.receivedSequences : [];
+        if (receivedSequences.includes(sequence)) {
+          respondJson(response, 200, {
+            ackSequence: sequence,
+            duplicate: true,
+            checksum: String(body.checksum ?? sha256Hex(Buffer.from(base64Audio, "base64"))),
+          });
+          return;
+        }
+
+        const rawBuffer = Buffer.from(base64Audio, "base64");
+        const checksum = String(body.checksum ?? sha256Hex(rawBuffer));
         const extension = String(body.encoding ?? "audio/pcm16le") === "audio/wav" ? "wav" : "pcm";
         const filePath = join(session.dir, `chunk-${String(sequence).padStart(6, "0")}.${extension}`);
         await writeFile(filePath, rawBuffer);
@@ -369,7 +494,8 @@ export function createAudioBridge({
           source: emotionAssessment.source,
         });
 
-        session.expectedSequence = sequence + 1;
+        session.expectedSequence = Math.max(session.expectedSequence, sequence + 1);
+        session.receivedSequences = [...receivedSequences, sequence].slice(-2048);
         session.status = body.replayed ? "buffering" : "active";
         state.receivedChunkCount += 1;
         state.latestEmotionAssessment = persistedEmotion;
@@ -412,6 +538,13 @@ export function createAudioBridge({
           return;
         }
 
+        const session = state.sessions[sessionId];
+        const consentRef = String(body.consentRef ?? "");
+        if (!session || !consentRef || consentRef !== session.consentRef) {
+          respondJson(response, 403, { message: "Wayfinder audio consent is required for this session." });
+          return;
+        }
+
         const result = await postApi("/mobile/capture/sessions/end", {
           sessionId,
           status: body.status ?? "completed",
@@ -446,6 +579,37 @@ export function createAudioBridge({
         persistState();
         recordStatus(`Relayed call event ${event.status}.`);
         respondJson(response, 200, event);
+        return;
+      }
+
+      if (request.method === "POST" && url.pathname === "/local/mobile/health/summaries") {
+        const body = await readRequestJson(request);
+        const pairedDevice = getPairedDevice(String(body.deviceId ?? ""), String(body.pairToken ?? ""));
+        if (!pairedDevice) {
+          respondJson(response, 403, { message: "Unpaired device." });
+          return;
+        }
+        const consentRef = String(body.consentRef ?? "");
+        if (!consentRef) {
+          respondJson(response, 403, { message: "Health summary consent is required." });
+          return;
+        }
+        const activeConsent = state.healthConsents[pairedDevice.deviceId];
+        if (!activeConsent || activeConsent.status !== "granted" || activeConsent.consentRef !== consentRef) {
+          respondJson(response, 403, { message: "Health summary consent is not currently granted." });
+          return;
+        }
+        const { pairToken: _pairToken, ...summaryBody } = body;
+        const result = await postApi("/health/summaries", {
+          ...summaryBody,
+          userId: "demo-user",
+          deviceId: pairedDevice.deviceId,
+        });
+        state.latestHealthSummary = result.healthSummary ?? null;
+        pairedDevice.lastSeenAt = new Date().toISOString();
+        persistState();
+        recordStatus(`Received health summary from ${pairedDevice.deviceName}.`);
+        respondJson(response, 200, result);
         return;
       }
 

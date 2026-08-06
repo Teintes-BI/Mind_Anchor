@@ -8,10 +8,27 @@
     <string name="start_recording">Start foreground recording</string>
     <string name="stop_recording">Stop recording</string>
     <string name="flush_backlog">Flush queued chunks</string>
+    <string name="revoke_audio_consent">Revoke audio consent</string>
     <string name="service_status_placeholder">Recorder idle.</string>
     <string name="foreground_channel_name">MindAnchor audio capture</string>
     <string name="foreground_channel_description">Foreground microphone capture for MindAnchor Android Audio Beta</string>
     <string name="foreground_notification_title">MindAnchor is recording audio</string>
     <string name="foreground_notification_body">Audio is being captured and sent to your paired desktop on the same LAN.</string>
+    <string name="health_summary_title">Health summary</string>
+    <string name="health_status_placeholder">Health summary is not synced.</string>
+    <string name="health_consent_not_granted">Health summary consent is not granted.</string>
+    <string name="health_consent_granted">Health summary consent is granted for this device.</string>
+    <string name="health_consent_revoking">Revoking health summary consent...</string>
+    <string name="health_consent_revoked">Health summary consent revoked.</string>
+    <string name="health_consent_revoke_failed">Could not revoke health summary consent: %1$s</string>
+    <string name="health_provider_unavailable">Health Connect is unavailable on this device.</string>
+    <string name="health_pairing_required">Pair with the desktop before syncing health summary.</string>
+    <string name="health_permission_required">Health summary permission is required to sync.</string>
+    <string name="health_sync_success">Health summary sync status: %1$s.</string>
+    <string name="health_sync_failed">Health summary sync failed: %1$s</string>
+    <string name="sync_health_summary">Sync health summary</string>
+    <string name="sync_health_content_description">Read a bounded 24-hour health summary and send it to the paired MindAnchor desktop.</string>
+    <string name="revoke_health_consent">Revoke health consent</string>
+    <string name="revoke_health_consent_content_description">Revoke the Wayfinder health summary consent for this device.</string>
 </resources>
 

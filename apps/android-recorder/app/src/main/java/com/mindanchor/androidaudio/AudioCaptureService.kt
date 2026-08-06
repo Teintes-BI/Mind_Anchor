@@ -35,6 +35,7 @@ class AudioCaptureService : Service() {
         const val ACTION_START = "com.mindanchor.androidaudio.action.START"
         const val ACTION_STOP = "com.mindanchor.androidaudio.action.STOP"
         const val ACTION_FLUSH = "com.mindanchor.androidaudio.action.FLUSH"
+        const val ACTION_REVOKE_CONSENT = "com.mindanchor.androidaudio.action.REVOKE_CONSENT"
         const val ACTION_STATUS = "com.mindanchor.androidaudio.STATUS"
         private const val NOTIFICATION_CHANNEL_ID = "mindanchor_audio_capture"
         private const val NOTIFICATION_ID = 4001
@@ -48,6 +49,7 @@ class AudioCaptureService : Service() {
     private lateinit var lanBridgeClient: LanBridgeClient
     private lateinit var audioChunkQueue: AudioChunkQueue
     private var currentSessionId: String? = null
+    private var currentConsentRef: String? = null
     private var recorder: AudioRecord? = null
     private var isCapturing = false
     private var telephonyCallback: TelephonyCallback? = null
@@ -69,6 +71,7 @@ class AudioCaptureService : Service() {
             ACTION_START -> startCapture()
             ACTION_STOP -> stopCapture()
             ACTION_FLUSH -> flushQueue()
+            ACTION_REVOKE_CONSENT -> revokeConsent()
         }
         return START_STICKY
     }
@@ -101,12 +104,28 @@ class AudioCaptureService : Service() {
         registerCallMonitoring()
 
         serviceScope.launch {
+            var consentRef: String? = null
             try {
-                val session = lanBridgeClient.startSession(config)
+                val grantedConsent = lanBridgeClient.setAudioConsent(config, "granted")
+                consentRef = grantedConsent.consentRef
+                if (!isCapturing) {
+                    runCatching { lanBridgeClient.setAudioConsent(config, "revoked") }
+                    return@launch
+                }
+                currentConsentRef = consentRef
+                val session = lanBridgeClient.startSession(config, grantedConsent.consentRef)
+                if (!isCapturing) {
+                    runCatching { lanBridgeClient.completeSession(config, session.sessionId, grantedConsent.consentRef) }
+                    runCatching { lanBridgeClient.setAudioConsent(config, "revoked") }
+                    return@launch
+                }
                 currentSessionId = session.sessionId
                 publishStatus("Foreground audio capture started.")
-                runRecorderLoop(config, session.sessionId)
+                runRecorderLoop(config, session.sessionId, grantedConsent.consentRef)
             } catch (error: Throwable) {
+                if (consentRef != null) {
+                    runCatching { lanBridgeClient.setAudioConsent(config, "revoked") }
+                }
                 publishStatus("Failed to start session: ${error.message}")
                 stopCapture()
             }
@@ -125,12 +144,14 @@ class AudioCaptureService : Service() {
 
         val config = pairingStore.load()
         val sessionId = currentSessionId
-        if (config != null && sessionId != null) {
+        val consentRef = currentConsentRef
+        if (config != null && sessionId != null && consentRef != null) {
             serviceScope.launch {
-                runCatching { lanBridgeClient.completeSession(config, sessionId) }
+                runCatching { lanBridgeClient.completeSession(config, sessionId, consentRef) }
             }
         }
         currentSessionId = null
+        currentConsentRef = null
         stopForeground(STOP_FOREGROUND_REMOVE)
         stopSelf()
         publishStatus("Foreground audio capture stopped.")
@@ -155,7 +176,28 @@ class AudioCaptureService : Service() {
         }
     }
 
-    private suspend fun runRecorderLoop(config: PairingConfig, sessionId: String) {
+    private fun revokeConsent() {
+        val config = pairingStore.load()
+        if (config == null) {
+            publishStatus("Pair with a desktop before revoking audio consent.")
+            return
+        }
+
+        serviceScope.launch {
+            val revokeResult = runCatching { lanBridgeClient.setAudioConsent(config, "revoked") }
+            if (isCapturing) {
+                stopCapture()
+            }
+            revokeResult
+                .onSuccess {
+                    currentConsentRef = null
+                    publishStatus("Wayfinder audio consent revoked. Queued audio will not be replayed without new consent.")
+                }
+                .onFailure { error -> publishStatus("Failed to revoke Wayfinder audio consent: ${error.message}") }
+        }
+    }
+
+    private suspend fun runRecorderLoop(config: PairingConfig, sessionId: String, consentRef: String) {
         val minBufferSize = AudioRecord.getMinBufferSize(
             SAMPLE_RATE_HZ,
             AudioFormat.CHANNEL_IN_MONO,
@@ -193,6 +235,7 @@ class AudioCaptureService : Service() {
             val payload = AudioChunkPayload(
                 sessionId = sessionId,
                 deviceId = config.deviceId,
+                consentRef = consentRef,
                 sequence = sequence,
                 startedAt = startedAt.toString(),
                 endedAt = endedAt.toString(),

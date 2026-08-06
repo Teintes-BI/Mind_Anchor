@@ -17,6 +17,7 @@ class AudioChunkQueue(context: Context) {
             JSONObject()
                 .put("sessionId", chunk.sessionId)
                 .put("deviceId", chunk.deviceId)
+                .put("consentRef", chunk.consentRef)
                 .put("sequence", chunk.sequence)
                 .put("startedAt", chunk.startedAt)
                 .put("endedAt", chunk.endedAt)
@@ -41,9 +42,15 @@ class AudioChunkQueue(context: Context) {
         val files = queueDir.listFiles()?.sortedBy { it.lastModified() }.orEmpty()
         for (file in files) {
             val json = JSONObject(file.readText())
+            val consentRef = json.optString("consentRef", "")
+            if (consentRef.isBlank()) {
+                file.delete()
+                continue
+            }
             val payload = AudioChunkPayload(
                 sessionId = json.getString("sessionId"),
                 deviceId = json.getString("deviceId"),
+                consentRef = consentRef,
                 sequence = json.getInt("sequence"),
                 startedAt = json.getString("startedAt"),
                 endedAt = json.getString("endedAt"),

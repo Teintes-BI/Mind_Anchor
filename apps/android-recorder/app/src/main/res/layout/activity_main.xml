@@ -81,12 +81,56 @@
             android:layout_marginTop="12dp"
             android:text="@string/flush_backlog" />
 
+        <Button
+            android:id="@+id/revokeConsentButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/revoke_audio_consent" />
+
         <TextView
             android:id="@+id/serviceStatusText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="@string/service_status_placeholder" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/health_summary_title"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/healthStatusText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/health_status_placeholder" />
+
+        <TextView
+            android:id="@+id/healthConsentStatusText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/health_consent_not_granted" />
+
+        <Button
+            android:id="@+id/syncHealthButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:contentDescription="@string/sync_health_content_description"
+            android:text="@string/sync_health_summary" />
+
+        <Button
+            android:id="@+id/revokeHealthConsentButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:contentDescription="@string/revoke_health_consent_content_description"
+            android:text="@string/revoke_health_consent" />
 
     </LinearLayout>
 </ScrollView>

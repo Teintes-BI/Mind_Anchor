@@ -35,6 +35,7 @@ import {
   type FocusSession,
   type Goal,
   type HealthSnapshot,
+  type HealthCalibrationRecord,
   type Intervention,
   type LocalAuthUser,
   type LocalAuthRefreshToken,
@@ -418,6 +419,13 @@ export class MindAnchorStore {
     return event;
   }
 
+  listWayfinderAuditEvents(userId = "demo-user", limit = 100) {
+    return this.state.wayfinderAuditEvents
+      .filter((event) => event.userId === userId)
+      .sort((left, right) => right.occurredAt.localeCompare(left.occurredAt))
+      .slice(0, limit);
+  }
+
   listRecoveryPlans(userId = "demo-user", limit = 50) {
     return this.state.recoveryPlans
       .filter((plan) => plan.userId === userId)
@@ -479,6 +487,13 @@ export class MindAnchorStore {
   listHealthSnapshots(userId = "demo-user", limit = 50) {
     return this.state.healthSnapshots
       .filter((snapshot) => snapshot.userId === userId)
+      .sort((left, right) => right.createdAt.localeCompare(left.createdAt))
+      .slice(0, limit);
+  }
+
+  listHealthCalibrationRecords(userId = "demo-user", limit = 100) {
+    return this.state.healthCalibrationRecords
+      .filter((record) => record.userId === userId)
       .sort((left, right) => right.createdAt.localeCompare(left.createdAt))
       .slice(0, limit);
   }
@@ -926,6 +941,7 @@ export class MindAnchorStore {
     this.state.mediaChunkManifests = this.state.mediaChunkManifests.filter((manifest) => !mediaSessionIds.has(manifest.sessionId));
     this.state.videoAssessments = this.state.videoAssessments.filter((assessment) => assessment.userId !== userId);
     this.state.healthSnapshots = this.state.healthSnapshots.filter((snapshot) => snapshot.userId !== userId);
+    this.state.healthCalibrationRecords = this.state.healthCalibrationRecords.filter((record) => record.userId !== userId);
     this.state.behaviorConclusions = this.state.behaviorConclusions.filter((conclusion) => conclusion.userId !== userId);
     this.state.clientInboxMessages = this.state.clientInboxMessages.filter((message) => message.userId !== userId);
     this.state.agentDebugRuns = this.state.agentDebugRuns.filter((run) => run.userId !== userId);
@@ -1717,12 +1733,34 @@ export class MindAnchorStore {
       oxygenSaturation: input.oxygenSaturation,
       restingHeartRate: input.restingHeartRate,
       sleepMinutes: input.sleepMinutes,
+      activeMinutes: input.activeMinutes,
+      steps: input.steps,
+      sourceDevice: input.sourceDevice,
+      capturedAt: input.capturedAt,
+      receivedAt: input.receivedAt,
+      missingness: input.missingness,
+      consentScope: input.consentScope,
+      consentRef: input.consentRef,
+      retentionClass: input.retentionClass,
+      confidence: input.confidence,
+      evidenceRefs: input.evidenceRefs,
       summary: input.summary,
       createdAt: now(),
     };
     this.state.healthSnapshots.push(snapshot);
     await this.persist();
     return snapshot;
+  }
+
+  async addHealthCalibrationRecord(input: Omit<HealthCalibrationRecord, "id" | "createdAt">) {
+    const record: HealthCalibrationRecord = {
+      id: createId(),
+      createdAt: now(),
+      ...input,
+    };
+    this.state.healthCalibrationRecords.push(record);
+    await this.persist();
+    return record;
   }
 
   async addBehaviorConclusion(input: Omit<BehaviorConclusion, "id" | "createdAt">) {

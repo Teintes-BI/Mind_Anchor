@@ -21,7 +21,8 @@
 2. Read the LAN host URL and pair code from the Android Audio Beta card
 3. Open the Android app and enter the host URL + pair code
 4. Grant permissions
-5. Start foreground recording
+5. Tap **Start foreground recording**. The desktop bridge requests the bounded `wayfinder_voice_candidate / foreground_short_audio` grant and returns one `consentRef` for the session.
+6. Tap **Revoke audio consent** to revoke that grant and block queued/new chunks until the next explicit start.
 
 ## Data path
 
@@ -30,6 +31,7 @@
 ## Wayfinder candidate boundary
 
 - Starting a session without `consentRef` is rejected before any chunk is written.
+- The LAN consent endpoint is `POST /local/mobile/audio/consent`; it is authenticated by the pairing token and forwards a `PATCH /wayfinder/consent/:source` request to the gateway.
 - A chunk without active consent is rejected before local analysis.
 - The default desktop bridge sends `local-only` as the audio body to the Wayfinder endpoint and may send only a short `transcript` fixture hint; raw audio is not forwarded to the API unless `MINDANCHOR_WAYFINDER_ASR_REMOTE=1` is explicitly enabled.
 - The API stores a structured `voice_candidate` summary and evidence reference, never the base64 audio.
@@ -41,4 +43,14 @@
 - Android stores queued chunk JSON files under app-private storage
 - Desktop stores chunk files under the Electron user data directory
 - Main API stores only metadata, call events, sessions, devices, and emotion assessments
+
+## Offline candidate evaluation
+
+Run the deterministic fixture report before a pilot change or after changing candidate extraction:
+
+```powershell
+node scripts/wayfinder-audio-evaluation.mjs --fixtures docs/wayfinder/audio-evaluation-fixtures.json --output <report-file>
+```
+
+The report covers candidate precision/recall, the rate of candidates held in `awaiting_confirmation`, and rejection after consent revocation. It uses no raw audio and does not change the mobile event protocol.
 

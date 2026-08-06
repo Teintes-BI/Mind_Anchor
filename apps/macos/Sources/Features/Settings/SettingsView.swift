@@ -58,6 +58,19 @@ struct SettingsView: View {
                     VStack(alignment: .leading, spacing: 10) {
                         InfoRow(label: text("通知", "Notifications"), value: viewModel.localizedNotificationStatusDescription)
                         InfoRow(label: text("通知说明", "Notification Guidance"), value: viewModel.notificationPermissionHelpText)
+                        Toggle(
+                            text("Window title capture", "Record window titles"),
+                            isOn: Binding(
+                                get: { viewModel.recordWindowTitles },
+                                set: { viewModel.setWindowTitleCaptureEnabled($0) }
+                            )
+                        )
+                        Text(text(
+                            "Off by default. Window titles enter local desktop events only after you explicitly enable this setting.",
+                            "Off by default. Window titles enter local desktop events only after you explicitly enable this setting."
+                        ))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                         InfoRow(
                             label: "Accessibility",
                             value: viewModel.accessibilityStatusDescription
