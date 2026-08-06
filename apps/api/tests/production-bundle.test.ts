@@ -17,5 +17,6 @@ describe("API production bundle", () => {
     }
 
     expect(existsSync("../openclaw/runtime/agent-registry.mjs")).toBe(true);
+    expect(existsSync("../packages/domain/dist/index.js")).toBe(true);
   }, 90_000);
 });
