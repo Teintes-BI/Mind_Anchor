@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "corepack pnpm --filter @mindanchor/domain build && tsx watch src/index.ts",
-    "build": "node ../../scripts/clean-appledouble.mjs --quiet && corepack pnpm --filter @mindanchor/domain build && tsc -p tsconfig.json && node ../../scripts/clean-appledouble.mjs --quiet",
+    "build": "node ../../scripts/clean-appledouble.mjs --quiet && corepack pnpm --filter @mindanchor/domain build && tsc -p tsconfig.json && node ../../scripts/stage-api-production-runtime-assets.mjs && node ../../scripts/clean-appledouble.mjs --quiet",
     "test": "node ../../scripts/clean-appledouble.mjs --quiet && corepack pnpm --filter @mindanchor/domain build && vitest run && node ../../scripts/clean-appledouble.mjs --quiet"
   },
   "dependencies": {

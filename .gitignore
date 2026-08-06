@@ -19,3 +19,4 @@ apps/android-recorder/local.properties
 .squad/sessions/
 # Squad: SubSquad activation file (local to this machine)
 .squad-workstream
+apps/openclaw/
