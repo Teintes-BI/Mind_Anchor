@@ -1,5 +1,25 @@
 const DEFAULT_MODEL = "onnx-community/whisper-small";
 const TARGET_SAMPLE_RATE = 16_000;
+const DEFAULT_REMOTE_HOST = "https://modelscope.cn/models/";
+const DEFAULT_REMOTE_PATH_TEMPLATE = "{model}/resolve/master/";
+
+export const resolveLocalWhisperRemoteConfig = ({
+  remoteHost = process.env.MINDANCHOR_LOCAL_WHISPER_REMOTE_HOST ?? DEFAULT_REMOTE_HOST,
+  remotePathTemplate =
+    process.env.MINDANCHOR_LOCAL_WHISPER_REMOTE_PATH_TEMPLATE ?? DEFAULT_REMOTE_PATH_TEMPLATE,
+} = {}) => {
+  const parsedHost = new URL(remoteHost);
+  if (parsedHost.protocol !== "https:") {
+    throw new Error("Local Whisper model downloads require an HTTPS repository.");
+  }
+  if (!remotePathTemplate.includes("{model}")) {
+    throw new Error("Local Whisper remote path template must include {model}.");
+  }
+  return {
+    remoteHost: parsedHost.toString(),
+    remotePathTemplate,
+  };
+};
 
 const decodeBase64 = (value) => {
   const normalized = String(value ?? "").trim().replace(/\s+/g, "");
@@ -71,7 +91,10 @@ const decodeWav = (bytes) => {
 export const decodePcm16LeBase64 = (base64Audio) => decodePcm16Le(decodeBase64(base64Audio));
 
 const defaultPipelineFactory = async (...args) => {
-  const { pipeline } = await import("@huggingface/transformers");
+  const { env, pipeline } = await import("@huggingface/transformers");
+  const remote = resolveLocalWhisperRemoteConfig();
+  env.remoteHost = remote.remoteHost;
+  env.remotePathTemplate = remote.remotePathTemplate;
   return pipeline(...args);
 };
 

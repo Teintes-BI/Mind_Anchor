@@ -3,7 +3,21 @@ import assert from "node:assert/strict";
 import {
   LocalWhisperTranscriber,
   decodePcm16LeBase64,
+  resolveLocalWhisperRemoteConfig,
 } from "../local-whisper-transcriber.js";
+
+test("uses a configurable model repository without changing the local ASR contract", () => {
+  assert.deepEqual(
+    resolveLocalWhisperRemoteConfig({
+      remoteHost: "https://modelscope.cn/models/",
+      remotePathTemplate: "{model}/resolve/master/",
+    }),
+    {
+      remoteHost: "https://modelscope.cn/models/",
+      remotePathTemplate: "{model}/resolve/master/",
+    },
+  );
+});
 
 test("decodes mono PCM16LE into normalized float samples", () => {
   const pcm = Buffer.alloc(6);
