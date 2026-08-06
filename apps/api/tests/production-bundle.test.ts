@@ -1,5 +1,5 @@
 import { exec, execFile } from "node:child_process";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { promisify } from "node:util";
 import { describe, expect, it } from "vitest";
 
@@ -17,6 +17,8 @@ describe("API production bundle", () => {
     }
 
     expect(existsSync("../openclaw/runtime/agent-registry.mjs")).toBe(true);
-    expect(existsSync("../packages/domain/dist/index.js")).toBe(true);
+    expect(readFileSync("../../openclaw/runtime/agent-registry.mjs", "utf8")).not.toContain(
+      "../../packages/domain/dist/index.js",
+    );
   }, 90_000);
 });
