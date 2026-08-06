@@ -15,6 +15,7 @@ import { WayfinderDecisionService } from "../services/wayfinder/decision-service
 import { WayfinderRepository } from "../services/wayfinder/wayfinder-repository.js";
 import { WayfinderSituationService } from "../services/wayfinder/situation-service.js";
 import { WayfinderAudioEventService } from "../services/wayfinder/audio-event-service.js";
+import { WayfinderOptionGenerationService } from "../services/wayfinder/option-generation-service.js";
 
 type RequestWithContext = FastifyRequest & {
   authContext?: { userId: string } | null;
@@ -39,10 +40,11 @@ export const registerWayfinderRoutes = async (
     consent: WayfinderConsentService;
     situations: WayfinderSituationService;
     decisions: WayfinderDecisionService;
+    optionGeneration: WayfinderOptionGenerationService;
     audioEvents?: WayfinderAudioEventService;
   },
 ) => {
-  const { repository, consent, situations, decisions, audioEvents } = dependencies;
+  const { repository, consent, situations, decisions, optionGeneration, audioEvents } = dependencies;
 
   app.post("/wayfinder/audio-events", async (request, reply) => {
     const userId = requireUser(request, reply);
@@ -91,7 +93,11 @@ export const registerWayfinderRoutes = async (
     if (!situations.get(userId, situationId)) return reply.code(404).send({ message: "Wayfinder situation not found." });
     const payload = confirmSituationInputSchema.parse(request.body);
     const situation = await situations.confirm(userId, situationId, payload.status);
-    return { situation, fastStatus: "completed", fullStatus: payload.status === "confirmed" ? "pending" : "cancelled" };
+    if (payload.status === "confirmed" && situation) {
+      const options = await optionGeneration.generateForSituation({ userId, situation, traceId: payload.traceId });
+      return { situation, options, fastStatus: "completed", fullStatus: "completed" };
+    }
+    return { situation, options: [], fastStatus: "completed", fullStatus: "cancelled" };
   });
 
   app.get("/wayfinder/situations/:situationId/options", async (request, reply) => {

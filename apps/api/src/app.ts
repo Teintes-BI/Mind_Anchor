@@ -90,6 +90,7 @@ import {
   verifyPassword,
 } from "./lib/gateway-auth.js";
 import { TRACE_HEADER_NAMES } from "./lib/openclaw-trace.js";
+import { ModelBridge } from "./lib/model-bridge.js";
 import { MindAnchorTraceLogger } from "./lib/trace-logger.js";
 import { createId } from "./lib/utils.js";
 import { MindAnchorOrchestrator } from "./orchestrator.js";
@@ -103,6 +104,7 @@ import { WayfinderConsentService } from "./services/wayfinder/consent-service.js
 import { WayfinderDecisionService } from "./services/wayfinder/decision-service.js";
 import { FixtureSpeechTranscriber, WayfinderAudioEventService } from "./services/wayfinder/audio-event-service.js";
 import { WayfinderSituationService } from "./services/wayfinder/situation-service.js";
+import { WayfinderOptionGenerationService } from "./services/wayfinder/option-generation-service.js";
 import { WayfinderRepository } from "./services/wayfinder/wayfinder-repository.js";
 import { HealthSignalService, healthBridgeSnapshotInputSchema } from "./services/wayfinder/health-signal-service.js";
 import { registerWayfinderRoutes } from "./routes/wayfinder.js";
@@ -138,6 +140,10 @@ export const buildApp = async (env: AppEnv) => {
   const wayfinderConsent = new WayfinderConsentService(wayfinderRepository);
   const wayfinderSituations = new WayfinderSituationService(wayfinderRepository);
   const wayfinderDecisions = new WayfinderDecisionService(wayfinderRepository);
+  const wayfinderOptionGeneration = new WayfinderOptionGenerationService({
+    repository: wayfinderRepository,
+    modelBridge: new ModelBridge(env, traceLogger.child("wayfinder-options")),
+  });
   const healthSignals = new HealthSignalService();
   const wayfinderAudioEvents = new WayfinderAudioEventService({
     repository: wayfinderRepository,
@@ -1090,6 +1096,7 @@ export const buildApp = async (env: AppEnv) => {
     consent: wayfinderConsent,
     situations: wayfinderSituations,
     decisions: wayfinderDecisions,
+    optionGeneration: wayfinderOptionGeneration,
     audioEvents: wayfinderAudioEvents,
   });
 

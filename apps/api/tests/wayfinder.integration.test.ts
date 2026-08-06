@@ -78,7 +78,9 @@ describe("Wayfinder API", () => {
       sourceDeviceId: "phone-1",
       kind: "manual_note",
       occurredAt: "2026-08-05T10:00:00+08:00",
-      payload: { text: "Prepare a proposal" },
+      payload: {
+        text: "I am finishing the main analysis, but a colleague asks me to send a preliminary result this afternoon.",
+      },
       confidence: 1,
       consentRef: consentId,
       retentionClass: "summary",
@@ -118,34 +120,15 @@ describe("Wayfinder API", () => {
     });
     expect(confirmed.statusCode).toBe(200);
     expect(confirmed.json().situation.status).toBe("confirmed");
-
-    const option = {
-      id: "option-api-1",
-      userId: "user-a",
-      situationId,
-      status: "proposed",
-      action: "Draft the outline",
-      firstStep: "Open a document",
-      rationale: "A reversible first step",
-      immediateBenefits: ["clarity"],
-      costs: [],
-      projectedConsequences: [{ horizon: "today", text: "Builds momentum", confidence: 0.8 }],
-      reversibility: "reversible",
-      valueAlignment: [{ valueId: "craft", effect: "supports", explanation: "protects quality" }],
-      evidenceRefs: [firstEvent.json().event.id],
-      consultedSkills: [],
-      riskLevel: "low",
-      requiresApproval: false,
-      createdAt: "2026-08-05T10:00:00+08:00",
-      traceId: "trace-option-api-1",
-    };
-    const savedOptions = await app.inject({
-      method: "POST",
+    expect(confirmed.json().fullStatus).toBe("completed");
+    expect(confirmed.json().options).toHaveLength(3);
+    const option = confirmed.json().options[0];
+    const persistedOptions = await app.inject({
+      method: "GET",
       url: `/wayfinder/situations/${situationId}/options`,
       headers: { authorization: auth },
-      payload: { options: [option] },
     });
-    expect(savedOptions.statusCode).toBe(200);
+    expect(persistedOptions.json().options).toEqual(confirmed.json().options);
 
     const decision = await app.inject({
       method: "POST",
@@ -170,8 +153,8 @@ describe("Wayfinder API", () => {
     expect(outcome.statusCode).toBe(200);
     const history = (await app.inject({ method: "GET", url: "/wayfinder/decisions", headers: { authorization: auth } })).json().decisions;
     expect(history).toHaveLength(1);
-    expect(history[0].situation.summary).toBe("Prepare a proposal");
-    expect(history[0].option.action).toBe("Draft the outline");
+    expect(history[0].situation.summary).toContain("main analysis");
+    expect(history[0].option.action).toBe(option.action);
   });
 
   it("does not allow a bearer user to read another user's situation", async () => {
