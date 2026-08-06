@@ -12,6 +12,7 @@ import android.provider.Settings
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import com.google.android.material.switchmaterial.SwitchMaterial
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var pairCodeInput: EditText
     private lateinit var pairButton: Button
     private lateinit var startButton: Button
+    private lateinit var cloudTranscriptionSwitch: SwitchMaterial
     private lateinit var stopButton: Button
     private lateinit var revokeConsentButton: Button
     private lateinit var flushButton: Button
@@ -68,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         pairCodeInput = findViewById(R.id.pairCodeInput)
         pairButton = findViewById(R.id.pairButton)
         startButton = findViewById(R.id.startButton)
+        cloudTranscriptionSwitch = findViewById(R.id.cloudTranscriptionSwitch)
         stopButton = findViewById(R.id.stopButton)
         revokeConsentButton = findViewById(R.id.revokeConsentButton)
         flushButton = findViewById(R.id.flushButton)
@@ -88,7 +91,15 @@ class MainActivity : AppCompatActivity() {
         pairButton.setOnClickListener { pairWithDesktop() }
         startButton.setOnClickListener {
             ensurePermissions()
-            ContextCompat.startForegroundService(this, Intent(this, AudioCaptureService::class.java).setAction(AudioCaptureService.ACTION_START))
+            ContextCompat.startForegroundService(
+                this,
+                Intent(this, AudioCaptureService::class.java)
+                    .setAction(AudioCaptureService.ACTION_START)
+                    .putExtra(
+                        AudioCaptureService.EXTRA_ALLOW_CLOUD_TRANSCRIPTION,
+                        cloudTranscriptionSwitch.isChecked,
+                    ),
+            )
         }
         stopButton.setOnClickListener {
             startService(Intent(this, AudioCaptureService::class.java).setAction(AudioCaptureService.ACTION_STOP))

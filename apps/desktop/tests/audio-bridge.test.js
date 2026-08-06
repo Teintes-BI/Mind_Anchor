@@ -9,6 +9,7 @@ import {
   buildMobileAudioConsentPayload,
   buildMobileHealthConsentPayload,
   buildWayfinderAudioEventPayload,
+  canForwardRawAudio,
   createAudioBridge,
   isPrivateLanAddress,
 } from "../audio-bridge.js";
@@ -42,6 +43,17 @@ test("builds a bounded foreground voice consent request for a paired mobile devi
       modelSharing: "local_only",
     },
   );
+  assert.equal(
+    buildMobileAudioConsentPayload({ status: "granted", allowCloudTranscription: true }).modelSharing,
+    "selected_provider",
+  );
+});
+
+test("forwards raw audio only when the operator and persisted consent both allow it", () => {
+  assert.equal(canForwardRawAudio({ remoteEnabled: false, modelSharing: "selected_provider" }), false);
+  assert.equal(canForwardRawAudio({ remoteEnabled: true, modelSharing: "local_only" }), false);
+  assert.equal(canForwardRawAudio({ remoteEnabled: true, modelSharing: "selected_provider" }), true);
+  assert.equal(canForwardRawAudio({ remoteEnabled: true, modelSharing: "any_configured_provider" }), true);
 });
 
 test("builds a separate health-summary consent request", () => {
@@ -145,7 +157,7 @@ test("requires explicit consent on every mobile chunk and deduplicates replayed 
     const body = options.body ? JSON.parse(options.body) : null;
     calls.push({ method: options.method ?? "GET", path: parsedURL.pathname, body });
     if (parsedURL.pathname.startsWith("/wayfinder/consent/")) {
-      return jsonResponse({ id: "consent-1", status: body.status, source: "android-1" });
+      return jsonResponse({ id: "consent-1", status: body.status, source: "android-1", modelSharing: body.modelSharing });
     }
     if (parsedURL.pathname === "/mobile/devices/register") return jsonResponse({ id: "device-1" }, 201);
     if (parsedURL.pathname === "/mobile/capture/sessions/start") return jsonResponse({ id: "session-1" }, 201);
@@ -162,6 +174,13 @@ test("requires explicit consent on every mobile chunk and deduplicates replayed 
     apiBaseUrl: "http://api.test",
     port,
     publishStatus: () => {},
+    localTranscriber: {
+      transcribe: async () => ({
+        text: "send the preliminary result this afternoon",
+        modelName: "test-local-whisper",
+        source: "local_whisper",
+      }),
+    },
   });
 
   try {
@@ -208,7 +227,6 @@ test("requires explicit consent on every mobile chunk and deduplicates replayed 
       checksum: "checksum-1",
       base64Audio: Buffer.from("pcm").toString("base64"),
       consentRef: consent.consentRef,
-      transcript: "send the report",
       rms: 0.2,
       peak: 0.4,
     };
@@ -225,6 +243,11 @@ test("requires explicit consent on every mobile chunk and deduplicates replayed 
       body: JSON.stringify(chunk),
     });
     assert.equal(firstChunk.status, 200);
+    const wayfinderCall = calls.find((call) => call.path === "/wayfinder/audio-events");
+    assert.equal(wayfinderCall.body.transcriptHint, "send the preliminary result this afternoon");
+    assert.equal(wayfinderCall.body.transcriptModelName, "test-local-whisper");
+    assert.equal(wayfinderCall.body.transcriptSource, "local_whisper");
+    assert.equal(wayfinderCall.body.base64Audio, "local-only");
     const emotionCallsAfterFirstChunk = calls.filter((call) => call.path === "/emotion/assessments").length;
 
     const duplicateChunk = await originalFetch(`${baseURL}/local/mobile/audio/chunks`, {

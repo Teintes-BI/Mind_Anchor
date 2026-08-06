@@ -62,6 +62,10 @@ export type AppEnv = {
   feishuBotWebhookUrl?: string;
   telegramBotToken?: string;
   telegramChatId?: string;
+  wayfinderAsrRemoteEnabled?: boolean;
+  asrBaseUrl?: string;
+  asrApiKey?: string;
+  asrModel?: string;
   defaultModelConfig: AgentModelConfig;
   agentModelConfigs: Record<string, AgentModelConfig>;
 };
@@ -217,6 +221,10 @@ export const getEnv = (): AppEnv => {
     feishuBotWebhookUrl: process.env.MINDANCHOR_FEISHU_BOT_WEBHOOK_URL,
     telegramBotToken: process.env.MINDANCHOR_TELEGRAM_BOT_TOKEN,
     telegramChatId: process.env.MINDANCHOR_TELEGRAM_CHAT_ID,
+    wayfinderAsrRemoteEnabled: parseBoolean(process.env.MINDANCHOR_WAYFINDER_ASR_REMOTE, false),
+    asrBaseUrl: process.env.MINDANCHOR_ASR_BASE_URL,
+    asrApiKey: process.env.MINDANCHOR_ASR_API_KEY,
+    asrModel: process.env.MINDANCHOR_ASR_MODEL,
     defaultModelConfig,
     agentModelConfigs,
   };

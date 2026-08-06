@@ -242,6 +242,8 @@ export const voiceAudioEventInputSchema = z.object({
   consentRef: identifierSchema,
   traceId: identifierSchema,
   transcriptHint: z.string().max(4000).optional(),
+  transcriptModelName: z.string().min(1).max(160).optional(),
+  transcriptSource: z.string().min(1).max(80).optional(),
 });
 
 export type ContextEvent = z.infer<typeof contextEventSchema>;

@@ -5,6 +5,7 @@ import { createServer } from "node:http";
 import { networkInterfaces } from "node:os";
 import { join } from "node:path";
 import { analyzeEmotionChunk } from "./audio-emotion.js";
+import { LocalWhisperTranscriber } from "./local-whisper-transcriber.js";
 
 const privateHostPattern = /^((10\.)|(192\.168\.)|(172\.(1[6-9]|2\d|3[0-1])\.))/;
 
@@ -76,7 +77,7 @@ const respondJson = (response, statusCode, payload) => {
 
 const sha256Hex = (value) => createHash("sha256").update(value).digest("hex");
 
-export function buildMobileAudioConsentPayload({ status }) {
+export function buildMobileAudioConsentPayload({ status, allowCloudTranscription = false }) {
   if (!["granted", "paused", "revoked"].includes(String(status))) {
     throw new Error("Unsupported Wayfinder audio consent status.");
   }
@@ -87,8 +88,12 @@ export function buildMobileAudioConsentPayload({ status }) {
     status: String(status),
     rawRetentionSeconds: 0,
     derivedRetentionDays: 7,
-    modelSharing: "local_only",
+    modelSharing: allowCloudTranscription ? "selected_provider" : "local_only",
   };
+}
+
+export function canForwardRawAudio({ remoteEnabled, modelSharing }) {
+  return Boolean(remoteEnabled) && ["selected_provider", "any_configured_provider"].includes(modelSharing);
 }
 
 export function buildMobileHealthConsentPayload({ status }) {
@@ -128,6 +133,8 @@ export function buildWayfinderAudioEventPayload({ userId, session, body, forward
     consentRef,
     traceId: String(body.traceId ?? `trace-audio-${body.sessionId ?? "session"}-${body.sequence ?? 0}`),
     ...(typeof body.transcript === "string" ? { transcriptHint: body.transcript } : {}),
+    ...(typeof body.transcriptModelName === "string" ? { transcriptModelName: body.transcriptModelName } : {}),
+    ...(typeof body.transcriptSource === "string" ? { transcriptSource: body.transcriptSource } : {}),
   };
 }
 
@@ -136,6 +143,8 @@ export function createAudioBridge({
   apiBaseUrl,
   publishStatus,
   port = Number(process.env.MINDANCHOR_LAN_PORT ?? "43120"),
+  localTranscriber = new LocalWhisperTranscriber(),
+  remoteAsrEnabled = process.env.MINDANCHOR_WAYFINDER_ASR_REMOTE === "1",
   modelConfig = {
     mode: process.env.MINDANCHOR_AUDIO_EMOTION_MODE === "openai-compatible" ? "openai-compatible" : "stub",
     baseUrl: process.env.MINDANCHOR_AUDIO_EMOTION_BASE_URL,
@@ -327,11 +336,15 @@ export function createAudioBridge({
 
         const consent = await patchApi(
           `/wayfinder/consent/${encodeURIComponent(pairedDevice.deviceId)}`,
-          buildMobileAudioConsentPayload({ status: body.status }),
+          buildMobileAudioConsentPayload({
+            status: body.status,
+            allowCloudTranscription: body.allowCloudTranscription === true,
+          }),
         );
         state.consents[pairedDevice.deviceId] = {
           consentRef: consent.id,
           status: consent.status,
+          modelSharing: consent.modelSharing,
           updatedAt: new Date().toISOString(),
         };
         pairedDevice.lastSeenAt = new Date().toISOString();
@@ -500,11 +513,37 @@ export function createAudioBridge({
         state.receivedChunkCount += 1;
         state.latestEmotionAssessment = persistedEmotion;
         let voiceCandidate = null;
-        const forwardRawAudio = process.env.MINDANCHOR_WAYFINDER_ASR_REMOTE === "1";
+        let transcript = typeof body.transcript === "string" ? body.transcript.trim() : "";
+        let transcriptMetadata = {};
+        if (!transcript && localTranscriber) {
+          try {
+            const localResult = await localTranscriber.transcribe({
+              base64Audio,
+              encoding: body.encoding ?? "audio/pcm16le",
+            });
+            transcript = localResult?.text?.trim() ?? "";
+            if (transcript) {
+              transcriptMetadata = {
+                transcriptModelName: localResult.modelName,
+                transcriptSource: localResult.source,
+              };
+            }
+          } catch (error) {
+            recordStatus(error instanceof Error ? `Local Whisper unavailable: ${error.message}` : "Local Whisper unavailable.");
+          }
+        }
+        const forwardRawAudio = canForwardRawAudio({
+          remoteEnabled: remoteAsrEnabled,
+          modelSharing: activeConsent.modelSharing,
+        });
         const candidatePayload = buildWayfinderAudioEventPayload({
           userId: "demo-user",
           session: { ...session, consentRef },
-          body,
+          body: {
+            ...body,
+            ...(transcript ? { transcript } : {}),
+            ...transcriptMetadata,
+          },
           forwardRawAudio,
         });
         if (candidatePayload && (candidatePayload.transcriptHint || forwardRawAudio)) {

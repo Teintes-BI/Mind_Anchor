@@ -40,14 +40,20 @@ export class WayfinderConsentService {
   }
 
   isGranted(userId: string, consentRef: string) {
+    return Boolean(this.getGranted(userId, consentRef));
+  }
+
+  getGranted(userId: string, consentRef: string) {
     return this.repository
       .listConsentGrants(userId)
-      .some((grant) => grant.id === consentRef && grant.status === "granted");
+      .find((grant) => grant.id === consentRef && grant.status === "granted");
   }
 
   assertGranted(userId: string, consentRef: string) {
-    if (!this.isGranted(userId, consentRef)) {
+    const grant = this.getGranted(userId, consentRef);
+    if (!grant) {
       throw new Error("wayfinder_consent_required");
     }
+    return grant;
   }
 }

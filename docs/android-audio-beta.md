@@ -33,7 +33,9 @@
 - Starting a session without `consentRef` is rejected before any chunk is written.
 - The LAN consent endpoint is `POST /local/mobile/audio/consent`; it is authenticated by the pairing token and forwards a `PATCH /wayfinder/consent/:source` request to the gateway.
 - A chunk without active consent is rejected before local analysis.
-- The default desktop bridge sends `local-only` as the audio body to the Wayfinder endpoint and may send only a short `transcript` fixture hint; raw audio is not forwarded to the API unless `MINDANCHOR_WAYFINDER_ASR_REMOTE=1` is explicitly enabled.
+- The desktop bridge first transcribes each PCM16LE chunk with local `onnx-community/whisper-small`; the model is loaded lazily and reused.
+- The Android cloud-transcription switch is off by default. Raw audio can reach the compatible transcription provider only when that switch was enabled for the capture session and `MINDANCHOR_WAYFINDER_ASR_REMOTE=1` is also set on the desktop bridge.
+- The API stores only the bounded transcript excerpt and ASR provenance. It does not persist raw audio.
 - The API stores a structured `voice_candidate` summary and evidence reference, never the base64 audio.
 - A candidate always creates an `awaiting_confirmation` situation. It never creates a real Task automatically.
 - The desktop bridge may set `MINDANCHOR_API_TOKEN` to an authenticated gateway token before calling the protected Wayfinder endpoint.

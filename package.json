@@ -52,6 +52,7 @@
     "observe:openclaw-runtime-stability": "node scripts/observe-openclaw-runtime-stability.mjs",
     "validate:openchronicle-sidecar": "node scripts/validate-openchronicle-sidecar.mjs",
     "e2e:m6-mobile-capture-adb": "node scripts/run-m6-mobile-capture-adb-e2e.mjs",
+    "scenario:wayfinder-interruption": "node scripts/wayfinder-interruption-scenario.mjs",
     "dev:openclaw": "node openclaw/local-cluster-server.mjs",
     "setup:openclaw-real-dev": "bash scripts/setup-openclaw-real-profile.sh",
     "dev:openclaw-runtime": "node openclaw/production-runtime-server.mjs",

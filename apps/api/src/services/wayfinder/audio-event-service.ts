@@ -27,6 +27,9 @@ export type SpeechTranscriber = {
     encoding: VoiceAudioEventInput["encoding"];
     base64Audio: string;
     transcriptHint?: string;
+    allowCloud: boolean;
+    transcriptModelName?: string;
+    transcriptSource?: string;
   }): Promise<SpeechTranscription>;
 };
 
@@ -90,7 +93,7 @@ export class WayfinderAudioEventService {
 
   async ingest(rawInput: VoiceAudioEventInput): Promise<VoiceAudioEventResult> {
     const input = voiceAudioEventInputSchema.parse(rawInput);
-    this.dependencies.consent.assertGranted(input.userId, input.consentRef);
+    const grant = this.dependencies.consent.assertGranted(input.userId, input.consentRef);
     const clientEventId = `voice-audio:${input.sessionId}:${input.sequence}`;
     const existing = this.dependencies.repository
       .listContextEvents(input.userId)
@@ -111,6 +114,9 @@ export class WayfinderAudioEventService {
       encoding: input.encoding,
       base64Audio: input.base64Audio,
       transcriptHint: input.transcriptHint,
+      allowCloud: grant.modelSharing !== "local_only",
+      transcriptModelName: input.transcriptModelName,
+      transcriptSource: input.transcriptSource,
     });
     const evidenceRef = `audio:${input.sessionId}:${input.sequence}`;
     const candidate = extractVoiceCandidate(transcription, evidenceRef);

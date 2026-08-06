@@ -37,6 +37,7 @@ class AudioCaptureService : Service() {
         const val ACTION_FLUSH = "com.mindanchor.androidaudio.action.FLUSH"
         const val ACTION_REVOKE_CONSENT = "com.mindanchor.androidaudio.action.REVOKE_CONSENT"
         const val ACTION_STATUS = "com.mindanchor.androidaudio.STATUS"
+        const val EXTRA_ALLOW_CLOUD_TRANSCRIPTION = "allowCloudTranscription"
         private const val NOTIFICATION_CHANNEL_ID = "mindanchor_audio_capture"
         private const val NOTIFICATION_ID = 4001
         private const val SAMPLE_RATE_HZ = 16_000
@@ -68,7 +69,7 @@ class AudioCaptureService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
-            ACTION_START -> startCapture()
+            ACTION_START -> startCapture(intent?.getBooleanExtra(EXTRA_ALLOW_CLOUD_TRANSCRIPTION, false) == true)
             ACTION_STOP -> stopCapture()
             ACTION_FLUSH -> flushQueue()
             ACTION_REVOKE_CONSENT -> revokeConsent()
@@ -82,7 +83,7 @@ class AudioCaptureService : Service() {
         super.onDestroy()
     }
 
-    private fun startCapture() {
+    private fun startCapture(allowCloudTranscription: Boolean) {
         if (isCapturing) {
             publishStatus("Audio capture is already running.")
             return
@@ -106,7 +107,11 @@ class AudioCaptureService : Service() {
         serviceScope.launch {
             var consentRef: String? = null
             try {
-                val grantedConsent = lanBridgeClient.setAudioConsent(config, "granted")
+                val grantedConsent = lanBridgeClient.setAudioConsent(
+                    config,
+                    "granted",
+                    allowCloudTranscription = allowCloudTranscription,
+                )
                 consentRef = grantedConsent.consentRef
                 if (!isCapturing) {
                     runCatching { lanBridgeClient.setAudioConsent(config, "revoked") }

@@ -102,7 +102,8 @@ import { AgentMemoryProposalService } from "./services/agent-memory-proposal-ser
 import { AgentMemoryScopeError, AgentMemoryService } from "./services/agent-memory-service.js";
 import { WayfinderConsentService } from "./services/wayfinder/consent-service.js";
 import { WayfinderDecisionService } from "./services/wayfinder/decision-service.js";
-import { FixtureSpeechTranscriber, WayfinderAudioEventService } from "./services/wayfinder/audio-event-service.js";
+import { WayfinderAudioEventService } from "./services/wayfinder/audio-event-service.js";
+import { ConsentAwareSpeechTranscriber } from "./services/wayfinder/speech-transcribers.js";
 import { WayfinderSituationService } from "./services/wayfinder/situation-service.js";
 import { WayfinderOptionGenerationService } from "./services/wayfinder/option-generation-service.js";
 import { WayfinderRepository } from "./services/wayfinder/wayfinder-repository.js";
@@ -149,7 +150,12 @@ export const buildApp = async (env: AppEnv) => {
     repository: wayfinderRepository,
     consent: wayfinderConsent,
     situations: wayfinderSituations,
-    transcriber: new FixtureSpeechTranscriber(),
+    transcriber: new ConsentAwareSpeechTranscriber({
+      remoteEnabled: env.wayfinderAsrRemoteEnabled,
+      baseUrl: env.asrBaseUrl,
+      apiKey: env.asrApiKey,
+      model: env.asrModel,
+    }),
   });
 
   app.addHook("onClose", async () => {

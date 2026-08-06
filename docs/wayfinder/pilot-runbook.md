@@ -35,6 +35,16 @@ This runbook is for the creator's adult personal wellness pilot only. It is not 
 
 For every day, keep the date, source scopes, situation IDs, option IDs, decision IDs, outcome IDs, health summary provenance, and any pause/revoke event. Do not store raw audio or platform health samples in the pilot log.
 
+Before a pilot build, run the reusable interruption scenario against the intended API:
+
+```bash
+MINDANCHOR_API_BASE_URL=http://127.0.0.1:3001 \
+MINDANCHOR_API_TOKEN=<authenticated-token> \
+corepack pnpm scenario:wayfinder-interruption
+```
+
+The command must report `ok: true`, `optionCount: 3`, and IDs for the situation, selected option, decision, and outcome. It uses the scenario "I am finishing the main analysis, but a colleague asks me to send a preliminary result this afternoon" and verifies the final decision history.
+
 ## Stop conditions
 
 Stop collection and follow the safety runbook when an external action is attempted, a bystander is captured, an unconsented source is processed, a deletion check fails, or a model emits a diagnosis/command instead of a bounded suggestion.

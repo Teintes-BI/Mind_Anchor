@@ -1,4 +1,4 @@
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -87,6 +87,32 @@ describe("Wayfinder audio event service", () => {
     expect(store.listTasks("user-a")).toHaveLength(0);
     expect(result.contextEvent?.kind).toBe("voice_candidate");
     expect(result.contextEvent?.payload).not.toHaveProperty("base64Audio");
+    expect(transcriber.transcribe).toHaveBeenCalledWith(expect.objectContaining({ allowCloud: false }));
+    expect(await readFile(join(dataDir, "mindanchor.json"), "utf8")).not.toContain("raw-audio-must-not-be-persisted");
+  });
+
+  it("permits cloud transcription only for a provider-sharing consent grant", async () => {
+    const cloudGrant = await consent.upsert(
+      "user-a",
+      {
+        source: "phone-1-cloud",
+        purpose: "wayfinder_voice_candidate",
+        scope: "foreground_short_audio",
+        status: "granted",
+        rawRetentionSeconds: 0,
+        derivedRetentionDays: 7,
+        modelSharing: "selected_provider",
+      },
+      "trace-cloud-consent",
+    );
+
+    await service.ingest({
+      ...input(2),
+      sourceDeviceId: "phone-1-cloud",
+      consentRef: cloudGrant.id,
+    });
+
+    expect(transcriber.transcribe).toHaveBeenLastCalledWith(expect.objectContaining({ allowCloud: true }));
   });
 
   it("does not run ASR when the voice consent is missing or revoked", async () => {

@@ -180,14 +180,20 @@ class LanBridgeClient {
         )
     }
 
-    suspend fun setAudioConsent(config: PairingConfig, status: String): AudioConsentResult {
+    suspend fun setAudioConsent(
+        config: PairingConfig,
+        status: String,
+        allowCloudTranscription: Boolean = false,
+    ): AudioConsentResult {
         val response = request(
             method = "POST",
             url = "${config.receiverBaseUrl}/local/mobile/audio/consent",
-            body = JSONObject()
-                .put("pairToken", config.pairToken)
-                .put("deviceId", config.deviceId)
-                .put("status", status),
+            body = buildAudioConsentPayload(
+                pairToken = config.pairToken,
+                deviceId = config.deviceId,
+                status = status,
+                allowCloudTranscription = allowCloudTranscription,
+            ),
         )
         return AudioConsentResult(
             consentRef = response.getString("consentRef"),
