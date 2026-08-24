@@ -15,6 +15,7 @@ import { healthProvenanceFieldsSchema, healthCalibrationRecordSchema } from "./h
 export * from "./wayfinder.js";
 export * from "./health-signal.js";
 export * from "./core.js";
+export * from "./single-brain.js";
 export { agentTeamAgentIds, agentTeamPersonaMetadata, memoryScopeValues } from "./agent-team.js";
 export type { AgentTeamPersonaEntry, AgentTeamPersonaName, AgentTeamPersonaRegistry } from "./agent-team.js";
 export {
