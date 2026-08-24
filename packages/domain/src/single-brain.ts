@@ -34,6 +34,13 @@ const contextEventSchema = z
   })
   .strict();
 
+const contextHistoryItemSchema = z.object({
+  id: identifierSchema,
+  role: z.enum(["user", "assistant"]),
+  content: z.string().min(1).max(1200),
+  createdAt: dateTimeSchema,
+}).strict();
+
 export const contextPacketSchema = z.object({
   conversationId: identifierSchema,
   profileId: identifierSchema,
@@ -43,6 +50,7 @@ export const contextPacketSchema = z.object({
   lifeCompass: z.string().max(5000).nullable(),
   currentState: z.record(z.unknown()).nullable(),
   recentEvents: z.array(contextEventSchema).max(12),
+  history: z.array(contextHistoryItemSchema).max(6).default([]),
   redactions: z.array(z.string()).default([]),
   sourceEventIds: z.array(identifierSchema).default([]),
   characterCount: z.number().int().min(0).max(24000),
