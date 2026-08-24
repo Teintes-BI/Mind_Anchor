@@ -73,6 +73,8 @@ Comma 采用“一个 Personal Core，多种终端”的路径。Desktop 是 V0.
 
 10 个固定 fixture 中上下文包大小受限，P3 泄漏测试 100% 通过，模型不可用时 UI 仍可使用本地状态和手工 check-in。
 
+详细实施计划见 [`2026-08-24-comma-single-brain.md`](../superpowers/plans/2026-08-24-comma-single-brain.md)。
+
 ## 4. V0.1-C：Choice Engine
 
 ### 目标
@@ -227,4 +229,3 @@ Agent 是岗位，Skill 是知识工具箱，Model 是算力；三者都不能�
 ## 13. 当前下一步
 
 先评审架构基线中的三项技术决策，再按 [`2026-08-24-comma-personal-core-skeleton.md`](../superpowers/plans/2026-08-24-comma-personal-core-skeleton.md) 实施 V0.1-A。第一阶段完成前不开始模型、语音、智能眼镜和全自动 Decision Window 的代码开发。
-
