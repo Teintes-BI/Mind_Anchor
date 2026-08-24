@@ -111,8 +111,12 @@ import { WayfinderRepository } from "./services/wayfinder/wayfinder-repository.j
 import { HealthSignalService, healthBridgeSnapshotInputSchema } from "./services/wayfinder/health-signal-service.js";
 import { registerWayfinderRoutes } from "./routes/wayfinder.js";
 import { coreErrorResponse, coreErrorStatus, registerCoreRoutes } from "./routes/core.js";
+import { registerSingleBrainRoutes } from "./routes/single-brain.js";
 import { CoreError } from "./core/core-errors.js";
 import { SqliteCoreRepository } from "./core/sqlite-core-repository.js";
+import { ContextBuilder } from "./core/context-builder.js";
+import { SingleBrainService } from "./services/single-brain-service.js";
+import { ModelBridgeSingleBrainAdapter, StubSingleBrainModelAdapter } from "./services/single-brain-model.js";
 import { MindAnchorStore } from "./store.js";
 import { debugScenarioIdSchema } from "./debug-scenarios.js";
 import { nativeOpenClawAgentRegistry } from "../../../openclaw/runtime/agent-registry.mjs";
@@ -136,6 +140,11 @@ export const buildApp = async (env: AppEnv) => {
   const core = SqliteCoreRepository.fromFile(env.personalCoreSqliteFile ?? join(dirname(env.dataFile), "comma-personal-core.sqlite"));
   await core.init();
   const traceLogger = new MindAnchorTraceLogger(store, app.log, "gateway");
+  const singleBrainContextBuilder = new ContextBuilder(core);
+  const singleBrainAdapter = env.agentMode === "stub"
+    ? new StubSingleBrainModelAdapter()
+    : new ModelBridgeSingleBrainAdapter(new ModelBridge(env, traceLogger.child("single-brain")), env);
+  const singleBrainService = new SingleBrainService(core, singleBrainContextBuilder, singleBrainAdapter);
   const orchestrator = new MindAnchorOrchestrator(env, store, traceLogger);
   const jarvisCommands = new JarvisCommandService(store);
   const dataMemory = new DataMemoryService(store);
@@ -1119,6 +1128,7 @@ export const buildApp = async (env: AppEnv) => {
     audioEvents: wayfinderAudioEvents,
   });
   await registerCoreRoutes(app, { core });
+  await registerSingleBrainRoutes(app, { core, service: singleBrainService, dataBoundary: env.singleBrainDataBoundary ?? "cloud_allowed" });
 
   app.get("/health", async () => ({
     ok: true,

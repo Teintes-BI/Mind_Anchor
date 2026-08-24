@@ -385,6 +385,11 @@ export class SqliteCoreRepository implements CoreRepository {
     return this.getConversation(profileId, userId, conversationId);
   }
 
+  async deleteConversation(profileId: string, userId: string, conversationId: string) {
+    this.conversation(profileId, userId, conversationId);
+    this.db.prepare("DELETE FROM core_conversations WHERE id = ? AND profile_id = ? AND user_id = ?").run(conversationId, profileId, userId);
+  }
+
   async addSystemTrace(input: CreateSystemTraceInput) {
     this.profile(input.profileId, input.userId);
     this.db.prepare("INSERT INTO core_system_traces(id, profile_id, user_id, trace_id, event, payload_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)").run(this.idFactory(), input.profileId, input.userId, input.traceId ?? null, input.event, JSON.stringify(input.payload ?? {}), this.clock());

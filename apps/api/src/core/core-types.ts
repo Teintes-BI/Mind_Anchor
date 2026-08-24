@@ -121,6 +121,7 @@ export type CoreRepository = {
   failConversationMessage(profileId: string, userId: string, messageId: string, input: FailConversationMessageInput): Promise<ConversationMessage>;
   listConversationMessages(profileId: string, userId: string, conversationId: string): Promise<ConversationMessage[]>;
   archiveConversation(profileId: string, userId: string, conversationId: string): Promise<CoreConversation>;
+  deleteConversation(profileId: string, userId: string, conversationId: string): Promise<void>;
   addSystemTrace(input: CreateSystemTraceInput): Promise<void>;
   buildCloudProjection(event: CoreEvent): Record<string, unknown>;
   exportProfile(profileId: string, userId: string): Promise<CoreExport>;
