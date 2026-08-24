@@ -26,6 +26,7 @@ pnpm dev:desktop
 export PATH="$PWD/.tools/node/bin:$PATH"
 export MINDANCHOR_API_PORT=3001
 export MINDANCHOR_DATA_FILE="$PWD/data/mindanchor.json"
+export MINDANCHOR_PERSONAL_CORE_SQLITE_FILE="$PWD/data/comma-personal-core.sqlite"
 export MINDANCHOR_AGENT_MODE=stub
 export MINDANCHOR_API_URL=http://localhost:3001
 export MINDANCHOR_OPENCLAW_BASE_URL=http://localhost:8787
@@ -69,6 +70,17 @@ export MINDANCHOR_TELEGRAM_CHAT_ID=
 - `GET /reflections/overview`
 - `GET /client/inbox/overview`
 - `GET /debug/openclaw/adapter`
+
+## Personal Core (v0.1-A)
+
+Personal Core is stored in the separate SQLite file configured by `MINDANCHOR_PERSONAL_CORE_SQLITE_FILE` (default: `data/comma-personal-core.sqlite`). It exposes the Local-First event, state, Life Compass, privacy, export, retention, and delete endpoints under `/v1/core`. The legacy JSON store remains separate and is not deleted by Core operations.
+
+For an explicit legacy migration, run the dry-run first and review unmapped records:
+
+```bash
+node scripts/migrate-json-to-core.mjs --input data/mindanchor.json --sqlite data/comma-personal-core.sqlite --dry-run
+node scripts/migrate-json-to-core.mjs --input data/mindanchor.json --sqlite data/comma-personal-core.sqlite --apply
+```
 
 See `docs/web-console-read-models.md` for the page-to-endpoint mapping.
 See `docs/web-console-smoke-checklist.md` for the stub / provider-direct / cluster-preferred validation flow.

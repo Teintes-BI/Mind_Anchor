@@ -1,6 +1,7 @@
 import Fastify, { type FastifyReply, type FastifyRequest } from "fastify";
 import cors from "@fastify/cors";
 import { readFile } from "node:fs/promises";
+import { dirname, join } from "node:path";
 import { z } from "zod";
 import {
   agentMemoryContextBundleSchema,
@@ -109,6 +110,9 @@ import { WayfinderOptionGenerationService } from "./services/wayfinder/option-ge
 import { WayfinderRepository } from "./services/wayfinder/wayfinder-repository.js";
 import { HealthSignalService, healthBridgeSnapshotInputSchema } from "./services/wayfinder/health-signal-service.js";
 import { registerWayfinderRoutes } from "./routes/wayfinder.js";
+import { coreErrorResponse, coreErrorStatus, registerCoreRoutes } from "./routes/core.js";
+import { CoreError } from "./core/core-errors.js";
+import { SqliteCoreRepository } from "./core/sqlite-core-repository.js";
 import { MindAnchorStore } from "./store.js";
 import { debugScenarioIdSchema } from "./debug-scenarios.js";
 import { nativeOpenClawAgentRegistry } from "../../../openclaw/runtime/agent-registry.mjs";
@@ -129,6 +133,8 @@ export const buildApp = async (env: AppEnv) => {
 
   const store = new MindAnchorStore(env.dataFile);
   await store.init();
+  const core = SqliteCoreRepository.fromFile(env.personalCoreSqliteFile ?? join(dirname(env.dataFile), "comma-personal-core.sqlite"));
+  await core.init();
   const traceLogger = new MindAnchorTraceLogger(store, app.log, "gateway");
   const orchestrator = new MindAnchorOrchestrator(env, store, traceLogger);
   const jarvisCommands = new JarvisCommandService(store);
@@ -160,6 +166,7 @@ export const buildApp = async (env: AppEnv) => {
 
   app.addHook("onClose", async () => {
     await conversationCoach.shutdown();
+    core.close();
   });
 
   const buildNativeOpenClawRegistryResponse = () =>
@@ -975,6 +982,11 @@ export const buildApp = async (env: AppEnv) => {
       return;
     }
 
+    if (error instanceof CoreError) {
+      reply.code(coreErrorStatus(error)).send(coreErrorResponse(error));
+      return;
+    }
+
     request.log.error(error);
     reply.code(500).send({
       message: error instanceof Error ? error.message : "Internal server error.",
@@ -998,6 +1010,7 @@ export const buildApp = async (env: AppEnv) => {
       reply.code(401);
       return null;
     }
+
     return userId;
   };
   const requireHealthConsent = (userId: string, consentRef: string | undefined, reply: FastifyReply) => {
@@ -1105,6 +1118,7 @@ export const buildApp = async (env: AppEnv) => {
     optionGeneration: wayfinderOptionGeneration,
     audioEvents: wayfinderAudioEvents,
   });
+  await registerCoreRoutes(app, { core });
 
   app.get("/health", async () => ({
     ok: true,

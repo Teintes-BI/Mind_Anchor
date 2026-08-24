@@ -11,11 +11,13 @@
   "dependencies": {
     "@fastify/cors": "^10.0.2",
     "@mindanchor/domain": "workspace:*",
-    "jose": "^6.1.0",
+    "better-sqlite3": "11.10.0",
     "fastify": "^5.2.1",
+    "jose": "^6.1.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "7.6.12",
     "@types/node": "^22.13.10",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",

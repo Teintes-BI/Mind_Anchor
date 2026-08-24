@@ -47,6 +47,7 @@ export type AppEnv = {
   apiHost: string;
   apiPort: number;
   dataFile: string;
+  personalCoreSqliteFile?: string;
   agentMode: "stub" | "openai-compatible";
   openClawBaseUrl?: string;
   openClawOriginalRuntimeMode?: "disabled" | "cli-local";
@@ -201,6 +202,7 @@ export const getEnv = (): AppEnv => {
     apiHost: process.env.MINDANCHOR_API_HOST ?? "127.0.0.1",
     apiPort: Number(process.env.MINDANCHOR_API_PORT ?? "3001"),
     dataFile: process.env.MINDANCHOR_DATA_FILE ?? `${process.cwd()}/data/mindanchor.json`,
+    personalCoreSqliteFile: process.env.MINDANCHOR_PERSONAL_CORE_SQLITE_FILE ?? `${process.cwd()}/data/comma-personal-core.sqlite`,
     agentMode: agentModeSchema.parse(process.env.MINDANCHOR_AGENT_MODE ?? "stub"),
     openClawBaseUrl: process.env.MINDANCHOR_OPENCLAW_BASE_URL,
     openClawOriginalRuntimeMode:

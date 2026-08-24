@@ -13,6 +13,7 @@ export const coreEventSourceSchema = z.enum([
   "watch",
   "glasses",
   "system",
+  "legacy",
 ]);
 export const coreEventTypeSchema = z.enum([
   "state_report",
@@ -68,6 +69,10 @@ export const lifeCompassCandidateSchema = z.object({
   createdAt: coreIsoDateTimeSchema,
 });
 
+export const lifeCompassCandidateRecordSchema = lifeCompassCandidateSchema.extend({
+  status: z.enum(["pending", "confirmed", "rejected"]),
+});
+
 export const lifeCompassVersionSchema = z.object({
   id: coreIdentifierSchema,
   profileId: coreIdentifierSchema,
@@ -92,7 +97,7 @@ export const coreExportSchema = z.object({
   profile: z.record(z.unknown()),
   events: z.array(coreEventSchema),
   stateSnapshots: z.array(stateSnapshotSchema),
-  lifeCompassCandidates: z.array(lifeCompassCandidateSchema),
+  lifeCompassCandidates: z.array(lifeCompassCandidateRecordSchema),
   lifeCompassVersions: z.array(lifeCompassVersionSchema),
   permissions: z.array(corePermissionSchema),
   systemTraceCount: z.number().int().nonnegative(),
@@ -101,6 +106,7 @@ export const coreExportSchema = z.object({
 export type CoreEvent = z.infer<typeof coreEventSchema>;
 export type StateSnapshot = z.infer<typeof stateSnapshotSchema>;
 export type LifeCompassCandidate = z.infer<typeof lifeCompassCandidateSchema>;
+export type LifeCompassCandidateRecord = z.infer<typeof lifeCompassCandidateRecordSchema>;
 export type LifeCompassVersion = z.infer<typeof lifeCompassVersionSchema>;
 export type CorePermission = z.infer<typeof corePermissionSchema>;
 export type CoreExport = z.infer<typeof coreExportSchema>;
