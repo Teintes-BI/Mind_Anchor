@@ -6,7 +6,7 @@ const dateTimeSchema = z.string().datetime({ offset: true });
 export const conversationRoleSchema = z.enum(["user", "assistant", "system"]);
 export const conversationMessageStatusSchema = z.enum(["pending", "completed", "failed", "blocked"]);
 export const conversationStatusSchema = z.enum(["active", "archived", "deleted"]);
-export const contextBoundarySchema = z.enum(["local_only", "cloud_allowed"]);
+export const contextDataBoundarySchema = z.enum(["local_only", "cloud_allowed"]);
 export const singleBrainGenerationStatusSchema = z.enum(["completed", "failed", "blocked"]);
 
 export const conversationMessageSchema = z.object({
@@ -39,7 +39,7 @@ export const contextPacketSchema = z.object({
   profileId: identifierSchema,
   userId: identifierSchema,
   userMessage: z.string().min(1).max(12000),
-  boundary: contextBoundarySchema,
+  dataBoundary: contextDataBoundarySchema,
   lifeCompass: z.string().max(5000).nullable(),
   currentState: z.record(z.unknown()).nullable(),
   recentEvents: z.array(contextEventSchema).max(12),
@@ -52,14 +52,9 @@ export const contextPacketSchema = z.object({
 
 export const singleBrainGenerationSchema = z
   .object({
-    id: identifierSchema,
-    conversationId: identifierSchema,
-    profileId: identifierSchema,
-    userId: identifierSchema,
     status: singleBrainGenerationStatusSchema,
     response: z.string().min(1).max(12000).nullable().default(null),
     userFacingNote: z.string().max(500).optional(),
-    createdAt: dateTimeSchema,
   })
   .superRefine((value, context) => {
     if (value.status === "completed" && value.response === null) {

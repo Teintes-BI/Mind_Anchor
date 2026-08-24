@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  contextDataBoundarySchema,
   contextPacketSchema,
   conversationMessageSchema,
   singleBrainGenerationSchema,
@@ -12,7 +13,7 @@ const contextPacket = {
   profileId: "profile-1",
   userId: "user-1",
   userMessage: "Help me choose what to focus on this afternoon.",
-  boundary: "local_only",
+  dataBoundary: "local_only",
   lifeCompass: null,
   currentState: { energy: 62, focusReadiness: 45 },
   recentEvents: [
@@ -33,10 +34,14 @@ const contextPacket = {
 describe("Single brain domain contracts", () => {
   it("accepts an explicitly bounded context packet", () => {
     expect(contextPacketSchema.parse(contextPacket)).toMatchObject({
-      boundary: "local_only",
+      dataBoundary: "local_only",
       recentEvents: [{ id: "event-1", summary: "Prepare the project brief." }],
       characterCount: 184,
     });
+  });
+
+  it("defines the explicit local or cloud context data boundary", () => {
+    expect(contextDataBoundarySchema.parse("cloud_allowed")).toBe("cloud_allowed");
   });
 
   it("rejects context events that carry non-allowlisted prompt or agent fields", () => {
@@ -66,14 +71,19 @@ describe("Single brain domain contracts", () => {
   it("requires a response for completed generations", () => {
     expect(() =>
       singleBrainGenerationSchema.parse({
-        id: "generation-1",
-        conversationId: "conversation-1",
-        profileId: "profile-1",
-        userId: "user-1",
         status: "completed",
         response: null,
         createdAt: date,
       }),
     ).toThrow();
+  });
+
+  it("accepts a completed generation with only its response", () => {
+    expect(
+      singleBrainGenerationSchema.parse({
+        status: "completed",
+        response: "Start with the project brief, then reassess after 25 minutes.",
+      }),
+    ).toMatchObject({ status: "completed" });
   });
 });
