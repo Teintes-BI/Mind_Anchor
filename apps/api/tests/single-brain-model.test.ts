@@ -91,6 +91,13 @@ describe("Single Brain model adapters", () => {
     expect(result).toMatchObject({ status: "failed", failureCode: "invalid_model_response" });
   });
 
+  it("maps a configured bridge fallback to invalid_model_response", async () => {
+    const generateJson = vi.fn(async ({ fallback }: { fallback: () => never }) => fallback());
+    const adapter = new ModelBridgeSingleBrainAdapter({ generateJson }, env({ baseUrl: "https://example.test", model: "m" }));
+    const result = await adapter.generate(input());
+    expect(result).toMatchObject({ status: "failed", failureCode: "invalid_model_response" });
+  });
+
   it("reports unavailable when baseUrl or model is missing", async () => {
     const generateJson = vi.fn();
     const adapter = new ModelBridgeSingleBrainAdapter({ generateJson }, env());
