@@ -19,6 +19,13 @@ const migrationSql = [
    CREATE TRIGGER IF NOT EXISTS core_events_fts_ai AFTER INSERT ON core_events BEGIN INSERT INTO core_events_fts(rowid, event_id, event_type, payload_text) VALUES (new.rowid, new.id, new.event_type, new.payload_text); END;
    CREATE TRIGGER IF NOT EXISTS core_events_fts_ad AFTER DELETE ON core_events BEGIN DELETE FROM core_events_fts WHERE rowid = old.rowid; END;
    CREATE TRIGGER IF NOT EXISTS core_events_fts_au AFTER UPDATE ON core_events BEGIN DELETE FROM core_events_fts WHERE rowid = old.rowid; INSERT INTO core_events_fts(rowid, event_id, event_type, payload_text) VALUES (new.rowid, new.id, new.event_type, new.payload_text); END;`,
+  `CREATE TABLE IF NOT EXISTS core_conversations (id TEXT PRIMARY KEY, profile_id TEXT NOT NULL REFERENCES core_profiles(profile_id) ON DELETE CASCADE, user_id TEXT NOT NULL, status TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL);
+   CREATE INDEX IF NOT EXISTS core_conversations_profile_updated ON core_conversations(profile_id, updated_at DESC);
+   CREATE TABLE IF NOT EXISTS core_conversation_messages (id TEXT PRIMARY KEY, conversation_id TEXT NOT NULL REFERENCES core_conversations(id) ON DELETE CASCADE, profile_id TEXT NOT NULL REFERENCES core_profiles(profile_id) ON DELETE CASCADE, user_id TEXT NOT NULL, role TEXT NOT NULL, content TEXT NOT NULL, status TEXT NOT NULL, client_message_id TEXT, model_tier TEXT, context_hash TEXT, redactions_json TEXT NOT NULL, failure_code TEXT, created_at TEXT NOT NULL);
+   CREATE UNIQUE INDEX IF NOT EXISTS core_conversation_messages_conversation_client_key ON core_conversation_messages(conversation_id, client_message_id) WHERE client_message_id IS NOT NULL;
+   CREATE INDEX IF NOT EXISTS core_conversation_messages_conversation_created ON core_conversation_messages(conversation_id, created_at ASC);
+   CREATE TABLE IF NOT EXISTS core_conversation_context_packets (id TEXT PRIMARY KEY, conversation_id TEXT NOT NULL REFERENCES core_conversations(id) ON DELETE CASCADE, profile_id TEXT NOT NULL REFERENCES core_profiles(profile_id) ON DELETE CASCADE, user_id TEXT NOT NULL, data_boundary TEXT NOT NULL, payload_json TEXT NOT NULL, context_hash TEXT NOT NULL, redactions_json TEXT NOT NULL, created_at TEXT NOT NULL);
+   CREATE INDEX IF NOT EXISTS core_conversation_context_packets_conversation_created ON core_conversation_context_packets(conversation_id, created_at ASC);`,
 ] as const;
 
 export const CORE_MIGRATIONS: readonly Migration[] = migrationSql.map((sql, index) => ({
