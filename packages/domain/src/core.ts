@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { conversationMessageSchema, conversationStatusSchema } from "./single-brain.js";
 
 const coreIdentifierSchema = z.string().min(1);
 const coreIsoDateTimeSchema = z.string().datetime({ offset: true });
@@ -92,6 +93,16 @@ export const corePermissionSchema = z.object({
   updatedAt: coreIsoDateTimeSchema,
 });
 
+export const coreConversationSchema = z.object({
+  id: coreIdentifierSchema,
+  profileId: coreIdentifierSchema,
+  userId: coreUserIdSchema,
+  title: z.string().min(1),
+  status: conversationStatusSchema,
+  createdAt: coreIsoDateTimeSchema,
+  updatedAt: coreIsoDateTimeSchema,
+});
+
 export const coreExportSchema = z.object({
   exportedAt: coreIsoDateTimeSchema,
   profile: z.record(z.unknown()),
@@ -100,6 +111,8 @@ export const coreExportSchema = z.object({
   lifeCompassCandidates: z.array(lifeCompassCandidateRecordSchema),
   lifeCompassVersions: z.array(lifeCompassVersionSchema),
   permissions: z.array(corePermissionSchema),
+  conversations: z.array(coreConversationSchema),
+  conversationMessages: z.array(conversationMessageSchema),
   systemTraceCount: z.number().int().nonnegative(),
 });
 
@@ -109,4 +122,5 @@ export type LifeCompassCandidate = z.infer<typeof lifeCompassCandidateSchema>;
 export type LifeCompassCandidateRecord = z.infer<typeof lifeCompassCandidateRecordSchema>;
 export type LifeCompassVersion = z.infer<typeof lifeCompassVersionSchema>;
 export type CorePermission = z.infer<typeof corePermissionSchema>;
+export type CoreConversation = z.infer<typeof coreConversationSchema>;
 export type CoreExport = z.infer<typeof coreExportSchema>;

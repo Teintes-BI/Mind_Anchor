@@ -6,6 +6,7 @@ import {
   coreEventSchema,
   coreExportSchema,
   corePermissionSchema,
+  conversationMessageSchema,
   lifeCompassCandidateRecordSchema,
   lifeCompassCandidateSchema,
   lifeCompassVersionSchema,
@@ -13,6 +14,7 @@ import {
   type CoreEvent,
   type CoreExport,
   type CorePermission,
+  type ConversationMessage,
   type LifeCompassCandidate,
   type LifeCompassVersion,
   type StateSnapshot,
@@ -20,6 +22,11 @@ import {
 import { CoreError } from "./core-errors.js";
 import type {
   CoreProfile,
+  CoreConversation,
+  CreateConversationInput,
+  AppendConversationMessageInput,
+  CompleteConversationMessageInput,
+  FailConversationMessageInput,
   CoreRepository,
   CreateCoreEventInput,
   CreateLifeCompassCandidateInput,
@@ -75,6 +82,79 @@ export class SqliteCoreRepository implements CoreRepository {
     if (dataLevel === "P3" && permission.memory_boundary !== "local_only") throw new CoreError("core_p3_egress_blocked");
   }
 
+  private conversation(profileId: string, userId: string, conversationId: string) {
+    this.profile(profileId, userId);
+    const row = this.db.prepare("SELECT * FROM core_conversations WHERE id = ? AND profile_id = ? AND user_id = ?").get(conversationId, profileId, userId) as Record<string, unknown> | undefined;
+    if (!row) throw new CoreError("core_not_found");
+    return row;
+  }
+
+  private toConversation(row: Record<string, unknown>): CoreConversation {
+    return {
+      id: String(row.id),
+      profileId: String(row.profile_id),
+      userId: String(row.user_id),
+      title: String(row.title),
+      status: row.status as CoreConversation["status"],
+      createdAt: String(row.created_at),
+      updatedAt: String(row.updated_at),
+    };
+  }
+
+  private toConversationMessage(row: Record<string, unknown>): ConversationMessage {
+    return conversationMessageSchema.parse({
+      id: row.id,
+      conversationId: row.conversation_id,
+      profileId: row.profile_id,
+      userId: row.user_id,
+      role: row.role,
+      content: row.content,
+      status: row.status,
+      clientMessageId: row.client_message_id ?? undefined,
+      modelTier: row.model_tier ?? null,
+      contextHash: row.context_hash ?? null,
+      redactions: JSON.parse(String(row.redactions_json)),
+      failureCode: row.failure_code ?? null,
+      createdAt: row.created_at,
+    });
+  }
+
+  private canonicalConversationContent(content: string) {
+    return content.trim().replace(/\s+/gu, " ");
+  }
+
+  private terminalAssistantMessage(
+    profileId: string,
+    userId: string,
+    messageId: string,
+    input: CompleteConversationMessageInput | FailConversationMessageInput,
+    status: "completed" | "failed" | "blocked",
+  ) {
+    this.profile(profileId, userId);
+    const userMessage = this.db.prepare("SELECT * FROM core_conversation_messages WHERE id = ? AND profile_id = ? AND user_id = ? AND role = 'user'").get(messageId, profileId, userId) as Record<string, unknown> | undefined;
+    if (!userMessage) throw new CoreError("core_not_found");
+    const createdAt = this.clock();
+    const assistantId = this.idFactory();
+    const completed = status === "completed";
+    const completion = input as CompleteConversationMessageInput;
+    const failure = input as FailConversationMessageInput;
+    this.db.prepare("INSERT INTO core_conversation_messages(id, conversation_id, profile_id, user_id, role, content, status, client_message_id, model_tier, context_hash, redactions_json, failure_code, created_at) VALUES (?, ?, ?, ?, 'assistant', ?, ?, NULL, ?, ?, ?, ?, ?)").run(
+      assistantId,
+      userMessage.conversation_id,
+      profileId,
+      userId,
+      completed ? completion.content : "回复暂时不可用。",
+      status,
+      completed ? completion.modelTier : null,
+      completed ? completion.contextHash : null,
+      JSON.stringify(input.redactions),
+      completed ? null : failure.failureCode,
+      createdAt,
+    );
+    this.db.prepare("UPDATE core_conversations SET updated_at = ? WHERE id = ? AND profile_id = ? AND user_id = ?").run(createdAt, userMessage.conversation_id, profileId, userId);
+    return this.toConversationMessage(this.db.prepare("SELECT * FROM core_conversation_messages WHERE id = ?").get(assistantId) as Record<string, unknown>);
+  }
+
   private toEvent(row: Record<string, unknown>): CoreEvent {
     return coreEventSchema.parse({
       id: row.id,
@@ -119,6 +199,7 @@ export class SqliteCoreRepository implements CoreRepository {
     if (current && current.user_id !== input.userId) throw new CoreError("core_profile_scope_mismatch");
     this.db.prepare("INSERT INTO core_profiles(profile_id, user_id, timezone, created_at, updated_at) VALUES (?, ?, ?, ?, ?) ON CONFLICT(profile_id) DO UPDATE SET timezone = excluded.timezone, updated_at = excluded.updated_at").run(input.profileId, input.userId, input.timezone, timestamp, timestamp);
     this.db.prepare("INSERT INTO core_permissions(profile_id, user_id, purpose, scope, status, data_level, memory_boundary, updated_at) VALUES (?, ?, 'core', 'write', 'granted', 'P1', 'cloud_allowed', ?) ON CONFLICT(profile_id, purpose, scope) DO NOTHING").run(input.profileId, input.userId, timestamp);
+    this.db.prepare("INSERT INTO core_permissions(profile_id, user_id, purpose, scope, status, data_level, memory_boundary, updated_at) VALUES (?, ?, 'conversation', 'chat_input', 'granted', 'P1', 'cloud_allowed', ?) ON CONFLICT(profile_id, purpose, scope) DO NOTHING").run(input.profileId, input.userId, timestamp);
     const row = this.db.prepare("SELECT profile_id, user_id, timezone, created_at, updated_at FROM core_profiles WHERE profile_id = ?").get(input.profileId) as Record<string, string>;
     return { profileId: row.profile_id, userId: row.user_id, timezone: row.timezone, createdAt: row.created_at, updatedAt: row.updated_at };
   }
@@ -224,6 +305,86 @@ export class SqliteCoreRepository implements CoreRepository {
     return input;
   }
 
+  async createConversation(input: CreateConversationInput) {
+    this.profile(input.profileId, input.userId);
+    const timestamp = this.clock();
+    const id = this.idFactory();
+    const title = input.title?.trim() || "新对话";
+    this.db.prepare("INSERT INTO core_conversations(id, profile_id, user_id, status, title, created_at, updated_at) VALUES (?, ?, ?, 'active', ?, ?, ?)").run(id, input.profileId, input.userId, title, timestamp, timestamp);
+    return this.toConversation(this.db.prepare("SELECT * FROM core_conversations WHERE id = ?").get(id) as Record<string, unknown>);
+  }
+
+  async getConversation(profileId: string, userId: string, conversationId: string) {
+    return this.toConversation(this.conversation(profileId, userId, conversationId));
+  }
+
+  async listConversations(profileId: string, userId: string) {
+    this.profile(profileId, userId);
+    const rows = this.db.prepare("SELECT * FROM core_conversations WHERE profile_id = ? AND user_id = ? ORDER BY created_at ASC, id ASC LIMIT 100").all(profileId, userId) as Record<string, unknown>[];
+    return rows.map((row) => this.toConversation(row));
+  }
+
+  async appendConversationMessage(input: AppendConversationMessageInput) {
+    const conversation = this.conversation(input.profileId, input.userId, input.conversationId);
+    if (conversation.status !== "active") throw new CoreError("core_not_found");
+    this.requirePermission(input.profileId, input.userId, "P1", "conversation", "chat_input");
+    const canonicalContent = this.canonicalConversationContent(input.content);
+    if (!canonicalContent) throw new CoreError("core_not_found");
+    if (input.clientMessageId) {
+      const existing = this.db.prepare("SELECT * FROM core_conversation_messages WHERE conversation_id = ? AND client_message_id = ?").get(input.conversationId, input.clientMessageId) as Record<string, unknown> | undefined;
+      if (existing) {
+        if (existing.role !== "user" || this.canonicalConversationContent(String(existing.content)) !== canonicalContent) throw new CoreError("core_idempotency_conflict");
+        return this.toConversationMessage(existing);
+      }
+    }
+    const id = this.idFactory();
+    const createdAt = this.clock();
+    this.db.transaction(() => {
+      this.db.prepare("INSERT INTO core_conversation_messages(id, conversation_id, profile_id, user_id, role, content, status, client_message_id, model_tier, context_hash, redactions_json, failure_code, created_at) VALUES (?, ?, ?, ?, 'user', ?, 'completed', ?, NULL, NULL, '[]', NULL, ?)").run(id, input.conversationId, input.profileId, input.userId, input.content, input.clientMessageId ?? null, createdAt);
+      this.db.prepare("UPDATE core_conversations SET updated_at = ? WHERE id = ? AND profile_id = ? AND user_id = ?").run(createdAt, input.conversationId, input.profileId, input.userId);
+    })();
+    return this.toConversationMessage(this.db.prepare("SELECT * FROM core_conversation_messages WHERE id = ?").get(id) as Record<string, unknown>);
+  }
+
+  async completeConversationMessage(messageId: string, input: CompleteConversationMessageInput): Promise<ConversationMessage>;
+  async completeConversationMessage(profileId: string, userId: string, messageId: string, input: CompleteConversationMessageInput): Promise<ConversationMessage>;
+  async completeConversationMessage(...args: [string, CompleteConversationMessageInput] | [string, string, string, CompleteConversationMessageInput]) {
+    const [profileId, userId, messageId, input] = args.length === 2
+      ? (() => {
+          const row = this.db.prepare("SELECT profile_id, user_id FROM core_conversation_messages WHERE id = ? AND role = 'user'").get(args[0]) as { profile_id?: string; user_id?: string } | undefined;
+          if (!row?.profile_id || !row.user_id) throw new CoreError("core_not_found");
+          return [row.profile_id, row.user_id, args[0], args[1]] as const;
+        })()
+      : args;
+    return this.terminalAssistantMessage(profileId, userId, messageId, input, "completed");
+  }
+
+  async failConversationMessage(messageId: string, input: FailConversationMessageInput): Promise<ConversationMessage>;
+  async failConversationMessage(profileId: string, userId: string, messageId: string, input: FailConversationMessageInput): Promise<ConversationMessage>;
+  async failConversationMessage(...args: [string, FailConversationMessageInput] | [string, string, string, FailConversationMessageInput]) {
+    const [profileId, userId, messageId, input] = args.length === 2
+      ? (() => {
+          const row = this.db.prepare("SELECT profile_id, user_id FROM core_conversation_messages WHERE id = ? AND role = 'user'").get(args[0]) as { profile_id?: string; user_id?: string } | undefined;
+          if (!row?.profile_id || !row.user_id) throw new CoreError("core_not_found");
+          return [row.profile_id, row.user_id, args[0], args[1]] as const;
+        })()
+      : args;
+    return this.terminalAssistantMessage(profileId, userId, messageId, input, input.status);
+  }
+
+  async listConversationMessages(profileId: string, userId: string, conversationId: string) {
+    this.conversation(profileId, userId, conversationId);
+    const rows = this.db.prepare("SELECT * FROM core_conversation_messages WHERE conversation_id = ? AND profile_id = ? AND user_id = ? ORDER BY created_at ASC, id ASC LIMIT 100").all(conversationId, profileId, userId) as Record<string, unknown>[];
+    return rows.map((row) => this.toConversationMessage(row));
+  }
+
+  async archiveConversation(profileId: string, userId: string, conversationId: string) {
+    this.conversation(profileId, userId, conversationId);
+    const timestamp = this.clock();
+    this.db.prepare("UPDATE core_conversations SET status = 'archived', updated_at = ? WHERE id = ? AND profile_id = ? AND user_id = ?").run(timestamp, conversationId, profileId, userId);
+    return this.getConversation(profileId, userId, conversationId);
+  }
+
   async addSystemTrace(input: CreateSystemTraceInput) {
     this.profile(input.profileId, input.userId);
     this.db.prepare("INSERT INTO core_system_traces(id, profile_id, user_id, trace_id, event, payload_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)").run(this.idFactory(), input.profileId, input.userId, input.traceId ?? null, input.event, JSON.stringify(input.payload ?? {}), this.clock());
@@ -243,8 +404,10 @@ export class SqliteCoreRepository implements CoreRepository {
     const versionRows = this.db.prepare("SELECT * FROM core_life_compass_versions WHERE profile_id = ? ORDER BY version").all(profileId) as Record<string, unknown>[];
     const versions = versionRows.map((row) => lifeCompassVersionSchema.parse({ id: row.id, profileId: row.profile_id, userId: row.user_id, content: row.content, version: row.version, confirmedAt: row.confirmed_at, supersedesId: row.supersedes_id ?? null }));
     const permissions = await this.listPermissions(profileId, userId);
+    const conversationRows = this.db.prepare("SELECT * FROM core_conversations WHERE profile_id = ? AND user_id = ? ORDER BY created_at ASC, id ASC").all(profileId, userId) as Record<string, unknown>[];
+    const conversationMessageRows = this.db.prepare("SELECT * FROM core_conversation_messages WHERE profile_id = ? AND user_id = ? ORDER BY created_at ASC, id ASC").all(profileId, userId) as Record<string, unknown>[];
     const systemTraceCount = Number((this.db.prepare("SELECT COUNT(*) AS count FROM core_system_traces WHERE profile_id = ?").get(profileId) as { count: number }).count);
-    return coreExportSchema.parse({ exportedAt: this.clock(), profile: { profileId: profileRow.profile_id, userId: profileRow.user_id, timezone: profileRow.timezone, createdAt: profileRow.created_at, updatedAt: profileRow.updated_at }, events, stateSnapshots: stateRows.map((row) => this.toState(row)), lifeCompassCandidates: compass.candidates, lifeCompassVersions: versions, permissions, systemTraceCount });
+    return coreExportSchema.parse({ exportedAt: this.clock(), profile: { profileId: profileRow.profile_id, userId: profileRow.user_id, timezone: profileRow.timezone, createdAt: profileRow.created_at, updatedAt: profileRow.updated_at }, events, stateSnapshots: stateRows.map((row) => this.toState(row)), lifeCompassCandidates: compass.candidates, lifeCompassVersions: versions, permissions, conversations: conversationRows.map((row) => this.toConversation(row)), conversationMessages: conversationMessageRows.map((row) => this.toConversationMessage(row)), systemTraceCount });
   }
 
   async runRetention(at: string) {
