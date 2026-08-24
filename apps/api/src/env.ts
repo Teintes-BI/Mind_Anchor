@@ -49,6 +49,8 @@ export type AppEnv = {
   dataFile: string;
   personalCoreSqliteFile?: string;
   agentMode: "stub" | "openai-compatible";
+  singleBrainDataBoundary?: "local_only" | "cloud_allowed";
+  singleBrainTarget?: string;
   openClawBaseUrl?: string;
   openClawOriginalRuntimeMode?: "disabled" | "cli-local";
   openClawOriginalRuntimePath?: string;
@@ -204,6 +206,9 @@ export const getEnv = (): AppEnv => {
     dataFile: process.env.MINDANCHOR_DATA_FILE ?? `${process.cwd()}/data/mindanchor.json`,
     personalCoreSqliteFile: process.env.MINDANCHOR_PERSONAL_CORE_SQLITE_FILE ?? `${process.cwd()}/data/comma-personal-core.sqlite`,
     agentMode: agentModeSchema.parse(process.env.MINDANCHOR_AGENT_MODE ?? "stub"),
+    singleBrainDataBoundary:
+      process.env.MINDANCHOR_SINGLE_BRAIN_DATA_BOUNDARY === "local_only" ? "local_only" : "cloud_allowed",
+    singleBrainTarget: process.env.MINDANCHOR_SINGLE_BRAIN_TARGET ?? "comma-single-brain",
     openClawBaseUrl: process.env.MINDANCHOR_OPENCLAW_BASE_URL,
     openClawOriginalRuntimeMode:
       process.env.MINDANCHOR_OPENCLAW_ORIGINAL_RUNTIME_MODE === "cli-local" ? "cli-local" : "disabled",
