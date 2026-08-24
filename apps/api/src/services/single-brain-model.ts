@@ -133,7 +133,10 @@ export class ModelBridgeSingleBrainAdapter implements SingleBrainModelAdapter {
       };
     } catch (error) {
       const reason = error instanceof Error ? error.message : "provider_error";
-      const failureCode = /invalid|json|schema/i.test(reason) ? "invalid_model_response" : "provider_error";
+      const failureCode =
+        error instanceof SyntaxError || /invalid|json|schema|unexpected token|validation/i.test(reason)
+          ? "invalid_model_response"
+          : "provider_error";
       return {
         status: "failed",
         failureCode,
