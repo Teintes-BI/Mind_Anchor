@@ -9,10 +9,12 @@ import { RecoveryPage } from "./pages/RecoveryPage";
 import { CoachPage } from "./pages/CoachPage";
 import { WayfinderPage } from "./pages/WayfinderPage";
 import { DecisionLedgerPage } from "./pages/DecisionLedgerPage";
+import { SingleBrainPage } from "./pages/SingleBrainPage";
 
 const links = [
   { to: "/", label: "Dashboard" },
   { to: "/coach", label: "Coach" },
+  { to: "/single-brain", label: "Single Brain" },
   { to: "/wayfinder", label: "Wayfinder" },
   { to: "/wayfinder/ledger", label: "选择账本" },
   { to: "/tasks", label: "GoalFlow" },
@@ -52,6 +54,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<DashboardPage />} />
           <Route path="/coach" element={<CoachPage />} />
+          <Route path="/single-brain" element={<SingleBrainPage />} />
           <Route path="/wayfinder" element={<WayfinderPage />} />
           <Route path="/wayfinder/ledger" element={<DecisionLedgerPage />} />
           <Route path="/tasks" element={<TasksPage />} />

@@ -41,6 +41,8 @@ import type {
   VideoAssessment,
   WayfinderOutcome,
   CreateContextEventInput,
+  CoreConversation,
+  ConversationMessage,
 } from "@mindanchor/domain";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3001";
@@ -162,7 +164,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   if (hasBody && !headers.has("Content-Type")) {
     headers.set("Content-Type", "application/json");
   }
-  if ((path.startsWith("/coach") || path.startsWith("/wayfinder")) && coachDevToken && !headers.has("Authorization")) {
+  if ((path.startsWith("/coach") || path.startsWith("/wayfinder") || path.startsWith("/v1/core")) && coachDevToken && !headers.has("Authorization")) {
     headers.set("Authorization", `Bearer ${coachDevToken}`);
   }
   const response = await fetch(`${apiBaseUrl}${path}`, {
@@ -178,6 +180,30 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export const api = {
+  listCoreConversations: () => request<{ conversations: CoreConversation[] }>("/v1/core/conversations"),
+  createCoreConversation: (payload?: { title?: string }) =>
+    request<CoreConversation>("/v1/core/conversations", {
+      method: "POST",
+      body: JSON.stringify(payload ?? {}),
+    }),
+  getCoreConversation: (conversationId: string) =>
+    request<{ conversation: CoreConversation; messages: ConversationMessage[] }>(`/v1/core/conversations/${encodeURIComponent(conversationId)}`),
+  sendCoreMessage: (conversationId: string, payload: { content: string; clientMessageId?: string }) => {
+    const clientMessageId = payload.clientMessageId ?? crypto.randomUUID();
+    return request<{
+      userMessage: ConversationMessage;
+      assistantMessage: ConversationMessage;
+      trace?: { redactions?: string[]; dataBoundary?: string };
+    }>(`/v1/core/conversations/${encodeURIComponent(conversationId)}/messages`, {
+      method: "POST",
+      headers: { "Idempotency-Key": clientMessageId },
+      body: JSON.stringify({ content: payload.content, clientMessageId }),
+    });
+  },
+  archiveCoreConversation: (conversationId: string) =>
+    request<CoreConversation>(`/v1/core/conversations/${encodeURIComponent(conversationId)}/archive`, { method: "POST" }),
+  deleteCoreConversation: (conversationId: string) =>
+    request<void>(`/v1/core/conversations/${encodeURIComponent(conversationId)}`, { method: "DELETE" }),
   createWayfinderEvent: (payload: WayfinderEventInput) =>
     request<{
       event: ContextEvent;
