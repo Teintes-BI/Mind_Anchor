@@ -37,17 +37,73 @@
         <button id="poll" type="button">立即采样一次</button>
       </section>
 
+      <section class="panel" aria-labelledby="relay-heading">
+        <h2 id="relay-heading">可信中继</h2>
+        <p class="hint">
+          本设计需要一个可信中转服务器。未填写端点时<strong>不会上传到任何地址</strong>——
+          程序不会使用默认地址。
+        </p>
+        <div class="fields">
+          <label for="f-endpoint">端点（https 必需）</label>
+          <input
+            id="f-endpoint"
+            type="url"
+            inputmode="url"
+            placeholder="https://host:port/v1/core/events"
+            autocomplete="off"
+            spellcheck="false"
+          />
+
+          <label for="f-token">Bearer 令牌（不含 <code>Bearer</code> 前缀）</label>
+          <input
+            id="f-token"
+            type="password"
+            placeholder="留空表示不带鉴权头"
+            autocomplete="off"
+          />
+
+          <label for="f-pin">证书 SHA-256 指纹（https 必需）</label>
+          <input
+            id="f-pin"
+            type="text"
+            placeholder="每两位可加冒号，如 28:26:41:…"
+            autocomplete="off"
+            spellcheck="false"
+          />
+
+          <label for="f-interval">自动上传间隔</label>
+          <select id="f-interval">
+            <option value="0">关闭（仅手动）</option>
+            <option value="300000">每 5 分钟</option>
+            <option value="900000">每 15 分钟</option>
+            <option value="3600000">每 1 小时</option>
+          </select>
+        </div>
+        <div class="actions">
+          <button id="save-relay" type="button">保存中继配置</button>
+          <button id="flush" type="button">立即上传</button>
+        </div>
+        <dl class="grid">
+          <dt>端点</dt><dd id="u-endpoint">—</dd>
+          <dt>令牌</dt><dd id="u-token">—</dd>
+          <dt>证书指纹</dt><dd id="u-pin">—</dd>
+          <dt>队列</dt><dd id="u-queue">—</dd>
+          <dt>下次调度</dt><dd id="u-tick">—</dd>
+        </dl>
+      </section>
+
       <section class="panel" aria-labelledby="privacy-heading">
         <h2 id="privacy-heading">隐私边界</h2>
         <ul class="notes">
           <li>键盘只统计「距上次输入的时长」，<strong>不记录任何按键或文本</strong>。</li>
           <li>窗口标题默认关闭；即使打开也会先脱敏再存储。</li>
-          <li>采集全程本地，本程序不含任何网络代码。</li>
-          <li>脱敏导出默认关闭，且只包含整点聚合计数。</li>
+          <li>采集全程本地。仅当上面<strong>同时</strong>配置了端点、且采集与上传开关都开启时，才会发送整点聚合。</li>
+          <li>上传内容只含整点聚合计数（数据等级 P1），<strong>不含窗口标题、进程名原文或任何时间戳明细</strong>。</li>
+          <li>服务端拒绝 P2/P3；自签名证书必须<strong>指纹匹配</strong>才接受，不匹配即中止。</li>
         </ul>
         <div class="actions">
           <label><input type="checkbox" id="toggle-enabled" /> 允许本地采集</label>
-          <label><input type="checkbox" id="toggle-upload" /> 允许脱敏上传（默认关闭）</label>
+          <label><input type="checkbox" id="toggle-upload" /> 允许脱敏上传</label>
           <button id="purge" type="button" class="danger">清除本地记录</button>
         </div>
       </section>

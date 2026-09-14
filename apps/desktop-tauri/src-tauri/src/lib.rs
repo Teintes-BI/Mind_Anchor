@@ -55,6 +55,9 @@ pub struct AppState {
     /// https endpoints; without it the upload is refused rather than trusting
     /// an unverified peer.
     upload_pin: Option<String>,
+    /// How often to attempt a background flush, in milliseconds. Zero disables
+    /// scheduling; the UI may only ever set a clamped value.
+    upload_interval_ms: u64,
 }
 
 impl AppState {
@@ -70,6 +73,7 @@ impl AppState {
             upload_endpoint: String::new(),
             upload_token: None,
             upload_pin: None,
+            upload_interval_ms: 0,
         }
     }
 }
@@ -179,6 +183,8 @@ pub struct UploadStatus {
     pub token_configured: bool,
     /// Whether a TLS certificate fingerprint is pinned. Required for https.
     pub certificate_pin_configured: bool,
+    /// Background flush interval in milliseconds. Zero means scheduling is off.
+    pub upload_interval_ms: u64,
     pub upload_enabled: bool,
     pub collection_enabled: bool,
     pub pending: u64,
@@ -413,12 +419,63 @@ fn upload_status_inner(app: &AppState) -> CommandResult<UploadStatus> {
         },
         token_configured: app.upload_token.is_some(),
         certificate_pin_configured: app.upload_pin.is_some(),
+        upload_interval_ms: app.upload_interval_ms,
         upload_enabled: app.collection_state.upload_enabled,
         collection_enabled: app.collection_state.enabled,
         pending,
         delivered,
         failed,
     })
+}
+
+/// Set or clear the background flush interval. Zero disables scheduling.
+///
+/// The value is clamped here rather than trusted from the caller: a zero-second
+/// interval would hammer the relay, so the floor is one minute.
+#[tauri::command]
+fn set_upload_interval(
+    state: State<'_, Mutex<AppState>>,
+    interval_ms: u64,
+) -> CommandResult<UploadStatus> {
+    let mut app = state.lock().unwrap_or_else(|e| e.into_inner());
+    app.upload_interval_ms = upload::schedule::clamp_interval_ms(interval_ms);
+    upload_status_inner(&app)
+}
+
+/// Decide what a scheduling tick would do, without doing it.
+///
+/// Exposed so the UI can explain *why* nothing is being sent, which is the
+/// difference between "silently not uploading" and "not uploading because the
+/// endpoint is unset".
+#[tauri::command]
+fn upload_schedule_preview(state: State<'_, Mutex<AppState>>) -> CommandResult<TickPreview> {
+    let app = state.lock().unwrap_or_else(|e| e.into_inner());
+    let (pending, _, _) = app.store.upload_counts()?;
+    let tick = upload::schedule::next_action(upload::schedule::TickInput {
+        interval_ms: app.upload_interval_ms,
+        collection_enabled: app.collection_state.enabled,
+        upload_enabled: app.collection_state.upload_enabled,
+        endpoint_configured: !app.upload_endpoint.is_empty(),
+        pending,
+    });
+    Ok(match tick {
+        upload::schedule::Tick::Flush => TickPreview {
+            will_flush: true,
+            reason: "flush".to_string(),
+        },
+        upload::schedule::Tick::Skip(reason) => TickPreview {
+            will_flush: false,
+            reason: format!("{reason:?}"),
+        },
+    })
+}
+
+/// What the next scheduling tick would do.
+#[derive(Debug, Serialize)]
+pub struct TickPreview {
+    pub will_flush: bool,
+    /// A `skip_reason` variant name, or `flush`.
+    pub reason: String,
 }
 
 /// Build the current sanitised aggregate and enqueue it.
@@ -464,8 +521,15 @@ fn flush_uploads(
     state: State<'_, Mutex<AppState>>,
     limit: Option<u32>,
 ) -> CommandResult<UploadStatus> {
-    let app = state.lock().unwrap_or_else(|e| e.into_inner());
+    let mut app = state.lock().unwrap_or_else(|e| e.into_inner());
+    flush_uploads_inner(&mut app, limit.unwrap_or(20))
+}
 
+/// The single delivery path, shared by the manual command and the scheduler.
+///
+/// Kept as one function on purpose: a scheduled flush must not be able to skip
+/// a gate that a user-initiated flush honours.
+fn flush_uploads_inner(app: &mut AppState, limit: u32) -> CommandResult<UploadStatus> {
     if !app.collection_state.enabled {
         return Err(CommandError::Upload {
             reason: upload::UploadError::CollectionDisabled,
@@ -480,7 +544,7 @@ fn flush_uploads(
         .map_err(|reason| CommandError::Upload { reason })?;
 
     let now = now_ms() as i64;
-    let due = app.store.due_uploads(now, limit.unwrap_or(20))?;
+    let due = app.store.due_uploads(now, limit)?;
 
     for item in due {
         match upload::client::post_json(
@@ -497,15 +561,15 @@ fn flush_uploads(
                     status: response.status,
                     message: response.body.chars().take(200).collect(),
                 };
-                record_upload_failure(&app, &item, &error, now)?;
+                record_upload_failure(app, &item, &error, now)?;
             }
             Err(error) => {
-                record_upload_failure(&app, &item, &error, now)?;
+                record_upload_failure(app, &item, &error, now)?;
             }
         }
     }
 
-    upload_status_inner(&app)
+    upload_status_inner(app)
 }
 
 /// Apply the retry policy for one failure. Deliberately does not delete the
@@ -562,10 +626,70 @@ fn civil_from_days(days: i64) -> (i64, u32, u32) {
     (if m <= 2 { y + 1 } else { y }, m, d)
 }
 
+/// Background flush loop.
+///
+/// Ticks once a minute and re-reads the interval each time, so a change made in
+/// the UI takes effect on the next tick without restarting anything. Every gate
+/// is evaluated fresh per tick: the loop never caches "we are configured" and
+/// therefore cannot keep uploading after the user turns it off.
+fn spawn_upload_scheduler(handle: tauri::AppHandle) {
+    use tauri::Manager;
+
+    std::thread::spawn(move || {
+        /// How often to re-evaluate. Independent of the flush interval so that
+        /// shortening the interval in the UI is picked up promptly.
+        const TICK_MS: u64 = 60_000;
+
+        loop {
+            std::thread::sleep(std::time::Duration::from_millis(TICK_MS));
+
+            let decision = {
+                let state = handle.state::<Mutex<AppState>>();
+                let app = match state.lock() {
+                    Ok(app) => app,
+                    // A poisoned lock means another thread panicked while
+                    // holding it. Sampling state is not worth taking the whole
+                    // process down for, so skip this tick.
+                    Err(_) => continue,
+                };
+                let pending = app.store.upload_counts().map(|c| c.0).unwrap_or(0);
+                upload::schedule::next_action(upload::schedule::TickInput {
+                    interval_ms: app.upload_interval_ms,
+                    collection_enabled: app.collection_state.enabled,
+                    upload_enabled: app.collection_state.upload_enabled,
+                    endpoint_configured: !app.upload_endpoint.is_empty(),
+                    pending,
+                })
+            };
+
+            // Only an explicit Flush acts. Every Skip reason is a no-op, which
+            // is what keeps a scheduled flush from ever inventing a destination.
+            if decision != upload::schedule::Tick::Flush {
+                continue;
+            }
+
+            let state = handle.state::<Mutex<AppState>>();
+            let mut app = match state.lock() {
+                Ok(app) => app,
+                Err(_) => continue,
+            };
+            if let Err(error) = flush_uploads_inner(&mut app, 20) {
+                // Not fatal: the item stays queued with a backoff, and the next
+                // tick tries again. Logging keeps it diagnosable.
+                eprintln!("comma-desktop: scheduled flush failed: {error:?}");
+            }
+        }
+    });
+}
+
 /// Build the Phase 0 loop's command set.
 pub fn build_app(store: LocalStore) -> tauri::Builder<tauri::Wry> {
     tauri::Builder::default()
         .manage(Mutex::new(AppState::new(store)))
+        .setup(|app| {
+            spawn_upload_scheduler(app.handle().clone());
+            Ok(())
+        })
         .invoke_handler(tauri::generate_handler![
             poll_once,
             collector_status,
@@ -575,6 +699,8 @@ pub fn build_app(store: LocalStore) -> tauri::Builder<tauri::Wry> {
             purge_local_data,
             set_upload_endpoint,
             upload_status,
+            set_upload_interval,
+            upload_schedule_preview,
             enqueue_upload_now,
             flush_uploads
         ])

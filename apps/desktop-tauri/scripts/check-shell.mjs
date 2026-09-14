@@ -44,6 +44,34 @@ if (/<script[^>]+src=["']https?:/.test(html)) {
   failures.push("index.html: must not load a remote script");
 }
 
+// T2 added a relay client. Two properties must survive future edits:
+//
+// 1. The UI must never invent a destination. A hardcoded endpoint would defeat
+//    the rule that an unconfigured relay means "send nowhere".
+// 2. The token field must be a password input so a secret is not rendered in
+//    the clear on screen.
+const hardcodedEndpoint = /https?:\/\/(?!host:port)[a-z0-9.-]+\.[a-z]{2,}[^\s"']*/i;
+for (const file of ["main.js", "index.html"]) {
+  const text = readFileSync(join(src, file), "utf8");
+  for (const line of text.split(/\r?\n/)) {
+    // Ignore the placeholder, which is illustrative rather than a default.
+    if (line.includes("placeholder")) continue;
+    if (hardcodedEndpoint.test(line)) {
+      failures.push(`${file}: must not hardcode a relay endpoint -> ${line.trim()}`);
+    }
+  }
+}
+
+if (!/id="f-token"[\s\S]{0,200}?type="password"/.test(html)) {
+  failures.push("index.html: the token field must be type=password");
+}
+
+// Where is the endpoint read from? It must come from Rust state, never from a
+// literal in the shell.
+if (!shell.includes('invoke("upload_status")')) {
+  failures.push("main.js: relay config must be read from the backend");
+}
+
 if (failures.length) {
   console.error("desktop-tauri shell check FAILED:");
   for (const failure of failures) console.error(`  - ${failure}`);

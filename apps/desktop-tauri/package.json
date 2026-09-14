@@ -5,7 +5,8 @@
   "description": "Comma V0.1-H Phase 0 desktop activity collector (Tauri 2 + Rust, shadow mode)",
   "scripts": {
     "check": "node scripts/check-shell.mjs",
-    "test": "corepack pnpm run check",
+    "check:self": "node scripts/check-shell.test.mjs",
+    "test": "corepack pnpm run check && corepack pnpm run check:self",
     "build": "corepack pnpm run check",
     "cargo:fetch": "cargo fetch --manifest-path src-tauri/Cargo.toml",
     "cargo:check": "cargo check --manifest-path src-tauri/Cargo.toml",

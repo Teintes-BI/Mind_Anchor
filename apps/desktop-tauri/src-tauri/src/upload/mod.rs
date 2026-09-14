@@ -30,6 +30,7 @@ pub mod cert;
 pub mod client;
 pub mod payload;
 pub mod queue;
+pub mod schedule;
 
 use serde::{Deserialize, Serialize};
 

@@ -25,6 +25,17 @@ const REASON_LABELS = {
 
 const $ = (id) => document.getElementById(id);
 
+/// Labels for the scheduler's skip reasons, so the UI can say *why* it is not
+/// uploading instead of leaving the user to guess.
+const SKIP_LABELS = {
+  flush: "将执行上传",
+  Disabled: "自动上传已关闭",
+  CollectionOff: "采集未开启",
+  UploadSwitchOff: "上传开关未开",
+  EndpointNotConfigured: "端点未配置",
+  QueueEmpty: "队列为空",
+};
+
 function renderError(message) {
   const existing = document.querySelector(".error");
   if (existing) existing.remove();
@@ -52,6 +63,25 @@ async function refresh() {
 
     $("toggle-enabled").checked = status.collection_enabled;
     $("toggle-upload").checked = status.upload_enabled;
+
+    // Relay status. Secrets are never echoed back: only whether they are set.
+    $("u-endpoint").textContent = status.endpoint ?? "（未配置）";
+    $("u-token").textContent = status.token_configured ? "已设置" : "未设置";
+    $("u-pin").textContent = status.certificate_pin_configured ? "已固定" : "未固定";
+
+    const upload = await invoke("upload_status");
+    $("u-queue").textContent =
+      `待发 ${upload.pending} · 已送达 ${upload.delivered} · 失败 ${upload.failed}`;
+    $("f-endpoint").value = upload.endpoint ?? "";
+    $("f-interval").value = String(upload.upload_interval_ms ?? 0);
+    // Only prefill the interval when it matches a known option, so a value set
+    // elsewhere is not silently rewritten to the first option.
+    if ($("f-interval").value !== String(upload.upload_interval_ms ?? 0)) {
+      $("f-interval").value = "0";
+    }
+
+    const tick = await invoke("upload_schedule_preview");
+    $("u-tick").textContent = SKIP_LABELS[tick.reason] ?? tick.reason;
 
     if (status.last_decision) {
       renderDecision(status.last_decision);
@@ -106,6 +136,39 @@ $("purge").addEventListener("click", async () => {
   if (!invoke) return;
   await invoke("purge_local_data");
   await refresh();
+});
+
+$("save-relay").addEventListener("click", async () => {
+  if (!invoke) return;
+  try {
+    await invoke("set_upload_endpoint", {
+      endpoint: $("f-endpoint").value,
+      // Empty means "clear", which the backend turns into None rather than an
+      // empty string that would look configured.
+      token: $("f-token").value,
+      certificatePin: $("f-pin").value,
+    });
+    await invoke("set_upload_interval", {
+      intervalMs: Number($("f-interval").value),
+    });
+    // Clear the secret fields after a successful save: the backend never echoes
+    // them back, so leaving them populated would misrepresent stored state.
+    $("f-token").value = "";
+    $("f-pin").value = "";
+    await refresh();
+  } catch (error) {
+    renderError(`保存失败：${error}`);
+  }
+});
+
+$("flush").addEventListener("click", async () => {
+  if (!invoke) return;
+  try {
+    await invoke("flush_uploads", { limit: 20 });
+    await refresh();
+  } catch (error) {
+    renderError(`上传失败：${error}`);
+  }
 });
 
 void refresh();
