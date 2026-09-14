@@ -1,0 +1,468 @@
+{
+  "schema": "comma.desktop.decision-fixtures.v1",
+  "description": "Deterministic replay scenarios for the interruption decision engine. Each scenario is a timeline of observations; the replayer expands it into DecisionInput values and asserts the classification at each step. Editing thresholds here does not require touching Rust.",
+  "scenarios": [
+    {
+      "id": "deep-focus-then-pause",
+      "description": "用户在同一应用上持续专注，随后停手。专注积累到阈值后应变为可打扰。",
+      "policy": {
+        "max_idle_seconds": 30,
+        "away_idle_seconds": 900,
+        "min_focus_ms": 300000,
+        "max_switches_in_window": 8,
+        "switch_window_ms": 600000,
+        "quiet_hour_start": 22,
+        "quiet_hour_end": 8,
+        "daily_budget": 3
+      },
+      "steps": [
+        {
+          "at_ms": 0,
+          "app": "Code",
+          "idle_seconds": 45,
+          "local_hour": 14,
+          "expect": {
+            "decision": "defer",
+            "reasons": ["focus_too_brief"]
+          }
+        },
+        {
+          "at_ms": 60000,
+          "app": "Code",
+          "idle_seconds": 45,
+          "local_hour": 14,
+          "expect": {
+            "decision": "defer",
+            "reasons": ["focus_too_brief"]
+          }
+        },
+        {
+          "at_ms": 600000,
+          "app": "Code",
+          "idle_seconds": 60,
+          "local_hour": 14,
+          "expect": {
+            "decision": "interrupt",
+            "reasons": ["eligible"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "continuous-typing",
+      "description": "用户一直在敲键盘。空闲时长低于活动阈值时绝不打扰，且不应因专注够长而放行。",
+      "policy": {
+        "max_idle_seconds": 30,
+        "away_idle_seconds": 900,
+        "min_focus_ms": 300000,
+        "max_switches_in_window": 8,
+        "switch_window_ms": 600000,
+        "quiet_hour_start": 22,
+        "quiet_hour_end": 8,
+        "daily_budget": 3
+      },
+      "steps": [
+        {
+          "at_ms": 0,
+          "app": "Code",
+          "idle_seconds": 2,
+          "local_hour": 10,
+          "expect": {
+            "decision": "defer",
+            "reasons": ["focus_too_brief", "idle_too_short"]
+          }
+        },
+        {
+          "at_ms": 900000,
+          "app": "Code",
+          "idle_seconds": 1,
+          "local_hour": 10,
+          "expect": {
+            "decision": "defer",
+            "reasons": ["idle_too_short"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "long-absence",
+      "description": "用户离开很久。此刻插入提示没有意义，应推迟而非静默——回来后会重新评估。",
+      "policy": {
+        "max_idle_seconds": 30,
+        "away_idle_seconds": 900,
+        "min_focus_ms": 300000,
+        "max_switches_in_window": 8,
+        "switch_window_ms": 600000,
+        "quiet_hour_start": 22,
+        "quiet_hour_end": 8,
+        "daily_budget": 3
+      },
+      "steps": [
+        {
+          "at_ms": 0,
+          "app": "Code",
+          "idle_seconds": 1800,
+          "local_hour": 15,
+          "expect": {
+            "decision": "defer",
+            "reasons": ["focus_too_brief", "idle_too_long"]
+          }
+        },
+        {
+          "at_ms": 2100000,
+          "app": "Code",
+          "idle_seconds": 2400,
+          "local_hour": 15,
+          "expect": {
+            "decision": "defer",
+            "reasons": ["idle_too_long"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "switch-storm",
+      "description": "用户在多个应用之间高频切换，说明仍在任务切换中。切换间隔远小于 10 分钟窗口，因此窗口内累积的切换次数会超过阈值 8，应推迟。",
+      "policy": {
+        "max_idle_seconds": 30,
+        "away_idle_seconds": 900,
+        "min_focus_ms": 300000,
+        "max_switches_in_window": 8,
+        "switch_window_ms": 600000,
+        "quiet_hour_start": 22,
+        "quiet_hour_end": 8,
+        "daily_budget": 3
+      },
+      "steps": [
+        {
+          "at_ms": 0,
+          "app": "Code",
+          "idle_seconds": 45,
+          "local_hour": 11,
+          "expect": {
+            "decision": "defer",
+            "reasons": ["focus_too_brief"]
+          }
+        },
+        {
+          "at_ms": 40000,
+          "app": "Chrome",
+          "idle_seconds": 45,
+          "local_hour": 11,
+          "expect": {
+            "decision": "defer",
+            "reasons": ["focus_too_brief"]
+          }
+        },
+        {
+          "at_ms": 80000,
+          "app": "Slack",
+          "idle_seconds": 45,
+          "local_hour": 11,
+          "expect": {
+            "decision": "defer",
+            "reasons": ["focus_too_brief"]
+          }
+        },
+        {
+          "at_ms": 120000,
+          "app": "Code",
+          "idle_seconds": 45,
+          "local_hour": 11,
+          "expect": {
+            "decision": "defer",
+            "reasons": ["focus_too_brief"]
+          }
+        },
+        {
+          "at_ms": 160000,
+          "app": "Terminal",
+          "idle_seconds": 45,
+          "local_hour": 11,
+          "expect": {
+            "decision": "defer",
+            "reasons": ["focus_too_brief"]
+          }
+        },
+        {
+          "at_ms": 200000,
+          "app": "Chrome",
+          "idle_seconds": 45,
+          "local_hour": 11,
+          "expect": {
+            "decision": "defer",
+            "reasons": ["focus_too_brief"]
+          }
+        },
+        {
+          "at_ms": 240000,
+          "app": "Finder",
+          "idle_seconds": 45,
+          "local_hour": 11,
+          "expect": {
+            "decision": "defer",
+            "reasons": ["focus_too_brief"]
+          }
+        },
+        {
+          "at_ms": 280000,
+          "app": "Slack",
+          "idle_seconds": 45,
+          "local_hour": 11,
+          "expect": {
+            "decision": "defer",
+            "reasons": ["focus_too_brief"]
+          }
+        },
+        {
+          "at_ms": 320000,
+          "app": "Code",
+          "idle_seconds": 45,
+          "local_hour": 11,
+          "expect": {
+            "decision": "defer",
+            "reasons": ["focus_too_brief"]
+          }
+        },
+        {
+          "at_ms": 360000,
+          "app": "Chrome",
+          "idle_seconds": 45,
+          "local_hour": 11,
+          "expect": {
+            "decision": "defer",
+            "reasons": ["focus_too_brief", "switch_storm"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "quiet-hours-across-midnight",
+      "description": "静默时段跨越午夜（22:00–08:00）。23 点与 3 点必须静默，8 点是排他边界应恢复。",
+      "policy": {
+        "max_idle_seconds": 30,
+        "away_idle_seconds": 900,
+        "min_focus_ms": 300000,
+        "max_switches_in_window": 8,
+        "switch_window_ms": 600000,
+        "quiet_hour_start": 22,
+        "quiet_hour_end": 8,
+        "daily_budget": 3
+      },
+      "steps": [
+        {
+          "at_ms": 0,
+          "app": "Code",
+          "idle_seconds": 60,
+          "local_hour": 22,
+          "expect": {
+            "decision": "silence",
+            "reasons": ["outside_quiet_hours"]
+          }
+        },
+        {
+          "at_ms": 3600000,
+          "app": "Code",
+          "idle_seconds": 60,
+          "local_hour": 23,
+          "expect": {
+            "decision": "silence",
+            "reasons": ["outside_quiet_hours"]
+          }
+        },
+        {
+          "at_ms": 7200000,
+          "app": "Code",
+          "idle_seconds": 60,
+          "local_hour": 0,
+          "expect": {
+            "decision": "silence",
+            "reasons": ["outside_quiet_hours"]
+          }
+        },
+        {
+          "at_ms": 10800000,
+          "app": "Code",
+          "idle_seconds": 60,
+          "local_hour": 3,
+          "expect": {
+            "decision": "silence",
+            "reasons": ["outside_quiet_hours"]
+          }
+        },
+        {
+          "at_ms": 14400000,
+          "app": "Code",
+          "idle_seconds": 60,
+          "local_hour": 7,
+          "expect": {
+            "decision": "silence",
+            "reasons": ["outside_quiet_hours"]
+          }
+        },
+        {
+          "at_ms": 18000000,
+          "app": "Code",
+          "idle_seconds": 60,
+          "local_hour": 8,
+          "expect": {
+            "decision": "interrupt",
+            "reasons": ["eligible"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "daily-budget-exhausted",
+      "description": "每日额度用尽后必须静默。额度为 1：第一个可打扰的时刻消耗额度，此后即使冷却已过、状态良好，也必须静默而非推迟——静默与推迟的区别正是额度耗尽这一条理由。",
+      "policy": {
+        "max_idle_seconds": 30,
+        "away_idle_seconds": 900,
+        "min_focus_ms": 0,
+        "max_switches_in_window": 8,
+        "switch_window_ms": 600000,
+        "quiet_hour_start": 22,
+        "quiet_hour_end": 8,
+        "daily_budget": 1
+      },
+      "steps": [
+        {
+          "at_ms": 0,
+          "app": "Code",
+          "idle_seconds": 60,
+          "local_hour": 9,
+          "expect": {
+            "decision": "interrupt",
+            "reasons": ["eligible"]
+          }
+        },
+        {
+          "at_ms": 1500000,
+          "app": "Code",
+          "idle_seconds": 60,
+          "local_hour": 9,
+          "expect": {
+            "decision": "silence",
+            "reasons": ["daily_budget_exhausted"]
+          }
+        },
+        {
+          "at_ms": 3000000,
+          "app": "Code",
+          "idle_seconds": 60,
+          "local_hour": 10,
+          "expect": {
+            "decision": "silence",
+            "reasons": ["daily_budget_exhausted"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cooldown-then-recovery",
+      "description": "冷却期内推迟，冷却（20 分钟）过后同一状态应重新变为可打扰。验证冷却确实会过期。",
+      "policy": {
+        "max_idle_seconds": 30,
+        "away_idle_seconds": 900,
+        "min_focus_ms": 0,
+        "max_switches_in_window": 8,
+        "switch_window_ms": 600000,
+        "quiet_hour_start": 22,
+        "quiet_hour_end": 8,
+        "daily_budget": 5
+      },
+      "steps": [
+        {
+          "at_ms": 0,
+          "app": "Code",
+          "idle_seconds": 60,
+          "local_hour": 10,
+          "expect": {
+            "decision": "interrupt",
+            "reasons": ["eligible"]
+          }
+        },
+        {
+          "at_ms": 300000,
+          "app": "Code",
+          "idle_seconds": 60,
+          "local_hour": 10,
+          "expect": {
+            "decision": "defer",
+            "reasons": ["cooldown_active"]
+          }
+        },
+        {
+          "at_ms": 1500000,
+          "app": "Code",
+          "idle_seconds": 60,
+          "local_hour": 10,
+          "expect": {
+            "decision": "interrupt",
+            "reasons": ["eligible"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "session-locked-then-unlocked",
+      "description": "锁屏期间任何活动都不得打扰；解锁后恢复常规判定。对应 T1.1 的 OpenInputDesktop 读数。",
+      "policy": {
+        "max_idle_seconds": 30,
+        "away_idle_seconds": 900,
+        "min_focus_ms": 0,
+        "max_switches_in_window": 8,
+        "switch_window_ms": 600000,
+        "quiet_hour_start": 22,
+        "quiet_hour_end": 8,
+        "daily_budget": 3
+      },
+      "steps": [
+        {
+          "at_ms": 0,
+          "app": "Code",
+          "idle_seconds": 60,
+          "local_hour": 12,
+          "session_locked": false,
+          "expect": {
+            "decision": "interrupt",
+            "reasons": ["eligible"]
+          }
+        },
+        {
+          "at_ms": 60000,
+          "app": "LockApp",
+          "idle_seconds": 120,
+          "local_hour": 12,
+          "session_locked": true,
+          "expect": {
+            "decision": "silence",
+            "reasons": ["idle_too_long"]
+          }
+        },
+        {
+          "at_ms": 900000,
+          "app": "LockApp",
+          "idle_seconds": 900,
+          "local_hour": 12,
+          "session_locked": true,
+          "expect": {
+            "decision": "silence",
+            "reasons": ["idle_too_long"]
+          }
+        },
+        {
+          "at_ms": 1800000,
+          "app": "Code",
+          "idle_seconds": 45,
+          "local_hour": 12,
+          "session_locked": false,
+          "expect": {
+            "decision": "interrupt",
+            "reasons": ["eligible"]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -4,6 +4,7 @@
 //! This module only re-exports it and owns the policy defaults used by the app.
 
 pub mod decision;
+pub mod fixture;
 
 pub use decision::{
     decide, ActivitySample, Decision, DecisionInput, DecisionOutput, InterruptPolicy, ReasonCode,

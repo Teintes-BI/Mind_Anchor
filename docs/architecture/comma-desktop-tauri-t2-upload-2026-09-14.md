@@ -127,7 +127,54 @@ apps/api/node_modules/.bin/vitest.cmd run --config apps/api/vitest.config.ts app
 | **API 契约测试** | 0 | **4 passed**（幂等、跨用户隔离、P3 拒绝、401） |
 | `cargo tree \| grep http-client` | — | reqwest/ureq/isahc/attohttpc/hyper **全为 0** |
 
-## 8. 已知缺口与后续
+## 8. Fixture 回放（2026-09-14 新增）
+
+判定引擎的策略调整需要一个可脱离代码的回放机制。fixture 以 **JSON 数据**描述时间线，因此后续微调阈值不必改 Rust。
+
+| 文件 | 职责 |
+|---|---|
+| `apps/desktop-tauri/src-tauri/fixtures/decision-scenarios.json` | 8 个场景的数据定义 |
+| `apps/desktop-tauri/src-tauri/src/interrupt/fixture.rs` | 类型、解析器、回放器（纯逻辑） |
+| `apps/desktop-tauri/src-tauri/tests/fixture_replay_test.rs` | 对整份 fixture 的回放断言 |
+
+### 为什么需要回放而非更多单测
+
+单次调用 `decide()` 无法证明**跨步骤**性质：专注是否累积、冷却是否过期、每日额度是否递减、锁屏是否先抑制后释放。这些都需要时间线。回放器维护与 App 相同的跨步骤状态（`interrupts_today`、`last_interrupt_age_ms`、样本历史），并逐步断言。
+
+### 8 个场景
+
+| id | 验证 |
+|---|---|
+| `deep-focus-then-pause` | 专注累积 → `eligible` |
+| `continuous-typing` | `idle_too_short` 阻止放行 |
+| `long-absence` | `idle_too_long` 推迟而非静默 |
+| `switch-storm` | 窗口内切换 > 阈值 → `switch_storm` |
+| `quiet-hours-across-midnight` | 22→23→0→3→7 静默，8 点排他边界恢复 |
+| `daily-budget-exhausted` | 额度为 1：消耗后为 `silence`（与 `defer` 的区别即本理由） |
+| `cooldown-then-recovery` | 冷却 20min 内推迟，过后恢复 `eligible` |
+| `session-locked-then-unlocked` | 锁屏恒 `silence`，解锁后恢复 |
+
+### 回放发现的真实问题（首次运行即暴露）
+
+`every_reason_code_appears_somewhere_in_the_fixtures` 断言 8 个理由码**全部**被某个场景覆盖。首次运行报出 `daily_budget_exhausted` 从未被断言——原 `daily-budget-exhausted` 场景实际测的是冷却，名不符实。原因是：冷却（20min）先于额度耗尽生效，原场景的 3 步全落在冷却窗口内。
+
+修正：额度设为 1，并把后续步骤移到冷却过期之后（`at_ms` 1500000 / 3000000），使额度成为唯一生效的阻塞条件。
+
+`switch-storm` 亦经两轮修正：`switch_count` 只统计 `switch_window_ms`（10min）**窗口内**的切换，且判定为 `> max_switches_in_window`（严格大于 8，即需 9 次）。原 fixture 用 120s 间隔，窗口内仅 6 次；且第 9 个样本恰为 8 次切换，仍未触发。收紧为 40s 间隔后正确触发。**这两次修正都是 fixture 的错，不是引擎的错——引擎行为符合设计。**
+
+### 判定性测试
+
+`a_mutated_threshold_is_detected_by_the_replay` 故意把 `min_focus_ms` 提到 10 小时，断言回放**必须失败**。这排除了"回放恒绿"的空转可能。
+
+### 验证命令
+
+```powershell
+cargo test --manifest-path apps/desktop-tauri/src-tauri/Cargo.toml
+```
+
+实测：`cargo test` **130 passed / 0 failed**（89 lib + 9 decision + 8 fixture + 7 privacy + 10 upload + 7 ignored live）；`clippy -D warnings` 与 `fmt --check` 均 exit 0。
+
+## 9. 已知缺口与后续
 
 1. **未做真实网络端到端**：Rust 侧 HTTP 发送只验证了"死端口返回干净错误"（`http://127.0.0.1:1`）。真实投递需在 `ali_2v2g` 就绪后跑一次，并把 HTTP 状态与 event id 记入本文档。
 2. **无自动调度**：上传目前由 UI/命令手动触发；定时 flush 应在其后接入，并复用同一条门禁链。
