@@ -176,7 +176,9 @@ cargo test --manifest-path apps/desktop-tauri/src-tauri/Cargo.toml
 
 ## 9. 已知缺口与后续
 
-1. **未做真实网络端到端**：Rust 侧 HTTP 发送只验证了"死端口返回干净错误"（`http://127.0.0.1:1`）。真实投递需在 `ali_2v2g` 就绪后跑一次，并把 HTTP 状态与 event id 记入本文档。
+1. ~~**未做真实网络端到端**~~ → **已完成于 2026-09-14**。`ali-2v2g` 中继已部署并验证：从 Windows 经公网 TLS 投递 **201**（0.097s），幂等重放返回同一 id，P3 被 **403** 拒绝，无鉴权 **401**。完整证据（部署路径、证书指纹、逐步命令、实测输出）见
+   [`comma-t2-relay-e2e-evidence-2026-09-14.md`](./comma-t2-relay-e2e-evidence-2026-09-14.md)。
+   仍在的缺口：Rust 客户端**尚未真正指向该端点**（本次用 curl 复刻了客户端 payload 形态），Tauri 侧还需实现证书指纹 pin 与一次真实 `flush_uploads`。
 2. **无自动调度**：上传目前由 UI/命令手动触发；定时 flush 应在其后接入，并复用同一条门禁链。
 3. **Wayfinder 客户端与提醒收件箱**仍未实现（见 §1 重新归类说明），Electron 版继续承担这些能力，故 `apps/desktop` 暂不能删除。
 4. **重试与业务串行**：`flush_uploads` 是同步阻塞的（在 command 线程内）。若队列变大应移到独立线程；当前 `limit` 默认 20 遏制了单次耗时。
