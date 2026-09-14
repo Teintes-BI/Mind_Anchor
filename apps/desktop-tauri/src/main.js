@@ -36,13 +36,17 @@ const SKIP_LABELS = {
   QueueEmpty: "队列为空",
 };
 
-function renderError(message) {
+function renderError(message, anchorId = "poll") {
   const existing = document.querySelector(".error");
   if (existing) existing.remove();
   const node = document.createElement("p");
   node.className = "error";
   node.textContent = message;
-  $("poll").after(node);
+  // Anchor the message next to the control that failed. Previously this was
+  // hardcoded to the sample button, so a failure from the relay panel showed up
+  // in a different section and looked like nothing had happened.
+  const anchor = $(anchorId) ?? $("poll");
+  anchor.after(node);
 }
 
 async function refresh() {
@@ -56,6 +60,14 @@ async function refresh() {
     $("s-enabled").textContent = status.collection_enabled ? "开启" : "关闭";
     $("s-title").textContent = status.capture_window_title ? "开启（已脱敏）" : "关闭（默认）";
     $("s-upload").textContent = status.upload_enabled ? "开启" : "关闭（默认）";
+    // The window is null when the rule is off; reading the hours off it
+    // unconditionally would throw and take the whole refresh down.
+    const quietWindow = status.quiet_hours_window;
+    $("s-quiet").textContent = quietWindow
+      ? `开启（${String(quietWindow.start_hour).padStart(2, "0")}:00–${String(
+          quietWindow.end_hour,
+        ).padStart(2, "0")}:00）`
+      : "已关闭";
     $("s-level").textContent = status.data_level;
     $("s-interval").textContent = `${status.sample_interval_ms} ms`;
     $("s-samples").textContent = String(status.sample_count);
@@ -63,6 +75,7 @@ async function refresh() {
 
     $("toggle-enabled").checked = status.collection_enabled;
     $("toggle-upload").checked = status.upload_enabled;
+    $("toggle-quiet").checked = status.quiet_hours_enabled;
 
     // Relay status. Secrets are never echoed back: only whether they are set.
     $("u-endpoint").textContent = status.endpoint ?? "（未配置）";
@@ -132,6 +145,16 @@ $("toggle-upload").addEventListener("change", async (event) => {
   await refresh();
 });
 
+$("toggle-quiet").addEventListener("change", async (event) => {
+  if (!invoke) return;
+  try {
+    await invoke("set_collection_state", { quietHoursEnabled: event.target.checked });
+    await refresh();
+  } catch (error) {
+    renderError(`切换静默时段失败：${error}`, "toggle-quiet");
+  }
+});
+
 $("purge").addEventListener("click", async () => {
   if (!invoke) return;
   await invoke("purge_local_data");
@@ -164,10 +187,15 @@ $("save-relay").addEventListener("click", async () => {
 $("flush").addEventListener("click", async () => {
   if (!invoke) return;
   try {
-    await invoke("flush_uploads", { limit: 20 });
+    // One step: build the aggregate, enqueue it, then deliver. Calling flush
+    // alone would report "queue empty" on a fresh install and look broken.
+    const result = await invoke("send_now", { limit: 20 });
     await refresh();
+    if (result.pending === 0 && result.failed === 0) {
+      renderError(`上传完成：已送达 ${result.delivered} 条`, "flush");
+    }
   } catch (error) {
-    renderError(`上传失败：${error}`);
+    renderError(`上传失败：${error}`, "flush");
   }
 });
 

@@ -53,6 +53,17 @@ pub struct CollectionState {
     /// Whether the sanitised export may be handed to an uploader. Defaults to
     /// `true`; the endpoint requirement is the effective second gate.
     pub upload_enabled: bool,
+    /// Whether the engine's quiet-hours rule applies.
+    ///
+    /// Defaults to `true`, which is the privacy-preserving posture: at night,
+    /// do not interrupt. It is exposed as a switch because during development
+    /// quiet hours make every decision come out `Silence`, which hides whether
+    /// the rest of the engine is working at all.
+    ///
+    /// Implemented by collapsing the window (`start == end`), which
+    /// `is_quiet_hour` already treats as "never quiet". Keeping one
+    /// representation avoids a second source of truth that could disagree.
+    pub quiet_hours_enabled: bool,
 }
 
 impl Default for CollectionState {
@@ -61,6 +72,7 @@ impl Default for CollectionState {
             enabled: true,
             capture_window_title: false,
             upload_enabled: true,
+            quiet_hours_enabled: true,
         }
     }
 }

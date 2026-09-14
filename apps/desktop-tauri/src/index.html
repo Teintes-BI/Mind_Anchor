@@ -22,6 +22,7 @@
           <dt>采集开关</dt><dd id="s-enabled">—</dd>
           <dt>窗口标题采集</dt><dd id="s-title">—</dd>
           <dt>上传开关</dt><dd id="s-upload">—</dd>
+          <dt>静默时段</dt><dd id="s-quiet">—</dd>
           <dt>数据等级</dt><dd id="s-level">—</dd>
           <dt>采样间隔</dt><dd id="s-interval">—</dd>
           <dt>已采集样本</dt><dd id="s-samples">—</dd>
@@ -104,6 +105,10 @@
         <div class="actions">
           <label><input type="checkbox" id="toggle-enabled" /> 允许本地采集</label>
           <label><input type="checkbox" id="toggle-upload" /> 允许脱敏上传</label>
+          <label
+            ><input type="checkbox" id="toggle-quiet" /> 启用静默时段（默认
+            22:00–08:00）</label
+          >
           <button id="purge" type="button" class="danger">清除本地记录</button>
         </div>
       </section>

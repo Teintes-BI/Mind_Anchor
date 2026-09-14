@@ -78,6 +78,13 @@ impl AppState {
     }
 }
 
+/// The quiet-hours window, present only when the rule is on.
+#[derive(Debug, Clone, Copy, Serialize)]
+pub struct QuietWindow {
+    pub start_hour: u8,
+    pub end_hour: u8,
+}
+
 /// Snapshot the UI renders. Every field here is safe to display locally.
 #[derive(Debug, Clone, Serialize)]
 pub struct StatusSnapshot {
@@ -85,6 +92,10 @@ pub struct StatusSnapshot {
     pub collection_enabled: bool,
     pub capture_window_title: bool,
     pub upload_enabled: bool,
+    /// Whether the engine's quiet-hours rule is currently applied.
+    pub quiet_hours_enabled: bool,
+    /// The window in effect, or `None` when quiet hours are off.
+    pub quiet_hours_window: Option<QuietWindow>,
     pub data_level: DataLevel,
     pub sample_interval_ms: u64,
     pub sample_count: u64,
@@ -262,6 +273,15 @@ fn collector_status(state: State<'_, Mutex<AppState>>) -> CommandResult<StatusSn
         collection_enabled: app.collection_state.enabled,
         capture_window_title: app.collection_state.capture_window_title,
         upload_enabled: app.collection_state.upload_enabled,
+        quiet_hours_enabled: app.policy.quiet_hours_active(),
+        quiet_hours_window: if app.policy.quiet_hours_active() {
+            Some(QuietWindow {
+                start_hour: app.policy.quiet_hour_start,
+                end_hour: app.policy.quiet_hour_end,
+            })
+        } else {
+            None
+        },
         data_level: DataLevel::activity_sample_level(),
         sample_interval_ms: app.collector_config.sample_interval_ms,
         sample_count: app.store.sample_count()?,
@@ -335,6 +355,7 @@ fn set_collection_state(
     enabled: Option<bool>,
     capture_window_title: Option<bool>,
     upload_enabled: Option<bool>,
+    quiet_hours_enabled: Option<bool>,
 ) -> CommandResult<StatusSnapshot> {
     {
         let mut app = state.lock().unwrap_or_else(|e| e.into_inner());
@@ -347,6 +368,12 @@ fn set_collection_state(
         }
         if let Some(value) = upload_enabled {
             app.collection_state.upload_enabled = value;
+        }
+        if let Some(value) = quiet_hours_enabled {
+            app.collection_state.quiet_hours_enabled = value;
+            // The switch is applied to the policy immediately, so the next
+            // sample reflects it without a restart.
+            app.policy.set_quiet_hours(value);
         }
     }
     collector_status(state)
@@ -478,14 +505,33 @@ pub struct TickPreview {
     pub reason: String,
 }
 
-/// Build the current sanitised aggregate and enqueue it.
+/// Build the current sanitised aggregate, enqueue it, then attempt delivery.
 ///
-/// Refuses when any gate is closed. Note this only *enqueues*; delivery is a
-/// separate step, so a user can inspect what would be sent.
+/// This is what the UI's single "upload now" button calls. The two steps stay
+/// a single command because a user asking to send now does not want to be told
+/// the queue is empty — that was the previous behaviour and it made the button
+/// look broken.
+#[tauri::command]
+fn send_now(state: State<'_, Mutex<AppState>>, limit: Option<u32>) -> CommandResult<UploadStatus> {
+    {
+        let mut app = state.lock().unwrap_or_else(|e| e.into_inner());
+        // Reuse the same gates as an explicit enqueue, so a scheduled or manual
+        // send cannot bypass them.
+        enqueue_upload_inner(&mut app)?;
+    }
+    let mut app = state.lock().unwrap_or_else(|e| e.into_inner());
+    flush_uploads_inner(&mut app, limit.unwrap_or(20))
+}
+
+/// Build the sanitised aggregate and enqueue it without sending.
 #[tauri::command]
 fn enqueue_upload_now(state: State<'_, Mutex<AppState>>) -> CommandResult<UploadStatus> {
-    let app = state.lock().unwrap_or_else(|e| e.into_inner());
+    let mut app = state.lock().unwrap_or_else(|e| e.into_inner());
+    enqueue_upload_inner(&mut app)
+}
 
+/// The enqueue half, shared by `send_now` and `enqueue_upload_now`.
+fn enqueue_upload_inner(app: &mut AppState) -> CommandResult<UploadStatus> {
     if !app.collection_state.enabled {
         return Err(CommandError::Upload {
             reason: upload::UploadError::CollectionDisabled,
@@ -512,7 +558,7 @@ fn enqueue_upload_now(state: State<'_, Mutex<AppState>>) -> CommandResult<Upload
 
     app.store
         .enqueue_upload(&client_event_id, &body, now_ms() as i64)?;
-    upload_status_inner(&app)
+    upload_status_inner(app)
 }
 
 /// Attempt delivery of everything currently due.
@@ -702,6 +748,7 @@ pub fn build_app(store: LocalStore) -> tauri::Builder<tauri::Wry> {
             set_upload_interval,
             upload_schedule_preview,
             enqueue_upload_now,
+            send_now,
             flush_uploads
         ])
 }

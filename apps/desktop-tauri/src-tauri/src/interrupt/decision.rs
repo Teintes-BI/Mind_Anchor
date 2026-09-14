@@ -50,6 +50,31 @@ pub struct InterruptPolicy {
     pub daily_budget: u32,
 }
 
+impl InterruptPolicy {
+    /// Turn quiet hours off or on, in place.
+    ///
+    /// Off is expressed as a collapsed window (`start == end`), which
+    /// [`is_quiet_hour`] already interprets as "never quiet". Using one
+    /// representation means the switch cannot disagree with the rule it is
+    /// supposed to control.
+    pub fn set_quiet_hours(&mut self, enabled: bool) {
+        if !enabled {
+            self.quiet_hour_start = 0;
+            self.quiet_hour_end = 0;
+        } else if self.quiet_hour_start == self.quiet_hour_end {
+            // Re-enabling needs a concrete window to restore, otherwise the
+            // switch would appear on while the rule stayed off.
+            self.quiet_hour_start = 22;
+            self.quiet_hour_end = 8;
+        }
+    }
+
+    /// Whether the quiet-hours window is currently in effect.
+    pub fn quiet_hours_active(&self) -> bool {
+        self.quiet_hour_start != self.quiet_hour_end
+    }
+}
+
 impl Default for InterruptPolicy {
     fn default() -> Self {
         Self {
@@ -473,5 +498,102 @@ mod tests {
         let a = decide(&input);
         let b = decide(&input);
         assert_eq!(a, b);
+    }
+
+    #[test]
+    fn quiet_hours_can_be_switched_off_and_back_on() {
+        let mut policy = InterruptPolicy::default();
+        assert!(policy.quiet_hours_active());
+
+        policy.set_quiet_hours(false);
+        assert!(!policy.quiet_hours_active(), "the window must collapse");
+        assert!(!is_quiet_hour(23, &policy));
+        assert!(!is_quiet_hour(3, &policy));
+        assert!(!is_quiet_hour(7, &policy));
+
+        policy.set_quiet_hours(true);
+        assert!(
+            policy.quiet_hours_active(),
+            "re-enabling must restore a window"
+        );
+        assert!(is_quiet_hour(23, &policy));
+        assert!(is_quiet_hour(3, &policy));
+        assert!(!is_quiet_hour(12, &policy));
+    }
+
+    #[test]
+    fn switching_quiet_hours_off_twice_is_idempotent() {
+        let mut policy = InterruptPolicy::default();
+        policy.set_quiet_hours(false);
+        policy.set_quiet_hours(false);
+        assert!(!policy.quiet_hours_active());
+        assert!(!is_quiet_hour(2, &policy));
+    }
+
+    #[test]
+    fn a_window_starting_at_midnight_can_still_be_switched_off() {
+        // A real window may start at 0, so "off" must be the collapsed form
+        // rather than any zero-valued start.
+        let mut policy = InterruptPolicy {
+            quiet_hour_start: 0,
+            quiet_hour_end: 5,
+            ..InterruptPolicy::default()
+        };
+        assert!(is_quiet_hour(2, &policy));
+        policy.set_quiet_hours(false);
+        assert!(!is_quiet_hour(2, &policy), "0 -> 0 must mean never quiet");
+    }
+
+    #[test]
+    fn quiet_hours_off_lets_a_late_hour_through() {
+        // The user-visible effect: at 03:00 the hour rule no longer silences.
+        // This is the exact situation that made every late-night sample look
+        // identical.
+        let mut input = settled_input();
+        input.local_hour = 3;
+
+        let quiet = decide(&input);
+        assert_eq!(quiet.decision, Decision::Silence);
+        assert!(quiet.reasons.contains(&ReasonCode::OutsideQuietHours));
+
+        input.policy.set_quiet_hours(false);
+        let loud = decide(&input);
+        assert!(
+            !loud.reasons.contains(&ReasonCode::OutsideQuietHours),
+            "quiet hours are off, so the hour must not suppress: {:?}",
+            loud.reasons
+        );
+    }
+
+    #[test]
+    fn quiet_hours_off_does_not_weaken_the_other_rules() {
+        // Turning the hour rule off must not make the engine permissive about
+        // anything else.
+        let mut input = settled_input();
+        input.policy.set_quiet_hours(false);
+
+        let mut away = input.clone();
+        away.idle_seconds = 3600;
+        assert!(
+            decide(&away).reasons.contains(&ReasonCode::IdleTooLong),
+            "idle rules still apply"
+        );
+
+        let mut locked = input.clone();
+        locked.session_locked = true;
+        assert_eq!(
+            decide(&locked).decision,
+            Decision::Silence,
+            "a locked session still silences regardless of the hour rule"
+        );
+
+        let mut spent = input.clone();
+        spent.interrupts_today = spent.policy.daily_budget;
+        assert!(
+            decide(&spent)
+                .reasons
+                .contains(&ReasonCode::DailyBudgetExhausted),
+            "budget rules still apply"
+        );
     }
 }

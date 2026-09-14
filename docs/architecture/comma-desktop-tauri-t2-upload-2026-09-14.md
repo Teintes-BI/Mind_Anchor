@@ -232,6 +232,36 @@ cargo test --manifest-path apps/desktop-tauri/src-tauri/Cargo.toml
 
 **同时修正了 HTML 中两处因 T2 而失实的声明**：原写"本程序不含任何网络代码"与"脱敏导出默认关闭"，现已改为准确描述（仅在端点已配置且双开关开启时才发送整块聚合；上传开关默认值仍为 `true`）。
 
+## 8c. 静默时段开关与「立即上传」修复（2026-09-15）
+
+### 问题一：深夜所有判定恒为 `静默`
+
+默认静默时段是 **22:00–08:00**，因此在深夜调试时每一条判定都返回 `Silence`，理由恒为 `OutsideQuietHours`——看上去像引擎坏了，实际是设计如此。这个现象**掩盖了其余规则是否工作**。
+
+修复：`CollectionState` 新增 `quiet_hours_enabled`（默认 `true`，保持"夜间不打扰"的隐私姿态），界面在「隐私边界」加勾选框。关闭时窗口折叠为 `start == end`，而 `is_quiet_hour` **本来就把相同起止视为"永不静默"**——沿用既有表示，避免出现第二个可能与规则冲突的真值来源。重新开启会恢复 `22–8`。
+
+已加 5 个测试，包括：开关往返、幂等、**起点为 0 的真实窗口（0→5）仍可被关闭**（不能把"关闭"误当成"起点为 0"）、以及关机时段后 03:00 不再被抑制。
+
+### 问题二：「立即上传」点了没反应（两处真实缺陷）
+
+1. **逻辑不完整**：`enqueue_upload_now`（入队）与 `flush_uploads`（发送）是两个命令，而按钮**只调了后者**。队列为空 → 必然 `EmptyQueue`。界面上又没有入队入口，所以该功能实际不可用。
+   修复：新增 `send_now` = 入队 + 发送，共用 `enqueue_upload_inner` 的门禁，一步到位。
+
+2. **错误显示在别的面板**：`renderError` 把消息**写死**插在「立即采样一次」按钮之后，而「立即上传」在最下面的面板 → 视觉上"没反应"。
+   修复：`renderError(message, anchorId)` 把消息锚定到触发操作旁边的控件。
+
+另修一个**空指针**：`quiet_hours_window` 在关闭时段时为 `null`，原先直接读 `.start_hour` 会让整个 `refresh()` 抛异常。
+
+### 状态显示
+
+`StatusSnapshot` 新增 `quiet_hours_enabled` 与 `quiet_hours_window`；界面「静默时段」一行显示 `开启（22:00–08:00）` 或 `已关闭`。
+
+实测：`cargo test` **149 passed / 0 failed**（lib 110 → 115，含 5 个新测试）；`clippy -D warnings`、`fmt --check`、`pnpm test`、`live_relay_test` 6/6 全部 exit 0。
+
+### 一个工具陷阱（值得记住）
+
+`tauri dev` 的 `cargo-tauri` 是**文件监听器**：源码一改就自动重编译并重启应用，于是 `comma-desktop.exe` 被反复占用，`cargo test` / `cargo build` 持续报 `failed to remove file ...comma-desktop.exe`。**关掉应用窗口无效**，必须停掉 `cargo-tauri` 进程（或 Ctrl+C 整个 dev 会话）。
+
 ## 9. 已知缺口与后续
 
 1. ~~**未做真实网络端到端**~~ → **已完成于 2026-09-14**。`ali-2v2g` 中继已部署并验证：从 Windows 经公网 TLS 投递 **201**（0.097s），幂等重放返回同一 id，P3 被 **403** 拒绝，无鉴权 **401**。完整证据（部署路径、证书指纹、逐步命令、实测输出）见
