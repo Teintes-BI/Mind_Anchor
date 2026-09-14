@@ -12,6 +12,13 @@ apps/desktop/.mindanchor-desktop/
 apps/android-recorder/.gradle/
 apps/android-recorder/**/build/
 apps/android-recorder/local.properties
+# Rust / native build output. `apps/desktop-tauri/src-tauri/target` reaches
+# ~11.5 GB across ~15k files after a Tauri debug build, so leaving it
+# unignored makes a plain `git add -A` attempt to commit the whole thing.
+target/
+**/target/
+# Local runtime logs (pids, env files) written by the openclaw dev stack.
+.logs/
 # Squad: ignore runtime state (logs, inbox, sessions)
 .squad/orchestration-log/
 .squad/log/

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Comma Desktop — Shadow Mode</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header>
+        <h1>Comma Desktop</h1>
+        <p class="subtitle">
+          阶段 0 · Shadow 模式 — 引擎只做判断与记录，<strong>不发送任何通知、不弹窗</strong>
+        </p>
+      </header>
+
+      <section class="panel" aria-labelledby="status-heading">
+        <h2 id="status-heading">采集状态</h2>
+        <dl class="grid" id="status-grid">
+          <dt>模式</dt><dd id="s-shadow">—</dd>
+          <dt>采集开关</dt><dd id="s-enabled">—</dd>
+          <dt>窗口标题采集</dt><dd id="s-title">—</dd>
+          <dt>上传开关</dt><dd id="s-upload">—</dd>
+          <dt>数据等级</dt><dd id="s-level">—</dd>
+          <dt>采样间隔</dt><dd id="s-interval">—</dd>
+          <dt>已采集样本</dt><dd id="s-samples">—</dd>
+          <dt>已判定次数</dt><dd id="s-decisions">—</dd>
+        </dl>
+      </section>
+
+      <section class="panel" aria-labelledby="decision-heading">
+        <h2 id="decision-heading">最近一次判定</h2>
+        <p class="decision" id="d-decision">尚未判定</p>
+        <p class="reasons" id="d-reasons"></p>
+        <p class="meta" id="d-sample"></p>
+        <button id="poll" type="button">立即采样一次</button>
+      </section>
+
+      <section class="panel" aria-labelledby="privacy-heading">
+        <h2 id="privacy-heading">隐私边界</h2>
+        <ul class="notes">
+          <li>键盘只统计「距上次输入的时长」，<strong>不记录任何按键或文本</strong>。</li>
+          <li>窗口标题默认关闭；即使打开也会先脱敏再存储。</li>
+          <li>采集全程本地，本程序不含任何网络代码。</li>
+          <li>脱敏导出默认关闭，且只包含整点聚合计数。</li>
+        </ul>
+        <div class="actions">
+          <label><input type="checkbox" id="toggle-enabled" /> 允许本地采集</label>
+          <label><input type="checkbox" id="toggle-upload" /> 允许脱敏上传（默认关闭）</label>
+          <button id="purge" type="button" class="danger">清除本地记录</button>
+        </div>
+      </section>
+    </main>
+    <script src="main.js"></script>
+  </body>
+</html>

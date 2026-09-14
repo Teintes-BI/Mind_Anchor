@@ -60,6 +60,8 @@ importers:
         specifier: ^35.0.1
         version: 35.7.5
 
+  apps/desktop-tauri: {}
+
   apps/macos: {}
 
   apps/web:

@@ -1,0 +1,1 @@
+{"default":{"identifier":"default","description":"Phase 0 capabilities. Deliberately minimal: the app has no network, no filesystem and no notification permission, so none are declared here.","local":true,"windows":["main"],"permissions":["core:default"]}}

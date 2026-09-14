@@ -1,0 +1,143 @@
+:root {
+  color-scheme: light dark;
+  --bg: #101418;
+  --panel: #171d24;
+  --line: #2a333d;
+  --text: #e6edf3;
+  --muted: #93a1b1;
+  --accent: #6ea8fe;
+  --warn: #e8b339;
+  --danger: #e5534b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.6 "Segoe UI", "Microsoft YaHei", system-ui, sans-serif;
+}
+
+.shell {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+}
+
+h1 {
+  margin: 0 0 4px;
+  font-size: 20px;
+}
+
+h2 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.subtitle {
+  margin: 0 0 20px;
+  color: var(--muted);
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 6px 18px;
+  margin: 0;
+}
+
+.grid dt {
+  color: var(--muted);
+}
+
+.grid dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.decision {
+  margin: 0 0 6px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.decision[data-kind="interrupt"] {
+  color: var(--accent);
+}
+
+.decision[data-kind="defer"] {
+  color: var(--warn);
+}
+
+.decision[data-kind="silence"] {
+  color: var(--muted);
+}
+
+.reasons,
+.meta {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.notes {
+  margin: 0 0 14px;
+  padding-left: 18px;
+  color: var(--muted);
+}
+
+.notes strong {
+  color: var(--text);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+}
+
+.actions label {
+  color: var(--muted);
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+
+button {
+  background: #223041;
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 7px 14px;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:hover {
+  border-color: var(--accent);
+}
+
+button.danger:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.error {
+  color: var(--danger);
+  margin-top: 8px;
+}

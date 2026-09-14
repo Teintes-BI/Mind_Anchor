@@ -1,0 +1,17 @@
+{
+  "name": "@mindanchor/desktop-tauri",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Comma V0.1-H Phase 0 desktop activity collector (Tauri 2 + Rust, shadow mode)",
+  "scripts": {
+    "check": "node scripts/check-shell.mjs",
+    "test": "corepack pnpm run check",
+    "build": "corepack pnpm run check",
+    "cargo:fetch": "cargo fetch --manifest-path src-tauri/Cargo.toml",
+    "cargo:check": "cargo check --manifest-path src-tauri/Cargo.toml",
+    "cargo:test": "cargo test --manifest-path src-tauri/Cargo.toml",
+    "cargo:fmt": "cargo fmt --manifest-path src-tauri/Cargo.toml -- --check",
+    "cargo:clippy": "cargo clippy --manifest-path src-tauri/Cargo.toml -- -D warnings",
+    "cargo:build": "cargo build --manifest-path src-tauri/Cargo.toml"
+  }
+}
