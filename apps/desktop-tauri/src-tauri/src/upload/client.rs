@@ -73,13 +73,18 @@ pub fn parse_url(url: &str) -> Result<(String, String, u16, String), UploadError
 }
 
 /// POST `body` to `url` with an optional bearer token. Blocking.
+///
+/// `pin` is the SHA-256 fingerprint the https server's certificate must match.
+/// For `https://` endpoints a pin is **required**; there is no
+/// skip-verification mode.
 #[cfg(windows)]
 pub fn post_json(
     url: &str,
     body: &str,
     bearer_token: Option<&str>,
+    pin: Option<&str>,
 ) -> Result<HttpResponse, UploadError> {
-    post_json_impl(url, body, bearer_token)
+    post_json_impl(url, body, bearer_token, pin)
 }
 
 /// Non-Windows stub: this build targets Windows.
@@ -88,6 +93,7 @@ pub fn post_json(
     _url: &str,
     _body: &str,
     _bearer_token: Option<&str>,
+    _pin: Option<&str>,
 ) -> Result<HttpResponse, UploadError> {
     Err(UploadError::Transport {
         message: "upload transport is Windows-only in this build".to_string(),
@@ -99,13 +105,15 @@ fn post_json_impl(
     url: &str,
     body: &str,
     bearer_token: Option<&str>,
+    pin: Option<&str>,
 ) -> Result<HttpResponse, UploadError> {
     use windows::core::PCWSTR;
     use windows::Win32::Networking::WinHttp::{
         WinHttpCloseHandle, WinHttpConnect, WinHttpOpen, WinHttpOpenRequest, WinHttpQueryHeaders,
-        WinHttpReadData, WinHttpReceiveResponse, WinHttpSendRequest, WinHttpSetTimeouts,
-        WinHttpWriteData, WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY, WINHTTP_FLAG_SECURE,
-        WINHTTP_OPEN_REQUEST_FLAGS, WINHTTP_QUERY_FLAG_NUMBER, WINHTTP_QUERY_STATUS_CODE,
+        WinHttpReadData, WinHttpReceiveResponse, WinHttpSendRequest, WinHttpSetOption,
+        WinHttpSetTimeouts, SECURITY_FLAG_IGNORE_UNKNOWN_CA, WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY,
+        WINHTTP_FLAG_SECURE, WINHTTP_OPEN_REQUEST_FLAGS, WINHTTP_OPTION_SECURITY_FLAGS,
+        WINHTTP_QUERY_FLAG_NUMBER, WINHTTP_QUERY_STATUS_CODE,
     };
 
     const USER_AGENT: &str = "comma-desktop/0.1";
@@ -119,6 +127,17 @@ fn post_json_impl(
     let (scheme, host, port, path) = parse_url(url)?;
     let secure = scheme == "https";
 
+    // Refuse before opening a socket: an https request without a pin cannot be
+    // verified, and we do not silently fall back to trusting everything.
+    let expected_pin = if super::cert::requires_pin(&scheme) {
+        let raw = pin.ok_or(UploadError::Cert {
+            reason: super::cert::CertError::PinRequired,
+        })?;
+        Some(super::cert::validate_pin(raw).map_err(|reason| UploadError::Cert { reason })?)
+    } else {
+        None
+    };
+
     let wide =
         |value: &str| -> Vec<u16> { value.encode_utf16().chain(std::iter::once(0)).collect() };
     let host_w = wide(&host);
@@ -130,7 +149,8 @@ fn post_json_impl(
     // opened them. All wide-string pointers reference locals that outlive the
     // calls, and WinHttpSendRequest is given the header slice directly so the
     // crate computes the correct length. The response body is size-capped so a
-    // hostile or broken server cannot exhaust memory.
+    // hostile or broken server cannot exhaust memory. The certificate context
+    // read below is borrowed from WinHTTP and must NOT be freed by us.
     unsafe {
         let transport_error = |message: String| UploadError::Transport { message };
 
@@ -183,33 +203,58 @@ fn post_json_impl(
                 }
 
                 let request_result = (|| -> Result<HttpResponse, UploadError> {
+                    if secure {
+                        // Relax exactly one chain error: the unknown-CA case that
+                        // a self-signed certificate necessarily triggers. Name
+                        // mismatch, date invalidity and wrong-usage remain
+                        // enforced. Pin comparison below is what makes this safe.
+                        let ignore_unknown_ca = SECURITY_FLAG_IGNORE_UNKNOWN_CA.to_le_bytes();
+                        WinHttpSetOption(
+                            Some(request as *const core::ffi::c_void),
+                            WINHTTP_OPTION_SECURITY_FLAGS,
+                            Some(&ignore_unknown_ca),
+                        )
+                        .map_err(|error| {
+                            transport_error(format!("cannot set TLS options: {error}"))
+                        })?;
+                    }
+
                     let mut headers = String::from("Content-Type: application/json\r\n");
                     if let Some(token) = bearer_token.filter(|t| !t.trim().is_empty()) {
                         headers.push_str(&format!("Authorization: Bearer {token}\r\n"));
                     }
                     let headers_w = wide(&headers);
-                    // Pass the slice: the crate derives the length. It excludes
-                    // the trailing NUL itself when given a slice.
                     let headers_slice = &headers_w[..headers_w.len() - 1];
 
-                    WinHttpSendRequest(request, Some(headers_slice), None, 0, 0, 0)
-                        .map_err(|error| transport_error(format!("send failed: {error}")))?;
-
+                    // Send headers and body together. WinHttpWriteData on its
+                    // own is rejected with E_INVALIDARG unless the total length
+                    // was declared up front, so declaring it here is both simpler
+                    // and the documented way to post a body.
                     let bytes = body.as_bytes();
-                    if !bytes.is_empty() {
-                        let mut written = 0u32;
-                        WinHttpWriteData(
-                            request,
-                            Some(bytes.as_ptr() as *const core::ffi::c_void),
-                            bytes.len() as u32,
-                            &mut written,
-                        )
-                        .map_err(|error| transport_error(format!("body write failed: {error}")))?;
-                    }
+                    WinHttpSendRequest(
+                        request,
+                        Some(headers_slice),
+                        Some(bytes.as_ptr() as *const core::ffi::c_void),
+                        bytes.len() as u32,
+                        bytes.len() as u32,
+                        0,
+                    )
+                    .map_err(|error| transport_error(format!("send failed: {error}")))?;
 
+                    // The TLS handshake completes during this call, so the
+                    // server certificate is only available afterwards. Reading
+                    // it before the response arrives fails with E_INVALIDARG.
                     WinHttpReceiveResponse(request, std::ptr::null_mut()).map_err(|error| {
                         transport_error(format!("no response from {url}: {error}"))
                     })?;
+
+                    // Verify the pin before treating any response as
+                    // trustworthy. A mismatch aborts the request.
+                    if let Some(expected) = expected_pin.as_deref() {
+                        let actual = server_certificate_fingerprint(request)?;
+                        super::cert::verify(expected, &actual)
+                            .map_err(|reason| UploadError::Cert { reason })?;
+                    }
 
                     let mut status = 0u32;
                     let mut status_size = std::mem::size_of::<u32>() as u32;
@@ -262,6 +307,75 @@ fn post_json_impl(
     }
 }
 
+/// Read the negotiated server certificate and return its lowercase SHA-256
+/// fingerprint as 64 hex characters.
+///
+/// The `CERT_CONTEXT` returned by WinHTTP is **borrowed**; it is released when
+/// the request handle closes, so this must not free it.
+#[cfg(windows)]
+unsafe fn server_certificate_fingerprint(
+    request: *mut core::ffi::c_void,
+) -> Result<String, UploadError> {
+    use windows::Win32::Networking::WinHttp::{
+        WinHttpQueryOption, WINHTTP_OPTION_SERVER_CERT_CONTEXT,
+    };
+    use windows::Win32::Security::Cryptography::{
+        CertGetCertificateContextProperty, CERT_SHA256_HASH_PROP_ID,
+    };
+
+    let cert = {
+        let mut value: *mut core::ffi::c_void = std::ptr::null_mut();
+        let mut size = std::mem::size_of::<*mut core::ffi::c_void>() as u32;
+        WinHttpQueryOption(
+            request,
+            WINHTTP_OPTION_SERVER_CERT_CONTEXT,
+            Some(&mut value as *mut *mut core::ffi::c_void as *mut core::ffi::c_void),
+            &mut size,
+        )
+        .map_err(|error| UploadError::Cert {
+            reason: super::cert::CertError::Unreadable {
+                message: format!("WinHttpQueryOption failed: {error}"),
+            },
+        })?;
+        value as *const windows::Win32::Security::Cryptography::CERT_CONTEXT
+    };
+
+    if cert.is_null() {
+        return Err(UploadError::Cert {
+            reason: super::cert::CertError::Unreadable {
+                message: "WinHTTP returned a null certificate context".to_string(),
+            },
+        });
+    }
+
+    // First call sizes the property buffer.
+    let mut size = 0u32;
+    let _ = CertGetCertificateContextProperty(cert, CERT_SHA256_HASH_PROP_ID, None, &mut size);
+    if size == 0 || size > 128 {
+        return Err(UploadError::Cert {
+            reason: super::cert::CertError::Unreadable {
+                message: format!("unexpected fingerprint buffer size {size}"),
+            },
+        });
+    }
+
+    let mut buffer = vec![0u8; size as usize];
+    CertGetCertificateContextProperty(
+        cert,
+        CERT_SHA256_HASH_PROP_ID,
+        Some(buffer.as_mut_ptr() as *mut core::ffi::c_void),
+        &mut size,
+    )
+    .map_err(|error| UploadError::Cert {
+        reason: super::cert::CertError::Unreadable {
+            message: format!("cannot read SHA-256 property: {error}"),
+        },
+    })?;
+
+    buffer.truncate(size as usize);
+    Ok(buffer.iter().map(|byte| format!("{byte:02x}")).collect())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -303,7 +417,37 @@ mod tests {
     fn transport_failure_is_an_error_not_a_panic() {
         // Port 1 is reserved and will not answer. This asserts the failure is a
         // clean error rather than a panic or a hang past the timeouts.
-        let result = post_json("http://127.0.0.1:1/v1/core/events", "{}", None);
+        let result = post_json("http://127.0.0.1:1/v1/core/events", "{}", None, None);
         assert!(result.is_err(), "connecting to a dead port must fail");
+    }
+
+    #[test]
+    fn https_without_a_pin_is_refused_before_connecting() {
+        // The point of the policy: never fall back to trusting an unverified
+        // peer. A live https endpoint with no pin must fail as PinRequired,
+        // which means no socket was opened.
+        let result = post_json("https://127.0.0.1:1/v1/core/events", "{}", None, None);
+        match result {
+            Err(UploadError::Cert {
+                reason: crate::upload::cert::CertError::PinRequired,
+            }) => {}
+            other => panic!("expected PinRequired, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn https_with_a_malformed_pin_is_refused_before_connecting() {
+        let result = post_json(
+            "https://127.0.0.1:1/v1/core/events",
+            "{}",
+            None,
+            Some("nope"),
+        );
+        match result {
+            Err(UploadError::Cert {
+                reason: crate::upload::cert::CertError::MalformedPin { .. },
+            }) => {}
+            other => panic!("expected MalformedPin, got {other:?}"),
+        }
     }
 }

@@ -51,6 +51,10 @@ pub struct AppState {
     upload_endpoint: String,
     /// Optional bearer token for the relay.
     upload_token: Option<String>,
+    /// SHA-256 fingerprint the relay's TLS certificate must match. Required for
+    /// https endpoints; without it the upload is refused rather than trusting
+    /// an unverified peer.
+    upload_pin: Option<String>,
 }
 
 impl AppState {
@@ -65,6 +69,7 @@ impl AppState {
             interrupts_today: 0,
             upload_endpoint: String::new(),
             upload_token: None,
+            upload_pin: None,
         }
     }
 }
@@ -172,6 +177,8 @@ pub struct UploadStatus {
     pub endpoint: Option<String>,
     /// Whether a bearer token is set. The token itself is never returned.
     pub token_configured: bool,
+    /// Whether a TLS certificate fingerprint is pinned. Required for https.
+    pub certificate_pin_configured: bool,
     pub upload_enabled: bool,
     pub collection_enabled: bool,
     pub pending: u64,
@@ -353,6 +360,7 @@ fn set_upload_endpoint(
     state: State<'_, Mutex<AppState>>,
     endpoint: Option<String>,
     token: Option<String>,
+    certificate_pin: Option<String>,
 ) -> CommandResult<UploadStatus> {
     let mut app = state.lock().unwrap_or_else(|e| e.into_inner());
     if let Some(endpoint) = endpoint {
@@ -371,6 +379,18 @@ fn set_upload_endpoint(
         } else {
             Some(trimmed)
         };
+    }
+    if let Some(pin) = certificate_pin {
+        let trimmed = pin.trim().to_string();
+        if trimmed.is_empty() {
+            app.upload_pin = None;
+        } else {
+            // Validate the format here so a typo is caught at configuration
+            // time, not on the first upload attempt.
+            let normalised = upload::cert::validate_pin(&trimmed)
+                .map_err(|reason| upload::UploadError::Cert { reason })?;
+            app.upload_pin = Some(normalised);
+        }
     }
     upload_status_inner(&app)
 }
@@ -392,6 +412,7 @@ fn upload_status_inner(app: &AppState) -> CommandResult<UploadStatus> {
             Some(app.upload_endpoint.clone())
         },
         token_configured: app.upload_token.is_some(),
+        certificate_pin_configured: app.upload_pin.is_some(),
         upload_enabled: app.collection_state.upload_enabled,
         collection_enabled: app.collection_state.enabled,
         pending,
@@ -466,6 +487,7 @@ fn flush_uploads(
             &app.upload_endpoint,
             &item.body_json,
             app.upload_token.as_deref(),
+            app.upload_pin.as_deref(),
         ) {
             Ok(response) if (200..300).contains(&response.status) => {
                 app.store.mark_upload_delivered(item.id)?;

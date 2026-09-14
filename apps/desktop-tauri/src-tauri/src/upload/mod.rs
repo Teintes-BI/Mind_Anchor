@@ -26,6 +26,7 @@
 //! A non-loopback plaintext endpoint is rejected so a misconfiguration cannot
 //! silently send behavioural data in the clear.
 
+pub mod cert;
 pub mod client;
 pub mod payload;
 pub mod queue;
@@ -52,6 +53,9 @@ pub enum UploadError {
     HttpStatus { status: u16, message: String },
     /// The server answered 2xx but the body was not the expected shape.
     MalformedResponse { message: String },
+    /// TLS certificate verification failed (missing pin, or a fingerprint
+    /// mismatch). Never a warning: a failed pin means the peer is not trusted.
+    Cert { reason: cert::CertError },
 }
 
 impl std::fmt::Display for UploadError {
@@ -71,6 +75,7 @@ impl std::fmt::Display for UploadError {
             UploadError::MalformedResponse { message } => {
                 write!(f, "malformed response: {message}")
             }
+            UploadError::Cert { reason } => write!(f, "certificate rejected: {reason}"),
         }
     }
 }

@@ -99,6 +99,9 @@ pub fn is_retryable(error: &UploadError) -> bool {
     match error {
         UploadError::Transport { .. } => true,
         UploadError::HttpStatus { status, .. } => *status >= 500 || *status == 429,
+        // A certificate failure is not transient: retrying will hit the same
+        // mismatch. Park it and surface it rather than burning attempts.
+        UploadError::Cert { .. } => false,
         UploadError::CollectionDisabled
         | UploadError::UploadDisabled
         | UploadError::EndpointNotConfigured

@@ -174,6 +174,42 @@ cargo test --manifest-path apps/desktop-tauri/src-tauri/Cargo.toml
 
 实测：`cargo test` **130 passed / 0 failed**（89 lib + 9 decision + 8 fixture + 7 privacy + 10 upload + 7 ignored live）；`clippy -D warnings` 与 `fmt --check` 均 exit 0。
 
+## 8. 证书固定（TLS pinning）
+
+中继使用**自签名证书**，因此 WinHTTP 默认的链校验必然失败。直接关闭校验是不可接受的——那会连带接受攻击者的任意证书。采取的策略是 **pin or refuse**：
+
+1. 用户显式配置证书的 SHA-256 指纹（脱离通道获取，如经 SSH 读取）。
+2. 仅放宽 `SECURITY_FLAG_IGNORE_UNKNOWN_CA` 一项链错误——足以接受自签名叶子证书，但**姓名不匹配、过期、用途错误仍然强制校验**。
+3. 响应到达后读回服务器证书，比对指纹；不匹配即失败。
+
+因此攻击者出示另一张自签名证书会得到**指纹不匹配**，而非上传成功。**`https` 端点未配置指纹一律拒绝**（`PinRequired`），代码中**不存在**跳过校验的模式。
+
+| 文件 | 职责 |
+|---|---|
+| `src-tauri/src/upload/cert.rs` | 指纹规范化与校验策略（纯函数） |
+| `src-tauri/src/upload/client.rs` | WinHTTP 传输 + 证书指纹读取 |
+| `src-tauri/tests/live_relay_test.rs` | 对真实中继的端到端测试（`#[ignore]`） |
+
+**实测（2026-09-14，对 `https://47.104.73.144:18443`）**：
+
+| 检查 | 结果 |
+|---|---|
+| 正确指纹投递 | **201**，eventId `170a6af5-f47e-4a44-afa4-66f6eb26564c` |
+| 幂等重放 | **同一 eventId** `4da835b6-…` |
+| **错误指纹** | 拒绝（`FingerprintMismatch`） |
+| **未配置指纹** | 拒绝（`PinRequired`），且未建立连接 |
+| 无鉴权 | **401** |
+| P3 | **403** `core_p3_egress_blocked` |
+
+复跑：`cargo test --test live_relay_test -- --ignored --nocapture`
+
+### 实现中踩到的两个真实缺陷（记录以免复现）
+
+1. **`WinHttpWriteData` 返回 `E_INVALIDARG (0x80070057)`**：先 `WinHttpSendRequest`（body 为空、长度 0）再 `WinHttpWriteData` 写 body 会被 WinHTTP 拒绝。正确做法是把 body 直接传给 `WinHttpSendRequest` 的 `lpOptional` 并同时给出 `dwTotalLength`。
+2. **证书只能在 `WinHttpReceiveResponse` 之后读取**：TLS 握手在该调用中完成，之前读 `WINHTTP_OPTION_SERVER_CERT_CONTEXT` 会失败。
+
+另有一处**调用约定**值得注意：`post_json` 自行拼接 `Bearer ` 前缀，因此传入的 token **不能**再带 `Bearer `，否则会发出 `Bearer Bearer dev:…` 而被 401 拒绝。这一点已在测试常量处注明。
+
 ## 9. 已知缺口与后续
 
 1. ~~**未做真实网络端到端**~~ → **已完成于 2026-09-14**。`ali-2v2g` 中继已部署并验证：从 Windows 经公网 TLS 投递 **201**（0.097s），幂等重放返回同一 id，P3 被 **403** 拒绝，无鉴权 **401**。完整证据（部署路径、证书指纹、逐步命令、实测输出）见
