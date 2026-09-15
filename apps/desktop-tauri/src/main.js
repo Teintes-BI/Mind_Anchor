@@ -139,6 +139,19 @@ async function refresh() {
     $("u-token").textContent = upload.token_configured ? "已设置" : "未设置";
     $("u-pin").textContent = upload.certificate_pin_configured ? "已固定" : "未固定";
 
+    // Renewal state. Showing hours-to-expiry is the point: a token that lapses
+    // turns every upload into a 401, and without this the panel gives no hint
+    // that anything is about to break.
+    if (!upload.refresh_token_configured) {
+      $("u-renew").textContent = "未配置刷新令牌（令牌过期后需手动更换）";
+    } else if (upload.token_expires_in_hours === null) {
+      $("u-renew").textContent = "已配置（到期时间未知）";
+    } else {
+      const hours = upload.token_expires_in_hours;
+      const label = hours <= 0 ? "已过期，将自动续期" : `约 ${hours} 小时后到期`;
+      $("u-renew").textContent = `已配置 · ${label}`;
+    }
+
     $("u-queue").textContent =
       `待发 ${upload.pending} · 已送达 ${upload.delivered} · 失败 ${upload.failed}`;
 
@@ -234,32 +247,48 @@ $("save-relay").addEventListener("click", async () => {
     const raw = $(id).value;
     return raw.trim() === "" ? null : raw;
   };
-  const payload = {};
-  const endpoint = typed("f-endpoint");
-  const token = typed("f-token");
-  const pin = typed("f-pin");
-  if (endpoint !== null) payload.endpoint = endpoint;
-  if (token !== null) payload.token = token;
-  if (pin !== null) payload.certificatePin = pin;
+  const payload = {
+    endpoint: typed("f-endpoint"),
+    token: typed("f-token"),
+    certificatePin: typed("f-pin"),
+    refreshToken: typed("f-refresh"),
+  };
 
   try {
-    if (Object.keys(payload).length > 0) {
-      await invoke("set_upload_endpoint", payload);
-    }
+    await invoke("set_upload_endpoint", payload);
     await invoke("set_upload_interval", {
       intervalMs: Number($("f-interval").value),
     });
     // Clear only the token, and only after a successful save: it is the one
     // value the backend deliberately never echoes back, so leaving it on screen
     // would misrepresent what is stored. The pin stays visible because the user
-    // needs to be able to check it against the server by eye.
+    // needs to be able to check it against the server by eye. The refresh token
+    // is cleared for the same reason as the access token.
     $("f-token").value = "";
+    $("f-refresh").value = "";
     await refresh();
     renderError("中继配置已保存", "save-relay");
   } catch (error) {
     // Report next to the button and keep the typed values so the user can
     // correct them instead of retyping from scratch.
     renderError(`保存失败：${formatError(error)}`, "save-relay");
+  }
+});
+
+$("renew-token").addEventListener("click", async () => {
+  if (!invoke) return;
+  try {
+    // Recovery path for an already-expired token, so the user is not stuck
+    // waiting for the scheduled margin to come round.
+    const result = await invoke("renew_token_now");
+    await refresh();
+    const hours = result.token_expires_in_hours;
+    renderError(
+      hours === null ? "已续期（到期时间未知）" : `已续期：约 ${hours} 小时后到期`,
+      "renew-token",
+    );
+  } catch (error) {
+    renderError(`续期失败：${formatError(error)}`, "renew-token");
   }
 });
 

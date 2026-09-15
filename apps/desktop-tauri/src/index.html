@@ -63,6 +63,14 @@
             autocomplete="off"
           />
 
+          <label for="f-refresh">刷新令牌（可选，用于自动续期）</label>
+          <input
+            id="f-refresh"
+            type="password"
+            placeholder="从 /auth/login 取得；填了就自动续期，留空表示不续期"
+            autocomplete="off"
+          />
+
           <label for="f-pin">证书 SHA-256 指纹（https 必需）</label>
           <input
             id="f-pin"
@@ -83,12 +91,14 @@
         <div class="actions">
           <button id="save-relay" type="button">保存中继配置</button>
           <button id="flush" type="button">立即上传</button>
+          <button id="renew-token" type="button">立即续期令牌</button>
           <button id="clear-failed" type="button">清除失败项</button>
         </div>
         <dl class="grid">
           <dt>端点</dt><dd id="u-endpoint">—</dd>
           <dt>令牌</dt><dd id="u-token">—</dd>
           <dt>证书指纹</dt><dd id="u-pin">—</dd>
+          <dt>令牌续期</dt><dd id="u-renew">—</dd>
           <dt>队列</dt><dd id="u-queue">—</dd>
           <dt>下次调度</dt><dd id="u-tick">—</dd>
         </dl>

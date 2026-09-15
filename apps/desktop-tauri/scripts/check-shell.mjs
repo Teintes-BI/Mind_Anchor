@@ -116,6 +116,21 @@ for (const field of ["endpoint", "token_configured", "certificate_pin_configured
   }
 }
 
+// The refresh token is a credential: like the access token it must be a
+// password field and must be cleared after a successful save.
+if (!/<input[^>]+id="f-refresh"[^>]*type="password"/s.test(html)) {
+  failures.push("index.html: the refresh token field must be type=password");
+}
+if (!/\$\("f-refresh"\)\.value = ""/.test(shell)) {
+  failures.push("main.js: the refresh token must be cleared after a successful save");
+}
+
+// Renewal must be reachable by hand, so an expired token is recoverable without
+// restarting the app or waiting for the margin.
+if (!shell.includes('invoke("renew_token_now")')) {
+  failures.push("main.js: the manual renew action must call renew_token_now");
+}
+
 if (failures.length) {
   console.error("desktop-tauri shell check FAILED:");
   for (const failure of failures) console.error(`  - ${failure}`);

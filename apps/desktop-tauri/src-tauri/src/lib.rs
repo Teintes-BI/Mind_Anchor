@@ -58,6 +58,13 @@ pub struct AppState {
     /// How often to attempt a background flush, in milliseconds. Zero disables
     /// scheduling; the UI may only ever set a clamped value.
     upload_interval_ms: u64,
+    /// Long-lived token used to obtain a new access token.
+    ///
+    /// Single use on the server: a successful refresh revokes this value and
+    /// returns a replacement, which must be persisted immediately.
+    upload_refresh_token: Option<String>,
+    /// Access-token expiry, epoch milliseconds, when known.
+    upload_expires_at_ms: Option<i64>,
 }
 
 impl AppState {
@@ -74,6 +81,8 @@ impl AppState {
             upload_token: None,
             upload_pin: None,
             upload_interval_ms: 0,
+            upload_refresh_token: None,
+            upload_expires_at_ms: None,
         };
         // Restore any relay configuration saved by a previous run. A failure
         // here is not fatal: the app still collects, it just starts with an
@@ -89,6 +98,8 @@ impl AppState {
     const KEY_TOKEN: &'static str = "upload.token";
     const KEY_PIN: &'static str = "upload.pin";
     const KEY_INTERVAL: &'static str = "upload.interval_ms";
+    const KEY_REFRESH: &'static str = "upload.refresh_token";
+    const KEY_EXPIRES: &'static str = "upload.token_expires_ms";
 
     /// Write the relay configuration to the store.
     ///
@@ -104,6 +115,13 @@ impl AppState {
         write(Self::KEY_ENDPOINT, Some(self.upload_endpoint.as_str()))?;
         write(Self::KEY_TOKEN, self.upload_token.as_deref())?;
         write(Self::KEY_PIN, self.upload_pin.as_deref())?;
+        write(Self::KEY_REFRESH, self.upload_refresh_token.as_deref())?;
+        match self.upload_expires_at_ms {
+            Some(value) => self
+                .store
+                .set_setting(Self::KEY_EXPIRES, &value.to_string())?,
+            None => self.store.clear_setting(Self::KEY_EXPIRES)?,
+        }
         self.store
             .set_setting(Self::KEY_INTERVAL, &self.upload_interval_ms.to_string())?;
         Ok(())
@@ -116,6 +134,10 @@ impl AppState {
         }
         self.upload_token = self.store.setting(Self::KEY_TOKEN)?;
         self.upload_pin = self.store.setting(Self::KEY_PIN)?;
+        self.upload_refresh_token = self.store.setting(Self::KEY_REFRESH)?;
+        if let Some(raw) = self.store.setting(Self::KEY_EXPIRES)? {
+            self.upload_expires_at_ms = raw.parse::<i64>().ok();
+        }
         if let Some(raw) = self.store.setting(Self::KEY_INTERVAL)? {
             if let Ok(interval) = raw.parse::<u64>() {
                 self.upload_interval_ms = upload::schedule::clamp_interval_ms(interval);
@@ -241,6 +263,12 @@ pub struct UploadStatus {
     pub token_configured: bool,
     /// Whether a TLS certificate fingerprint is pinned. Required for https.
     pub certificate_pin_configured: bool,
+    /// Whether a refresh token is stored, i.e. renewal is possible at all.
+    pub refresh_token_configured: bool,
+    /// Access-token expiry in epoch milliseconds, when known.
+    pub token_expires_at_ms: Option<i64>,
+    /// Whole hours until expiry, floored. `None` when the expiry is unknown.
+    pub token_expires_in_hours: Option<i64>,
     /// Background flush interval in milliseconds. Zero means scheduling is off.
     pub upload_interval_ms: u64,
     pub upload_enabled: bool,
@@ -441,6 +469,7 @@ fn set_upload_endpoint(
     endpoint: Option<String>,
     token: Option<String>,
     certificate_pin: Option<String>,
+    refresh_token: Option<String>,
 ) -> CommandResult<UploadStatus> {
     let mut app = state.lock().unwrap_or_else(|e| e.into_inner());
     if let Some(endpoint) = endpoint {
@@ -472,6 +501,14 @@ fn set_upload_endpoint(
             app.upload_pin = Some(normalised);
         }
     }
+    if let Some(refresh) = refresh_token {
+        let trimmed = refresh.trim().to_string();
+        app.upload_refresh_token = if trimmed.is_empty() {
+            None
+        } else {
+            Some(trimmed)
+        };
+    }
     // Persist. Without this the configuration lived only in memory and a
     // restart silently reverted it, while the queue counters - read from the
     // database - kept their values, so the panel looked half-configured.
@@ -488,6 +525,19 @@ fn set_upload_endpoint(
 fn clear_failed_uploads(state: State<'_, Mutex<AppState>>) -> CommandResult<UploadStatus> {
     let app = state.lock().unwrap_or_else(|e| e.into_inner());
     app.store.clear_failed_uploads()?;
+    upload_status_inner(&app)
+}
+
+/// Renew the access token immediately, ignoring the expiry margin.
+///
+/// Exists so a user whose token has already expired - or who has just pasted a
+/// refresh token - can recover without waiting for the scheduled path or
+/// restarting the app.
+#[tauri::command]
+fn renew_token_now(state: State<'_, Mutex<AppState>>) -> CommandResult<UploadStatus> {
+    let mut app = state.lock().unwrap_or_else(|e| e.into_inner());
+    app.upload_expires_at_ms = Some(0);
+    renew_access_token_if_due(&mut app)?;
     upload_status_inner(&app)
 }
 
@@ -509,6 +559,11 @@ fn upload_status_inner(app: &AppState) -> CommandResult<UploadStatus> {
         },
         token_configured: app.upload_token.is_some(),
         certificate_pin_configured: app.upload_pin.is_some(),
+        refresh_token_configured: app.upload_refresh_token.is_some(),
+        token_expires_at_ms: app.upload_expires_at_ms,
+        token_expires_in_hours: app
+            .upload_expires_at_ms
+            .map(|expiry| (expiry - now_ms() as i64).div_euclid(3_600_000)),
         upload_interval_ms: app.upload_interval_ms,
         upload_enabled: app.collection_state.upload_enabled,
         collection_enabled: app.collection_state.enabled,
@@ -653,6 +708,10 @@ fn flush_uploads_inner(app: &mut AppState, limit: u32) -> CommandResult<UploadSt
     upload::validate_endpoint(&app.upload_endpoint)
         .map_err(|reason| CommandError::Upload { reason })?;
 
+    // Renew before sending: a 401 mid-batch would park every queued item as a
+    // failure for what is only a stale credential.
+    renew_access_token_if_due(app)?;
+
     let now = now_ms() as i64;
     let due = app.store.due_uploads(now, limit)?;
 
@@ -680,6 +739,63 @@ fn flush_uploads_inner(app: &mut AppState, limit: u32) -> CommandResult<UploadSt
     }
 
     upload_status_inner(app)
+}
+
+/// Renew the access token when it is close to expiring, or when it has already
+/// been rejected.
+///
+/// Ordering is deliberate: the new pair is written to the store *before* the old
+/// values are dropped in memory. Refresh tokens are single use, so if the
+/// process died between revoking the old one and saving the new one, the account
+/// would be unreachable without a fresh login.
+fn renew_access_token_if_due(app: &mut AppState) -> CommandResult<()> {
+    let Some(refresh_token) = app.upload_refresh_token.clone() else {
+        // No refresh token configured: nothing to renew. The access token may
+        // still be valid for a long time, and if it is not, the 401 surfaces.
+        return Ok(());
+    };
+    if !upload::auth::should_renew(app.upload_expires_at_ms, now_ms() as i64) {
+        return Ok(());
+    }
+    let url = upload::auth::refresh_url(&app.upload_endpoint).ok_or(CommandError::Upload {
+        reason: upload::UploadError::EndpointNotConfigured,
+    })?;
+
+    let response = upload::client::post_json(
+        &url,
+        &upload::auth::refresh_body(&refresh_token),
+        None,
+        app.upload_pin.as_deref(),
+    )?;
+
+    if !(200..300).contains(&response.status) {
+        return Err(CommandError::Upload {
+            reason: upload::UploadError::HttpStatus {
+                status: response.status,
+                message: response.body.chars().take(200).collect(),
+            },
+        });
+    }
+
+    let session: upload::auth::Session =
+        serde_json::from_str(&response.body).map_err(|error| CommandError::Upload {
+            reason: upload::UploadError::Transport {
+                message: format!("refresh response was not a session: {error}"),
+            },
+        })?;
+
+    app.upload_token = Some(session.access_token);
+    app.upload_expires_at_ms = session
+        .expires_at
+        .as_deref()
+        .and_then(upload::auth::parse_iso8601_ms);
+    // Only replace the refresh token if the server issued a new one; keeping the
+    // old value would be wrong, but dropping it for `None` would strand us.
+    if session.refresh_token.is_some() {
+        app.upload_refresh_token = session.refresh_token;
+    }
+    app.persist_relay_config()?;
+    Ok(())
 }
 
 /// Apply the retry policy for one failure. Deliberately does not delete the
@@ -814,6 +930,7 @@ pub fn build_app(store: LocalStore) -> tauri::Builder<tauri::Wry> {
             enqueue_upload_now,
             send_now,
             clear_failed_uploads,
+            renew_token_now,
             flush_uploads
         ])
 }

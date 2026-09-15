@@ -26,6 +26,7 @@
 //! A non-loopback plaintext endpoint is rejected so a misconfiguration cannot
 //! silently send behavioural data in the clear.
 
+pub mod auth;
 pub mod cert;
 pub mod client;
 pub mod payload;
