@@ -262,11 +262,67 @@ cargo test --manifest-path apps/desktop-tauri/src-tauri/Cargo.toml
 
 `tauri dev` 的 `cargo-tauri` 是**文件监听器**：源码一改就自动重编译并重启应用，于是 `comma-desktop.exe` 被反复占用，`cargo test` / `cargo build` 持续报 `failed to remove file ...comma-desktop.exe`。**关掉应用窗口无效**，必须停掉 `cargo-tauri` 进程（或 Ctrl+C 整个 dev 会话）。
 
+## 8d. UI → IPC → Rust → 中继 端到端验收（2026-09-15，人工点击）
+
+**结论：通过。** 这是此前唯一的"未验证链路"，现已由真实点击闭环。
+
+### 证据一：服务端收到的事件
+
+中继 `/home/claw/.local/share/comma-core-relay/personal-core.sqlite` 中 `core_events` 实测：
+
+```
+2026-09-15T04:39:28Z  desktop  ui-test  desktop-activity-dee02fbf8411ceaf
+2026-09-15T04:39:20Z  desktop  ui-test  desktop-activity-cbdc4e981ab782b9
+2026-09-15T04:38:20Z  desktop  ui-test  desktop-activity-6f67b6bc10ab0a47
+
+按用户统计： ui-test: 3
+```
+
+**与界面「已送达 3」逐一对上** —— 界面计数不是本地乐观计数，而是真实投递数。
+
+### 证据二：配置持久化（关掉重开后仍正确）
+
+人工验收步骤与结果：
+
+1. 填端点 / 令牌 / 指纹 → 点「保存中继配置」→ 显示 `中继配置已保存`
+2. 完全关闭应用（Ctrl+C 停 dev 会话）
+3. 重新 `cargo tauri dev`
+4. 「可信中继」三行显示：**端点 = 完整 URL、令牌 = 已设置、证书指纹 = 已固定**
+
+**通过。** 此前三者恒为 `（未配置）/ 未设置 / 未固定`。
+
+### 这一轮修掉的四类真实缺陷
+
+| # | 缺陷 | 后果 | 提交 |
+|---|---|---|---|
+| 1 | 后端错误对象被 `${error}` 拼接 | 界面显示 `[object Object]`，失败原因不可读 | `53c6b6c` |
+| 2 | 未填字段以 `""` 提交 | 后端读作"清空" → 空白格会删掉已存配置 | `63b49dd` |
+| 3 | `refresh()` 每次覆盖端点输入框 | 冲掉正在输入的内容 | `63b49dd` |
+| 4 | **配置只写内存、从未落盘** | 重启即丢；而队列计数来自 SQLite，造成"计数对、配置空"的割裂 | `7774ce6` |
+
+第 4 项是本轮的核心：**第一次诊断（"UI 读错状态来源"）是错的**——`已送达 3` 与 `端点` 同源，解释不通。真因是 `app.upload_endpoint = trimmed;` 不落盘。
+
+### 界面守卫（防回归）
+
+`pnpm test` 现含 9 条反向自测，**每条都实测会失败**：
+
+| 脚本 | 守卫 |
+|---|---|
+| `check-shell.mjs` + `.test.mjs` | 不得硬编码端点、令牌框必须 password、配置须来自后端、错误须经 `formatError`、`formatError` 必须存在、**不得从 `collector_status` 读中继字段** |
+| `check-relay-form.test.mjs` | 未填字段不得以空串提交、refresh 不得覆盖半输入的端点、**指纹框不得被清空** |
+
+### 工具陷阱（两次踩到，值得记）
+
+`cargo-tauri` 是**文件监听器**：源码一变就自动重编译并重启应用，持续占用 `comma-desktop.exe`，导致 `cargo build` / `cargo test` 反复报 `failed to remove file ... (os error 5)`。**关掉应用窗口无效**，必须 Ctrl+C 停掉整个 dev 会话。`cargo check` / `clippy` 不链接二进制，因此不受影响，可用于在被占用期间核对类型。
+
 ## 9. 已知缺口与后续
 
 1. ~~**未做真实网络端到端**~~ → **已完成于 2026-09-14**。`ali-2v2g` 中继已部署并验证：从 Windows 经公网 TLS 投递 **201**（0.097s），幂等重放返回同一 id，P3 被 **403** 拒绝，无鉴权 **401**。完整证据（部署路径、证书指纹、逐步命令、实测输出）见
    [`comma-t2-relay-e2e-evidence-2026-09-14.md`](./comma-t2-relay-e2e-evidence-2026-09-14.md)。
-   仍在的缺口：Rust 客户端**尚未真正指向该端点**（本次用 curl 复刻了客户端 payload 形态），Tauri 侧还需实现证书指纹 pin 与一次真实 `flush_uploads`。
-2. **无自动调度**：上传目前由 UI/命令手动触发；定时 flush 应在其后接入，并复用同一条门禁链。
-3. **Wayfinder 客户端与提醒收件箱**仍未实现（见 §1 重新归类说明），Electron 版继续承担这些能力，故 `apps/desktop` 暂不能删除。
-4. **重试与业务串行**：`flush_uploads` 是同步阻塞的（在 command 线程内）。若队列变大应移到独立线程；当前 `limit` 默认 20 遏制了单次耗时。
+2. ~~**Rust 客户端尚未指向该端点 / 无证书指纹 pin / 未跑真实 flush_uploads**~~ → **已于 2026-09-15 完成**。证书固定（pin-or-refuse）见 §8；Rust 客户端对真实中继的 6 个 live 用例通过（201 / 幂等同 id / 错误指纹拒绝 / 未配指纹拒绝 / 401 / P3 403）。
+3. ~~**UI → IPC → Rust 链路未点击验证**~~ → **已于 2026-09-15 完成**，见 §8d。服务端 `core_events` 中 `ui-test` 3 条与界面「已送达 3」对上；配置在关掉重开后仍正确。
+4. ~~**无自动调度**~~ → **已完成**。`upload/schedule.rs` + 后台线程，门禁链与手动上传共用 `flush_uploads_inner`（见 §8b）。
+5. **中继侧运维缺口（未做）**：`Mind_Anchor_core` 的新 API 目前是 `nohup` 启动，**无 systemd 单元**，主机重启不会自动恢复；`MINDANCHOR_AUTH_DEV_BYPASS` 仍为 `true`，上线前必须改 `false` 并配置真实 JWT 密钥。详见 §relay 证据文档。
+6. **队列无清理手段**：失败的队列项按设计不被静默丢弃，但界面**没有清除入口**，失败计数会长期滞留并干扰判断。
+7. **Wayfinder 客户端与提醒收件箱**仍未实现（见 §1 重新归类说明），Electron 版继续承担这些能力，故 `apps/desktop` 暂不能删除。
+8. **重试与业务串行**：`flush_uploads` 是同步阻塞的（在 command 线程内）。若队列变大应移到独立线程；当前 `limit` 默认 20 遏制了单次耗时。
