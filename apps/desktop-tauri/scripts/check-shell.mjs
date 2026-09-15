@@ -149,21 +149,37 @@ if (!html.includes('id="inbox-list"')) {
 if (!shell.includes('invoke("inbox_overview")')) {
   failures.push("main.js: the inbox must be readable from the backend");
 }
-if (!shell.includes('invoke("inbox_acknowledge"')) {
-  failures.push("main.js: a reminder must be acknowledgeable");
+// Answering a reminder records *why*, not just that it was seen. The plain
+// acknowledge path is no longer used: the three responses carry the reason, and
+// the server stores the reason alongside the acknowledgement.
+if (!shell.includes('invoke("inbox_respond"')) {
+  failures.push("main.js: a reminder must be answerable");
+}
+// Every response the panel offers must be one the server will accept.
+for (const response of ["start_chat", "i_am_fine", "dismissed"]) {
+  if (!new RegExp(`"${response}"`).test(shell)) {
+    failures.push(`main.js: the ${response} response must be reachable`);
+  }
 }
 // Every assignment that touches server-sourced reminder text must be
-// textContent. A `.innerHTML =` anywhere in the inbox renderer is the mistake
+// textContent. A `.innerHTML =` anywhere in the reminder renderer is the mistake
 // this guards against.
+//
+// Boundaries are found with a regex rather than a literal "\nasync function":
+// main.js uses CRLF, so an LF-only literal never matched, indexOf returned -1,
+// and the slice silently ran to the end of the file - where renderWayfinder's
+// code made the "no innerHTML" assertion pass for the wrong reason.
 {
-  const renderer = shell.slice(shell.indexOf("function renderInbox"));
-  const body = renderer.slice(0, renderer.indexOf("\nasync function refreshInbox"));
+  const start = shell.search(/function renderInbox\s*\(/);
+  const rest = start < 0 ? "" : shell.slice(start + 1);
+  const nextFn = rest.search(/\r?\n(?:async\s+)?function\s+\w+/);
+  const body = start < 0 ? "" : rest.slice(0, nextFn < 0 ? rest.length : nextFn);
   if (body.length === 0) {
     failures.push("main.js: renderInbox must exist");
   } else if (/\.innerHTML\s*=/.test(body)) {
     failures.push("main.js: renderInbox must not use innerHTML on reminder text");
   }
-  if (!/\.textContent\s*=/.test(body)) {
+  if (body.length && !/\.textContent\s*=/.test(body)) {
     failures.push("main.js: renderInbox must render reminder text via textContent");
   }
 }
@@ -291,6 +307,7 @@ if (!shell.includes('invoke("renew_token_now")')) {
 // Checked against the Rust source, which is where the rule lives.
 const traySource = readFileSync(join(root, "..", "src-tauri", "src", "tray.rs"), "utf8");
 const rustLib = readFileSync(join(root, "..", "src-tauri", "src", "lib.rs"), "utf8");
+const inboxSource = readFileSync(join(root, "..", "src-tauri", "src", "inbox", "mod.rs"), "utf8");
 if (!/CloseRequested/.test(traySource) || !/prevent_close\(\)/.test(traySource)) {
   failures.push("tray.rs: a close request must be prevented, not acted on");
 }
@@ -319,6 +336,35 @@ if (!/fn flash_tray_attention/.test(rustLib)) {
 // The reset must be timed. Without it the attention colour never clears.
 if (!/ATTENTION_MS/.test(traySource)) {
   failures.push("tray.rs: the attention colour must reset after a fixed window");
+}
+
+// Answering a reminder must clear the tray immediately. Relying on the timer
+// would leave the icon asking for attention after the user had already dealt
+// with the thing it was pointing at.
+if (!/invoke\("clear_tray_attention"\)/.test(shell)) {
+  failures.push("main.js: answering a reminder must clear the tray attention now");
+}
+if (!/fn clear_tray_attention/.test(rustLib)) {
+  failures.push("lib.rs: clear_tray_attention must exist as a command");
+}
+
+// Reminders are shown one at a time. Rendering the whole list turns several
+// decisions into a wall the user scrolls past.
+if (!/inbox-position/.test(shell) || !/inboxIndex/.test(shell)) {
+  failures.push("main.js: reminders must be paged one at a time");
+}
+// The home view shows either the reminder or the judgement, never both.
+if (!/function showHomePane/.test(shell)) {
+  failures.push("main.js: the home view must switch between reminder and judgement");
+}
+
+// A response must be one the server will accept, and an unknown one must be
+// refused rather than silently dropped.
+if (!/RESPONSES/.test(inboxSource)) {
+  failures.push("inbox/mod.rs: the response set must be declared");
+}
+if (!/unknown reminder response/.test(inboxSource)) {
+  failures.push("inbox/mod.rs: an unknown response must be rejected, not dropped");
 }
 
 if (failures.length) {

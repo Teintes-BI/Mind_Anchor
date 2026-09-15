@@ -44,6 +44,10 @@ try {
   // ENOENT and every case below fails for the wrong reason.
   cpSync(join(appRoot, "src-tauri", "src", "tray.rs"), join(work, "src-tauri", "src", "tray.rs"));
   cpSync(join(appRoot, "src-tauri", "src", "lib.rs"), join(work, "src-tauri", "src", "lib.rs"));
+  cpSync(
+    join(appRoot, "src-tauri", "src", "inbox", "mod.rs"),
+    join(work, "src-tauri", "src", "inbox", "mod.rs"),
+  );
   const checker = join(work, "scripts", "check-shell.mjs");
 
   // 1. An untouched copy must pass, otherwise the negative tests prove nothing.
@@ -143,18 +147,36 @@ try {
   // 7. The inbox must not render server text as markup. Reminder titles and
   //    bodies come from the relay, so innerHTML there would let them inject
   //    script into the app's own window.
-  writeFileSync(
-    mainPath,
-    original.replace("title.textContent = message.title;", "title.innerHTML = message.title;"),
-  );
-  const inboxInjected = runChecker(work, checker);
-  if (inboxInjected.failed && /must not use innerHTML on reminder text/.test(inboxInjected.output)) {
-    console.log("ok   innerHTML in the inbox renderer is rejected");
-  } else {
-    console.error("FAIL inbox innerHTML guard did not fire:\n" + inboxInjected.output);
-    failures += 1;
+  //
+  //    The mutation targets whatever assignment the renderer currently uses for
+  //    the reminder title, and fails loudly if it finds none. An earlier version
+  //    matched one exact line; when the renderer was rewritten that line no
+  //    longer existed, the replace became a no-op, and the guard stayed silent
+  //    for the right reason while the test looked broken.
+  {
+    const target = /(\$\("n-title"\)\.textContent\s*=)/;
+    if (!target.test(original)) {
+      console.error("FAIL the reminder title assignment was not found; the case would be vacuous");
+      failures += 1;
+    }
+    const injected = original.replace(target, '$("n-title").innerHTML =');
+    if (injected === original) {
+      console.error("FAIL the inbox innerHTML mutation did not apply");
+      failures += 1;
+    }
+    writeFileSync(mainPath, injected);
+    const inboxInjected = runChecker(work, checker);
+    if (
+      inboxInjected.failed &&
+      /must not use innerHTML on reminder text/.test(inboxInjected.output)
+    ) {
+      console.log("ok   innerHTML in the inbox renderer is rejected");
+    } else {
+      console.error("FAIL inbox innerHTML guard did not fire:\n" + inboxInjected.output);
+      failures += 1;
+    }
+    writeFileSync(mainPath, original);
   }
-  writeFileSync(mainPath, original);
 
   // 8. Dropping the failed-read distinction would leave stale reminders on
   //    screen after a failed refresh, looking current when they are not.

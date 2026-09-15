@@ -361,18 +361,31 @@ $("clear-failed").addEventListener("click", async () => {
 // `reachable: false` is a normal outcome, not an exception: the relay may be
 // down, the token stale, or the response self-contradicting. In every case the
 // reason is shown in the state line rather than left to guesswork.
-function renderInbox(view) {
-  const list = $("inbox-list");
-  list.replaceChildren();
+// Which reminder the user is looking at.
+//
+// Index-based rather than id-based: the list is re-fetched after every response,
+// and an id would have to be searched for each time to survive the reorder.
+let inboxIndex = 0;
+let inboxMessages = [];
 
+// Render the inbox as: one reminder at a time, with the counts beside it.
+//
+// One at a time because a reminder is a request for a decision. Showing several
+// at once turns three decisions into a wall the user scrolls past, and the
+// response to each one is lost.
+function renderInbox(view) {
   if (!view.reachable) {
     $("i-state").textContent = "读取失败";
     $("i-pending").textContent = "—";
     $("i-interventions").textContent = "—";
     $("i-acked").textContent = "—";
-    const empty = $("inbox-empty");
-    empty.hidden = false;
-    empty.textContent = view.error ?? "无法读取收件箱。";
+    inboxMessages = [];
+    showHomePane("inbox");
+    $("n-title").textContent = "读取失败";
+    $("n-body").textContent = view.error ?? "无法读取收件箱。";
+    $("n-meta").textContent = "";
+    $("inbox-position").textContent = "—";
+    setNoticeActionsEnabled(false);
     return;
   }
 
@@ -383,54 +396,119 @@ function renderInbox(view) {
 
   // A pending reminder is the one thing worth signalling through the tray: the
   // window is usually hidden, so without this the user has to open the panel to
-  // learn there was anything to see. Fired only when the count is non-zero, so
-  // an ordinary empty read does not colour the icon.
+  // learn there was anything to see.
   if (view.pending_count > 0) {
     invoke("flash_tray_attention").catch(() => {
       // The tray is a convenience; a failure here must not break the panel.
     });
   }
 
-  const empty = $("inbox-empty");
-  empty.hidden = view.messages.length > 0;
-  empty.textContent = "没有待处理的提醒。";
+  inboxMessages = view.messages ?? [];
 
-  for (const message of view.messages) {
-    const item = document.createElement("li");
-    item.className = "inbox-item";
+  // When nothing is pending, the home view falls back to the judgement, which is
+  // the more useful thing to look at when the app has nothing to ask.
+  if (inboxMessages.length === 0) {
+    inboxIndex = 0;
+    showHomePane("decision");
+    return;
+  }
 
-    const title = document.createElement("p");
-    title.className = "inbox-title";
-    title.textContent = message.title;
+  if (inboxIndex >= inboxMessages.length) {
+    inboxIndex = inboxMessages.length - 1;
+  }
+  if (inboxIndex < 0) inboxIndex = 0;
 
-    const body = document.createElement("p");
-    body.className = "inbox-body";
-    body.textContent = message.body;
+  showHomePane("inbox");
+  renderNotice();
+}
 
-    const meta = document.createElement("p");
-    meta.className = "hint";
-    // textContent throughout: the title and body come from the server and must
-    // never be interpolated as markup.
-    meta.textContent = `${message.channel_label} · ${message.created_at}`;
+// Draw the reminder at the current index, and the pager state.
+function renderNotice() {
+  const message = inboxMessages[inboxIndex];
+  if (!message) {
+    $("inbox-position").textContent = "—";
+    setNoticeActionsEnabled(false);
+    return;
+  }
 
-    const ack = document.createElement("button");
-    ack.type = "button";
-    ack.textContent = "确认";
-    ack.addEventListener("click", async () => {
-      ack.disabled = true;
-      try {
-        const updated = await invoke("inbox_acknowledge", { messageId: message.id });
-        renderInbox(updated);
-      } catch (error) {
-        ack.disabled = false;
-        renderError(`确认失败：${formatError(error)}`, "inbox-refresh");
-      }
-    });
+  $("n-title").textContent = message.title;
+  $("n-body").textContent = message.body;
+  $("n-meta").textContent = `${message.channel_label} · ${message.created_at}`;
+  $("inbox-position").textContent = `${inboxIndex + 1} / ${inboxMessages.length}`;
+  setNoticeActionsEnabled(true);
+  $("n-feedback").hidden = true;
 
-    item.append(title, body, meta, ack);
-    list.append(item);
+  $("inbox-prev").disabled = inboxMessages.length <= 1;
+  $("inbox-next").disabled = inboxMessages.length <= 1;
+}
+
+// A failed read has nothing to respond to, so the buttons are disabled rather
+// than left to fire a request against a message that is not there.
+function setNoticeActionsEnabled(enabled) {
+  for (const id of ["n-chat", "n-fine", "n-dismiss"]) {
+    $(id).disabled = !enabled;
   }
 }
+
+// Show one home pane and hide the other.
+function showHomePane(which) {
+  $("pane-inbox").hidden = which !== "inbox";
+  $("pane-decision").hidden = which !== "decision";
+}
+
+// How the user answered a reminder. Sent to the server so the record can inform
+// later judgements rather than living only on this machine.
+const RESPONSE_LABELS = {
+  start_chat: "已记录：你想聊聊",
+  i_am_fine: "已记录：你很好",
+  dismissed: "已记录：暂时不想理",
+};
+
+async function respondToNotice(response) {
+  const message = inboxMessages[inboxIndex];
+  if (!message) return;
+
+  try {
+    await invoke("inbox_respond", { messageId: message.id, response });
+
+    // The icon stops asking as soon as the reminder is answered. Waiting for the
+    // five-minute timer would leave it green after the user had already dealt
+    // with the thing it was pointing at.
+    await invoke("clear_tray_attention").catch(() => {});
+
+    const feedback = $("n-feedback");
+    feedback.textContent = RESPONSE_LABELS[response] ?? "已记录";
+    feedback.hidden = false;
+
+    if (response === "start_chat") {
+      // Offered, not started: the model is not called until the user has seen
+      // what the reminder was about and chosen to act on it.
+      await startChat("提醒：" + message.title);
+    } else {
+      await refreshInbox();
+    }
+  } catch (error) {
+    renderError(`记录失败：${formatError(error)}`, "inbox-refresh");
+  }
+}
+
+$("inbox-prev").addEventListener("click", () => {
+  if (inboxIndex > 0) {
+    inboxIndex -= 1;
+    renderNotice();
+  }
+});
+
+$("inbox-next").addEventListener("click", () => {
+  if (inboxIndex < inboxMessages.length - 1) {
+    inboxIndex += 1;
+    renderNotice();
+  }
+});
+
+$("n-chat").addEventListener("click", () => respondToNotice("start_chat"));
+$("n-fine").addEventListener("click", () => respondToNotice("i_am_fine"));
+$("n-dismiss").addEventListener("click", () => respondToNotice("dismissed"));
 
 async function refreshInbox() {
   if (!invoke) return;
@@ -639,3 +717,84 @@ function showTab(name) {
 $("tab-home").addEventListener("click", () => showTab("home"));
 $("tab-settings").addEventListener("click", () => showTab("settings"));
 showTab("home");
+
+
+// The state rating: how the user feels right now, not whether the judgement was
+// correct. Those are different questions and conflating them would make the
+// number mean neither.
+//
+// Ten dots, no stars: a star reads as a rating of the app, and this is about the
+// person. The score is stored as 0-100 because that is the range the existing
+// check-in contract uses; the UI works in 1-10, which is what a person can
+// answer without deliberating.
+const RATING_DOTS = 10;
+
+// At or below this, the app offers to bring in the model. Offered rather than
+// done: an automatic model call on every low score decides for the user, and the
+// point of a low score is usually that the user is already short on capacity.
+const RATING_THRESHOLD = 4;
+
+let currentRating = 0;
+
+function buildRatingDots() {
+  const host = $("rating-dots");
+  host.replaceChildren();
+  for (let i = 1; i <= RATING_DOTS; i += 1) {
+    const dot = document.createElement("button");
+    dot.type = "button";
+    dot.className = "dot";
+    dot.dataset.score = String(i);
+    dot.setAttribute("role", "radio");
+    dot.setAttribute("aria-label", String(i) + " 分");
+    dot.addEventListener("click", () => setRating(i));
+    host.append(dot);
+  }
+}
+
+function setRating(score) {
+  currentRating = score;
+  const host = $("rating-dots");
+  for (const dot of host.children) {
+    const value = Number(dot.dataset.score);
+    // Filled up to the chosen score, so the row reads as a level rather than as
+    // a set of independent toggles.
+    dot.classList.toggle("is-on", value <= score);
+    dot.setAttribute("aria-checked", String(value === score));
+  }
+
+  $("rating-text").textContent = score + " / " + RATING_DOTS;
+  const low = score <= RATING_THRESHOLD;
+  $("rating-actions").hidden = !low;
+  if (low) {
+    $("rating-text").textContent =
+      score + " / " + RATING_DOTS + " — 要不要聊两句？";
+  }
+}
+
+$("rating-chat").addEventListener("click", () => {
+  startChat("此刻状态自评 " + currentRating + "/" + RATING_DOTS);
+  $("rating-actions").hidden = true;
+});
+
+$("rating-skip").addEventListener("click", () => {
+  $("rating-actions").hidden = true;
+});
+
+// Talking to the model is not wired yet. The entry points exist so the flow can
+// be seen end to end, but this reports plainly that it does nothing rather than
+// pretending to have started a conversation - a button that silently no-ops is
+// worse than one that says it is not ready.
+async function startChat(subject) {
+  renderError(
+    `对话功能尚未接通（会以“${subject}”为背景）。服务端 coach 会话接口已存在，接入在下一批。`,
+    "rating-chat",
+  );
+}
+
+async function submitRating(score) {
+  // Unused until the check-in path is wired; kept next to the UI it serves.
+  return invoke("submit_state_rating", { score });
+}
+
+buildRatingDots();
+

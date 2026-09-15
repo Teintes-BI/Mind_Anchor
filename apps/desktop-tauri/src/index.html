@@ -29,10 +29,34 @@
       </nav>
 
       <div id="view-home" role="tabpanel">
-        <!-- The conclusion first: this is the one thing the user opens the app
-             to see, so it is not buried under the numbers that produced it. -->
-        <section class="panel panel-lead" aria-labelledby="decision-heading">
-          <h2 id="decision-heading">现在的判断</h2>
+        <!-- One view or the other, never both. A pending reminder is the more
+             urgent thing on screen, so it wins; the judgement is what is left
+             when nothing is asking for attention. -->
+        <section class="panel" aria-labelledby="inbox-heading" id="pane-inbox" hidden>
+          <h2 id="inbox-heading">提醒</h2>
+
+          <div class="pager">
+            <button id="inbox-prev" type="button" aria-label="上一条">‹</button>
+            <span id="inbox-position">—</span>
+            <button id="inbox-next" type="button" aria-label="下一条">›</button>
+          </div>
+
+          <article class="notice">
+            <p class="notice-title" id="n-title">—</p>
+            <p class="notice-body" id="n-body"></p>
+            <p class="hint" id="n-meta"></p>
+          </article>
+
+          <div class="actions">
+            <button id="n-chat" type="button">开始聊聊</button>
+            <button id="n-fine" type="button">我很好</button>
+            <button id="n-dismiss" type="button">不想理你</button>
+          </div>
+          <p class="hint" id="n-feedback" hidden></p>
+        </section>
+
+        <section class="panel panel-lead" aria-labelledby="decision-heading" id="pane-decision" hidden>
+          <h2 id="decision-heading">现在的状态</h2>
           <p class="decision" id="d-decision">尚未判定</p>
           <p class="hint" id="d-reasons"></p>
           <dl class="grid">
@@ -43,9 +67,27 @@
             <dt>已采集样本</dt>
             <dd id="s-samples">—</dd>
           </dl>
+
+          <!-- The rating is about how the user feels, not about whether the
+               judgement was right. Below the threshold the app offers to bring
+               in the model rather than doing it unasked: an automatic call on
+               every low score would be a decision made for the user. -->
+          <fieldset class="rating">
+            <legend>此刻的状态打几分？</legend>
+            <div class="dots" id="rating-dots" role="radiogroup" aria-label="状态评分"></div>
+            <p class="hint" id="rating-text">还没打分</p>
+          </fieldset>
+
+          <div class="actions" id="rating-actions" hidden>
+            <button id="rating-chat" type="button">聊聊</button>
+            <button id="rating-skip" type="button">先不用</button>
+          </div>
         </section>
 
-        <!-- The options sit directly under the judgement: a situation and its
+        <!-- Reachable from either view, so a failed read is never silent. -->
+        <p class="hint" id="home-note" hidden></p>
+
+        <!-- The options sit under whichever view is showing: a situation and its
              choices are one thought, and splitting them across panels forced a
              scroll between "here is what I see" and "here is what you could do". -->
         <section class="panel" aria-labelledby="wayfinder-heading">
@@ -80,8 +122,10 @@
           ></textarea>
         </section>
 
-        <section class="panel" aria-labelledby="inbox-heading">
-          <h2 id="inbox-heading">提醒收件箱</h2>
+        <!-- The counts and the manual refresh live here; the reminders themselves
+             are shown one at a time in the pane above. -->
+        <section class="panel" aria-labelledby="inbox-summary-heading">
+          <h2 id="inbox-summary-heading">提醒统计</h2>
           <dl class="grid" id="inbox-grid">
             <dt>状态</dt>
             <dd id="i-state">尚未读取</dd>
@@ -93,8 +137,10 @@
             <dd id="i-acked">—</dd>
           </dl>
 
-          <ul class="inbox-list" id="inbox-list"></ul>
-          <p class="hint" id="inbox-empty" hidden>没有待处理的提醒。</p>
+          <!-- Kept so the old list id still resolves; the pager renders into the
+               notice pane instead. -->
+          <ul class="inbox-list" id="inbox-list" hidden></ul>
+          <p class="hint" id="inbox-empty" hidden></p>
 
           <div class="actions">
             <button id="inbox-refresh" type="button">读取收件箱</button>

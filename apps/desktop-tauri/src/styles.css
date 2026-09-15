@@ -147,6 +147,87 @@ h2 {
   font-size: 13px;
 }
 
+/* Pager: one reminder at a time, with an explicit position so the user knows
+   whether answering will dismiss the last one. */
+.pager {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.pager button {
+  min-width: 36px;
+}
+
+.pager span {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+}
+
+.notice-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+
+.notice-body {
+  margin: 0 0 8px;
+  line-height: 1.5;
+}
+
+/* Rating dots. Ten round marks, filled up to the chosen score so the row reads
+   as a level. The transitions are short on purpose: a rating is meant to feel
+   immediate, and a slow animation makes it feel like a process. */
+.rating {
+  border: none;
+  margin: 16px 0 0;
+  padding: 0;
+}
+
+.rating legend {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 8px;
+  padding: 0;
+}
+
+.dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.dot {
+  background: transparent;
+  border: 2px solid var(--line);
+  border-radius: 50%;
+  cursor: pointer;
+  height: 22px;
+  padding: 0;
+  transition: background-color 120ms ease-out, border-color 120ms ease-out,
+    transform 120ms ease-out;
+  width: 22px;
+}
+
+.dot:hover {
+  border-color: #3d6ea8;
+  transform: scale(1.15);
+}
+
+.dot.is-on {
+  background: #3d6ea8;
+  border-color: #3d6ea8;
+}
+
+/* A low score is what brings the offer in, so it is shown in a warmer tone
+   rather than the same blue as everything else. */
+.dot.is-on + .dot {
+  transition-delay: 20ms;
+}
+
 /* Reminder inbox. Rows are laid out as blocks with the action at the end, so a
    long title or body wraps instead of pushing the button off-screen. */
 .inbox-list {

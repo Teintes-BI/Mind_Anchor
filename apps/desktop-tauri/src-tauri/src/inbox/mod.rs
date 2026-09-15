@@ -197,6 +197,28 @@ pub fn ack_path(message_id: &str) -> String {
     format!("/client/inbox/{}/ack", percent_encode(message_id))
 }
 
+/// The responses a reminder can carry.
+///
+/// A closed set rather than a free string: each one is a distinct statement
+/// about the user's state, and an unrecognised value would be recorded as
+/// something the server never agreed to store.
+pub const RESPONSES: [&str; 3] = ["start_chat", "i_am_fine", "dismissed"];
+
+/// Body for the acknowledgement call, with the response attached.
+///
+/// Returns an error rather than dropping an unknown response: silently sending
+/// `{}` would mark the reminder as seen while losing the part that says why,
+/// which is the part the record exists for.
+pub fn response_body(response: &str) -> Result<String, String> {
+    if !RESPONSES.contains(&response) {
+        return Err(format!(
+            "unknown reminder response {response:?}; expected one of {}",
+            RESPONSES.join(", ")
+        ));
+    }
+    Ok(serde_json::json!({ "response": response }).to_string())
+}
+
 /// Percent-encode the characters that would otherwise change the path.
 ///
 /// Ids are UUIDs in practice, so this is defensive: an id containing `/` would
@@ -333,6 +355,34 @@ mod tests {
         assert_ne!(text, REAL_RESPONSE, "the fixture must actually change");
         let overview: Overview = serde_json::from_str(&text).unwrap();
         assert!(overview.validate().is_err());
+    }
+
+    #[test]
+    fn an_unknown_response_is_rejected_rather_than_dropped() {
+        // Sending `{}` for an unrecognised response would mark the reminder as
+        // seen while losing the reason, which is the part worth keeping.
+        let err = response_body("maybe_later").unwrap_err();
+        assert!(err.contains("unknown reminder response"), "{err}");
+    }
+
+    #[test]
+    fn every_known_response_round_trips_into_the_body() {
+        for response in RESPONSES {
+            let body = response_body(response).expect("a listed response must build");
+            let parsed: serde_json::Value = serde_json::from_str(&body).unwrap();
+            assert_eq!(parsed["response"], response);
+        }
+    }
+
+    #[test]
+    fn response_body_carries_no_other_fields() {
+        // The server validates strictly; an extra key would be rejected, and the
+        // failure would look like a server problem rather than a client one.
+        let body = response_body("i_am_fine").unwrap();
+        let parsed: serde_json::Value = serde_json::from_str(&body).unwrap();
+        let object = parsed.as_object().unwrap();
+        assert_eq!(object.len(), 1);
+        assert!(object.contains_key("response"));
     }
 
     #[test]

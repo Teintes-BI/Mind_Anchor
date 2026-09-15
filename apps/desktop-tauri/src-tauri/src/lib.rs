@@ -601,6 +601,63 @@ fn inbox_overview_inner(app: &AppState) -> CommandResult<InboxView> {
     Ok(build_inbox_view(&response, &origin))
 }
 
+/// Record how the user answered a reminder, then refresh the panel.
+///
+/// Distinct from acknowledging: acknowledging says "I have seen this", while the
+/// response says what the user decided. The difference matters downstream, since
+/// "I am fine" and "not interested" describe different states and only one of
+/// them suggests the reminder was mistimed.
+#[tauri::command]
+fn inbox_respond(
+    state: State<'_, Mutex<AppState>>,
+    message_id: String,
+    response: String,
+) -> CommandResult<InboxView> {
+    let app = state.lock().unwrap_or_else(|e| e.into_inner());
+    if !app.collection_state.may_upload() {
+        return Err(CommandError::Upload {
+            reason: upload::UploadError::UploadDisabled,
+        });
+    }
+    let (_, origin) = inbox::inbox_urls(&app.upload_endpoint).ok_or(CommandError::Upload {
+        reason: upload::UploadError::EndpointNotConfigured,
+    })?;
+
+    let body = inbox::response_body(&response).map_err(|reason| CommandError::Upload {
+        reason: upload::UploadError::MalformedResponse {
+            message: reason.to_string(),
+        },
+    })?;
+
+    let url = format!("{origin}{}", inbox::ack_path(&message_id));
+    let result = upload::client::post_json(
+        &url,
+        &body,
+        app.upload_token.as_deref(),
+        app.upload_pin.as_deref(),
+    )?;
+    if !(200..300).contains(&result.status) {
+        return Err(CommandError::Upload {
+            reason: upload::UploadError::HttpStatus {
+                status: result.status,
+                message: result.body.chars().take(200).collect(),
+            },
+        });
+    }
+
+    refresh_inbox_view(&app, &origin)
+}
+
+/// Stop the tray asking for attention.
+///
+/// Called as soon as a reminder is answered, so the icon reflects the state the
+/// user just resolved rather than waiting out the timer.
+#[tauri::command]
+fn clear_tray_attention(app: AppHandle) -> CommandResult<()> {
+    tray::clear_attention(&app);
+    Ok(())
+}
+
 /// Acknowledge one reminder, then refresh so the panel reflects the server.
 #[tauri::command]
 fn inbox_acknowledge(
@@ -633,13 +690,21 @@ fn inbox_acknowledge(
         });
     }
 
+    refresh_inbox_view(&app, &origin)
+}
+
+/// Re-read the overview and build the view.
+///
+/// Shared by the two write paths, which both need to show the state after their
+/// change rather than guessing at it locally.
+fn refresh_inbox_view(app: &AppState, origin: &str) -> CommandResult<InboxView> {
     let overview_url = format!("{origin}/client/inbox/overview");
     let refreshed = upload::client::get_json(
         &overview_url,
         app.upload_token.as_deref(),
         app.upload_pin.as_deref(),
     )?;
-    Ok(build_inbox_view(&refreshed, &origin))
+    Ok(build_inbox_view(&refreshed, origin))
 }
 
 /// Turn a raw response into something the panel can render, or an error.
@@ -1476,7 +1541,9 @@ pub fn build_app(store: LocalStore) -> tauri::Builder<tauri::Wry> {
             renew_token_now,
             inbox_overview,
             inbox_acknowledge,
+            inbox_respond,
             flash_tray_attention,
+            clear_tray_attention,
             wayfinder_state,
             wayfinder_grant_consent,
             wayfinder_capture,
