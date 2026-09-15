@@ -8,7 +8,6 @@ coverage/
 .env.local
 data/*.json
 apps/api/data/*.json
-apps/desktop/.mindanchor-desktop/
 apps/android-recorder/.gradle/
 apps/android-recorder/**/build/
 apps/android-recorder/local.properties

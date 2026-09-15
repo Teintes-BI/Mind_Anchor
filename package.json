@@ -11,7 +11,7 @@
     "build": "node scripts/clean-appledouble.mjs --quiet && corepack pnpm -r --if-present build && node scripts/clean-appledouble.mjs --quiet",
     "dev:api": "corepack pnpm --filter @mindanchor/api dev",
     "dev:web": "corepack pnpm --filter @mindanchor/web dev",
-    "dev:desktop": "corepack pnpm --filter @mindanchor/desktop dev",
+    "dev:desktop-tauri": "corepack pnpm --filter @mindanchor/desktop-tauri dev",
     "dev:macos": "corepack pnpm --filter @mindanchor/macos generate",
     "build:macos": "corepack pnpm --filter @mindanchor/macos build",
     "release:macos": "corepack pnpm --filter @mindanchor/macos release:candidate",

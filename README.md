@@ -6,7 +6,7 @@ MindAnchor now treats user-deployed OpenClaw infrastructure as the system brain.
 
 - `apps/api` — Lobster Gateway / compatibility API, upload session management, JSON dev storage, and OpenClaw-cluster-friendly read models
 - `apps/web` — React dashboard, GoalFlow, inbox ack flow, agent debug lab, and reflection views
-- `apps/desktop` — existing desktop collector and Android bridge fallback
+- `apps/desktop-tauri` — Windows desktop collector (Tauri + Rust). Supersedes `apps/desktop`, which is archived under the `archive/electron-desktop` tag
 - `apps/android-recorder` — Android audio beta scaffold retained as an optional fallback track
 - `packages/domain` — shared Zod schemas for gateway, media, health, inbox, and OpenClaw skill contracts
 - `openclaw` — restored local cluster runtime entrypoints and skill schemas used by Gateway tests and phased cluster verification

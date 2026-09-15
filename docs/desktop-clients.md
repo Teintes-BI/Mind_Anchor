@@ -3,19 +3,19 @@
 MindAnchor now has two desktop client foundations that share the Wayfinder API:
 
 - **macOS native**: `apps/macos` uses SwiftUI, Keychain-backed auth, local snapshot persistence, and a native Wayfinder workspace. The Today screen exposes the active situation and the Wayfinder destination can switch between recent situations.
-- **Windows desktop**: `apps/desktop` uses Electron. Its Wayfinder client is isolated in `wayfinder-client.js` and is exposed through preload IPC, so the renderer never receives an API token. The workspace supports consent, manual capture, confirmation/dismissal, option selection, refresh, and explicit connection/error states.
+- **Windows desktop**: `apps/desktop-tauri` uses Tauri 2 and Rust. The Wayfinder client lives in `src-tauri/src/wayfinder/` and the inbox in `src-tauri/src/inbox/`; the webview never holds an API token, since every request goes through the Rust side. The workspace supports consent, manual capture, confirmation, option selection, the reminder inbox, refresh, and explicit connection/error states.
+
+  The previous Electron client is retired. It is preserved under the `archive/electron-desktop` tag; restore any file with `git checkout archive/electron-desktop -- apps/desktop`.
 
 ## Windows setup
 
-Start the API, set `MINDANCHOR_API_URL`, and provide the authenticated token before launching Electron:
+Configure the relay in the app itself (endpoint, bearer token, certificate fingerprint) and start it:
 
 ```powershell
-$env:MINDANCHOR_API_URL = "http://localhost:3001"
-$env:MINDANCHOR_API_TOKEN = "<gateway-token>"
-corepack pnpm --filter @mindanchor/desktop dev
+corepack pnpm --filter @mindanchor/desktop-tauri dev
 ```
 
-Without `MINDANCHOR_API_TOKEN`, the desktop window still opens and the existing collector/reminder surfaces remain available; the Wayfinder section shows that it is not configured and blocks network actions.
+The relay settings are stored locally and survive a restart. Uploads need the collection and upload switches on; the Wayfinder and inbox panels additionally need a valid token, and will say so when one is missing rather than failing silently.
 
 ## Shared foundation boundary
 

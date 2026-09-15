@@ -181,6 +181,39 @@ cargo test --manifest-path apps/desktop-tauri/src-tauri/Cargo.toml
 - `search_files "@mindanchor/desktop"` 只剩预期位置；
 - `mobile-health-contract.md` 历史记录未被改写。
 
+### T3 执行记录（2026-09-15 完成）
+
+**归档标签**：`archive/electron-desktop`（annotated，已推远端 `579ea48`）
+
+删除前先建标签并推送到远端，而不是先删后建：标签是唯一的恢复路径，如果删除
+先发生、推送失败，代码就只剩本地一份。标签指向 `65518e4`，即 `apps/desktop`
+完好的最后一个提交，含全部 17 个文件。
+
+**恢复方式**（已实测可取出 `audio-bridge.js`）：
+
+```powershell
+git checkout archive/electron-desktop -- apps/desktop
+```
+
+**实际改动**：
+
+| 位置 | 改动 |
+|---|---|
+| `apps/desktop/**`（17 文件） | `git rm` 删除 |
+| `package.json:14` | `dev:desktop` 指向 `@mindanchor/desktop-tauri`（未删除脚本，改名而非移除，使 Tauri 有对应的 npm script） |
+| `.gitignore` | 移除 `apps/desktop/.mindanchor-desktop/`（已失效） |
+| `README.md:9` | `apps/desktop` 行改为 `apps/desktop-tauri` 并注明归档标签 |
+| `pnpm-lock.yaml` | 由 `pnpm install` 重算 |
+| `docs/wayfinder/mobile-health-contract.md` | **未改**（历史证据） |
+
+**音频能力的处置**：`apps/desktop` 含 Android 音频 beta 的局域网接收器
+（`audio-bridge.js`，8 条路由 + 配对）、本地 whisper 转写与情绪分析。经确认
+该 beta **已停用**，因此这部分能力**被放弃而非移植**。T1.4「音频桥」随之取消，
+不再作为 T3 的前置。若将来需要，按上面的 `git checkout` 从标签恢复。
+
+`apps/android-recorder` 与 `apps/ios-wayfinder` **未触碰** —— 本次范围仅限
+Electron 客户端。
+
 ## 7. 回滚路径
 
 T3 在独立分支（建议 `codex/comma-desktop-retirement`）执行，从 T1 完成点派生，**不与其他阶段混提**。若 T1 或 T2 出现能力倒退，直接丢弃该分支，Electron 版仍在 `main` 历史中可用。
