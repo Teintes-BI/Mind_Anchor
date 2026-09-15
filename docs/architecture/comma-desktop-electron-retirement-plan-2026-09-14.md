@@ -120,12 +120,41 @@ T1.1 已完成，无遗留。
 - 三重门禁：`enabled` AND `upload_enabled`（**默认 `true`**，因可信中转服务器是本设计必备设置）AND 端点非空且合法。
 - 端点策略：仅 `https://`，`http://` 仅限 loopback。**ali_2v2g 的协议待用户确认后按同一标准收敛**（自签证书走系统信任库，不提供跳过校验开关）。
 
-### T2.2 旧状态文件处置 — 待 T3 决策
+### T2.2 旧状态文件处置 — 不迁移（2026-09-15 决定）
 
-Electron 版把状态写在 JSON 文件里。必须二选一并在文档中明确声明，**不允许默认静默丢弃**：
+Electron 版把状态写在 `app.getPath("userData")` 下的 `.mindanchor-desktop/`，
+涉及两个文件：
 
-- **迁移**：一次性把 `signalQueue` / `collector.recentSignals` 转成 Core event，记录迁移计数；
-- **不迁移**：在退役报告里写明「旧状态文件保留只读，不导入 Core」，并提供用户手动导出路径。
+| 文件 | 内容 |
+|---|---|
+| `desktop-state.json` | `signalQueue`、`collector.recentSignals`、`collector.queueLength` |
+| `signals-queue.json` | 更早版本的队列文件，启动时会被并入 `signalQueue`（见 `main.cjs` 的 `legacyQueueFile` 分支） |
+
+**决定：不迁移。** 旧状态文件保留只读，不导入 Core，Electron 也不再读取它们。
+Tauri 客户端使用自己的 SQLite 库（`store/mod.rs`），与上述文件无关，因此删除
+Electron 不会导致任何已采集数据被覆盖或丢失。
+
+**理由**：
+
+1. 这些文件是**未发送队列的残留**，不是已确认送达的记录。Core 侧已有
+   `core_events` 作为权威来源 —— 迁移会把「当时没送出去的本地缓存」和「服务器
+   已收到的数据」混为一谈，反而污染 Core 的完整性。
+2. 队列里的样本用 Electron 的脱敏路径生成，与 Tauri 的 `sanitize_for_upload()`
+   不是同一套实现。批量导入等于绕过 Tauri 的隐私边界，与阶段0的设计相冲突。
+3. 若这些文件确实含有用户想保留的内容，正确的做法是让用户**显式导出**，
+   而不是由退役流程自动搬运。
+
+**用户手动导出路径**（保留只读，不自动执行）：
+
+```powershell
+# Electron 的 userData 目录；应用名取自 apps/desktop/package.json 的 name 字段
+$state = Join-Path $env:APPDATA "mindanchor-desktop\.mindanchor-desktop"
+# 若上面的路径不存在，按实际目录名查找（app.getPath("userData") 由 Electron 决定）
+Get-ChildItem $env:APPDATA -Directory | Where-Object { $_.Name -like "*mindanchor*" -or $_.Name -like "*MindAnchor*" }
+```
+
+两个 JSON 都是普通文本，可直接阅读与另存。**本机核查结果：上述目录当前均不存在**，
+即这台机器上没有遗留状态需要处置。此节保留是为了说明决定本身，而非因为存在待处理文件。
 
 验证命令：
 
@@ -138,6 +167,9 @@ apps/api/node_modules/.bin/vitest.cmd run --config apps/api/vitest.config.ts app
 已记录证据：`cargo test` 105 passed / 0 failed；契约测试 4 passed / 0 failed；`cargo clippy -D warnings` 与 `fmt --check` 均 exit 0；`cargo tree` 中第三方 HTTP 客户端数量为 0。
 
 **T2 剩余门**：真实网络端到端投递（需 `ali_2v2g` 就绪），届时记录 HTTP 状态与 event id。
+→ **已关闭 2026-09-15**：经公网 TLS 实测投递成功（`已送达 8 · 失败 0`），
+证据见 `comma-t2-relay-e2e-evidence-2026-09-14.md`。中继已 systemd 化、关闭
+dev bypass、换用随机 JWT 密钥。
 
 ## 6. T3 — 实际删除阶段
 
