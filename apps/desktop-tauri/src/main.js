@@ -25,6 +25,55 @@ const REASON_LABELS = {
 
 const $ = (id) => document.getElementById(id);
 
+// Human-readable text for an error coming back from a Tauri command.
+//
+// The backend returns a nested structure (`{ kind: "upload", reason: ... }`),
+// so interpolating it directly produced the useless string "[object Object]"
+// and made every failure undiagnosable. This flattens it to a sentence naming
+// the specific reason.
+//
+// `reason` is declared as a bare snake_case variant name by serde, but an
+// internally-tagged enum can also arrive wrapped, so both shapes are unwrapped.
+function formatError(error) {
+  if (error == null) return "未知错误";
+  if (typeof error === "string") return error;
+
+  const REASONS = {
+    collection_disabled: "采集未开启",
+    upload_disabled: "上传开关未开启",
+    endpoint_not_configured: "端点未配置",
+    insecure_endpoint_rejected: "端点必须是 https://（本地回环可用 http://）",
+    empty_queue: "待上传队列为空",
+    pin_required: "该 https 端点必须填写证书指纹",
+    malformed_pin: "证书指纹格式错误（需要 64 位十六进制）",
+    fingerprint_mismatch: "证书指纹不匹配，已中止上传",
+    unreadable: "无法读取服务器证书",
+  };
+
+  const unwrap = (value, depth = 0) => {
+    if (typeof value === "string") return REASONS[value] ?? value;
+    if (value == null || typeof value !== "object" || depth > 4) {
+      return String(value ?? "");
+    }
+    // Try the known wrappers in order, then fall back to the only string field.
+    for (const key of ["reason", "message", "kind"]) {
+      if (value[key] != null) return unwrap(value[key], depth + 1);
+    }
+    const strings = Object.values(value).filter((v) => typeof v === "string");
+    if (strings.length === 1) return unwrap(strings[0], depth + 1);
+    return JSON.stringify(value);
+  };
+
+  const detail = unwrap(error);
+  // Transport/HTTP errors carry free-form context that is worth keeping.
+  const context =
+    (typeof error.message === "string" && error.message) ||
+    (typeof error?.reason?.message === "string" && error.reason.message) ||
+    null;
+  if (context && context !== detail) return `${detail}（${context}）`;
+  return detail || "未知错误";
+}
+
 /// Labels for the scheduler's skip reasons, so the UI can say *why* it is not
 /// uploading instead of leaving the user to guess.
 const SKIP_LABELS = {
@@ -106,7 +155,7 @@ async function refresh() {
     }
     return status;
   } catch (error) {
-    renderError(`读取状态失败：${error}`);
+    renderError(`读取状态失败：${formatError(error)}`);
     return null;
   }
 }
@@ -129,7 +178,7 @@ $("poll").addEventListener("click", async () => {
     renderDecision(view);
     await refresh();
   } catch (error) {
-    renderError(`采样失败：${error}`);
+    renderError(`采样失败：${formatError(error)}`);
   }
 });
 
@@ -151,7 +200,7 @@ $("toggle-quiet").addEventListener("change", async (event) => {
     await invoke("set_collection_state", { quietHoursEnabled: event.target.checked });
     await refresh();
   } catch (error) {
-    renderError(`切换静默时段失败：${error}`, "toggle-quiet");
+    renderError(`切换静默时段失败：${formatError(error)}`, "toggle-quiet");
   }
 });
 
@@ -180,7 +229,7 @@ $("save-relay").addEventListener("click", async () => {
     $("f-pin").value = "";
     await refresh();
   } catch (error) {
-    renderError(`保存失败：${error}`);
+    renderError(`保存失败：${formatError(error)}`, "save-relay");
   }
 });
 
@@ -195,7 +244,7 @@ $("flush").addEventListener("click", async () => {
       renderError(`上传完成：已送达 ${result.delivered} 条`, "flush");
     }
   } catch (error) {
-    renderError(`上传失败：${error}`, "flush");
+    renderError(`上传失败：${formatError(error)}`, "flush");
   }
 });
 

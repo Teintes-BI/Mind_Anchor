@@ -82,6 +82,32 @@ try {
     console.error("FAIL backend read guard did not fire:\n" + noBackend.output);
     failures += 1;
   }
+  writeFileSync(mainPath, original);
+
+  // 5. Interpolating a raw error must be rejected. This is the regression that
+  //    put "[object Object]" on screen.
+  writeFileSync(
+    mainPath,
+    original.replace("${formatError(error)}", "${error}"),
+  );
+  const rawError = runChecker(work, checker);
+  if (rawError.failed && /interpolate errors via formatError/.test(rawError.output)) {
+    console.log("ok   raw error interpolation is rejected");
+  } else {
+    console.error("FAIL raw-error guard did not fire:\n" + rawError.output);
+    failures += 1;
+  }
+  writeFileSync(mainPath, original);
+
+  // 6. formatError itself must stay present.
+  writeFileSync(mainPath, original.replace("function formatError(error) {", "function gone(error) {"));
+  const noFormatter = runChecker(work, checker);
+  if (noFormatter.failed && /formatError is required/.test(noFormatter.output)) {
+    console.log("ok   removing formatError is rejected");
+  } else {
+    console.error("FAIL formatError-presence guard did not fire:\n" + noFormatter.output);
+    failures += 1;
+  }
 } finally {
   rmSync(work, { recursive: true, force: true });
 }

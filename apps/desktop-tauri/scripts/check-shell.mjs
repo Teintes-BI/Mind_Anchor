@@ -72,6 +72,25 @@ if (!shell.includes('invoke("upload_status")')) {
   failures.push("main.js: relay config must be read from the backend");
 }
 
+// Every error shown to the user must go through formatError. Interpolating the
+// raw value is exactly how "[object Object]" reached the screen and made a
+// rejected save undiagnosable.
+if (!shell.includes("function formatError(")) {
+  failures.push("main.js: formatError is required to render backend errors");
+}
+for (const [lineNumber, line] of shell.split(/\r?\n/).entries()) {
+  // Only look inside a template literal interpolation, i.e. ${...}.
+  const interpolation = line.match(/\$\{([^}]*)\}/g) ?? [];
+  for (const token of interpolation) {
+    const inner = token.slice(2, -1);
+    if (/\berror\b/.test(inner) && !inner.includes("formatError")) {
+      failures.push(
+        `main.js:${lineNumber + 1}: interpolate errors via formatError, not the raw value -> ${inner}`,
+      );
+    }
+  }
+}
+
 if (failures.length) {
   console.error("desktop-tauri shell check FAILED:");
   for (const failure of failures) console.error(`  - ${failure}`);
