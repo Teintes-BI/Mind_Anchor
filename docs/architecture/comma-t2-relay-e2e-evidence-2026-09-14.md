@@ -141,7 +141,7 @@ FST_ERR_CTP_INVALID_JSON_BODY
 | `owner-password.txt` | `600` root:root | 39 B | `comma-desktop@relay.local` 的登录密码，账号丢失时唯一恢复途径 |
 | `owner-jwt.txt` | `600` root:root | 315 B | 当前 access token（JWT / HS256 / 3 段）。客户端「Bearer 令牌」填此值 |
 | `owner-refresh.txt` | `600` root:root | 64 B | 当前 refresh token。客户端「刷新令牌」填此值，用于自动续期 |
-| `old-nohup-pid.txt` | `644` root:root | 7 B | 切换前的旧进程号（726090）。**已失效**，仅作回滚线索 |
+| `old-nohup-pid.txt` | `600` root:root | 7 B | 切换前的旧进程号（726090）。**已失效**，仅作回滚线索 |
 
 **账号**（实测自 JWT 载荷）：`email=comma-desktop@relay.local`、`sub=c47f6447-b14b-4323-a22c-519e33aa4849`、`iss=mindanchor-gateway-auth`。
 

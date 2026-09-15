@@ -536,8 +536,7 @@ fn clear_failed_uploads(state: State<'_, Mutex<AppState>>) -> CommandResult<Uplo
 #[tauri::command]
 fn renew_token_now(state: State<'_, Mutex<AppState>>) -> CommandResult<UploadStatus> {
     let mut app = state.lock().unwrap_or_else(|e| e.into_inner());
-    app.upload_expires_at_ms = Some(0);
-    renew_access_token_if_due(&mut app)?;
+    renew_access_token(&mut app, RenewalTrigger::Forced)?;
     upload_status_inner(&app)
 }
 
@@ -708,9 +707,12 @@ fn flush_uploads_inner(app: &mut AppState, limit: u32) -> CommandResult<UploadSt
     upload::validate_endpoint(&app.upload_endpoint)
         .map_err(|reason| CommandError::Upload { reason })?;
 
-    // Renew before sending: a 401 mid-batch would park every queued item as a
-    // failure for what is only a stale credential.
-    renew_access_token_if_due(app)?;
+    // Renew before sending, but only when actually due. A renewal failure here
+    // must not block the upload: the access token may still be valid, and if it
+    // is not, the request returns 401 which is reported per item.
+    if let Err(error) = renew_access_token(app, RenewalTrigger::WhenDue) {
+        eprintln!("comma-desktop: token renewal skipped: {error:?}");
+    }
 
     let now = now_ms() as i64;
     let due = app.store.due_uploads(now, limit)?;
@@ -740,21 +742,36 @@ fn flush_uploads_inner(app: &mut AppState, limit: u32) -> CommandResult<UploadSt
 
     upload_status_inner(app)
 }
+/// Why a renewal was attempted.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum RenewalTrigger {
+    /// Normal path: only renew when the expiry margin has been reached.
+    WhenDue,
+    /// The user asked. Renew regardless of the remaining time.
+    Forced,
+}
 
-/// Renew the access token when it is close to expiring, or when it has already
-/// been rejected.
+/// Renew the access token.
+///
+/// `WhenDue` respects the expiry margin; `Forced` ignores it. The distinction is
+/// a parameter rather than a mutated expiry value on purpose: an earlier version
+/// forced renewal by setting the stored expiry to zero, which left that zero
+/// behind when the request failed, so the panel then reported an expiry of
+/// roughly -56 years and every subsequent upload tried to renew first.
 ///
 /// Ordering is deliberate: the new pair is written to the store *before* the old
 /// values are dropped in memory. Refresh tokens are single use, so if the
 /// process died between revoking the old one and saving the new one, the account
 /// would be unreachable without a fresh login.
-fn renew_access_token_if_due(app: &mut AppState) -> CommandResult<()> {
+fn renew_access_token(app: &mut AppState, trigger: RenewalTrigger) -> CommandResult<()> {
     let Some(refresh_token) = app.upload_refresh_token.clone() else {
-        // No refresh token configured: nothing to renew. The access token may
-        // still be valid for a long time, and if it is not, the 401 surfaces.
-        return Ok(());
+        return Err(CommandError::Upload {
+            reason: upload::UploadError::NoRefreshToken,
+        });
     };
-    if !upload::auth::should_renew(app.upload_expires_at_ms, now_ms() as i64) {
+    if trigger == RenewalTrigger::WhenDue
+        && !upload::auth::should_renew(app.upload_expires_at_ms, now_ms() as i64)
+    {
         return Ok(());
     }
     let url = upload::auth::refresh_url(&app.upload_endpoint).ok_or(CommandError::Upload {
@@ -1013,6 +1030,60 @@ mod tests {
         );
         assert!(restored.upload_token.is_none());
         assert!(restored.upload_pin.is_none());
+    }
+
+    #[test]
+    fn a_failed_forced_renewal_leaves_the_expiry_intact() {
+        // The regression: forcing a renewal by writing 0 into the expiry left
+        // that 0 behind when the request failed, so the panel reported about
+        // -56 years to expiry and every later upload attempted a renewal first.
+        // The trigger is now a parameter, so the stored state is never used as
+        // scratch space.
+        let mut app = AppState::new(LocalStore::open_in_memory().unwrap());
+        app.upload_endpoint = "https://relay.invalid/v1/core/events".to_string();
+        app.upload_refresh_token = None;
+        let original = Some(1_790_000_000_000);
+        app.upload_expires_at_ms = original;
+
+        let result = renew_access_token(&mut app, RenewalTrigger::Forced);
+
+        assert!(result.is_err(), "no refresh token, so it must fail");
+        assert_eq!(
+            app.upload_expires_at_ms, original,
+            "a failed renewal must not corrupt the stored expiry"
+        );
+    }
+
+    #[test]
+    fn forced_renewal_without_a_refresh_token_is_a_specific_error() {
+        let mut app = AppState::new(LocalStore::open_in_memory().unwrap());
+        app.upload_refresh_token = None;
+        match renew_access_token(&mut app, RenewalTrigger::Forced) {
+            Err(CommandError::Upload {
+                reason: upload::UploadError::NoRefreshToken,
+            }) => {}
+            other => panic!("expected NoRefreshToken, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn when_due_without_a_refresh_token_does_not_block_the_upload() {
+        // `flush_uploads_inner` swallows this error on purpose: a token that
+        // cannot be renewed may still be valid, and a hard failure here would
+        // hide the real per-item result behind a routing error.
+        let mut app = AppState::new(LocalStore::open_in_memory().unwrap());
+        app.upload_refresh_token = None;
+        app.upload_expires_at_ms = Some(0);
+        assert!(renew_access_token(&mut app, RenewalTrigger::WhenDue).is_err());
+    }
+
+    #[test]
+    fn a_distant_expiry_is_not_renewed_when_due() {
+        let mut app = AppState::new(LocalStore::open_in_memory().unwrap());
+        app.upload_refresh_token = Some("unused".to_string());
+        app.upload_expires_at_ms = Some(now_ms() as i64 + 30 * 86_400_000);
+        // Returns Ok without touching the network, because the margin is far off.
+        assert!(renew_access_token(&mut app, RenewalTrigger::WhenDue).is_ok());
     }
 
     #[test]

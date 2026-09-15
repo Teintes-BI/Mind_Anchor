@@ -148,8 +148,16 @@ async function refresh() {
       $("u-renew").textContent = "已配置（到期时间未知）";
     } else {
       const hours = upload.token_expires_in_hours;
-      const label = hours <= 0 ? "已过期，将自动续期" : `约 ${hours} 小时后到期`;
-      $("u-renew").textContent = `已配置 · ${label}`;
+      // Defensive: a stored expiry far in the past is stale state, not a
+      // meaningful countdown. Rendering it raw once produced "-497075 小时",
+      // which reads as a broken clock rather than an expired token.
+      if (hours < -24) {
+        $("u-renew").textContent = "已配置 · 到期时间无效，点「立即续期令牌」重建";
+      } else if (hours <= 0) {
+        $("u-renew").textContent = "已配置 · 已过期，将自动续期";
+      } else {
+        $("u-renew").textContent = `已配置 · 约 ${hours} 小时后到期`;
+      }
     }
 
     $("u-queue").textContent =

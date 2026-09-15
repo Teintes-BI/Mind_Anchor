@@ -105,6 +105,7 @@ pub fn is_retryable(error: &UploadError) -> bool {
         UploadError::CollectionDisabled
         | UploadError::UploadDisabled
         | UploadError::EndpointNotConfigured
+        | UploadError::NoRefreshToken
         | UploadError::InsecureEndpointRejected
         | UploadError::EmptyQueue
         | UploadError::MalformedResponse { .. } => false,

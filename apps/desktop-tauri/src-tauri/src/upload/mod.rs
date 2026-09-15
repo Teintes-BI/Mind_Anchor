@@ -45,6 +45,8 @@ pub enum UploadError {
     UploadDisabled,
     /// No endpoint configured. Never guessed.
     EndpointNotConfigured,
+    /// No refresh token is stored, so renewal is impossible.
+    NoRefreshToken,
     /// The endpoint scheme is not permitted by policy.
     InsecureEndpointRejected,
     /// Nothing to send.
@@ -66,6 +68,12 @@ impl std::fmt::Display for UploadError {
             UploadError::CollectionDisabled => write!(f, "collection is disabled"),
             UploadError::UploadDisabled => write!(f, "upload is disabled"),
             UploadError::EndpointNotConfigured => write!(f, "no endpoint configured"),
+            UploadError::NoRefreshToken => {
+                write!(
+                    f,
+                    "no refresh token configured, so the token cannot be renewed"
+                )
+            }
             UploadError::InsecureEndpointRejected => {
                 write!(f, "endpoint must be https:// (loopback http:// allowed)")
             }
