@@ -84,14 +84,80 @@ FST_ERR_CTP_INVALID_JSON_BODY
 
 - `/v1/` 通过 TLS 暴露于公网，**受 Core API 自身的 bearer 鉴权保护**；无鉴权请求 401。
 - P3 出境界守在服务端强制，实测 403。
-- nginx 站点**只代理 `/v1/`**，其余路径 404；**未**改动 18080 上的 DSH 站点（评估后放弃，因为在公网端口关闭 basic auth 是实质降级）。
+- nginx 站点**只代理 `/v1/` 和 `/auth/`**，其余路径 404；**未**改动 18080 上的 DSH 站点（评估后放弃，因为在公网端口关闭 basic auth 是实质降级）。
 - 证书为**自签名**。客户端必须显式信任，**不建议**全局跳过校验；推荐 pin 上述指纹。
-- **当前 `MINDANCHOR_AUTH_DEV_BYPASS=true`**，仅为端到端探针方便。**上线前必须改为 `false` 并配置真实 JWT 密钥**，否则 `dev:` 令牌可任意伪造身份。
+- ~~**当前 `MINDANCHOR_AUTH_DEV_BYPASS=true`**，仅为端到端探针方便。~~ → **已于 2026-09-15 关闭**，见 §8。
 
 ## 7. 未完成事项
 
-1. **未做成开机自启/systemd 单元**：新 API 目前是 `nohup` 启动，主机重启后不会自动恢复。
-2. **`AUTH_DEV_BYPASS` 仍为 true**，属临时状态。
-3. **Rust 客户端尚未真正指向该端点**：本次验证用 curl 复刻了客户端 payload；Tauri 侧还需实现"pin 证书指纹"的连接配置，并跑一次真实的 `flush_uploads`。
+1. ~~**未做成开机自启/systemd 单元**~~ → **已完成**，见 §8。
+2. ~~**`AUTH_DEV_BYPASS` 仍为 true**~~ → **已关闭**，见 §8。
+3. ~~**Rust 客户端尚未真正指向该端点**~~ → **已完成**（pin 证书指纹 + 真实投递，见 T2 文档）。
 4. **未在服务器上运行仓库测试套件**（仅构建 + 端到端探针）。
 5. 本机早先的 tar 打包曾因 PowerShell `>` 重定向把 gzip 流写成 UTF-16 而损坏（文件头 `ff fe`），改用 `cmd /c` 重定向修复。属工具陷阱，已规避。
+
+## 8. 鉴权加固与 systemd（2026-09-15）
+
+**变更前存在两个真实漏洞**（均实测确认，非推断）：
+
+| 漏洞 | 实测证据 |
+|---|---|
+| `dev:<任意用户>:<任意邮箱>` 令牌可冒充任意身份 | 该令牌返回 **201**，而它代表的用户从未注册过 |
+| 签名密钥回退到**源码中的公开常量** | `gateway-auth.ts` 的 fallback 是 `mindanchor-local-auth-dev-secret`；用它自签的 JWT 实测**通过校验** |
+
+第二点尤其重要：**只关 `AUTH_DEV_BYPASS` 而不设真实密钥，等于没关** —— 任何人仍可用那个公开字符串伪造合法令牌。
+
+**处置**：
+
+1. 生成 48 随机字节（96 hex）写入 `/root/comma-relay-secrets/jwt-secret`（`600`），并注入 `relay.env` 的 `MINDANCHOR_AUTH_JWT_SECRET`。
+2. 新建 `mindanchor-core-relay.service`（`User=claw`、`EnvironmentFile=`、`Restart=on-failure`、含 `NoNewPrivileges`/`ProtectSystem=full`/`ProtectHome=read-only`/`ReadWritePaths=<data dir>` 等加固项），替换 `nohup`。
+3. nginx 增加 `location /auth/`（此前仅 `/v1/`，外部无法登录取令牌）。`/auth/` 之外仍 404。
+4. 注册 `comma-desktop@relay.local`（`gateway-local`），密码存 `owner-password.txt`，登录换取 JWT。
+
+**加固后实测**（服务器内 + 公网 TLS 双向验证）：
+
+| # | 检查 | 结果 |
+|---|---|---|
+| 1 | `dev:attacker:attacker@example.com` | **401 拒绝**（加固前是 201） |
+| 2 | 无令牌 | **401** |
+| 3 | 旧默认密钥签发的令牌 | **401 拒绝** |
+| 4 | `/auth/login` 真实账号 | 返回新令牌对 |
+| 5 | 新密钥签发的真实令牌 | **201** |
+| 6 | **用公开常量自签的伪造令牌** | **401 拒绝** |
+| 7 | 上述伪造令牌经公网 TLS | **401 拒绝** |
+
+第 6、7 项证明"关 bypass 但留公开默认密钥"这一陷阱已被避开。
+
+**未受影响**：旧 API `:3001`（PID 576706，属主 `claw`）全程存活；18080 的 DSH harness 未触碰。
+
+### 密钥与凭据清单（`/root/comma-relay-secrets/`）
+
+目录 `drwx------ root:root`，是**唯一的机密存放点**，systemd 通过 `EnvironmentFile=` 读取。以下只列路径、权限与用途；**值一律不记录在本仓库**。
+
+| 文件 | 权限 | 大小 | 用途 |
+|---|---|---|---|
+| `relay.env` | `600` root:root | 718 B | 服务实际读取的来源。7 键：`NODE_ENV`、`MINDANCHOR_API_HOST`、`MINDANCHOR_API_PORT`、`MINDANCHOR_DATA_FILE`、`MINDANCHOR_PERSONAL_CORE_SQLITE_FILE`、`MINDANCHOR_AUTH_JWT_SECRET`、`MINDANCHOR_AUTH_DEV_BYPASS=false` |
+| `jwt-secret` | `600` root:root | 96 字符纯 hex | 48 随机字节，HS256 签名密钥的原始副本（服务读的是 `relay.env` 里的那份） |
+| `owner-password.txt` | `600` root:root | 39 B | `comma-desktop@relay.local` 的登录密码，账号丢失时唯一恢复途径 |
+| `owner-jwt.txt` | `600` root:root | 315 B | 当前 access token（JWT / HS256 / 3 段）。客户端「Bearer 令牌」填此值 |
+| `owner-refresh.txt` | `600` root:root | 64 B | 当前 refresh token。客户端「刷新令牌」填此值，用于自动续期 |
+| `old-nohup-pid.txt` | `644` root:root | 7 B | 切换前的旧进程号（726090）。**已失效**，仅作回滚线索 |
+
+**账号**（实测自 JWT 载荷）：`email=comma-desktop@relay.local`、`sub=c47f6447-b14b-4323-a22c-519e33aa4849`、`iss=mindanchor-gateway-auth`。
+
+**令牌生命周期**：access token 7 天；refresh token 30 天且**单次使用**（续期即作废旧值、返回新值）。客户端已实现 24 小时提前续期 + 手动「立即续期令牌」。
+
+**恢复与轮换**：
+
+1. **access token 过期** → 有 refresh token 则客户端自动续期；否则重新登录：
+   ```bash
+   curl -s -X POST http://127.0.0.1:3002/auth/login -H 'Content-Type: application/json' \
+     -d "{\"email\":\"comma-desktop@relay.local\",\"password\":\"$(cat /root/comma-relay-secrets/owner-password.txt)\"}"
+   ```
+   把返回的 `accessToken` 写入 `owner-jwt.txt`、`refreshToken` 写入 `owner-refresh.txt`（均 `600`）。
+2. **refresh token 会漂移**：续期后服务器文件里的值可能已过时（客户端持有新的）。以客户端实际持有的为准，或重新登录覆盖。
+3. **轮换签名密钥**：重写 `jwt-secret` 与 `relay.env` 中的 `MINDANCHOR_AUTH_JWT_SECRET` → `systemctl restart mindanchor-core-relay`。**所有已签发令牌立即失效**。
+4. **凭据泄露处置**：任何拿到令牌者只能以 `comma-desktop@relay.local` 一个身份读写（Core 按 userId 派生 `profileId` 隔离），无法冒充他人；处置方式即第 3 条。
+
+**回滚线索**（确认稳定后可删）：`/root/comma-relay.bak-20260915-130840`（加 `/auth/` 前的 nginx 配置，不含密钥）、`old-nohup-pid.txt`。删除前先确认 `systemctl is-enabled mindanchor-core-relay` 为 `enabled`。
+
