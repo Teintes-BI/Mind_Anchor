@@ -126,17 +126,29 @@ async function refresh() {
     $("toggle-upload").checked = status.upload_enabled;
     $("toggle-quiet").checked = status.quiet_hours_enabled;
 
-    // Relay status. Secrets are never echoed back: only whether they are set.
-    $("u-endpoint").textContent = status.endpoint ?? "（未配置）";
-    $("u-token").textContent = status.token_configured ? "已设置" : "未设置";
-    $("u-pin").textContent = status.certificate_pin_configured ? "已固定" : "未固定";
-
+    // Relay status. These live on `upload_status`, NOT on `collector_status`:
+    // StatusSnapshot carries no endpoint/token/pin fields at all, so reading
+    // them off `status` produced `undefined` and the panel reported
+    // "（未配置）" even for a relay that was configured and working. That
+    // mismatch was reported as "configuration does not stick" and cost real
+    // debugging time.
     const upload = await invoke("upload_status");
+
+    // Secrets are never echoed back: only whether they are set.
+    $("u-endpoint").textContent = upload.endpoint ?? "（未配置）";
+    $("u-token").textContent = upload.token_configured ? "已设置" : "未设置";
+    $("u-pin").textContent = upload.certificate_pin_configured ? "已固定" : "未固定";
+
     $("u-queue").textContent =
       `待发 ${upload.pending} · 已送达 ${upload.delivered} · 失败 ${upload.failed}`;
+
+    // Only prefill the endpoint when the box is empty. Overwriting it on every
+    // refresh would discard what the user is mid-way through typing, which is
+    // how a failed save appeared to erase the form.
     if ($("f-endpoint").value.trim() === "") {
       $("f-endpoint").value = upload.endpoint ?? "";
     }
+
     $("f-interval").value = String(upload.upload_interval_ms ?? 0);
     // Only prefill the interval when it matches a known option, so a value set
     // elsewhere is not silently rewritten to the first option.

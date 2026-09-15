@@ -107,6 +107,15 @@ if (/\$\("f-pin"\)\.value = "";/.test(shell)) {
   failures.push("main.js: the pin field must not be cleared; it is not a secret");
 }
 
+// The relay panel's fields live on upload_status, not collector_status.
+// Reading e.g. `status.endpoint` yields undefined and reports "（未配置）" for a
+// working relay, which was reported as "the configuration does not stick".
+for (const field of ["endpoint", "token_configured", "certificate_pin_configured"]) {
+  if (new RegExp(`status\\.${field}\\b`).test(shell)) {
+    failures.push(`main.js: ${field} must be read from upload_status, not collector_status`);
+  }
+}
+
 if (failures.length) {
   console.error("desktop-tauri shell check FAILED:");
   for (const failure of failures) console.error(`  - ${failure}`);
