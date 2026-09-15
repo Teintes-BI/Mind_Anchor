@@ -133,18 +133,56 @@ try {
 
   // 8. Dropping the failed-read distinction would leave stale reminders on
   //    screen after a failed refresh, looking current when they are not.
-  writeFileSync(mainPath, original.replace("if (!view.reachable) {", "if (false) {"));
-  const noFailedState = runChecker(work, checker);
-  if (
-    noFailedState.failed &&
-    /distinguish a failed read from an empty one/.test(noFailedState.output)
-  ) {
-    console.log("ok   losing the failed-read state is rejected");
-  } else {
-    console.error("FAIL failed-read guard did not fire:\n" + noFailedState.output);
-    failures += 1;
+  //    Every occurrence must go: the same check now exists in renderWayfinder
+  //    too, so removing only the first would leave the guard satisfied by the
+  //    other one and prove nothing.
+  {
+    const removed = original.split("if (!view.reachable) {").join("if (false) {");
+    if (removed === original) {
+      console.error("FAIL could not construct the failed-read case");
+      failures += 1;
+    } else {
+      writeFileSync(mainPath, removed);
+      const noFailedState = runChecker(work, checker);
+      if (
+        noFailedState.failed &&
+        /distinguish a failed read from an empty one/.test(noFailedState.output)
+      ) {
+        console.log("ok   losing the failed-read state is rejected");
+      } else {
+        console.error("FAIL failed-read guard did not fire:\n" + noFailedState.output);
+        failures += 1;
+      }
+      writeFileSync(mainPath, original);
+    }
   }
-  writeFileSync(mainPath, original);
+
+  // 9. Clearing the note before the capture succeeds would destroy what the
+  //    user typed whenever the relay refuses the request. main.js uses CRLF, so
+  //    the pattern is built with the file's own line ending.
+  {
+    const eol = original.includes("\r\n") ? "\r\n" : "\n";
+    const from = `    const view = await invoke("wayfinder_capture", { note });${eol}    $("f-note").value = "";`;
+    const to = `    $("f-note").value = "";${eol}    const view = await invoke("wayfinder_capture", { note });`;
+    const moved = original.replace(from, to);
+    if (moved === original) {
+      console.error("FAIL could not construct the early-clear case (pattern moved)");
+      failures += 1;
+    } else {
+      writeFileSync(mainPath, moved);
+      const premature = runChecker(work, checker);
+      if (
+        premature.failed &&
+        /must not be cleared before the capture succeeds/.test(premature.output)
+      ) {
+        console.log("ok   clearing the note before capture is rejected");
+      } else {
+        console.error("FAIL note-ordering guard did not fire:\n" + premature.output);
+        failures += 1;
+      }
+      writeFileSync(mainPath, original);
+    }
+  }
 } finally {
   rmSync(work, { recursive: true, force: true });
 }

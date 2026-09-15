@@ -48,6 +48,10 @@ function formatError(error) {
     malformed_pin: "证书指纹格式错误（需要 64 位十六进制）",
     fingerprint_mismatch: "证书指纹不匹配，已中止上传",
     unreadable: "无法读取服务器证书",
+    unauthorized: "令牌被拒绝（401），可尝试「立即续期令牌」",
+    consent_required: "尚未授予同意，无法记录笔记",
+    empty_note: "笔记内容为空",
+    option_unavailable: "该方案已失效，请重新读取",
   };
 
   const unwrap = (value, depth = 0) => {
@@ -410,6 +414,170 @@ $("inbox-refresh").addEventListener("click", async () => {
   await refreshInbox();
 });
 
+// Render the Wayfinder panel.
+//
+// The note box is left untouched by rendering: it holds text the user typed and
+// has not submitted, and clearing it on every poll would destroy their input.
+
+// The situation id from the most recent render, so a button click acts on the
+// situation the user was looking at rather than on whatever the server returns
+// if it is re-fetched between render and click.
+let lastSituationId = null;
+
+function currentSituationId() {
+  return lastSituationId;
+}
+
+function renderWayfinder(view) {
+  const list = $("wf-options");
+  list.replaceChildren();
+  lastSituationId = view.situation ? view.situation.id : null;
+
+  const empty = $("wf-empty");
+  if (!view.reachable) {
+    $("w-state").textContent = "读取失败";
+    $("w-consent").textContent = "—";
+    $("w-situation").textContent = "—";
+    $("w-risk").textContent = "—";
+    empty.hidden = false;
+    empty.textContent = view.error ?? "无法读取 Wayfinder。";
+    return;
+  }
+
+  $("w-state").textContent = "已连接";
+  $("w-consent").textContent = view.consent_granted ? "已授予" : "未授予";
+
+  const situation = view.situation;
+  $("w-situation").textContent = situation ? situation.summary : "无";
+  $("w-risk").textContent = situation ? situation.risk_level : "—";
+
+  // The button is disabled rather than hidden, so the reason it is unavailable
+  // stays visible on the panel instead of the control vanishing.
+  const confirmButton = $("wf-confirm");
+  confirmButton.disabled = !situation;
+
+  if (!situation) {
+    empty.hidden = false;
+    empty.textContent = view.consent_granted
+      ? "没有待确认的情境。记录一条笔记即可开始。"
+      : "先授予同意，然后记录一条笔记。";
+    return;
+  }
+
+  empty.hidden = view.options.length > 0;
+  empty.textContent = "该情境还没有生成方案。点「确认情境」让中继生成。";
+
+  for (const option of view.options) {
+    const item = document.createElement("li");
+    item.className = "inbox-item";
+
+    const action = document.createElement("p");
+    action.className = "inbox-title";
+    action.textContent = option.action;
+
+    const step = document.createElement("p");
+    step.className = "inbox-body";
+    step.textContent = `第一步：${option.first_step}`;
+
+    const rationale = document.createElement("p");
+    rationale.className = "hint";
+    rationale.textContent = option.rationale;
+
+    // Risky options say so before the click, not after.
+    if (option.requires_approval) {
+      const warning = document.createElement("p");
+      warning.className = "needs-approval";
+      warning.textContent = `需要确认（风险：${option.risk_level}）`;
+      item.append(action, step, rationale, warning);
+    } else {
+      item.append(action, step, rationale);
+    }
+
+    const choose = document.createElement("button");
+    choose.type = "button";
+    choose.textContent = "选这个";
+    choose.addEventListener("click", async () => {
+      choose.disabled = true;
+      try {
+        renderWayfinder(
+          await invoke("wayfinder_select_option", {
+            situationId: situation.id,
+            optionId: option.id,
+          }),
+        );
+      } catch (error) {
+        choose.disabled = false;
+        renderError(`选择失败：${formatError(error)}`, "wf-refresh");
+      }
+    });
+
+    item.append(choose);
+    list.append(item);
+  }
+}
+
+async function refreshWayfinder() {
+  if (!invoke) return;
+  try {
+    renderWayfinder(await invoke("wayfinder_state"));
+  } catch (error) {
+    renderWayfinder({ reachable: false, error: formatError(error), options: [] });
+  }
+}
+
+// All three mutating calls return the new state, so the panel always reflects
+// what the server reported rather than what the client assumed.
+async function wayfinderAction(operation, label) {
+  try {
+    renderWayfinder(await operation());
+  } catch (error) {
+    renderError(`${label}失败：${formatError(error)}`, "wf-refresh");
+  }
+}
+
+$("wf-refresh").addEventListener("click", async () => {
+  if (!invoke) return;
+  await refreshWayfinder();
+});
+
+$("wf-grant").addEventListener("click", async () => {
+  if (!invoke) return;
+  await wayfinderAction(() => invoke("wayfinder_grant_consent"), "授予同意");
+});
+
+$("wf-confirm").addEventListener("click", async () => {
+  if (!invoke) return;
+  // The id is read from the last render rather than re-fetched, so the click
+  // applies to the situation the user was looking at.
+  const situationId = currentSituationId();
+  if (!situationId) {
+    renderError("没有可确认的情境", "wf-confirm");
+    return;
+  }
+  await wayfinderAction(
+    () => invoke("wayfinder_confirm", { situationId }),
+    "确认情境",
+  );
+});
+
+$("wf-capture").addEventListener("click", async () => {
+  if (!invoke) return;
+  const note = $("f-note").value.trim();
+  if (!note) {
+    renderError("请先填写笔记", "wf-capture");
+    return;
+  }
+  // Cleared only on success: a failed capture must not lose what was typed.
+  try {
+    const view = await invoke("wayfinder_capture", { note });
+    $("f-note").value = "";
+    renderWayfinder(view);
+  } catch (error) {
+    renderError(`记录失败：${formatError(error)}`, "wf-capture");
+  }
+});
+
 void refresh();
 void refreshInbox();
+void refreshWayfinder();
 setInterval(() => void refresh(), 10_000);

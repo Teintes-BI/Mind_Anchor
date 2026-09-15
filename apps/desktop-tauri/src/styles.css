@@ -140,6 +140,33 @@ h2 {
   margin: 0 0 8px;
 }
 
+/* Wayfinder. The note field reuses the relay form's input styling so the two
+   panels do not drift apart, but needs its own block layout. */
+#f-note {
+  background: #0f1720;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--text);
+  font: inherit;
+  margin: 6px 0 10px;
+  padding: 8px;
+  resize: vertical;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#f-note:focus {
+  border-color: #3d6ea8;
+  outline: none;
+}
+
+/* A high-risk option is the one case the panel must not let pass silently, so
+   it is marked rather than left to the reader to notice in the text. */
+.inbox-item .needs-approval {
+  color: #e0b060;
+  font-weight: 600;
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;

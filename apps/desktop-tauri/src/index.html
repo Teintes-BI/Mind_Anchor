@@ -129,6 +129,44 @@
         <p class="hint" id="inbox-empty" hidden>没有待处理的提醒。</p>
       </section>
 
+      <section class="panel" aria-labelledby="wayfinder-heading">
+        <h2 id="wayfinder-heading">Wayfinder</h2>
+        <p class="hint">
+          记录一条笔记，让中继把它整理成可选方案。内容按令牌身份隔离。
+          未授予同意前不会上传任何笔记。
+        </p>
+
+        <dl class="grid" id="wf-grid">
+          <dt>状态</dt>
+          <dd id="w-state">尚未读取</dd>
+          <dt>同意</dt>
+          <dd id="w-consent">—</dd>
+          <dt>当前情境</dt>
+          <dd id="w-situation">—</dd>
+          <dt>风险</dt>
+          <dd id="w-risk">—</dd>
+        </dl>
+
+        <div class="row">
+          <button id="wf-refresh" type="button">读取</button>
+          <button id="wf-grant" type="button">授予同意</button>
+          <button id="wf-confirm" type="button">确认情境</button>
+        </div>
+
+        <label for="f-note">笔记</label>
+        <textarea
+          id="f-note"
+          rows="3"
+          placeholder="例如：这周要把收件箱的提醒文案改得更短"
+        ></textarea>
+        <div class="row">
+          <button id="wf-capture" type="button">记录并生成方案</button>
+        </div>
+
+        <ul class="inbox-list" id="wf-options"></ul>
+        <p class="hint" id="wf-empty" hidden></p>
+      </section>
+
       <section class="panel" aria-labelledby="privacy-heading">
         <h2 id="privacy-heading">隐私边界</h2>
         <ul class="notes">

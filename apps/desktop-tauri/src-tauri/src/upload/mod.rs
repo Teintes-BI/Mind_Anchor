@@ -47,6 +47,14 @@ pub enum UploadError {
     EndpointNotConfigured,
     /// No refresh token is stored, so renewal is impossible.
     NoRefreshToken,
+    /// The token was refused with 401.
+    Unauthorized,
+    /// Wayfinder capture was attempted without an active consent grant.
+    ConsentRequired,
+    /// The user submitted an empty note.
+    EmptyNote,
+    /// The chosen option was superseded between reading and clicking.
+    OptionUnavailable,
     /// The endpoint scheme is not permitted by policy.
     InsecureEndpointRejected,
     /// Nothing to send.
@@ -74,6 +82,13 @@ impl std::fmt::Display for UploadError {
                     "no refresh token configured, so the token cannot be renewed"
                 )
             }
+            UploadError::Unauthorized => write!(f, "the relay rejected the token (401)"),
+            UploadError::MalformedResponse { message } => {
+                write!(f, "the relay's response could not be parsed: {message}")
+            }
+            UploadError::ConsentRequired => write!(f, "grant consent before capturing a note"),
+            UploadError::EmptyNote => write!(f, "the note is empty"),
+            UploadError::OptionUnavailable => write!(f, "that option is no longer available"),
             UploadError::InsecureEndpointRejected => {
                 write!(f, "endpoint must be https:// (loopback http:// allowed)")
             }
@@ -81,9 +96,6 @@ impl std::fmt::Display for UploadError {
             UploadError::Transport { message } => write!(f, "transport error: {message}"),
             UploadError::HttpStatus { status, message } => {
                 write!(f, "server returned {status}: {message}")
-            }
-            UploadError::MalformedResponse { message } => {
-                write!(f, "malformed response: {message}")
             }
             UploadError::Cert { reason } => write!(f, "certificate rejected: {reason}"),
         }

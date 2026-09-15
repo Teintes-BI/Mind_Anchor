@@ -158,6 +158,60 @@ if (!shell.includes("view.reachable")) {
   failures.push("main.js: the inbox must distinguish a failed read from an empty one");
 }
 
+// Wayfinder. Same reasoning as the inbox: server-controlled text, and a capture
+// that must not lose what the user typed.
+if (!html.includes('id="wf-options"')) {
+  failures.push("index.html: the Wayfinder panel must be present");
+}
+if (!shell.includes('invoke("wayfinder_state")')) {
+  failures.push("main.js: Wayfinder state must be readable from the backend");
+}
+if (!shell.includes('invoke("wayfinder_grant_consent")')) {
+  failures.push("main.js: consent must be grantable from the panel");
+}
+if (!shell.includes('invoke("wayfinder_capture"')) {
+  failures.push("main.js: a note must be capturable from the panel");
+}
+if (!shell.includes('invoke("wayfinder_confirm"')) {
+  failures.push("main.js: a situation must be confirmable from the panel");
+}
+if (!shell.includes('invoke("wayfinder_select_option"')) {
+  failures.push("main.js: an option must be selectable from the panel");
+}
+{
+  const start = shell.indexOf("function renderWayfinder");
+  const renderer = shell.slice(start);
+  const body = renderer.slice(0, renderer.indexOf("\nasync function refreshWayfinder"));
+  if (start < 0 || body.length === 0) {
+    failures.push("main.js: renderWayfinder must exist");
+  } else if (/\.innerHTML\s*=/.test(body)) {
+    failures.push("main.js: renderWayfinder must not use innerHTML");
+  }
+}
+// The note must survive a failed capture. Clearing it on any outcome would
+// destroy text the user typed whenever the relay happens to be down. The
+// ordering check below is the real guard; this only asserts the clear exists.
+if (!shell.includes('$("f-note").value = ""')) {
+  failures.push("main.js: the note field must be cleared by the capture flow");
+}
+{
+  // Slice to the end of the capture handler. `indexOf("});")` would stop at the
+  // first nested call's braces, so this walks to the listener's own terminator.
+  const start = shell.indexOf('$("wf-capture")');
+  const rest = shell.slice(start);
+  const end = rest.indexOf("});\n");
+  const body = end > 0 ? rest.slice(0, end) : rest;
+  const clearAt = body.indexOf('$("f-note").value = ""');
+  const invokeAt = body.indexOf('invoke("wayfinder_capture"');
+  if (invokeAt < 0) {
+    failures.push("main.js: the capture handler must invoke wayfinder_capture");
+  } else if (clearAt < 0) {
+    failures.push("main.js: the capture handler must clear the note after success");
+  } else if (clearAt < invokeAt) {
+    failures.push("main.js: the note must not be cleared before the capture succeeds");
+  }
+}
+
 // Renewal must be reachable by hand, so an expired token is recoverable without
 // restarting the app or waiting for the margin.
 if (!shell.includes('invoke("renew_token_now")')) {

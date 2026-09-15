@@ -114,6 +114,33 @@ pub fn get_json(
     request_json("GET", url, None, bearer_token, pin)
 }
 
+/// PATCH `body` to `url` with an optional bearer token. Blocking.
+///
+/// The consent route is a PATCH, and like the others it goes through this
+/// transport so it cannot bypass the pin.
+#[cfg(windows)]
+pub fn patch_json(
+    url: &str,
+    body: &str,
+    bearer_token: Option<&str>,
+    pin: Option<&str>,
+) -> Result<HttpResponse, UploadError> {
+    request_json("PATCH", url, Some(body), bearer_token, pin)
+}
+
+/// Non-Windows stub: this build targets Windows.
+#[cfg(not(windows))]
+pub fn patch_json(
+    _url: &str,
+    _body: &str,
+    _bearer_token: Option<&str>,
+    _pin: Option<&str>,
+) -> Result<HttpResponse, UploadError> {
+    Err(UploadError::Transport {
+        message: "upload transport is Windows-only in this build".to_string(),
+    })
+}
+
 /// Non-Windows stub: this build targets Windows.
 #[cfg(not(windows))]
 pub fn get_json(

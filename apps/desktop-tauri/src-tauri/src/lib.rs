@@ -23,6 +23,7 @@ pub mod interrupt;
 pub mod privacy;
 pub mod store;
 pub mod upload;
+pub mod wayfinder;
 
 use std::sync::Mutex;
 
@@ -239,6 +240,19 @@ pub enum CommandError {
     Store { message: String },
     Export { reason: ExportError },
     Upload { reason: upload::UploadError },
+}
+
+/// Render as a sentence, so a command that reports a failure in a view (rather
+/// than returning Err) produces something a person can read. `Debug` would leak
+/// the enum's structure into the panel.
+impl std::fmt::Display for CommandError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            CommandError::Store { message } => write!(f, "store error: {message}"),
+            CommandError::Export { reason } => write!(f, "export error: {reason:?}"),
+            CommandError::Upload { reason } => write!(f, "{reason}"),
+        }
+    }
 }
 
 impl From<StoreError> for CommandError {
@@ -721,6 +735,307 @@ pub struct InboxMessageView {
     pub created_at: String,
 }
 
+/// Read the whole Wayfinder state: consent, situations, and the active
+/// situation's options.
+///
+/// One call rather than three, because the panel always needs all three and
+/// partial state is worse than none: showing options without their situation
+/// would let the user choose against a situation they cannot see.
+#[tauri::command]
+fn wayfinder_state(state: State<'_, Mutex<AppState>>) -> CommandResult<WayfinderView> {
+    let mut app = state.lock().unwrap_or_else(|e| e.into_inner());
+    if !app.collection_state.may_upload() {
+        return Err(CommandError::Upload {
+            reason: upload::UploadError::UploadDisabled,
+        });
+    }
+    let origin = wayfinder::origin_of(&app.upload_endpoint).ok_or(CommandError::Upload {
+        reason: upload::UploadError::EndpointNotConfigured,
+    })?;
+    if let Err(error) = renew_access_token(&mut app, RenewalTrigger::WhenDue) {
+        eprintln!("comma-desktop: wayfinder renewal skipped: {error:?}");
+    }
+    // The panel polls this, so a transport or auth failure must come back as a
+    // view describing the failure rather than as an error: an error leaves the
+    // previous contents on screen, which is how stale data gets mistaken for
+    // current data.
+    Ok(wayfinder_state_inner(&app, &origin)
+        .unwrap_or_else(|error| WayfinderView::denied(&origin, &error.to_string())))
+}
+
+fn wayfinder_state_inner(app: &AppState, origin: &str) -> CommandResult<WayfinderView> {
+    let token = app.upload_token.as_deref();
+    let pin = app.upload_pin.as_deref();
+
+    let consent: wayfinder::ConsentList = fetch_json(origin, "/wayfinder/consent", token, pin)?;
+    let situations: wayfinder::SituationList =
+        fetch_json(origin, "/wayfinder/situations", token, pin)?;
+
+    let active = situations.active().cloned();
+    let mut options = Vec::new();
+    if let Some(situation) = &active {
+        let path = format!("/wayfinder/situations/{}/options", situation.id);
+        let listed: wayfinder::OptionList = fetch_json(origin, &path, token, pin)?;
+        options = listed
+            .options
+            .into_iter()
+            .filter(|option| option.is_selectable())
+            .collect();
+    }
+
+    let grant = consent.active_grant();
+    Ok(WayfinderView {
+        reachable: true,
+        error: None,
+        consent_granted: grant.is_some(),
+        consent_id: grant.map(|g| g.id.clone()),
+        situation: active.map(|situation| WayfinderSituationView {
+            id: situation.id,
+            status: situation.status,
+            summary: situation.summary,
+            risk_level: situation.risk_level,
+        }),
+        options: options
+            .iter()
+            .map(|option| WayfinderOptionView {
+                id: option.id.clone(),
+                action: option.action.clone(),
+                first_step: option.first_step.clone(),
+                rationale: option.rationale.clone(),
+                risk_level: option.risk_level.clone(),
+                requires_approval: option.requires_approval,
+            })
+            .collect(),
+        origin: origin.to_string(),
+    })
+}
+
+/// Grant consent for this device to capture notes.
+#[tauri::command]
+fn wayfinder_grant_consent(state: State<'_, Mutex<AppState>>) -> CommandResult<WayfinderView> {
+    let app = state.lock().unwrap_or_else(|e| e.into_inner());
+    if !app.collection_state.may_upload() {
+        return Err(CommandError::Upload {
+            reason: upload::UploadError::UploadDisabled,
+        });
+    }
+    let origin = wayfinder::origin_of(&app.upload_endpoint).ok_or(CommandError::Upload {
+        reason: upload::UploadError::EndpointNotConfigured,
+    })?;
+    let url = wayfinder::url(&origin, &wayfinder::consent_path());
+    let response = upload::client::patch_json(
+        &url,
+        &wayfinder::consent_body(),
+        app.upload_token.as_deref(),
+        app.upload_pin.as_deref(),
+    )?;
+    if !(200..300).contains(&response.status) {
+        return Err(api_error(&response));
+    }
+    wayfinder_state_inner(&app, &origin)
+}
+
+/// Capture a note as a situation.
+#[tauri::command]
+fn wayfinder_capture(
+    state: State<'_, Mutex<AppState>>,
+    note: String,
+) -> CommandResult<WayfinderView> {
+    let app = state.lock().unwrap_or_else(|e| e.into_inner());
+    if !app.collection_state.may_upload() {
+        return Err(CommandError::Upload {
+            reason: upload::UploadError::UploadDisabled,
+        });
+    }
+    let trimmed = note.trim();
+    if trimmed.is_empty() {
+        return Err(CommandError::Upload {
+            reason: upload::UploadError::EmptyNote,
+        });
+    }
+    let origin = wayfinder::origin_of(&app.upload_endpoint).ok_or(CommandError::Upload {
+        reason: upload::UploadError::EndpointNotConfigured,
+    })?;
+
+    // Consent is checked here rather than left to the server's 403, which says
+    // only that the request was refused and nothing about what to do instead.
+    let token = app.upload_token.as_deref();
+    let pin = app.upload_pin.as_deref();
+    let consent: wayfinder::ConsentList = fetch_json(&origin, "/wayfinder/consent", token, pin)?;
+    let Some(grant) = consent.active_grant() else {
+        return Err(CommandError::Upload {
+            reason: upload::UploadError::ConsentRequired,
+        });
+    };
+
+    let now_iso = iso8601_now();
+    let trace = format!("comma-desktop-{}", now_ms());
+    let body = wayfinder::capture_body(&grant.id, trimmed, &now_iso, &trace);
+    let url = wayfinder::url(&origin, "/wayfinder/events");
+    let response = upload::client::post_json(&url, &body, token, pin)?;
+    if !(200..300).contains(&response.status) {
+        return Err(api_error(&response));
+    }
+    wayfinder_state_inner(&app, &origin)
+}
+
+/// Confirm the active situation, which generates options.
+#[tauri::command]
+fn wayfinder_confirm(
+    state: State<'_, Mutex<AppState>>,
+    situation_id: String,
+) -> CommandResult<WayfinderView> {
+    let app = state.lock().unwrap_or_else(|e| e.into_inner());
+    if !app.collection_state.may_upload() {
+        return Err(CommandError::Upload {
+            reason: upload::UploadError::UploadDisabled,
+        });
+    }
+    let origin = wayfinder::origin_of(&app.upload_endpoint).ok_or(CommandError::Upload {
+        reason: upload::UploadError::EndpointNotConfigured,
+    })?;
+    let trace = format!("comma-desktop-{}", now_ms());
+    let path = format!("/wayfinder/situations/{situation_id}/confirm");
+    let url = wayfinder::url(&origin, &path);
+    let response = upload::client::post_json(
+        &url,
+        &wayfinder::confirm_body(&trace),
+        app.upload_token.as_deref(),
+        app.upload_pin.as_deref(),
+    )?;
+    if !(200..300).contains(&response.status) {
+        return Err(api_error(&response));
+    }
+    wayfinder_state_inner(&app, &origin)
+}
+
+/// Record a decision for one option.
+#[tauri::command]
+fn wayfinder_select_option(
+    state: State<'_, Mutex<AppState>>,
+    situation_id: String,
+    option_id: String,
+) -> CommandResult<WayfinderView> {
+    let app = state.lock().unwrap_or_else(|e| e.into_inner());
+    if !app.collection_state.may_upload() {
+        return Err(CommandError::Upload {
+            reason: upload::UploadError::UploadDisabled,
+        });
+    }
+    let origin = wayfinder::origin_of(&app.upload_endpoint).ok_or(CommandError::Upload {
+        reason: upload::UploadError::EndpointNotConfigured,
+    })?;
+    let trace = format!("comma-desktop-{}", now_ms());
+    let body = wayfinder::decision_body(&situation_id, &option_id, &trace);
+    let url = wayfinder::url(&origin, "/wayfinder/decisions");
+    let response = upload::client::post_json(
+        &url,
+        &body,
+        app.upload_token.as_deref(),
+        app.upload_pin.as_deref(),
+    )?;
+    // 201 on success; 409 means the option was superseded between the read and
+    // the click, which is worth saying plainly rather than as a generic failure.
+    if response.status == 409 {
+        return Err(CommandError::Upload {
+            reason: upload::UploadError::OptionUnavailable,
+        });
+    }
+    if !(200..300).contains(&response.status) {
+        return Err(api_error(&response));
+    }
+    wayfinder_state_inner(&app, &origin)
+}
+
+/// Turn a non-2xx response into an error, keeping the status.
+fn api_error(response: &upload::client::HttpResponse) -> CommandError {
+    CommandError::Upload {
+        reason: upload::UploadError::HttpStatus {
+            status: response.status,
+            message: response.body.chars().take(200).collect(),
+        },
+    }
+}
+
+/// GET a path and parse it, turning any failure into a command error.
+fn fetch_json<T: serde::de::DeserializeOwned>(
+    origin: &str,
+    path: &str,
+    token: Option<&str>,
+    pin: Option<&str>,
+) -> CommandResult<T> {
+    let url = wayfinder::url(origin, path);
+    let response = upload::client::get_json(&url, token, pin)?;
+    if response.status == 401 {
+        return Err(CommandError::Upload {
+            reason: upload::UploadError::Unauthorized,
+        });
+    }
+    if !(200..300).contains(&response.status) {
+        return Err(api_error(&response));
+    }
+    serde_json::from_str(&response.body).map_err(|error| CommandError::Upload {
+        reason: upload::UploadError::MalformedResponse {
+            message: error.to_string(),
+        },
+    })
+}
+
+/// Current time as an ISO-8601 UTC string, which is what the API expects for
+/// `occurredAt`.
+///
+/// Delegates to `iso8601_utc`, which already existed for the upload payload: a
+/// second date formatter would be a second thing to keep correct.
+fn iso8601_now() -> String {
+    iso8601_utc(now_ms())
+}
+
+/// Wayfinder state for the panel.
+#[derive(Debug, Clone, Serialize)]
+pub struct WayfinderView {
+    pub reachable: bool,
+    pub error: Option<String>,
+    pub consent_granted: bool,
+    pub consent_id: Option<String>,
+    pub situation: Option<WayfinderSituationView>,
+    pub options: Vec<WayfinderOptionView>,
+    pub origin: String,
+}
+
+impl WayfinderView {
+    fn denied(origin: &str, message: &str) -> Self {
+        Self {
+            reachable: false,
+            error: Some(message.to_string()),
+            consent_granted: false,
+            consent_id: None,
+            situation: None,
+            options: Vec::new(),
+            origin: origin.to_string(),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize)]
+pub struct WayfinderSituationView {
+    pub id: String,
+    pub status: String,
+    pub summary: String,
+    pub risk_level: String,
+}
+
+#[derive(Debug, Clone, Serialize)]
+pub struct WayfinderOptionView {
+    pub id: String,
+    pub action: String,
+    pub first_step: String,
+    pub rationale: String,
+    pub risk_level: String,
+    /// Surfaced because a high-risk option is one the user should think twice
+    /// about, and the panel should say so before the click rather than after.
+    pub requires_approval: bool,
+}
+
 /// Current upload configuration and queue depth.
 #[tauri::command]
 fn upload_status(state: State<'_, Mutex<AppState>>) -> CommandResult<UploadStatus> {
@@ -1131,6 +1446,11 @@ pub fn build_app(store: LocalStore) -> tauri::Builder<tauri::Wry> {
             renew_token_now,
             inbox_overview,
             inbox_acknowledge,
+            wayfinder_state,
+            wayfinder_grant_consent,
+            wayfinder_capture,
+            wayfinder_confirm,
+            wayfinder_select_option,
             flush_uploads
         ])
 }
