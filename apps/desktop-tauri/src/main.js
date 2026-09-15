@@ -154,6 +154,14 @@ async function refresh() {
     $("s-samples").textContent = String(status.sample_count);
     $("s-decisions").textContent = String(status.decision_count);
 
+    // The home view repeats the quiet window next to the judgement, because
+    // "why is it silent" is usually the quiet hours rather than the activity.
+    $("quiet-source").textContent = quietWindow
+      ? `静默时段来自本机学习结果：${String(quietWindow.start_hour).padStart(2, "0")}:00–${String(
+          quietWindow.end_hour,
+        ).padStart(2, "0")}:00（可在上方关闭）`
+      : "静默时段当前已关闭，判定不会因时段而静默。";
+
     $("toggle-enabled").checked = status.collection_enabled;
     $("toggle-upload").checked = status.upload_enabled;
     $("toggle-quiet").checked = status.quiet_hours_enabled;
@@ -332,20 +340,6 @@ $("renew-token").addEventListener("click", async () => {
   }
 });
 
-$("flush").addEventListener("click", async () => {
-  if (!invoke) return;
-  try {
-    // One step: build the aggregate, enqueue it, then deliver. Calling flush
-    // alone would report "queue empty" on a fresh install and look broken.
-    const result = await invoke("send_now", { limit: 20 });
-    await refresh();
-    if (result.pending === 0 && result.failed === 0) {
-      renderError(`上传完成：已送达 ${result.delivered} 条`, "flush");
-    }
-  } catch (error) {
-    renderError(`上传失败：${formatError(error)}`, "flush");
-  }
-});
 
 $("clear-failed").addEventListener("click", async () => {
   if (!invoke) return;
@@ -386,6 +380,16 @@ function renderInbox(view) {
   $("i-pending").textContent = String(view.pending_count);
   $("i-interventions").textContent = String(view.open_interventions);
   $("i-acked").textContent = String(view.acknowledged_count);
+
+  // A pending reminder is the one thing worth signalling through the tray: the
+  // window is usually hidden, so without this the user has to open the panel to
+  // learn there was anything to see. Fired only when the count is non-zero, so
+  // an ordinary empty read does not colour the icon.
+  if (view.pending_count > 0) {
+    invoke("flash_tray_attention").catch(() => {
+      // The tray is a convenience; a failure here must not break the panel.
+    });
+  }
 
   const empty = $("inbox-empty");
   empty.hidden = view.messages.length > 0;
@@ -619,3 +623,19 @@ void refresh();
 void refreshInbox();
 void refreshWayfinder();
 setInterval(() => void refresh(), 10_000);
+
+// Tab switching. Both views are in the DOM from the start and one is hidden,
+// so switching costs nothing and no state is lost between them.
+function showTab(name) {
+  const home = name === "home";
+  $("view-home").hidden = !home;
+  $("view-settings").hidden = home;
+  $("tab-home").classList.toggle("is-active", home);
+  $("tab-settings").classList.toggle("is-active", !home);
+  $("tab-home").setAttribute("aria-selected", String(home));
+  $("tab-settings").setAttribute("aria-selected", String(!home));
+}
+
+$("tab-home").addEventListener("click", () => showTab("home"));
+$("tab-settings").addEventListener("click", () => showTab("settings"));
+showTab("home");

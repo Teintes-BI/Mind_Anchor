@@ -104,6 +104,49 @@ h2 {
   color: var(--text);
 }
 
+/* Tabs. The active one is marked by a bar rather than only by colour, so the
+   current view is still identifiable without relying on hue. */
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin: 0 0 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  padding: 8px 14px;
+}
+
+.tab:hover {
+  color: var(--text);
+}
+
+.tab.is-active {
+  border-bottom-color: #3d6ea8;
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* The judgement is the reason to open the app, so it reads larger than the
+   supporting numbers around it. */
+.panel-lead .decision {
+  font-size: 22px;
+  margin: 4px 0 8px;
+}
+
+.toggle {
+  align-items: center;
+  display: flex;
+  gap: 6px;
+  font-size: 13px;
+}
+
 /* Reminder inbox. Rows are laid out as blocks with the action at the end, so a
    long title or body wraps instead of pushing the button off-screen. */
 .inbox-list {

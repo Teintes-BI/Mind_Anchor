@@ -40,6 +40,10 @@ try {
     join(appRoot, "src-tauri", "src", "wayfinder", "mod.rs"),
     join(work, "src-tauri", "src", "wayfinder", "mod.rs"),
   );
+  // The tray guards read these two. Without the mirror the checker throws
+  // ENOENT and every case below fails for the wrong reason.
+  cpSync(join(appRoot, "src-tauri", "src", "tray.rs"), join(work, "src-tauri", "src", "tray.rs"));
+  cpSync(join(appRoot, "src-tauri", "src", "lib.rs"), join(work, "src-tauri", "src", "lib.rs"));
   const checker = join(work, "scripts", "check-shell.mjs");
 
   // 1. An untouched copy must pass, otherwise the negative tests prove nothing.
@@ -68,11 +72,25 @@ try {
   writeFileSync(mainPath, original);
 
   // 3. A password field downgraded to text must be rejected.
+  //
+  // The mutation is built with a regex rather than a literal, so it survives the
+  // markup being reformatted. It previously matched a hard-coded newline and
+  // indentation; when the field moved onto one line the replace became a no-op,
+  // the guard correctly stayed silent, and the failure looked like a broken
+  // guard instead of a broken test.
   const htmlPath = join(work, "src", "index.html");
   const htmlOriginal = readFileSync(htmlPath, "utf8");
-  writeFileSync(htmlPath, htmlOriginal.replace('id="f-token"\n            type="password"', 'id="f-token"\n            type="text"'));
+  const downgraded = htmlOriginal.replace(
+    /(id="f-token"[\s\S]{0,40}?)type="password"/,
+    '$1type="text"',
+  );
+  if (downgraded === htmlOriginal) {
+    console.error("FAIL the token field could not be downgraded; the test would pass vacuously");
+    process.exitCode = 1;
+  }
+  writeFileSync(htmlPath, downgraded);
   const relaxed = runChecker(work, checker);
-  if (relaxed.failed && /type=password/.test(relaxed.output)) {
+  if (relaxed.failed && /f-token field must be type=password/.test(relaxed.output)) {
     console.log("ok   token field downgraded to text is rejected");
   } else {
     console.error("FAIL token field guard did not fire:\n" + relaxed.output);
@@ -214,6 +232,28 @@ try {
       }
       writeFileSync(mainPath, original);
     }
+  }
+  // 12. Removing the close-to-tray rule must be rejected. Without it the app
+  //     quits the first time the window is dismissed, which stops collection.
+  {
+    const trayPath = join(work, "src-tauri", "src", "tray.rs");
+    const trayOriginal = readFileSync(trayPath, "utf8");
+    const reverted = trayOriginal
+      .replace("api.prevent_close();", "")
+      .replace("let _ = window.hide();", "");
+    if (reverted === trayOriginal) {
+      console.error("FAIL the close-to-tray rule could not be reverted; the case is vacuous");
+      failures += 1;
+    }
+    writeFileSync(trayPath, reverted);
+    const quitting = runChecker(work, checker);
+    if (quitting.failed && /close request must be prevented/.test(quitting.output)) {
+      console.log("ok   a close that quits instead of hiding is rejected");
+    } else {
+      console.error("FAIL close-to-tray guard did not fire:\n" + quitting.output);
+      failures += 1;
+    }
+    writeFileSync(trayPath, trayOriginal);
   }
   // 11. An actionStatus outside the set the relay accepts must be rejected.
   //     "planned" looked plausible and only surfaced as a 400 in front of the

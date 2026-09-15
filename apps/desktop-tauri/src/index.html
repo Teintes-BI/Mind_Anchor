@@ -11,182 +11,193 @@
       <header>
         <h1>Comma Desktop</h1>
         <p class="subtitle">
-          阶段 0 · Shadow 模式 — 引擎只做判断与记录，<strong>不发送任何通知、不弹窗</strong>
+          Shadow 模式 — 引擎只做判断与记录，<strong>不发送任何通知、不弹窗</strong>
         </p>
       </header>
 
-      <section class="panel" aria-labelledby="status-heading">
-        <h2 id="status-heading">采集状态</h2>
-        <dl class="grid" id="status-grid">
-          <dt>模式</dt><dd id="s-shadow">—</dd>
-          <dt>采集开关</dt><dd id="s-enabled">—</dd>
-          <dt>窗口标题采集</dt><dd id="s-title">—</dd>
-          <dt>上传开关</dt><dd id="s-upload">—</dd>
-          <dt>静默时段</dt><dd id="s-quiet">—</dd>
-          <dt>数据等级</dt><dd id="s-level">—</dd>
-          <dt>采样间隔</dt><dd id="s-interval">—</dd>
-          <dt>已采集样本</dt><dd id="s-samples">—</dd>
-          <dt>已判定次数</dt><dd id="s-decisions">—</dd>
-        </dl>
-      </section>
+      <!-- Two tabs: the home view answers "what does it think right now?", the
+           settings view holds everything that is configured once and then left
+           alone. Mixing them meant the current conclusion sat below five panels
+           of configuration. -->
+      <nav class="tabs" role="tablist">
+        <button id="tab-home" class="tab is-active" role="tab" aria-selected="true" type="button">
+          主页
+        </button>
+        <button id="tab-settings" class="tab" role="tab" aria-selected="false" type="button">
+          设置
+        </button>
+      </nav>
 
-      <section class="panel" aria-labelledby="decision-heading">
-        <h2 id="decision-heading">最近一次判定</h2>
-        <p class="decision" id="d-decision">尚未判定</p>
-        <p class="reasons" id="d-reasons"></p>
-        <p class="meta" id="d-sample"></p>
-        <button id="poll" type="button">立即采样一次</button>
-      </section>
+      <div id="view-home" role="tabpanel">
+        <!-- The conclusion first: this is the one thing the user opens the app
+             to see, so it is not buried under the numbers that produced it. -->
+        <section class="panel panel-lead" aria-labelledby="decision-heading">
+          <h2 id="decision-heading">现在的判断</h2>
+          <p class="decision" id="d-decision">尚未判定</p>
+          <p class="hint" id="d-reasons"></p>
+          <dl class="grid">
+            <dt>静默时段</dt>
+            <dd id="s-quiet">—</dd>
+            <dt>最近采样</dt>
+            <dd id="d-sample">—</dd>
+            <dt>已采集样本</dt>
+            <dd id="s-samples">—</dd>
+          </dl>
+        </section>
 
-      <section class="panel" aria-labelledby="relay-heading">
-        <h2 id="relay-heading">可信中继</h2>
-        <p class="hint">
-          本设计需要一个可信中转服务器。未填写端点时<strong>不会上传到任何地址</strong>——
-          程序不会使用默认地址。
-        </p>
-        <div class="fields">
-          <label for="f-endpoint">端点（https 必需）</label>
-          <input
-            id="f-endpoint"
-            type="url"
-            inputmode="url"
-            placeholder="https://host:port/v1/core/events"
-            autocomplete="off"
-            spellcheck="false"
-          />
+        <!-- The options sit directly under the judgement: a situation and its
+             choices are one thought, and splitting them across panels forced a
+             scroll between "here is what I see" and "here is what you could do". -->
+        <section class="panel" aria-labelledby="wayfinder-heading">
+          <h2 id="wayfinder-heading">可选方案</h2>
 
-          <label for="f-token">Bearer 令牌（不含 <code>Bearer</code> 前缀）</label>
-          <input
-            id="f-token"
-            type="password"
-            placeholder="留空表示不带鉴权头"
-            autocomplete="off"
-          />
+          <dl class="grid" id="wf-grid">
+            <dt>状态</dt>
+            <dd id="w-state">—</dd>
+            <dt>同意</dt>
+            <dd id="w-consent">—</dd>
+            <dt>当前情境</dt>
+            <dd id="w-situation">—</dd>
+            <dt>风险</dt>
+            <dd id="w-risk">—</dd>
+          </dl>
 
-          <label for="f-refresh">刷新令牌（可选，用于自动续期）</label>
-          <input
-            id="f-refresh"
-            type="password"
-            placeholder="从 /auth/login 取得；填了就自动续期，留空表示不续期"
-            autocomplete="off"
-          />
+          <ul class="inbox-list" id="wf-options"></ul>
+          <p class="hint" id="wf-empty" hidden></p>
 
-          <label for="f-pin">证书 SHA-256 指纹（https 必需）</label>
-          <input
-            id="f-pin"
-            type="text"
-            placeholder="每两位可加冒号，如 28:26:41:…"
-            autocomplete="off"
-            spellcheck="false"
-          />
+          <div class="actions">
+            <button id="wf-capture" type="button">记录笔记并生成方案</button>
+            <button id="wf-confirm" type="button">确认情境</button>
+            <button id="wf-refresh" type="button">重新读取</button>
+            <button id="wf-grant" type="button">授予同意</button>
+          </div>
 
-          <label for="f-interval">自动上传间隔</label>
-          <select id="f-interval">
-            <option value="0">关闭（仅手动）</option>
-            <option value="300000">每 5 分钟</option>
-            <option value="900000">每 15 分钟</option>
-            <option value="3600000">每 1 小时</option>
-          </select>
-        </div>
-        <div class="actions">
-          <button id="save-relay" type="button">保存中继配置</button>
-          <button id="flush" type="button">立即上传</button>
-          <button id="renew-token" type="button">立即续期令牌</button>
-          <button id="clear-failed" type="button">清除失败项</button>
-        </div>
-        <dl class="grid">
-          <dt>端点</dt><dd id="u-endpoint">—</dd>
-          <dt>令牌</dt><dd id="u-token">—</dd>
-          <dt>证书指纹</dt><dd id="u-pin">—</dd>
-          <dt>令牌续期</dt><dd id="u-renew">—</dd>
-          <dt>队列</dt><dd id="u-queue">—</dd>
-          <dt>下次调度</dt><dd id="u-tick">—</dd>
-        </dl>
-      </section>
+          <label for="f-note">笔记</label>
+          <textarea
+            id="f-note"
+            rows="3"
+            placeholder="例如：这周要把收件箱的提醒文案改得更短"
+          ></textarea>
+        </section>
 
-      <section class="panel" aria-labelledby="inbox-heading">
-        <h2 id="inbox-heading">提醒收件箱</h2>
-        <p class="hint">
-          来自中继的提醒。数据按令牌身份隔离，不需要也不能指定用户。
-        </p>
+        <section class="panel" aria-labelledby="inbox-heading">
+          <h2 id="inbox-heading">提醒收件箱</h2>
+          <dl class="grid" id="inbox-grid">
+            <dt>状态</dt>
+            <dd id="i-state">尚未读取</dd>
+            <dt>待处理</dt>
+            <dd id="i-pending">—</dd>
+            <dt>待决事项</dt>
+            <dd id="i-interventions">—</dd>
+            <dt>已确认</dt>
+            <dd id="i-acked">—</dd>
+          </dl>
 
-        <dl class="grid" id="inbox-grid">
-          <dt>状态</dt>
-          <dd id="i-state">尚未读取</dd>
-          <dt>待处理</dt>
-          <dd id="i-pending">—</dd>
-          <dt>待决事项</dt>
-          <dd id="i-interventions">—</dd>
-          <dt>已确认</dt>
-          <dd id="i-acked">—</dd>
-        </dl>
+          <ul class="inbox-list" id="inbox-list"></ul>
+          <p class="hint" id="inbox-empty" hidden>没有待处理的提醒。</p>
 
-        <div class="row">
-          <button id="inbox-refresh" type="button">读取收件箱</button>
-        </div>
+          <div class="actions">
+            <button id="inbox-refresh" type="button">读取收件箱</button>
+          </div>
+        </section>
+      </div>
 
-        <ul class="inbox-list" id="inbox-list"></ul>
-        <p class="hint" id="inbox-empty" hidden>没有待处理的提醒。</p>
-      </section>
+      <div id="view-settings" role="tabpanel" hidden>
+        <section class="panel" aria-labelledby="status-heading">
+          <h2 id="status-heading">采集状态</h2>
+          <dl class="grid" id="status-grid">
+            <dt>模式</dt><dd id="s-shadow">—</dd>
+            <dt>采集开关</dt><dd id="s-enabled">—</dd>
+            <dt>窗口标题采集</dt><dd id="s-title">—</dd>
+            <dt>上传开关</dt><dd id="s-upload">—</dd>
+            <dt>数据等级</dt><dd id="s-level">—</dd>
+            <dt>采样间隔</dt><dd id="s-interval">—</dd>
+            <dt>已判定次数</dt><dd id="s-decisions">—</dd>
+          </dl>
 
-      <section class="panel" aria-labelledby="wayfinder-heading">
-        <h2 id="wayfinder-heading">Wayfinder</h2>
-        <p class="hint">
-          记录一条笔记，让中继把它整理成可选方案。内容按令牌身份隔离。
-          未授予同意前不会上传任何笔记。
-        </p>
+          <div class="row">
+            <label class="toggle">
+              <input id="toggle-enabled" type="checkbox" />
+              允许本地采集
+            </label>
+            <label class="toggle">
+              <input id="toggle-upload" type="checkbox" />
+              允许脱敏上传
+            </label>
+            <label class="toggle">
+              <input id="c-title" type="checkbox" />
+              采集窗口标题（默认关闭）
+            </label>
+            <label class="toggle">
+              <input id="toggle-quiet" type="checkbox" />
+              启用静默时段
+            </label>
+          </div>
+          <p class="hint" id="quiet-source"></p>
+        </section>
 
-        <dl class="grid" id="wf-grid">
-          <dt>状态</dt>
-          <dd id="w-state">尚未读取</dd>
-          <dt>同意</dt>
-          <dd id="w-consent">—</dd>
-          <dt>当前情境</dt>
-          <dd id="w-situation">—</dd>
-          <dt>风险</dt>
-          <dd id="w-risk">—</dd>
-        </dl>
+        <section class="panel" aria-labelledby="relay-heading">
+          <h2 id="relay-heading">可信中继</h2>
+          <p class="hint">
+            端点必须是 https://（本地回环可用 http://）。https 必须填写证书指纹，
+            不提供跳过校验的开关。
+          </p>
 
-        <div class="row">
-          <button id="wf-refresh" type="button">读取</button>
-          <button id="wf-grant" type="button">授予同意</button>
-          <button id="wf-confirm" type="button">确认情境</button>
-        </div>
+          <div class="fields">
+            <label for="f-endpoint">端点</label>
+            <input id="f-endpoint" type="text" placeholder="https://host:port/v1/core/events" />
+            <label for="f-token">Bearer 令牌</label>
+            <input id="f-token" type="password" placeholder="留空表示不改动" />
+            <label for="f-refresh">刷新令牌（用于自动续期）</label>
+            <input id="f-refresh" type="password" placeholder="留空表示不续期" />
+            <label for="f-pin">证书 SHA-256 指纹</label>
+            <input id="f-pin" type="text" placeholder="64 位十六进制" spellcheck="false" />
 
-        <label for="f-note">笔记</label>
-        <textarea
-          id="f-note"
-          rows="3"
-          placeholder="例如：这周要把收件箱的提醒文案改得更短"
-        ></textarea>
-        <div class="row">
-          <button id="wf-capture" type="button">记录并生成方案</button>
-        </div>
+            <label for="f-interval">自动上传间隔</label>
+            <select id="f-interval">
+              <option value="300000">每 5 分钟</option>
+              <option value="900000" selected>每 15 分钟</option>
+              <option value="1800000">每 30 分钟</option>
+              <option value="3600000">每 1 小时</option>
+              <option value="10800000">每 3 小时</option>
+            </select>
+          </div>
 
-        <ul class="inbox-list" id="wf-options"></ul>
-        <p class="hint" id="wf-empty" hidden></p>
-      </section>
+          <div class="actions">
+            <button id="save-relay" type="button">保存中继配置</button>
+            <button id="renew-token" type="button">立即续期令牌</button>
+            <button id="clear-failed" type="button">清除失败项</button>
+          </div>
 
-      <section class="panel" aria-labelledby="privacy-heading">
-        <h2 id="privacy-heading">隐私边界</h2>
-        <ul class="notes">
-          <li>键盘只统计「距上次输入的时长」，<strong>不记录任何按键或文本</strong>。</li>
-          <li>窗口标题默认关闭；即使打开也会先脱敏再存储。</li>
-          <li>采集全程本地。仅当上面<strong>同时</strong>配置了端点、且采集与上传开关都开启时，才会发送整点聚合。</li>
-          <li>上传内容只含整点聚合计数（数据等级 P1），<strong>不含窗口标题、进程名原文或任何时间戳明细</strong>。</li>
-          <li>服务端拒绝 P2/P3；自签名证书必须<strong>指纹匹配</strong>才接受，不匹配即中止。</li>
-        </ul>
-        <div class="actions">
-          <label><input type="checkbox" id="toggle-enabled" /> 允许本地采集</label>
-          <label><input type="checkbox" id="toggle-upload" /> 允许脱敏上传</label>
-          <label
-            ><input type="checkbox" id="toggle-quiet" /> 启用静默时段（默认
-            22:00–08:00）</label
-          >
-          <button id="purge" type="button" class="danger">清除本地记录</button>
-        </div>
-      </section>
+          <dl class="grid">
+            <dt>端点</dt><dd id="u-endpoint">—</dd>
+            <dt>令牌</dt><dd id="u-token">—</dd>
+            <dt>证书指纹</dt><dd id="u-pin">—</dd>
+            <dt>令牌续期</dt><dd id="u-renew">—</dd>
+            <dt>队列</dt><dd id="u-queue">—</dd>
+            <dt>下次调度</dt><dd id="u-tick">—</dd>
+          </dl>
+        </section>
+
+        <section class="panel" aria-labelledby="privacy-heading">
+          <h2 id="privacy-heading">隐私边界</h2>
+          <ul class="notes">
+            <li>不采集按键内容、文本或按键频率 —— <strong>样本结构里没有这些字段</strong>。</li>
+            <li>空闲时长来自 <code>GetLastInputInfo</code>，只能得到毫秒数。</li>
+            <li>窗口标题默认不采集，需显式开启。</li>
+            <li>上传前一律经过脱敏；导出恒为 P1 等级。</li>
+            <li>判定结果在 shadow 模式下只记录，不触发任何通知。</li>
+          </ul>
+          <div class="actions">
+            <button id="poll" type="button">立即采样一次</button>
+            <button id="export" type="button">导出脱敏数据</button>
+            <button id="purge" type="button">清除本地数据</button>
+          </div>
+          <p class="hint" id="export-detail" hidden></p>
+        </section>
+      </div>
     </main>
+
     <script src="main.js"></script>
   </body>
 </html>

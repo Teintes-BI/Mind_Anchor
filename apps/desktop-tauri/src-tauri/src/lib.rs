@@ -22,13 +22,14 @@ pub mod inbox;
 pub mod interrupt;
 pub mod privacy;
 pub mod store;
+pub mod tray;
 pub mod upload;
 pub mod wayfinder;
 
 use std::sync::Mutex;
 
 use serde::Serialize;
-use tauri::State;
+use tauri::{AppHandle, State};
 
 use collector::sampler::{sample_once, ActivityBuffer};
 use collector::CollectorConfig;
@@ -36,6 +37,15 @@ use interrupt::{decide, DecisionInput, DecisionOutput, InterruptPolicy};
 use privacy::{CollectionState, DataLevel};
 use store::sanitize::{build_export, ExportError, SanitizedExport};
 use store::{LocalStore, StoreError};
+
+/// Background upload interval used on a fresh install.
+///
+/// Fifteen minutes rather than off: the collector is useless if nothing ever
+/// leaves the machine, and a user who configured a relay has already asked for
+/// delivery. The manual trigger was removed for the same reason - an interval
+/// plus the scheduler covers the case, and a button implied the interval was
+/// not enough.
+const DEFAULT_UPLOAD_INTERVAL_MS: u64 = 15 * 60 * 1000;
 
 /// Application state shared with the UI.
 pub struct AppState {
@@ -82,7 +92,7 @@ impl AppState {
             upload_endpoint: String::new(),
             upload_token: None,
             upload_pin: None,
-            upload_interval_ms: 0,
+            upload_interval_ms: DEFAULT_UPLOAD_INTERVAL_MS,
             upload_refresh_token: None,
             upload_expires_at_ms: None,
         };
@@ -1036,6 +1046,17 @@ pub struct WayfinderOptionView {
     pub requires_approval: bool,
 }
 
+/// Flash the tray icon to say something is waiting.
+///
+/// Called by the frontend after an inbox read that found pending reminders, and
+/// exposed as a command so it is reachable from the panel too. It returns
+/// immediately; the reset happens on a timer in the background.
+#[tauri::command]
+fn flash_tray_attention(app: AppHandle) -> CommandResult<()> {
+    tray::flash_attention(&app);
+    Ok(())
+}
+
 /// Current upload configuration and queue depth.
 #[tauri::command]
 fn upload_status(state: State<'_, Mutex<AppState>>) -> CommandResult<UploadStatus> {
@@ -1427,7 +1448,16 @@ pub fn build_app(store: LocalStore) -> tauri::Builder<tauri::Wry> {
         .manage(Mutex::new(AppState::new(store)))
         .setup(|app| {
             spawn_upload_scheduler(app.handle().clone());
+            // The tray is how the app is reached once its window is hidden, so a
+            // failure to build it is worth surfacing rather than swallowing: the
+            // app would otherwise be running with no way to reach it.
+            if let Err(error) = tray::install(app.handle()) {
+                eprintln!("comma-desktop: could not create the tray icon: {error}");
+            }
             Ok(())
+        })
+        .on_window_event(|window, event| {
+            tray::handle_window_event(window, event);
         })
         .invoke_handler(tauri::generate_handler![
             poll_once,
@@ -1446,6 +1476,7 @@ pub fn build_app(store: LocalStore) -> tauri::Builder<tauri::Wry> {
             renew_token_now,
             inbox_overview,
             inbox_acknowledge,
+            flash_tray_attention,
             wayfinder_state,
             wayfinder_grant_consent,
             wayfinder_capture,
@@ -1592,14 +1623,23 @@ mod tests {
     #[test]
     fn a_fresh_database_starts_unconfigured() {
         let state = AppState::new(LocalStore::open_in_memory().unwrap());
+        // The relay is unconfigured, so nothing can be sent...
         assert!(state.upload_endpoint.is_empty());
         assert!(state.upload_token.is_none());
         assert!(state.upload_pin.is_none());
-        assert_eq!(state.upload_interval_ms, 0, "scheduling off by default");
+        // ...but scheduling itself is on by default. It was off, on the reasoning
+        // that a fresh install should not schedule anything; the effect was that
+        // a user who then configured a relay still delivered nothing until they
+        // also found the interval control. The gate that matters is the endpoint:
+        // with no endpoint, the flush path refuses regardless of the interval.
+        assert_eq!(
+            state.upload_interval_ms, DEFAULT_UPLOAD_INTERVAL_MS,
+            "a fresh install schedules uploads every 15 minutes"
+        );
     }
 
     #[test]
-    fn a_corrupt_interval_does_not_break_startup() {
+    fn a_corrupt_interval_falls_back_to_the_default() {
         // A hand-edited or truncated row must not stop the app from starting.
         let dir = tempfile::tempdir().unwrap();
         let path = dir.path().join("phase0.sqlite");
@@ -1610,6 +1650,9 @@ mod tests {
                 .unwrap();
         }
         let state = AppState::new(LocalStore::open(&path).unwrap());
-        assert_eq!(state.upload_interval_ms, 0, "falls back to scheduling off");
+        assert_eq!(
+            state.upload_interval_ms, DEFAULT_UPLOAD_INTERVAL_MS,
+            "an unreadable interval falls back to the default, not to off"
+        );
     }
 }

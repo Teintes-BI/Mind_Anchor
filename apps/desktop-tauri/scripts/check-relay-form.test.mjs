@@ -59,6 +59,9 @@ try {
     join(appRoot, "src-tauri", "src", "wayfinder", "mod.rs"),
     join(work, "src-tauri", "src", "wayfinder", "mod.rs"),
   );
+  // The tray guards in check-shell.mjs read these.
+  cpSync(join(appRoot, "src-tauri", "src", "tray.rs"), join(work, "src-tauri", "src", "tray.rs"));
+  cpSync(join(appRoot, "src-tauri", "src", "lib.rs"), join(work, "src-tauri", "src", "lib.rs"));
 
   const checker = join(work, "scripts", "check-shell.mjs");
   const mainPath = join(work, "src", "main.js");

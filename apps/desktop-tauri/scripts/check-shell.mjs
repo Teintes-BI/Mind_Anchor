@@ -62,8 +62,23 @@ for (const file of ["main.js", "index.html"]) {
   }
 }
 
-if (!/id="f-token"[\s\S]{0,200}?type="password"/.test(html)) {
-  failures.push("index.html: the token field must be type=password");
+// Credential fields must be type=password. Each one is checked separately, and
+// the match is anchored to the element it names: an earlier version allowed 200
+// characters between the id and the type, so once a second password field
+// existed the pattern could be satisfied by the wrong element - the token guard
+// kept passing while the token field itself was downgraded to text.
+for (const field of ["f-token", "f-refresh"]) {
+  const at = html.indexOf(`id="${field}"`);
+  if (at < 0) {
+    failures.push(`index.html: the ${field} field is missing`);
+    continue;
+  }
+  // Look only inside this tag: from the id to the next '>' and no further.
+  const tagEnd = html.indexOf(">", at);
+  const tag = html.slice(at, tagEnd < 0 ? at + 200 : tagEnd);
+  if (!/type="password"/.test(tag)) {
+    failures.push(`index.html: the ${field} field must be type=password`);
+  }
 }
 
 // Where is the endpoint read from? It must come from Rust state, never from a
@@ -268,6 +283,42 @@ if (!/const fromServer = serverMessage\(value\)/.test(shell)) {
 // restarting the app or waiting for the margin.
 if (!shell.includes('invoke("renew_token_now")')) {
   failures.push("main.js: the manual renew action must call renew_token_now");
+}
+
+// Closing the window must not quit. The app's value is that it runs while the
+// user is doing something else, so reverting to the default close behaviour
+// would silently stop collection the first time anyone dismissed the window.
+// Checked against the Rust source, which is where the rule lives.
+const traySource = readFileSync(join(root, "..", "src-tauri", "src", "tray.rs"), "utf8");
+const rustLib = readFileSync(join(root, "..", "src-tauri", "src", "lib.rs"), "utf8");
+if (!/CloseRequested/.test(traySource) || !/prevent_close\(\)/.test(traySource)) {
+  failures.push("tray.rs: a close request must be prevented, not acted on");
+}
+if (!/window\.hide\(\)/.test(traySource)) {
+  failures.push("tray.rs: closing the window must hide it rather than quit");
+}
+if (!/tray::install/.test(rustLib)) {
+  failures.push("lib.rs: the tray must be installed at setup");
+}
+if (!/tray::handle_window_event/.test(rustLib)) {
+  failures.push("lib.rs: the window event handler must route to the tray rule");
+}
+
+// The attention colour must be gated on there being something to attend to.
+// Firing it unconditionally would leave the tray permanently green, which is
+// worse than no signal at all: it trains the user to ignore it.
+if (!/pending_count > 0/.test(shell)) {
+  failures.push("main.js: the tray flash must be gated on a pending count");
+}
+if (!/flash_tray_attention/.test(shell)) {
+  failures.push("main.js: a pending reminder must flash the tray icon");
+}
+if (!/fn flash_tray_attention/.test(rustLib)) {
+  failures.push("lib.rs: flash_tray_attention must exist as a command");
+}
+// The reset must be timed. Without it the attention colour never clears.
+if (!/ATTENTION_MS/.test(traySource)) {
+  failures.push("tray.rs: the attention colour must reset after a fixed window");
 }
 
 if (failures.length) {
