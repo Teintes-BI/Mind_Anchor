@@ -161,3 +161,30 @@ FST_ERR_CTP_INVALID_JSON_BODY
 
 **回滚线索**（确认稳定后可删）：`/root/comma-relay.bak-20260915-130840`（加 `/auth/` 前的 nginx 配置，不含密钥）、`old-nohup-pid.txt`。删除前先确认 `systemctl is-enabled mindanchor-core-relay` 为 `enabled`。
 
+## 9. `/client/inbox` 缺少鉴权（2026-09-15 发现，未修复）
+
+**发现的起因**：为 T1.3 放行 nginx 路由后做暴露面验证，发现该端点在无令牌情况下返回 **200**。
+
+**实测证据**（服务器内 `:3002`）：
+
+| 请求 | 结果 |
+|---|---|
+| `GET /client/inbox/overview?userId=<任意>`，无 `Authorization` 头 | **200**，返回完整 JSON |
+| `GET /client/inbox?userId=<任意>`，无 `Authorization` 头 | **200** |
+| `GET /wayfinder/consent`，无令牌 | **401**（对照组，鉴权正确） |
+
+**根因**：`apps/api/src/app.ts:2160–2183` 三条路由通过
+`getRequestUserId(request, query.userId ?? "demo-user")` **信任查询参数**，未做 bearer 校验。
+
+**影响**：任何能访问该端点的调用方，只需替换 `userId` 即可读取**任意用户**的提醒内容（`title`、`message`、`channel`、`status`）。Core 的 `profileId` 隔离在此路径上**不生效**，因为身份来自调用方自报。
+
+**处置**：已回滚 nginx 对 `/client/inbox/` 的放行（备份 `/root/comma-relay.bak-20260915-191156`）。`/wayfinder/` 保留，因其鉴权正确。
+
+**回滚后验证**：`/client/inbox/overview`、`/client/inbox`、`POST /client/inbox/:id/ack` 从公网均 **404**；服务端 `127.0.0.1:3002` 仍 **200**（本地功能未动）。
+
+**未修复事项**：服务端仍需为这三条路由加鉴权（改用 `authContext.userId`，忽略查询参数）。**在此之前 T1.3 无法安全地走公网**，因为客户端会依赖一个可越权的接口。
+
+**教训（一次判断失误）**：先前基于 `/wayfinder/*` 返回 401，就推断"这两组接口都已有 bearer 鉴权"，并把该结论写进给用户的方案。实际 `/client/*` 没有。**一个端点族的鉴权状况不能由单个端点的表现外推** —— 逐条实测才发现。
+
+## 10. 已知缺口与后续
+
