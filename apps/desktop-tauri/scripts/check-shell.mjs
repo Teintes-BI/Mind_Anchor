@@ -158,6 +158,26 @@ if (!shell.includes("view.reachable")) {
   failures.push("main.js: the inbox must distinguish a failed read from an empty one");
 }
 
+// The confirm button must be gated on the situation's status, not merely on a
+// situation existing. Confirming an already-confirmed situation is not the
+// action, and gating on existence alone left the panel offering a button whose
+// only effect was a server error.
+//
+// Checking that the status string merely appears is not enough: the string is
+// also used for the label, so a version that computed it and then ignored it
+// when setting `disabled` would still pass. The assertion is on the binding.
+{
+  const awaitingAt = shell.indexOf('const awaiting = situation !== null && situation.status === "awaiting_confirmation"');
+  const gatedAt = shell.indexOf("confirmButton.disabled = !awaiting");
+  if (awaitingAt < 0) {
+    failures.push("main.js: the awaiting-confirmation state must be derived from the status");
+  } else if (gatedAt < 0) {
+    failures.push(
+      "main.js: the confirm button must be gated on awaiting confirmation, not on existence",
+    );
+  }
+}
+
 // Wayfinder. Same reasoning as the inbox: server-controlled text, and a capture
 // that must not lose what the user typed.
 if (!html.includes('id="wf-options"')) {
@@ -210,6 +230,38 @@ if (!shell.includes('$("f-note").value = ""')) {
   } else if (clearAt < invokeAt) {
     failures.push("main.js: the note must not be cleared before the capture succeeds");
   }
+}
+
+// The decision body's actionStatus must be a member of the set the relay
+// actually accepts. "planned" looked plausible and was rejected with a 400 that
+// the user saw, so this asserts membership rather than trusting the literal.
+{
+  const allowed = ["not_started", "in_progress", "completed", "abandoned"];
+  const m = shell.match(/actionStatus:\s*"([a-z_]+)"/);
+  // Read from the same mirror the checker sees: the checker resolves the Rust
+  // file relative to its own directory, so reading appRoot here could disagree
+  // with what the checker actually validated.
+  const rust = readFileSync(
+    join(dirname(fileURLToPath(import.meta.url)), "..", "src-tauri", "src", "wayfinder", "mod.rs"),
+    "utf8",
+  );
+  const rm = rust.match(/"actionStatus":\s*"([a-z_]+)"/);
+  const sent = rm?.[1] ?? m?.[1];
+  if (!sent) {
+    failures.push("main.js: actionStatus could not be located");
+  } else if (!allowed.includes(sent)) {
+    failures.push(`actionStatus ${sent} is not one of ${allowed.join(" | ")}`);
+  }
+}
+
+// A non-2xx response must not be printed as raw structure. The user saw
+// `{"http_status":{"message":"{\"message\":\"Invalid request.\"..."` instead of
+// the sentence inside it, which is unreadable and hides the useful part.
+if (!/const serverMessage = \(value\)/.test(shell)) {
+  failures.push("main.js: formatError must unwrap the server's own message");
+}
+if (!/const fromServer = serverMessage\(value\)/.test(shell)) {
+  failures.push("main.js: the server message must be used by the unwrap chain");
 }
 
 // Renewal must be reachable by hand, so an expired token is recoverable without

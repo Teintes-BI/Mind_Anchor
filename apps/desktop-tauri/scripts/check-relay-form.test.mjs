@@ -51,6 +51,14 @@ try {
   cpSync(join(appRoot, "src", "main.js"), join(work, "src", "main.js"));
   cpSync(join(appRoot, "src", "index.html"), join(work, "src", "index.html"));
   cpSync(join(appRoot, "scripts", "check-shell.mjs"), join(work, "scripts", "check-shell.mjs"));
+  // The actionStatus guard in check-shell.mjs reads this Rust module. Without the
+  // mirror the checker throws ENOENT here and every case below reports a failure
+  // for the wrong reason.
+  mkdirSync(join(work, "src-tauri", "src", "wayfinder"), { recursive: true });
+  cpSync(
+    join(appRoot, "src-tauri", "src", "wayfinder", "mod.rs"),
+    join(work, "src-tauri", "src", "wayfinder", "mod.rs"),
+  );
 
   const checker = join(work, "scripts", "check-shell.mjs");
   const mainPath = join(work, "src", "main.js");

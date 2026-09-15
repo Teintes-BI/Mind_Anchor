@@ -33,6 +33,13 @@ try {
   cpSync(join(appRoot, "src", "main.js"), join(work, "src", "main.js"));
   cpSync(join(appRoot, "src", "index.html"), join(work, "src", "index.html"));
   cpSync(join(appRoot, "scripts", "check-shell.mjs"), join(work, "scripts", "check-shell.mjs"));
+  // The actionStatus guard reads the Rust module, so the mirror needs it too.
+  // Without this the checker throws ENOENT and every case "passes" by crashing.
+  mkdirSync(join(work, "src-tauri", "src", "wayfinder"), { recursive: true });
+  cpSync(
+    join(appRoot, "src-tauri", "src", "wayfinder", "mod.rs"),
+    join(work, "src-tauri", "src", "wayfinder", "mod.rs"),
+  );
   const checker = join(work, "scripts", "check-shell.mjs");
 
   // 1. An untouched copy must pass, otherwise the negative tests prove nothing.
@@ -183,6 +190,68 @@ try {
       writeFileSync(mainPath, original);
     }
   }
+  // 10. The confirm button must not be enabled for a situation that is already
+  //     confirmed: the action there is choosing an option, not re-confirming.
+  {
+    const relaxed = original.replace(
+      'confirmButton.disabled = !awaiting;',
+      "confirmButton.disabled = !situation;",
+    );
+    if (relaxed === original) {
+      console.error("FAIL could not construct the ungated-confirm case");
+      failures += 1;
+    } else {
+      writeFileSync(mainPath, relaxed);
+      const ungated = runChecker(work, checker);
+      if (
+        ungated.failed &&
+        /confirm button must be gated on awaiting confirmation/.test(ungated.output)
+      ) {
+        console.log("ok   an ungated confirm button is rejected");
+      } else {
+        console.error("FAIL confirm-gating guard did not fire:\n" + ungated.output);
+        failures += 1;
+      }
+      writeFileSync(mainPath, original);
+    }
+  }
+  // 11. An actionStatus outside the set the relay accepts must be rejected.
+  //     "planned" looked plausible and only surfaced as a 400 in front of the
+  //     user, so this guard is worth proving.
+  {
+    const rustPath = join(work, "src-tauri", "src", "wayfinder", "mod.rs");
+    const rust = readFileSync(rustPath, "utf8");
+    const broken = rust.replace('"actionStatus": "not_started"', '"actionStatus": "planned"');
+    if (broken === rust) {
+      console.error("FAIL could not construct the bad-actionStatus case");
+      failures += 1;
+    } else {
+      writeFileSync(rustPath, broken);
+      const badStatus = runChecker(work, checker);
+      if (badStatus.failed && /actionStatus planned is not one of/.test(badStatus.output)) {
+        console.log("ok   an invalid actionStatus is rejected");
+      } else {
+        console.error("FAIL actionStatus guard did not fire:\n" + badStatus.output);
+        failures += 1;
+      }
+      writeFileSync(rustPath, rust);
+    }
+  }
+
+  // 12. Losing the server-message unwrapping would put the raw nested error back
+  //     on screen, which is what the user reported.
+  writeFileSync(
+    mainPath,
+    original.replace("const fromServer = serverMessage(value);", "const fromServer = null;"),
+  );
+  const rawNested = runChecker(work, checker);
+  if (rawNested.failed && /server message must be used by the unwrap chain/.test(rawNested.output)) {
+    console.log("ok   dropping the server-message unwrap is rejected");
+  } else {
+    console.error("FAIL server-message guard did not fire:\n" + rawNested.output);
+    failures += 1;
+  }
+  writeFileSync(mainPath, original);
 } finally {
   rmSync(work, { recursive: true, force: true });
 }

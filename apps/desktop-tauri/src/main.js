@@ -54,11 +54,39 @@ function formatError(error) {
     option_unavailable: "该方案已失效，请重新读取",
   };
 
+  // The server's own message, when it sent one. `HttpStatus` carries the body
+  // verbatim, and without this the panel printed the whole nested structure
+  // (`{"http_status":{"message":"{\"message\":\"Invalid request.\"...`) instead
+  // of the sentence inside it. Reported by the user, who saw exactly that.
+  const serverMessage = (value) => {
+    if (value == null || typeof value !== "object") return null;
+    const raw = value.http_status?.message ?? value.message;
+    if (typeof raw !== "string") return null;
+    try {
+      const parsed = JSON.parse(raw);
+      if (typeof parsed?.message === "string") {
+        // Validation failures name the offending field, which is the part worth
+        // surfacing: "actionStatus" beats "Invalid request."
+        const issue = Array.isArray(parsed.issues) ? parsed.issues[0] : null;
+        return issue?.path?.length
+          ? `${parsed.message}（${issue.path.join(".")}：${issue.message ?? ""}）`
+          : parsed.message;
+      }
+    } catch {
+      // Not JSON; fall through and use it as-is.
+    }
+    return raw.length > 240 ? `${raw.slice(0, 240)}…` : raw;
+  };
+
   const unwrap = (value, depth = 0) => {
     if (typeof value === "string") return REASONS[value] ?? value;
     if (value == null || typeof value !== "object" || depth > 4) {
       return String(value ?? "");
     }
+    // The server's sentence first: it is written for a human and names the
+    // offending field, which the generic labels below cannot.
+    const fromServer = serverMessage(value);
+    if (fromServer) return fromServer;
     // Try the known wrappers in order, then fall back to the only string field.
     for (const key of ["reason", "message", "kind"]) {
       if (value[key] != null) return unwrap(value[key], depth + 1);
@@ -453,19 +481,29 @@ function renderWayfinder(view) {
 
   // The button is disabled rather than hidden, so the reason it is unavailable
   // stays visible on the panel instead of the control vanishing.
+  // Confirming is only meaningful while awaiting confirmation; once confirmed
+  // the work is choosing an option, so the button says so.
   const confirmButton = $("wf-confirm");
-  confirmButton.disabled = !situation;
+  const awaiting = situation !== null && situation.status === "awaiting_confirmation";
+  confirmButton.disabled = !awaiting;
+  confirmButton.textContent = situation
+    ? awaiting
+      ? "确认情境"
+      : "已确认"
+    : "确认情境";
 
   if (!situation) {
     empty.hidden = false;
     empty.textContent = view.consent_granted
-      ? "没有待确认的情境。记录一条笔记即可开始。"
+      ? "没有待处理的情境。记录一条笔记即可开始。"
       : "先授予同意，然后记录一条笔记。";
     return;
   }
 
   empty.hidden = view.options.length > 0;
-  empty.textContent = "该情境还没有生成方案。点「确认情境」让中继生成。";
+  empty.textContent = awaiting
+    ? "该情境还没有生成方案。点「确认情境」让中继生成。"
+    : "该情境没有可选方案。";
 
   for (const option of view.options) {
     const item = document.createElement("li");
