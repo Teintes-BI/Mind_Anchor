@@ -134,7 +134,9 @@ async function refresh() {
     const upload = await invoke("upload_status");
     $("u-queue").textContent =
       `待发 ${upload.pending} · 已送达 ${upload.delivered} · 失败 ${upload.failed}`;
-    $("f-endpoint").value = upload.endpoint ?? "";
+    if ($("f-endpoint").value.trim() === "") {
+      $("f-endpoint").value = upload.endpoint ?? "";
+    }
     $("f-interval").value = String(upload.upload_interval_ms ?? 0);
     // Only prefill the interval when it matches a known option, so a value set
     // elsewhere is not silently rewritten to the first option.
@@ -212,23 +214,39 @@ $("purge").addEventListener("click", async () => {
 
 $("save-relay").addEventListener("click", async () => {
   if (!invoke) return;
+  // Only send fields the user actually touched. The backend treats a missing
+  // field as "leave as is" and an empty string as "clear", so sending "" for an
+  // untouched box used to wipe the stored value - which is how a save attempt
+  // could make a working configuration disappear.
+  const typed = (id) => {
+    const raw = $(id).value;
+    return raw.trim() === "" ? null : raw;
+  };
+  const payload = {};
+  const endpoint = typed("f-endpoint");
+  const token = typed("f-token");
+  const pin = typed("f-pin");
+  if (endpoint !== null) payload.endpoint = endpoint;
+  if (token !== null) payload.token = token;
+  if (pin !== null) payload.certificatePin = pin;
+
   try {
-    await invoke("set_upload_endpoint", {
-      endpoint: $("f-endpoint").value,
-      // Empty means "clear", which the backend turns into None rather than an
-      // empty string that would look configured.
-      token: $("f-token").value,
-      certificatePin: $("f-pin").value,
-    });
+    if (Object.keys(payload).length > 0) {
+      await invoke("set_upload_endpoint", payload);
+    }
     await invoke("set_upload_interval", {
       intervalMs: Number($("f-interval").value),
     });
-    // Clear the secret fields after a successful save: the backend never echoes
-    // them back, so leaving them populated would misrepresent stored state.
+    // Clear only the token, and only after a successful save: it is the one
+    // value the backend deliberately never echoes back, so leaving it on screen
+    // would misrepresent what is stored. The pin stays visible because the user
+    // needs to be able to check it against the server by eye.
     $("f-token").value = "";
-    $("f-pin").value = "";
     await refresh();
+    renderError("中继配置已保存", "save-relay");
   } catch (error) {
+    // Report next to the button and keep the typed values so the user can
+    // correct them instead of retyping from scratch.
     renderError(`保存失败：${formatError(error)}`, "save-relay");
   }
 });

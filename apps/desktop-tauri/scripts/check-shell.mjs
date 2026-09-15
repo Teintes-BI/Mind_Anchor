@@ -91,6 +91,22 @@ for (const [lineNumber, line] of shell.split(/\r?\n/).entries()) {
   }
 }
 
+// A save must never destroy what the user typed, and must never wipe stored
+// configuration because a box was left blank. Both regressions shipped once:
+// the form was submitted with "" for untouched fields (which the backend reads
+// as "clear"), and every refresh overwrote the endpoint box.
+if (!/\.trim\(\) === "" \? null : /.test(shell)) {
+  failures.push("main.js: untouched relay fields must not be sent as empty strings");
+}
+if (!shell.includes('$("f-endpoint").value.trim() === ""')) {
+  failures.push("main.js: refresh must not overwrite a half-typed endpoint");
+}
+// The token may be cleared after a successful save, but the pin must stay
+// visible so the user can check it against the server.
+if (/\$\("f-pin"\)\.value = "";/.test(shell)) {
+  failures.push("main.js: the pin field must not be cleared; it is not a secret");
+}
+
 if (failures.length) {
   console.error("desktop-tauri shell check FAILED:");
   for (const failure of failures) console.error(`  - ${failure}`);

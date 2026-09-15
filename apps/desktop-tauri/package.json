@@ -6,7 +6,8 @@
   "scripts": {
     "check": "node scripts/check-shell.mjs",
     "check:self": "node scripts/check-shell.test.mjs",
-    "test": "corepack pnpm run check && corepack pnpm run check:self",
+    "check:relay": "node scripts/check-relay-form.test.mjs",
+    "test": "corepack pnpm run check && corepack pnpm run check:self && corepack pnpm run check:relay",
     "build": "corepack pnpm run check",
     "cargo:fetch": "cargo fetch --manifest-path src-tauri/Cargo.toml",
     "cargo:check": "cargo check --manifest-path src-tauri/Cargo.toml",
