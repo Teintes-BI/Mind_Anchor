@@ -18,6 +18,7 @@
 //!   shape that would ever be allowed to leave.
 
 pub mod collector;
+pub mod inbox;
 pub mod interrupt;
 pub mod privacy;
 pub mod store;
@@ -540,6 +541,186 @@ fn renew_token_now(state: State<'_, Mutex<AppState>>) -> CommandResult<UploadSta
     upload_status_inner(&app)
 }
 
+/// Fetch the reminder inbox.
+///
+/// Uses the same relay configuration as uploads (endpoint, token, pinned
+/// certificate), so there is one place to configure the relay and one transport.
+/// Requires the upload switch: the inbox is the same network boundary as the
+/// upload path, and reading reminders is a remote operation too.
+#[tauri::command]
+fn inbox_overview(state: State<'_, Mutex<AppState>>) -> CommandResult<InboxView> {
+    let mut app = state.lock().unwrap_or_else(|e| e.into_inner());
+    if !app.collection_state.may_upload() {
+        return Err(CommandError::Upload {
+            reason: upload::UploadError::UploadDisabled,
+        });
+    }
+    upload::validate_endpoint(&app.upload_endpoint)
+        .map_err(|reason| CommandError::Upload { reason })?;
+    if let Err(error) = renew_access_token(&mut app, RenewalTrigger::WhenDue) {
+        eprintln!("comma-desktop: inbox renewal skipped: {error:?}");
+    }
+    inbox_overview_inner(&app)
+}
+
+fn inbox_overview_inner(app: &AppState) -> CommandResult<InboxView> {
+    let (overview_url, origin) =
+        inbox::inbox_urls(&app.upload_endpoint).ok_or(CommandError::Upload {
+            reason: upload::UploadError::EndpointNotConfigured,
+        })?;
+
+    let response = upload::client::get_json(
+        &overview_url,
+        app.upload_token.as_deref(),
+        app.upload_pin.as_deref(),
+    )?;
+    Ok(build_inbox_view(&response, &origin))
+}
+
+/// Acknowledge one reminder, then refresh so the panel reflects the server.
+#[tauri::command]
+fn inbox_acknowledge(
+    state: State<'_, Mutex<AppState>>,
+    message_id: String,
+) -> CommandResult<InboxView> {
+    let app = state.lock().unwrap_or_else(|e| e.into_inner());
+    if !app.collection_state.may_upload() {
+        return Err(CommandError::Upload {
+            reason: upload::UploadError::UploadDisabled,
+        });
+    }
+    let (_, origin) = inbox::inbox_urls(&app.upload_endpoint).ok_or(CommandError::Upload {
+        reason: upload::UploadError::EndpointNotConfigured,
+    })?;
+
+    let url = format!("{origin}{}", inbox::ack_path(&message_id));
+    let response = upload::client::post_json(
+        &url,
+        "{}",
+        app.upload_token.as_deref(),
+        app.upload_pin.as_deref(),
+    )?;
+    if !(200..300).contains(&response.status) {
+        return Err(CommandError::Upload {
+            reason: upload::UploadError::HttpStatus {
+                status: response.status,
+                message: response.body.chars().take(200).collect(),
+            },
+        });
+    }
+
+    let overview_url = format!("{origin}/client/inbox/overview");
+    let refreshed = upload::client::get_json(
+        &overview_url,
+        app.upload_token.as_deref(),
+        app.upload_pin.as_deref(),
+    )?;
+    Ok(build_inbox_view(&refreshed, &origin))
+}
+
+/// Turn a raw response into something the panel can render, or an error.
+fn build_inbox_view(response: &upload::client::HttpResponse, origin: &str) -> InboxView {
+    if response.status == 401 {
+        return InboxView::denied(
+            origin,
+            "令牌被拒绝（401）。令牌可能已过期，可尝试「立即续期令牌」。",
+        );
+    }
+    if !(200..300).contains(&response.status) {
+        return InboxView::denied(origin, &format!("服务端返回 {}", response.status));
+    }
+    let overview: inbox::Overview = match serde_json::from_str(&response.body) {
+        Ok(value) => value,
+        Err(error) => {
+            return InboxView::denied(origin, &format!("响应无法解析：{error}"));
+        }
+    };
+    match overview.validate() {
+        Ok(()) => InboxView {
+            reachable: true,
+            error: None,
+            pending_count: overview.metric_counts.pending_messages,
+            open_interventions: overview.metric_counts.open_interventions,
+            acknowledged_count: overview.metric_counts.acknowledged_messages,
+            channels: overview
+                .channel_counts
+                .iter()
+                .map(|count| InboxChannelView {
+                    channel: count.channel.clone(),
+                    label: inbox::channel_label(&count.channel).to_string(),
+                    total: count.total,
+                    pending: count.pending,
+                })
+                .collect(),
+            messages: inbox::pending_sorted(&overview.messages)
+                .into_iter()
+                .map(|message| InboxMessageView {
+                    id: message.id.clone(),
+                    title: message.title.clone(),
+                    body: message.message.clone(),
+                    channel_label: inbox::channel_label(&message.channel).to_string(),
+                    created_at: message.created_at.clone(),
+                })
+                .collect(),
+            origin: origin.to_string(),
+        },
+        // A self-contradicting snapshot is refused rather than shown: the panel
+        // would otherwise display one thing and its counters another.
+        Err(inconsistency) => {
+            InboxView::denied(origin, &format!("服务端响应自相矛盾：{inconsistency}"))
+        }
+    }
+}
+
+/// Snapshot of the reminder inbox for the panel.
+#[derive(Debug, Clone, Serialize)]
+pub struct InboxView {
+    /// Whether the relay answered with a usable snapshot.
+    pub reachable: bool,
+    pub error: Option<String>,
+    pub pending_count: u64,
+    pub open_interventions: u64,
+    pub acknowledged_count: u64,
+    pub channels: Vec<InboxChannelView>,
+    /// Only the pending ones, newest first. Acknowledged reminders are counted
+    /// but not listed: the panel exists to show what still needs attention.
+    pub messages: Vec<InboxMessageView>,
+    /// The origin the request went to, so the panel can show where it looked.
+    pub origin: String,
+}
+
+impl InboxView {
+    fn denied(origin: &str, message: &str) -> Self {
+        Self {
+            reachable: false,
+            error: Some(message.to_string()),
+            pending_count: 0,
+            open_interventions: 0,
+            acknowledged_count: 0,
+            channels: Vec::new(),
+            messages: Vec::new(),
+            origin: origin.to_string(),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize)]
+pub struct InboxChannelView {
+    pub channel: String,
+    pub label: String,
+    pub total: u64,
+    pub pending: u64,
+}
+
+#[derive(Debug, Clone, Serialize)]
+pub struct InboxMessageView {
+    pub id: String,
+    pub title: String,
+    pub body: String,
+    pub channel_label: String,
+    pub created_at: String,
+}
+
 /// Current upload configuration and queue depth.
 #[tauri::command]
 fn upload_status(state: State<'_, Mutex<AppState>>) -> CommandResult<UploadStatus> {
@@ -948,6 +1129,8 @@ pub fn build_app(store: LocalStore) -> tauri::Builder<tauri::Wry> {
             send_now,
             clear_failed_uploads,
             renew_token_now,
+            inbox_overview,
+            inbox_acknowledge,
             flush_uploads
         ])
 }

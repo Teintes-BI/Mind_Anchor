@@ -84,7 +84,7 @@ pub fn post_json(
     bearer_token: Option<&str>,
     pin: Option<&str>,
 ) -> Result<HttpResponse, UploadError> {
-    post_json_impl(url, body, bearer_token, pin)
+    request_json("POST", url, Some(body), bearer_token, pin)
 }
 
 /// Non-Windows stub: this build targets Windows.
@@ -100,10 +100,37 @@ pub fn post_json(
     })
 }
 
+/// GET `url` with an optional bearer token. Blocking.
+///
+/// Needed because the inbox overview is a GET. Reading the reminders has to go
+/// through this same transport so it shares the certificate pinning; a second
+/// HTTP path would be a second place for the pin to be forgotten.
 #[cfg(windows)]
-fn post_json_impl(
+pub fn get_json(
     url: &str,
-    body: &str,
+    bearer_token: Option<&str>,
+    pin: Option<&str>,
+) -> Result<HttpResponse, UploadError> {
+    request_json("GET", url, None, bearer_token, pin)
+}
+
+/// Non-Windows stub: this build targets Windows.
+#[cfg(not(windows))]
+pub fn get_json(
+    _url: &str,
+    _bearer_token: Option<&str>,
+    _pin: Option<&str>,
+) -> Result<HttpResponse, UploadError> {
+    Err(UploadError::Transport {
+        message: "upload transport is Windows-only in this build".to_string(),
+    })
+}
+
+#[cfg(windows)]
+fn request_json(
+    verb: &str,
+    url: &str,
+    body: Option<&str>,
     bearer_token: Option<&str>,
     pin: Option<&str>,
 ) -> Result<HttpResponse, UploadError> {
@@ -142,7 +169,7 @@ fn post_json_impl(
         |value: &str| -> Vec<u16> { value.encode_utf16().chain(std::iter::once(0)).collect() };
     let host_w = wide(&host);
     let path_w = wide(&path);
-    let verb_w = wide("POST");
+    let verb_w = wide(verb);
     let agent_w = wide(USER_AGENT);
 
     // SAFETY: handles are null-checked before use and closed on every path that
@@ -230,16 +257,29 @@ fn post_json_impl(
                     // own is rejected with E_INVALIDARG unless the total length
                     // was declared up front, so declaring it here is both simpler
                     // and the documented way to post a body.
-                    let bytes = body.as_bytes();
-                    WinHttpSendRequest(
-                        request,
-                        Some(headers_slice),
-                        Some(bytes.as_ptr() as *const core::ffi::c_void),
-                        bytes.len() as u32,
-                        bytes.len() as u32,
-                        0,
-                    )
-                    .map_err(|error| transport_error(format!("send failed: {error}")))?;
+                    //
+                    // A GET carries no body: passing a null pointer with zero
+                    // lengths is what WinHTTP expects for a bodiless request.
+                    match body {
+                        Some(text) => {
+                            let bytes = text.as_bytes();
+                            WinHttpSendRequest(
+                                request,
+                                Some(headers_slice),
+                                Some(bytes.as_ptr() as *const core::ffi::c_void),
+                                bytes.len() as u32,
+                                bytes.len() as u32,
+                                0,
+                            )
+                            .map_err(|error| transport_error(format!("send failed: {error}")))?;
+                        }
+                        None => {
+                            WinHttpSendRequest(request, Some(headers_slice), None, 0, 0, 0)
+                                .map_err(|error| {
+                                    transport_error(format!("send failed: {error}"))
+                                })?;
+                        }
+                    }
 
                     // The TLS handshake completes during this call, so the
                     // server certificate is only available afterwards. Reading
