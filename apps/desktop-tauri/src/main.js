@@ -278,5 +278,20 @@ $("flush").addEventListener("click", async () => {
   }
 });
 
+$("clear-failed").addEventListener("click", async () => {
+  if (!invoke) return;
+  try {
+    // Failed rows are kept so they can be inspected, but nothing clears them
+    // automatically, so without this the failure count is permanent noise.
+    // Pending and delivered rows are untouched by the backend.
+    const before = await invoke("upload_status");
+    await invoke("clear_failed_uploads");
+    await refresh();
+    renderError(`已清除 ${before.failed} 条失败记录`, "clear-failed");
+  } catch (error) {
+    renderError(`清除失败：${formatError(error)}`, "clear-failed");
+  }
+});
+
 void refresh();
 setInterval(() => void refresh(), 10_000);

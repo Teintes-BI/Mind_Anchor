@@ -25,8 +25,54 @@ const RELAY: &str = "https://47.104.73.144:18443/v1/core/events";
 const RELAY_PIN: &str =
     "28:26:41:9B:80:E2:5B:78:89:00:2D:A0:1C:B2:64:80:2A:C6:B3:12:4B:5E:EA:4B:65:6E:2B:9E:ED:B5:A2:80";
 /// NOTE: the raw token only. `post_json` prepends "Bearer " itself, so passing
-/// a prefixed value here would send "Bearer Bearer dev:..." and be rejected.
+/// a prefixed value here would send "Bearer Bearer ..." and be rejected.
+///
+/// The token is read from the environment rather than committed: the relay no
+/// longer accepts `dev:` tokens (that bypass was an impersonation hole), so a
+/// real gateway-local JWT is required, and a credential does not belong in git.
+///
+///   COMMA_RELAY_TOKEN="$(cat /root/comma-relay-secrets/owner-jwt.txt)" \
+///     cargo test --test live_relay_test -- --ignored
+fn relay_token() -> Option<String> {
+    std::env::var("COMMA_RELAY_TOKEN")
+        .ok()
+        .map(|value| value.trim().to_string())
+        .filter(|value| !value.is_empty())
+}
+
+/// Fail with an actionable message rather than a confusing 401.
+fn require_token() -> String {
+    relay_token().unwrap_or_else(|| {
+        panic!(
+            "COMMA_RELAY_TOKEN is not set. The relay rejects dev: tokens by design, so a real \
+             gateway-local JWT is needed:\n  \
+             COMMA_RELAY_TOKEN=\"$(ssh ali-2v2g cat /root/comma-relay-secrets/owner-jwt.txt)\" \
+             cargo test --test live_relay_test -- --ignored"
+        )
+    })
+}
+
+/// A deliberately invalid `dev:` token. The relay must reject it.
 const TOKEN: &str = "dev:rust-e2e:rust@example.com";
+
+/// The `dev:` bypass must stay disabled. This is the regression guard for the
+/// impersonation hole: with it on, anyone could authenticate as any user id.
+#[test]
+#[ignore = "requires outbound access to the deployed relay"]
+fn dev_bypass_tokens_are_rejected() {
+    let response = post_json(
+        RELAY,
+        &body("rust-e2e-devtoken"),
+        Some(TOKEN),
+        Some(RELAY_PIN),
+    )
+    .expect("the request completes; the server decides");
+    println!("live: dev token status={}", response.status);
+    assert_eq!(
+        response.status, 401,
+        "a dev:<any-user> token must not authenticate; the bypass must be off"
+    );
+}
 
 fn body(client_event_id: &str) -> String {
     serde_json::json!({
@@ -51,8 +97,13 @@ fn body(client_event_id: &str) -> String {
 #[test]
 #[ignore = "requires outbound access to the deployed relay"]
 fn rust_client_delivers_over_tls_with_a_pinned_certificate() {
-    let response = post_json(RELAY, &body("rust-e2e-001"), Some(TOKEN), Some(RELAY_PIN))
-        .expect("upload must succeed with the correct pin");
+    let response = post_json(
+        RELAY,
+        &body("rust-e2e-001"),
+        Some(&require_token()),
+        Some(RELAY_PIN),
+    )
+    .expect("upload must succeed with the correct pin");
 
     println!("live: status={} body={}", response.status, response.body);
     assert!(
@@ -71,10 +122,20 @@ fn rust_client_delivers_over_tls_with_a_pinned_certificate() {
 #[test]
 #[ignore = "requires outbound access to the deployed relay"]
 fn idempotent_replay_returns_the_same_event() {
-    let first = post_json(RELAY, &body("rust-e2e-002"), Some(TOKEN), Some(RELAY_PIN))
-        .expect("first upload");
-    let second =
-        post_json(RELAY, &body("rust-e2e-002"), Some(TOKEN), Some(RELAY_PIN)).expect("replay");
+    let first = post_json(
+        RELAY,
+        &body("rust-e2e-002"),
+        Some(&require_token()),
+        Some(RELAY_PIN),
+    )
+    .expect("first upload");
+    let second = post_json(
+        RELAY,
+        &body("rust-e2e-002"),
+        Some(&require_token()),
+        Some(RELAY_PIN),
+    )
+    .expect("replay");
 
     let id_of = |text: &str| -> String {
         let start = text.find("\"id\":\"").expect("id present") + 6;
@@ -129,7 +190,7 @@ fn p3_is_rejected_by_the_server() {
     })
     .to_string();
 
-    let response = post_json(RELAY, &p3, Some(TOKEN), Some(RELAY_PIN))
+    let response = post_json(RELAY, &p3, Some(&require_token()), Some(RELAY_PIN))
         .expect("the request completes; the server decides");
     println!("live: p3 status={} body={}", response.status, response.body);
     assert_eq!(

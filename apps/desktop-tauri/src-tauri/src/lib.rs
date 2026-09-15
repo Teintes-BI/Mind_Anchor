@@ -479,6 +479,18 @@ fn set_upload_endpoint(
     upload_status_inner(&app)
 }
 
+/// Discard failed queue rows.
+///
+/// Separate from `purge_local_data` on purpose: that erases collected activity,
+/// whereas this only forgets failed upload attempts that the user has
+/// acknowledged. Pending items and the delivered audit trail are left alone.
+#[tauri::command]
+fn clear_failed_uploads(state: State<'_, Mutex<AppState>>) -> CommandResult<UploadStatus> {
+    let app = state.lock().unwrap_or_else(|e| e.into_inner());
+    app.store.clear_failed_uploads()?;
+    upload_status_inner(&app)
+}
+
 /// Current upload configuration and queue depth.
 #[tauri::command]
 fn upload_status(state: State<'_, Mutex<AppState>>) -> CommandResult<UploadStatus> {
@@ -801,6 +813,7 @@ pub fn build_app(store: LocalStore) -> tauri::Builder<tauri::Wry> {
             upload_schedule_preview,
             enqueue_upload_now,
             send_now,
+            clear_failed_uploads,
             flush_uploads
         ])
 }

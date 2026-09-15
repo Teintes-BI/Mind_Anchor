@@ -350,6 +350,22 @@ impl LocalStore {
         Ok(())
     }
 
+    /// Delete failed queue rows and report how many were removed.
+    ///
+    /// Failed rows are deliberately never dropped automatically, so they can be
+    /// inspected. That also means they accumulate and, with no way to clear
+    /// them, the failure count becomes permanent noise in the panel. This is the
+    /// explicit, user-initiated cleanup.
+    ///
+    /// Only rows in the `failed` state are touched: pending work is still owed
+    /// to the server and delivered rows are the audit trail.
+    pub fn clear_failed_uploads(&self) -> Result<u64, StoreError> {
+        let removed = self
+            .connection
+            .execute("DELETE FROM upload_queue WHERE state = 'failed'", [])?;
+        Ok(removed as u64)
+    }
+
     /// Record a failed attempt and its next window.
     pub fn mark_upload_failed(
         &self,
@@ -563,6 +579,78 @@ mod tests {
             );
         }
         assert!(columns.contains(&"observed_at_ms".to_string()));
+    }
+
+    #[test]
+    fn clearing_failed_uploads_removes_only_failed_rows() {
+        // The distinction that matters: pending work is still owed to the server
+        // and delivered rows are the audit trail, so neither may be deleted.
+        let store = LocalStore::open_in_memory().unwrap();
+
+        store.enqueue_upload("evt-failed", "{}", 1).unwrap();
+        store.enqueue_upload("evt-pending", "{}", 1).unwrap();
+        store.enqueue_upload("evt-delivered", "{}", 1).unwrap();
+
+        let failed_id = store
+            .due_uploads(1, 10)
+            .unwrap()
+            .into_iter()
+            .find(|item| item.client_event_id == "evt-failed")
+            .unwrap()
+            .id;
+        store
+            .mark_upload_failed(
+                failed_id,
+                crate::upload::queue::QueueItemState::Failed,
+                5,
+                0,
+                "boom",
+            )
+            .unwrap();
+
+        let delivered_id = store
+            .due_uploads(1, 10)
+            .unwrap()
+            .into_iter()
+            .find(|item| item.client_event_id == "evt-delivered")
+            .unwrap()
+            .id;
+        store.mark_upload_delivered(delivered_id).unwrap();
+
+        let (pending_before, delivered_before, failed_before) = store.upload_counts().unwrap();
+        assert_eq!((pending_before, delivered_before, failed_before), (1, 1, 1));
+
+        let removed = store.clear_failed_uploads().unwrap();
+        assert_eq!(removed, 1, "exactly the one failed row");
+
+        let (pending_after, delivered_after, failed_after) = store.upload_counts().unwrap();
+        assert_eq!(pending_after, 1, "pending work must survive");
+        assert_eq!(delivered_after, 1, "the delivered audit trail must survive");
+        assert_eq!(failed_after, 0);
+    }
+
+    #[test]
+    fn clearing_with_no_failures_is_a_no_op() {
+        let store = LocalStore::open_in_memory().unwrap();
+        store.enqueue_upload("evt-pending", "{}", 1).unwrap();
+        assert_eq!(store.clear_failed_uploads().unwrap(), 0);
+        assert_eq!(store.upload_counts().unwrap().0, 1);
+    }
+
+    #[test]
+    fn clearing_failed_uploads_is_repeatable() {
+        let store = LocalStore::open_in_memory().unwrap();
+        store.enqueue_upload("evt-1", "{}", 1).unwrap();
+        let id = store.due_uploads(1, 10).unwrap()[0].id;
+        store
+            .mark_upload_failed(id, crate::upload::queue::QueueItemState::Failed, 1, 0, "x")
+            .unwrap();
+        assert_eq!(store.clear_failed_uploads().unwrap(), 1);
+        assert_eq!(
+            store.clear_failed_uploads().unwrap(),
+            0,
+            "a second clear has nothing left to do"
+        );
     }
 
     #[test]

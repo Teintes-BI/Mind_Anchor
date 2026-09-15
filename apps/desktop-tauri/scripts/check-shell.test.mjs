@@ -74,7 +74,12 @@ try {
   writeFileSync(htmlPath, htmlOriginal);
 
   // 4. Removing the backend read must be rejected.
-  writeFileSync(mainPath, original.replace('invoke("upload_status")', 'invoke("collector_status")'));
+  //    Replace every occurrence: upload_status is called from more than one
+  //    handler, and leaving one behind would mask the violation.
+  writeFileSync(
+    mainPath,
+    original.split('invoke("upload_status")').join('invoke("collector_status")'),
+  );
   const noBackend = runChecker(work, checker);
   if (noBackend.failed && /read from the backend/.test(noBackend.output)) {
     console.log("ok   missing backend read is rejected");
