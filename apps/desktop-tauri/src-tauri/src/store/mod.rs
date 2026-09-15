@@ -121,6 +121,15 @@ impl LocalStore {
                  ON upload_queue (client_event_id);
              CREATE INDEX IF NOT EXISTS idx_upload_queue_state
                  ON upload_queue (state, next_attempt_at_ms);
+             -- Relay configuration. These values were previously held in memory
+             -- only, so a restart silently lost the endpoint, token and pinned
+             -- fingerprint while the queue counters (read from this database)
+             -- still looked correct. Persisting them makes the panel and the
+             -- uploader agree across restarts.
+             CREATE TABLE IF NOT EXISTS settings (
+                 key   TEXT PRIMARY KEY,
+                 value TEXT NOT NULL
+             );
              COMMIT;",
         )?;
 
@@ -377,6 +386,40 @@ impl LocalStore {
         };
         Ok((read("pending")?, read("delivered")?, read("failed")?))
     }
+
+    /// Write a configuration value, replacing any previous one.
+    ///
+    /// Called on every relay configuration change so the setting survives a
+    /// restart. Before this, the endpoint/token/pin lived only in memory and
+    /// silently reverted while the queue counters kept their values.
+    pub fn set_setting(&self, key: &str, value: &str) -> Result<(), StoreError> {
+        self.connection.execute(
+            "INSERT INTO settings (key, value) VALUES (?1, ?2)
+             ON CONFLICT(key) DO UPDATE SET value = excluded.value",
+            params![key, value],
+        )?;
+        Ok(())
+    }
+
+    /// Remove a setting. Used when a field is explicitly cleared.
+    pub fn clear_setting(&self, key: &str) -> Result<(), StoreError> {
+        self.connection
+            .execute("DELETE FROM settings WHERE key = ?1", params![key])?;
+        Ok(())
+    }
+
+    /// Read a configuration value, or `None` when it was never set.
+    pub fn setting(&self, key: &str) -> Result<Option<String>, StoreError> {
+        let value = self
+            .connection
+            .query_row(
+                "SELECT value FROM settings WHERE key = ?1",
+                params![key],
+                |row| row.get::<_, String>(0),
+            )
+            .ok();
+        Ok(value)
+    }
 }
 
 fn decision_tag(decision: Decision) -> &'static str {
@@ -520,5 +563,72 @@ mod tests {
             );
         }
         assert!(columns.contains(&"observed_at_ms".to_string()));
+    }
+
+    #[test]
+    fn settings_round_trip_through_a_reopened_database() {
+        // The whole point of the settings table: a value written by one run must
+        // be readable by the next. Relay configuration used to live only in
+        // memory, so a restart silently reverted it while the queue counters
+        // (already persisted) kept their values.
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("phase0.sqlite");
+
+        {
+            let store = LocalStore::open(&path).unwrap();
+            store
+                .set_setting("upload.endpoint", "https://relay.example/v1/core/events")
+                .unwrap();
+            store.set_setting("upload.interval_ms", "300000").unwrap();
+        }
+
+        let store = LocalStore::open(&path).unwrap();
+        assert_eq!(
+            store.setting("upload.endpoint").unwrap().as_deref(),
+            Some("https://relay.example/v1/core/events")
+        );
+        assert_eq!(
+            store.setting("upload.interval_ms").unwrap().as_deref(),
+            Some("300000")
+        );
+    }
+
+    #[test]
+    fn setting_overwrites_rather_than_duplicating() {
+        let store = LocalStore::open_in_memory().unwrap();
+        store
+            .set_setting("upload.endpoint", "https://first.example/x")
+            .unwrap();
+        store
+            .set_setting("upload.endpoint", "https://second.example/x")
+            .unwrap();
+        assert_eq!(
+            store.setting("upload.endpoint").unwrap().as_deref(),
+            Some("https://second.example/x"),
+            "the later write must win"
+        );
+    }
+
+    #[test]
+    fn clearing_a_setting_removes_it() {
+        // "unset" must have exactly one representation, otherwise a cleared
+        // endpoint could read back as an empty string and look configured.
+        let store = LocalStore::open_in_memory().unwrap();
+        store.set_setting("upload.token", "secret").unwrap();
+        store.clear_setting("upload.token").unwrap();
+        assert_eq!(store.setting("upload.token").unwrap(), None);
+    }
+
+    #[test]
+    fn reading_an_absent_setting_is_none_not_an_error() {
+        let store = LocalStore::open_in_memory().unwrap();
+        assert_eq!(store.setting("never.written").unwrap(), None);
+    }
+
+    #[test]
+    fn clearing_an_absent_setting_is_harmless() {
+        let store = LocalStore::open_in_memory().unwrap();
+        store.clear_setting("never.written").unwrap();
+        assert_eq!(store.setting("never.written").unwrap(), None);
     }
 }

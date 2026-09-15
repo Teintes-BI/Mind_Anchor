@@ -62,7 +62,7 @@ pub struct AppState {
 
 impl AppState {
     fn new(store: LocalStore) -> Self {
-        Self {
+        let mut state = Self {
             store,
             buffer: ActivityBuffer::new(),
             collector_config: CollectorConfig::default(),
@@ -74,7 +74,54 @@ impl AppState {
             upload_token: None,
             upload_pin: None,
             upload_interval_ms: 0,
+        };
+        // Restore any relay configuration saved by a previous run. A failure
+        // here is not fatal: the app still collects, it just starts with an
+        // unconfigured relay, which the UI reports as such.
+        if let Err(error) = state.load_relay_config() {
+            eprintln!("comma-desktop: could not restore relay config: {error:?}");
         }
+        state
+    }
+
+    /// Setting keys for the persisted relay configuration.
+    const KEY_ENDPOINT: &'static str = "upload.endpoint";
+    const KEY_TOKEN: &'static str = "upload.token";
+    const KEY_PIN: &'static str = "upload.pin";
+    const KEY_INTERVAL: &'static str = "upload.interval_ms";
+
+    /// Write the relay configuration to the store.
+    ///
+    /// Called after every change. An empty value clears the key rather than
+    /// storing an empty string, so "unset" has exactly one representation.
+    fn persist_relay_config(&self) -> Result<(), StoreError> {
+        let write = |key: &str, value: Option<&str>| -> Result<(), StoreError> {
+            match value {
+                Some(value) if !value.is_empty() => self.store.set_setting(key, value),
+                _ => self.store.clear_setting(key),
+            }
+        };
+        write(Self::KEY_ENDPOINT, Some(self.upload_endpoint.as_str()))?;
+        write(Self::KEY_TOKEN, self.upload_token.as_deref())?;
+        write(Self::KEY_PIN, self.upload_pin.as_deref())?;
+        self.store
+            .set_setting(Self::KEY_INTERVAL, &self.upload_interval_ms.to_string())?;
+        Ok(())
+    }
+
+    /// Load the relay configuration, if a previous run saved one.
+    fn load_relay_config(&mut self) -> Result<(), StoreError> {
+        if let Some(endpoint) = self.store.setting(Self::KEY_ENDPOINT)? {
+            self.upload_endpoint = endpoint;
+        }
+        self.upload_token = self.store.setting(Self::KEY_TOKEN)?;
+        self.upload_pin = self.store.setting(Self::KEY_PIN)?;
+        if let Some(raw) = self.store.setting(Self::KEY_INTERVAL)? {
+            if let Ok(interval) = raw.parse::<u64>() {
+                self.upload_interval_ms = upload::schedule::clamp_interval_ms(interval);
+            }
+        }
+        Ok(())
     }
 }
 
@@ -425,6 +472,10 @@ fn set_upload_endpoint(
             app.upload_pin = Some(normalised);
         }
     }
+    // Persist. Without this the configuration lived only in memory and a
+    // restart silently reverted it, while the queue counters - read from the
+    // database - kept their values, so the panel looked half-configured.
+    app.persist_relay_config()?;
     upload_status_inner(&app)
 }
 
@@ -466,6 +517,7 @@ fn set_upload_interval(
 ) -> CommandResult<UploadStatus> {
     let mut app = state.lock().unwrap_or_else(|e| e.into_inner());
     app.upload_interval_ms = upload::schedule::clamp_interval_ms(interval_ms);
+    app.persist_relay_config()?;
     upload_status_inner(&app)
 }
 
@@ -773,5 +825,87 @@ mod tests {
         let second = now_ms();
         assert!(second >= first);
         assert!(first > 1_600_000_000_000, "clock looks unset: {first}");
+    }
+
+    #[test]
+    fn relay_config_survives_a_restart() {
+        // The regression this guards: configuration lived only in AppState, so
+        // reopening the app reverted the endpoint while the queue counters
+        // (read from the database) stayed correct - a half-configured panel.
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("phase0.sqlite");
+
+        {
+            let mut state = AppState::new(LocalStore::open(&path).unwrap());
+            state.upload_endpoint = "https://relay.example/v1/core/events".to_string();
+            state.upload_token = Some("dev:alice:alice@example.com".to_string());
+            state.upload_pin = Some("ab".repeat(32));
+            state.upload_interval_ms = 300_000;
+            state.persist_relay_config().unwrap();
+        }
+
+        let restored = AppState::new(LocalStore::open(&path).unwrap());
+        assert_eq!(
+            restored.upload_endpoint,
+            "https://relay.example/v1/core/events"
+        );
+        assert_eq!(
+            restored.upload_token.as_deref(),
+            Some("dev:alice:alice@example.com")
+        );
+        assert_eq!(
+            restored.upload_pin.as_deref(),
+            Some("ab".repeat(32).as_str())
+        );
+        assert_eq!(restored.upload_interval_ms, 300_000);
+    }
+
+    #[test]
+    fn clearing_relay_config_persists_as_unset() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("phase0.sqlite");
+
+        {
+            let mut state = AppState::new(LocalStore::open(&path).unwrap());
+            state.upload_endpoint = "https://relay.example/x".to_string();
+            state.persist_relay_config().unwrap();
+            // Now clear it, as the UI does when a field is emptied.
+            state.upload_endpoint = String::new();
+            state.upload_token = None;
+            state.upload_pin = None;
+            state.persist_relay_config().unwrap();
+        }
+
+        let restored = AppState::new(LocalStore::open(&path).unwrap());
+        assert!(
+            restored.upload_endpoint.is_empty(),
+            "a cleared endpoint must stay cleared"
+        );
+        assert!(restored.upload_token.is_none());
+        assert!(restored.upload_pin.is_none());
+    }
+
+    #[test]
+    fn a_fresh_database_starts_unconfigured() {
+        let state = AppState::new(LocalStore::open_in_memory().unwrap());
+        assert!(state.upload_endpoint.is_empty());
+        assert!(state.upload_token.is_none());
+        assert!(state.upload_pin.is_none());
+        assert_eq!(state.upload_interval_ms, 0, "scheduling off by default");
+    }
+
+    #[test]
+    fn a_corrupt_interval_does_not_break_startup() {
+        // A hand-edited or truncated row must not stop the app from starting.
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("phase0.sqlite");
+        {
+            let store = LocalStore::open(&path).unwrap();
+            store
+                .set_setting(AppState::KEY_INTERVAL, "not-a-number")
+                .unwrap();
+        }
+        let state = AppState::new(LocalStore::open(&path).unwrap());
+        assert_eq!(state.upload_interval_ms, 0, "falls back to scheduling off");
     }
 }
