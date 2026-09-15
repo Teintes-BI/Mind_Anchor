@@ -104,6 +104,31 @@
         </dl>
       </section>
 
+      <section class="panel" aria-labelledby="inbox-heading">
+        <h2 id="inbox-heading">提醒收件箱</h2>
+        <p class="hint">
+          来自中继的提醒。数据按令牌身份隔离，不需要也不能指定用户。
+        </p>
+
+        <dl class="grid" id="inbox-grid">
+          <dt>状态</dt>
+          <dd id="i-state">尚未读取</dd>
+          <dt>待处理</dt>
+          <dd id="i-pending">—</dd>
+          <dt>待决事项</dt>
+          <dd id="i-interventions">—</dd>
+          <dt>已确认</dt>
+          <dd id="i-acked">—</dd>
+        </dl>
+
+        <div class="row">
+          <button id="inbox-refresh" type="button">读取收件箱</button>
+        </div>
+
+        <ul class="inbox-list" id="inbox-list"></ul>
+        <p class="hint" id="inbox-empty" hidden>没有待处理的提醒。</p>
+      </section>
+
       <section class="panel" aria-labelledby="privacy-heading">
         <h2 id="privacy-heading">隐私边界</h2>
         <ul class="notes">

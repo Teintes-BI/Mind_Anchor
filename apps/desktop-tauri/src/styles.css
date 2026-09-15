@@ -104,6 +104,42 @@ h2 {
   color: var(--text);
 }
 
+/* Reminder inbox. Rows are laid out as blocks with the action at the end, so a
+   long title or body wraps instead of pushing the button off-screen. */
+.inbox-list {
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.inbox-item {
+  border-top: 1px solid var(--border);
+  padding: 12px 0;
+}
+
+.inbox-item:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.inbox-title {
+  margin: 0 0 4px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.inbox-body {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 13px;
+  /* The server's text is arbitrary; break long tokens rather than overflow. */
+  overflow-wrap: anywhere;
+}
+
+.inbox-item .hint {
+  margin: 0 0 8px;
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;

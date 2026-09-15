@@ -125,6 +125,39 @@ if (!/\$\("f-refresh"\)\.value = ""/.test(shell)) {
   failures.push("main.js: the refresh token must be cleared after a successful save");
 }
 
+// Reminder inbox. The panel reads server-controlled text, so it must render via
+// textContent. innerHTML here would let a reminder title inject markup into the
+// app's own window.
+if (!html.includes('id="inbox-list"')) {
+  failures.push("index.html: the inbox panel must be present");
+}
+if (!shell.includes('invoke("inbox_overview")')) {
+  failures.push("main.js: the inbox must be readable from the backend");
+}
+if (!shell.includes('invoke("inbox_acknowledge"')) {
+  failures.push("main.js: a reminder must be acknowledgeable");
+}
+// Every assignment that touches server-sourced reminder text must be
+// textContent. A `.innerHTML =` anywhere in the inbox renderer is the mistake
+// this guards against.
+{
+  const renderer = shell.slice(shell.indexOf("function renderInbox"));
+  const body = renderer.slice(0, renderer.indexOf("\nasync function refreshInbox"));
+  if (body.length === 0) {
+    failures.push("main.js: renderInbox must exist");
+  } else if (/\.innerHTML\s*=/.test(body)) {
+    failures.push("main.js: renderInbox must not use innerHTML on reminder text");
+  }
+  if (!/\.textContent\s*=/.test(body)) {
+    failures.push("main.js: renderInbox must render reminder text via textContent");
+  }
+}
+// A failed read is an expected state, so the panel must render a reason instead
+// of leaving the previous contents on screen as if they were current.
+if (!shell.includes("view.reachable")) {
+  failures.push("main.js: the inbox must distinguish a failed read from an empty one");
+}
+
 // Renewal must be reachable by hand, so an expired token is recoverable without
 // restarting the app or waiting for the margin.
 if (!shell.includes('invoke("renew_token_now")')) {

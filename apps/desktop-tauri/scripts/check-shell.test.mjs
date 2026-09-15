@@ -113,6 +113,38 @@ try {
     console.error("FAIL formatError-presence guard did not fire:\n" + noFormatter.output);
     failures += 1;
   }
+  writeFileSync(mainPath, original);
+
+  // 7. The inbox must not render server text as markup. Reminder titles and
+  //    bodies come from the relay, so innerHTML there would let them inject
+  //    script into the app's own window.
+  writeFileSync(
+    mainPath,
+    original.replace("title.textContent = message.title;", "title.innerHTML = message.title;"),
+  );
+  const inboxInjected = runChecker(work, checker);
+  if (inboxInjected.failed && /must not use innerHTML on reminder text/.test(inboxInjected.output)) {
+    console.log("ok   innerHTML in the inbox renderer is rejected");
+  } else {
+    console.error("FAIL inbox innerHTML guard did not fire:\n" + inboxInjected.output);
+    failures += 1;
+  }
+  writeFileSync(mainPath, original);
+
+  // 8. Dropping the failed-read distinction would leave stale reminders on
+  //    screen after a failed refresh, looking current when they are not.
+  writeFileSync(mainPath, original.replace("if (!view.reachable) {", "if (false) {"));
+  const noFailedState = runChecker(work, checker);
+  if (
+    noFailedState.failed &&
+    /distinguish a failed read from an empty one/.test(noFailedState.output)
+  ) {
+    console.log("ok   losing the failed-read state is rejected");
+  } else {
+    console.error("FAIL failed-read guard did not fire:\n" + noFailedState.output);
+    failures += 1;
+  }
+  writeFileSync(mainPath, original);
 } finally {
   rmSync(work, { recursive: true, force: true });
 }

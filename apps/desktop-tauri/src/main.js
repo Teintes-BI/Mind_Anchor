@@ -330,5 +330,86 @@ $("clear-failed").addEventListener("click", async () => {
   }
 });
 
+// Render the reminder inbox.
+//
+// `reachable: false` is a normal outcome, not an exception: the relay may be
+// down, the token stale, or the response self-contradicting. In every case the
+// reason is shown in the state line rather than left to guesswork.
+function renderInbox(view) {
+  const list = $("inbox-list");
+  list.replaceChildren();
+
+  if (!view.reachable) {
+    $("i-state").textContent = "读取失败";
+    $("i-pending").textContent = "—";
+    $("i-interventions").textContent = "—";
+    $("i-acked").textContent = "—";
+    const empty = $("inbox-empty");
+    empty.hidden = false;
+    empty.textContent = view.error ?? "无法读取收件箱。";
+    return;
+  }
+
+  $("i-state").textContent = "已连接";
+  $("i-pending").textContent = String(view.pending_count);
+  $("i-interventions").textContent = String(view.open_interventions);
+  $("i-acked").textContent = String(view.acknowledged_count);
+
+  const empty = $("inbox-empty");
+  empty.hidden = view.messages.length > 0;
+  empty.textContent = "没有待处理的提醒。";
+
+  for (const message of view.messages) {
+    const item = document.createElement("li");
+    item.className = "inbox-item";
+
+    const title = document.createElement("p");
+    title.className = "inbox-title";
+    title.textContent = message.title;
+
+    const body = document.createElement("p");
+    body.className = "inbox-body";
+    body.textContent = message.body;
+
+    const meta = document.createElement("p");
+    meta.className = "hint";
+    // textContent throughout: the title and body come from the server and must
+    // never be interpolated as markup.
+    meta.textContent = `${message.channel_label} · ${message.created_at}`;
+
+    const ack = document.createElement("button");
+    ack.type = "button";
+    ack.textContent = "确认";
+    ack.addEventListener("click", async () => {
+      ack.disabled = true;
+      try {
+        const updated = await invoke("inbox_acknowledge", { messageId: message.id });
+        renderInbox(updated);
+      } catch (error) {
+        ack.disabled = false;
+        renderError(`确认失败：${formatError(error)}`, "inbox-refresh");
+      }
+    });
+
+    item.append(title, body, meta, ack);
+    list.append(item);
+  }
+}
+
+async function refreshInbox() {
+  if (!invoke) return;
+  try {
+    renderInbox(await invoke("inbox_overview"));
+  } catch (error) {
+    renderInbox({ reachable: false, error: formatError(error), messages: [] });
+  }
+}
+
+$("inbox-refresh").addEventListener("click", async () => {
+  if (!invoke) return;
+  await refreshInbox();
+});
+
 void refresh();
+void refreshInbox();
 setInterval(() => void refresh(), 10_000);
