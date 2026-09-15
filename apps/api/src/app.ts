@@ -2157,25 +2157,47 @@ export const buildApp = async (env: AppEnv) => {
     });
   });
 
-  app.get("/client/inbox", async (request) => {
+  app.get("/client/inbox", async (request, reply) => {
     const query = clientInboxQuerySchema.parse(request.query);
-    const userId = getRequestUserId(request, query.userId ?? "demo-user");
+    // Identity comes from the bearer token, never from the query string. Taking
+    // it from `query.userId` let any caller read another user's reminders.
+    const auth = getRequestAuth(request);
+    if (!auth) {
+      reply.code(401);
+      return { message: "Authentication required." };
+    }
     return clientInboxResponseSchema.parse({
-      messages: store.listClientInboxMessages(userId, 50),
+      messages: store.listClientInboxMessages(auth.userId, 50),
     });
   });
 
-  app.get("/client/inbox/overview", async (request) => {
+  app.get("/client/inbox/overview", async (request, reply) => {
     const query = clientInboxOverviewQuerySchema.parse(request.query);
+    const auth = getRequestAuth(request);
+    if (!auth) {
+      reply.code(401);
+      return { message: "Authentication required." };
+    }
     return clientInboxOverviewResponseSchema.parse(
-      await orchestrator.getClientInboxOverview(getRequestUserId(request, query.userId ?? "demo-user"), query.limit ?? 50),
+      await orchestrator.getClientInboxOverview(auth.userId, query.limit ?? 50),
     );
   });
 
   app.post("/client/inbox/:messageId/ack", async (request, reply) => {
+    const auth = getRequestAuth(request);
+    if (!auth) {
+      reply.code(401);
+      return { message: "Authentication required." };
+    }
     const params = request.params as { messageId: string };
     const message = await store.acknowledgeClientInboxMessage(params.messageId);
     if (!message) {
+      reply.code(404);
+      return { message: "Inbox message not found" };
+    }
+    // A message belongs to exactly one user. Without this check, any
+    // authenticated caller could acknowledge somebody else's reminder by id.
+    if (String((message as { userId?: string }).userId) !== auth.userId) {
       reply.code(404);
       return { message: "Inbox message not found" };
     }

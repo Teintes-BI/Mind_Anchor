@@ -706,6 +706,10 @@ describe("MindAnchor API integration", () => {
             },
           ]),
         ),
+        // The inbox resolves its user from the bearer token now, so this app
+        // needs the same dev bypass the outer test env uses, otherwise the
+        // token sent below is rejected with 401.
+        authDevBypassEnabled: true,
       };
 
       const openAiApp = await buildApp(env);
@@ -755,7 +759,8 @@ describe("MindAnchor API integration", () => {
 
         const inboxOverviewResponse = await openAiApp.inject({
           method: "GET",
-          url: "/client/inbox/overview?userId=cluster-behavior-user",
+          url: "/client/inbox/overview",
+          headers: { authorization: "Bearer dev:cluster-behavior-user:cluster@example.com" },
         });
         expect(inboxOverviewResponse.statusCode).toBe(200);
         expect(inboxOverviewResponse.json().messages[0].title).toBe("cluster-notification-title");
@@ -952,6 +957,7 @@ describe("MindAnchor API integration", () => {
     const inboxResponse = await app.inject({
       method: "GET",
       url: "/client/inbox",
+      headers: { authorization: "Bearer dev:demo-user:demo@example.com" },
     });
     expect(inboxResponse.statusCode).toBe(200);
     expect(inboxResponse.json().messages.length).toBeGreaterThan(0);
@@ -960,11 +966,13 @@ describe("MindAnchor API integration", () => {
     await app.inject({
       method: "POST",
       url: `/client/inbox/${firstMessageId}/ack`,
+      headers: { authorization: "Bearer dev:demo-user:demo@example.com" },
     });
 
     const overviewResponse = await app.inject({
       method: "GET",
       url: "/client/inbox/overview",
+      headers: { authorization: "Bearer dev:demo-user:demo@example.com" },
     });
 
     expect(overviewResponse.statusCode).toBe(200);
@@ -1239,6 +1247,7 @@ describe("MindAnchor API integration", () => {
     const inboxResponse = await app.inject({
       method: "GET",
       url: "/client/inbox/overview",
+      headers: { authorization: "Bearer dev:demo-user:demo@example.com" },
     });
     expect(inboxResponse.statusCode).toBe(200);
     expect(inboxResponse.json().messages.length).toBeGreaterThan(0);
@@ -1346,6 +1355,7 @@ describe("MindAnchor API integration", () => {
     const inboxResponse = await app.inject({
       method: "GET",
       url: "/client/inbox",
+      headers: { authorization: "Bearer dev:demo-user:demo@example.com" },
     });
     expect(inboxResponse.statusCode).toBe(200);
     expect(inboxResponse.json().messages.length).toBeGreaterThan(0);
@@ -1354,6 +1364,7 @@ describe("MindAnchor API integration", () => {
     const acknowledgeResponse = await app.inject({
       method: "POST",
       url: `/client/inbox/${inboxMessageId}/ack`,
+      headers: { authorization: "Bearer dev:demo-user:demo@example.com" },
     });
     expect(acknowledgeResponse.statusCode).toBe(200);
     expect(acknowledgeResponse.json().status).toBe("acknowledged");
@@ -1423,7 +1434,10 @@ describe("MindAnchor API integration", () => {
 
     const inboxResponse = await app.inject({
       method: "GET",
-      url: `/client/inbox?userId=${seeded.userId}`,
+      url: `/client/inbox`,
+      // Must name the user the debug scenario was seeded for: the inbox now
+      // resolves identity from the token rather than a userId query parameter.
+      headers: { authorization: `Bearer dev:${seeded.userId}:debug@example.com` },
     });
     expect(inboxResponse.statusCode).toBe(200);
     expect(inboxResponse.json().messages.length).toBeGreaterThan(0);
